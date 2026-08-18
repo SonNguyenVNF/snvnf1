@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synetic Group — Kiến tạo giá trị vượt trội</title>
+<meta name="description" content="Synetic Group — hệ sinh thái kinh doanh tích hợp trong nông nghiệp, dinh dưỡng, thú y, chuỗi cung ứng và đầu tư.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#0B7A6E; --deep:#095F56; --leaf:#57B94F; --amber:#FFC233;
+  --ink:#08322F; --smoke:#F4FAF7; --mist:#DCEFE9;
+  --f:"Be Vietnam Pro","Segoe UI",Arial,sans-serif; --max:1160px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--smoke);color:var(--ink);line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+h1,h2,h3{font-weight:800;letter-spacing:-.01em}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+/* ---------- HEADER ---------- */
+header{position:sticky;top:0;z-index:60;background:rgba(244,250,247,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(11,122,110,.08)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:92px}
+.brand{display:flex;align-items:center;gap:16px}
+.brand .mk{width:58px;height:58px;flex:none}
+.brand .nm{display:block;font-weight:800;font-size:29px;letter-spacing:.15em;color:var(--teal);line-height:1}
+.brand .sb{display:block;font-size:10.5px;font-weight:700;letter-spacing:.42em;color:var(--amber);margin-top:6px}
+nav ul{display:flex;gap:26px;list-style:none;font-size:14.5px;font-weight:500}
+nav a:hover{color:var(--teal)}
+.btn{display:inline-block;background:var(--teal);color:#fff;padding:12px 24px;border-radius:2px;font-size:14px;font-weight:600;transition:background .2s}
+.btn:hover{background:var(--deep)}
+
+/* ---------- HERO ---------- */
+.hero{background:var(--teal);color:#fff;padding:90px 0 0;position:relative;overflow:hidden}
+.hero .mkbig{position:absolute;right:-70px;top:30px;width:430px;height:430px;opacity:.10;pointer-events:none}
+.hero .wrap{position:relative;z-index:2}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--amber);margin-bottom:22px}
+.hero h1{font-size:clamp(38px,5.4vw,62px);line-height:1.1;max-width:15ch}
+.hero h1 span{color:var(--amber)}
+.hero p{margin-top:26px;font-size:17.5px;max-width:50ch;color:rgba(255,255,255,.85)}
+.cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
+.btn-amber{background:var(--amber);color:var(--ink)}
+.btn-amber:hover{background:#EAAE21}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.42);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.chain{margin-top:70px;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid rgba(255,255,255,.2)}
+.chain a{padding:24px 18px 32px;border-right:1px solid rgba(255,255,255,.13);transition:background .25s}
+.chain a:last-child{border-right:none}
+.chain a:hover{background:rgba(0,0,0,.14)}
+.chain .tier{display:block;height:3px;background:var(--amber);margin-bottom:16px;transition:width .35s ease}
+.chain a:nth-child(1) .tier{width:22%} .chain a:nth-child(2) .tier{width:41%}
+.chain a:nth-child(3) .tier{width:60%} .chain a:nth-child(4) .tier{width:79%}
+.chain a:nth-child(5) .tier{width:100%}
+.chain a:hover .tier{width:100%}
+.chain .u{display:block;font-size:15px;font-weight:700}
+.chain .d{display:block;font-size:12.5px;color:rgba(255,255,255,.62);margin-top:5px}
+
+/* ---------- SECTIONS ---------- */
+section{padding:92px 0}
+.label{font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--leaf);margin-bottom:15px}
+h2{font-size:clamp(28px,3.3vw,38px);line-height:1.2;color:var(--teal);max-width:20ch}
+.two{display:grid;grid-template-columns:1fr 1.08fr;gap:64px;align-items:start}
+.lead{font-size:17px;color:#35514E}
+.lead p+p{margin-top:17px}
+.chip{display:inline-block;background:var(--mist);color:var(--teal);font-weight:700;font-size:14.5px;padding:14px 22px;margin-top:24px;line-height:1.7}
+
+/* TẦM NHÌN – SỨ MỆNH */
+.vm{background:#fff}
+.vm .row{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:46px}
+.vm .box{padding:34px 30px 36px}
+.vm .box.v{background:var(--teal);color:#fff}
+.vm .box.m{background:var(--mist)}
+.vm .box .k{font-size:11px;font-weight:700;letter-spacing:.26em;margin-bottom:14px}
+.vm .box.v .k{color:var(--amber)} .vm .box.m .k{color:var(--teal)}
+.vm .box h3{font-size:24px;margin-bottom:14px}
+.vm .box.v h3{color:#fff} .vm .box.m h3{color:var(--teal);font-size:19px;line-height:1.4}
+.vm .box p{font-size:14.5px}
+.vm .box.v p{color:rgba(255,255,255,.84)} .vm .box.m p{color:#35514E}
+.vm ul{list-style:none;margin-top:16px}
+.vm li{font-size:14px;color:#35514E;padding-left:18px;position:relative;margin-bottom:8px}
+.vm li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--amber)}
+
+/* GIÁ TRỊ CỐT LÕI */
+.vals{background:var(--mist)}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px}
+.val{background:#fff;padding:28px 26px 30px;border-top:4px solid var(--teal)}
+.val:nth-child(3n-1){border-top-color:var(--leaf)}
+.val:nth-child(3n){border-top-color:var(--amber)}
+.val .n{font-size:13px;font-weight:800;color:var(--amber);letter-spacing:.1em}
+.val h4{font-size:20px;font-weight:800;color:var(--teal);margin:10px 0 8px;letter-spacing:.02em}
+.val .s{font-size:13.5px;font-weight:600;color:#35514E;margin-bottom:12px}
+.val p{font-size:13.5px;color:#54706C}
+
+/* TUYÊN NGÔN */
+.manifesto{background:var(--teal);color:#fff;text-align:center;position:relative;overflow:hidden;padding:70px 0 92px}
+.manifesto .mkhead{width:92px;height:92px;margin:0 auto 24px;display:block}
+.manifesto .label{color:var(--amber)}
+.manifesto h2{color:#fff;margin:0 auto 6px;max-width:none;font-size:clamp(26px,3vw,34px);letter-spacing:.14em}
+.manifesto .rule{width:64px;height:3px;background:var(--amber);margin:22px auto 34px}
+.manifesto .lines{max-width:64ch;margin:0 auto}
+.manifesto .lines p{font-size:17px;color:rgba(255,255,255,.88);margin-bottom:14px}
+.manifesto .lines p.hi{font-size:20px;font-weight:800;color:var(--amber);margin:26px 0}
+.manifesto .sig{display:inline-block;background:#fff;color:var(--teal);font-weight:800;letter-spacing:.16em;font-size:15px;padding:16px 34px;margin-top:38px}
+
+/* HỆ SINH THÁI */
+.units{background:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(206px,1fr));gap:18px;margin-top:48px}
+.card{background:var(--smoke);padding:26px 22px;transition:transform .26s,box-shadow .26s;text-align:center}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(11,122,110,.16)}
+.card .ulogo{padding-bottom:16px;border-bottom:1px solid var(--mist)}
+.card .ulogo .mk{width:48px;height:48px;display:block;margin:0 auto 10px}
+.card .mk-name{display:block;font-size:15.5px;font-weight:800;letter-spacing:.13em;color:var(--teal);line-height:1}
+.card .mk-unit{display:block;font-size:9.5px;font-weight:700;letter-spacing:.24em;color:var(--amber);margin-top:6px}
+.card p{font-size:13px;color:#54706C;min-height:62px;margin-top:16px}
+.card .sg{font-size:11.5px;font-weight:700;color:var(--leaf);margin-top:8px}
+.eco-note{margin-top:26px;background:var(--mist);padding:18px 22px;text-align:center;font-size:14.5px;font-weight:600;color:var(--teal)}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,.7);padding:70px 0 32px;font-size:14px}
+.fbrand{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.fbrand .mk{width:46px;height:46px;flex:none}
+.fbrand .nm{display:block;font-weight:800;font-size:22px;letter-spacing:.14em;color:#fff;line-height:1}
+.fbrand .sb{display:block;font-size:9px;font-weight:700;letter-spacing:.34em;color:var(--amber);margin-top:5px}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px}
+footer h5{color:#fff;font-size:11px;font-weight:700;letter-spacing:.24em;margin-bottom:18px}
+footer ul{list-style:none} footer li{margin-bottom:9px}
+footer a:hover{color:var(--amber)}
+.fbot{margin-top:50px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12.5px}
+.fsl{color:var(--amber);font-weight:800;letter-spacing:.16em}
+
+@media(max-width:900px){
+  .two,.vm .row,.fgrid{grid-template-columns:1fr;gap:34px}
+  .chain{grid-template-columns:repeat(2,1fr)}
+  nav ul{display:none}
+  section{padding:64px 0}
+  .nav{height:78px}
+  .brand .mk{width:48px;height:48px}
+  .brand .nm{font-size:24px}
+  .hero .mkbig{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="mark" viewBox="18 18 164 164">
+    <g transform="translate(100,100) rotate(0) translate(6,6)"><path d="M0 0 C30 -8 52 14 46 46 C14 52 -8 30 0 0 Z" fill="#0B7A6E"/></g>
+    <g transform="translate(100,100) rotate(120) translate(6,6)"><path d="M0 0 C30 -8 52 14 46 46 C14 52 -8 30 0 0 Z" fill="#57B94F"/></g>
+    <g transform="translate(100,100) rotate(240) translate(6,6)"><path d="M0 0 C30 -8 52 14 46 46 C14 52 -8 30 0 0 Z" fill="#FFC233"/></g>
+  </symbol>
+  <symbol id="mark-w" viewBox="18 18 164 164">
+    <g transform="translate(100,100) rotate(0) translate(6,6)"><path d="M0 0 C30 -8 52 14 46 46 C14 52 -8 30 0 0 Z" fill="#FFFFFF"/></g>
+    <g transform="translate(100,100) rotate(120) translate(6,6)"><path d="M0 0 C30 -8 52 14 46 46 C14 52 -8 30 0 0 Z" fill="#BFE6DD"/></g>
+    <g transform="translate(100,100) rotate(240) translate(6,6)"><path d="M0 0 C30 -8 52 14 46 46 C14 52 -8 30 0 0 Z" fill="#FFC233"/></g>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Synetic Group — trang chủ">
+      <svg class="mk"><use href="#mark"/></svg>
+      <span><span class="nm">SYNETIC</span><span class="sb">GROUP</span></span>
+    </a>
+    <nav><ul>
+      <li><a href="#tam-nhin">Tầm nhìn</a></li>
+      <li><a href="#triet-ly">Triết lý</a></li>
+      <li><a href="#gia-tri">Giá trị cốt lõi</a></li>
+      <li><a href="#tuyen-ngon">Tuyên ngôn</a></li>
+      <li><a href="#he-sinh-thai">Hệ sinh thái</a></li>
+    </ul></nav>
+    <a class="btn" href="#lien-he">Trở thành đại lý</a>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <svg class="mkbig"><use href="#mark-w"/></svg>
+  <div class="wrap">
+    <p class="eyebrow">TẬP ĐOÀN SYNETIC</p>
+    <h1>Một hệ sinh thái, năm sức mạnh, <span>một khát vọng</span>.</h1>
+    <p>Kết nối nguồn lực từ vốn, dinh dưỡng, sức khoẻ vật nuôi, chăn nuôi đến logistics
+       để tạo nên một chuỗi giá trị hiệu quả, bền vững và khác biệt.</p>
+    <div class="cta">
+      <a class="btn btn-amber" href="#he-sinh-thai">Xem hệ sinh thái</a>
+      <a class="btn btn-ghost" href="#tuyen-ngon">Tuyên ngôn Synetic</a>
+    </div>
+    <div class="chain">
+      <a href="#he-sinh-thai"><span class="tier"></span><span class="u">Capital</span><span class="d">Nguồn vốn</span></a>
+      <a href="#he-sinh-thai"><span class="tier"></span><span class="u">Nutrition</span><span class="d">Dinh dưỡng</span></a>
+      <a href="#he-sinh-thai"><span class="tier"></span><span class="u">Vet</span><span class="d">Sức khoẻ vật nuôi</span></a>
+      <a href="#he-sinh-thai"><span class="tier"></span><span class="u">Farm</span><span class="d">Chăn nuôi</span></a>
+      <a href="#he-sinh-thai"><span class="tier"></span><span class="u">Logistics</span><span class="d">Chuỗi cung ứng</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="vm" id="tam-nhin">
+  <div class="wrap">
+    <p class="label">ĐỊNH HƯỚNG</p>
+    <h2>Tầm nhìn và Sứ mệnh.</h2>
+    <div class="row">
+      <div class="box v">
+        <div class="k">TẦM NHÌN</div>
+        <h3>Mở lối phồn vinh</h3>
+        <p>Trở thành hệ sinh thái kinh doanh tích hợp hàng đầu Việt Nam trong nông nghiệp,
+           dinh dưỡng, dịch vụ chuỗi cung ứng và đầu tư; tiên phong tạo ra những mô hình
+           kinh doanh hiệu quả, khác biệt và bền vững, góp phần nâng cao năng lực của
+           doanh nghiệp Việt Nam và kiến tạo một tương lai thịnh vượng cho cộng đồng.</p>
+      </div>
+      <div class="box m">
+        <div class="k">SỨ MỆNH</div>
+        <h3>Phụng sự khách hàng — Kiến tạo thành công — Lan toả thịnh vượng</h3>
+        <p>Kết nối con người, nguồn lực, công nghệ, thị trường và vốn để tạo ra những sản phẩm,
+           dịch vụ và giải pháp vượt trội.</p>
+        <ul>
+          <li><strong>Khách hàng</strong> — sản phẩm và dịch vụ tốt hơn kỳ vọng.</li>
+          <li><strong>Đối tác</strong> — cùng phát triển, không chỉ mua – bán.</li>
+          <li><strong>Người lao động</strong> — môi trường phát triển năng lực và cuộc sống.</li>
+          <li><strong>Cổ đông</strong> — tăng trưởng có chất lượng, giá trị bền vững.</li>
+          <li><strong>Cộng đồng</strong> — việc làm, ngân sách, năng suất và giá trị tích cực.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="triet-ly">
+  <div class="wrap two">
+    <div>
+      <p class="label">TRIẾT LÝ PHÁT TRIỂN</p>
+      <h2>Không theo đuổi tăng trưởng đơn thuần về quy mô.</h2>
+    </div>
+    <div class="lead">
+      <p>Synetic được xây dựng trên niềm tin rằng một doanh nghiệp chỉ thực sự lớn khi sự phát triển
+         của doanh nghiệp đồng thời tạo ra giá trị lớn hơn cho khách hàng, đối tác, người lao động,
+         cộng đồng và nền kinh tế.</p>
+      <p>Vì vậy Synetic không đo mình bằng doanh số, mà bằng chuỗi bốn bước dưới đây.</p>
+      <div class="chip">Tạo giá trị vượt trội → Tạo lợi thế khác biệt<br>→ Tạo tăng trưởng bền vững → Tạo thịnh vượng được chia sẻ</div>
+    </div>
+  </div>
+</section>
+
+<section class="vals" id="gia-tri">
+  <div class="wrap">
+    <p class="label">GIÁ TRỊ CỐT LÕI</p>
+    <h2>Sáu tầng của cùng một hệ tư tưởng.</h2>
+    <div class="vgrid">
+      <article class="val"><div class="n">01</div><h4>KHÁT VỌNG</h4>
+        <div class="s">Nghĩ lớn – Làm lớn – Đi xa</div>
+        <p>Đặt mục tiêu cao, không bằng lòng với vị trí hiện tại, không ngại những thị trường lớn và bài toán khó.</p></article>
+      <article class="val"><div class="n">02</div><h4>TIÊN PHONG</h4>
+        <div class="s">Không theo cuộc chơi – Tạo cuộc chơi</div>
+        <p>Tiên phong không phải để khác biệt, mà để tìm ra cách tạo giá trị tốt hơn thị trường.</p></article>
+      <article class="val"><div class="n">03</div><h4>CHUYỂN ĐỘNG</h4>
+        <div class="s">Không ngừng tốt hơn</div>
+        <p>Mỗi ngày một cải tiến, một năng lực mới, một cách làm tốt hơn. Không chạy nhanh bằng mọi giá, mà liên tục tiến lên.</p></article>
+      <article class="val"><div class="n">04</div><h4>PHỤNG SỰ</h4>
+        <div class="s">Thành công của khách hàng là thước đo</div>
+        <p>Khách hàng không phải điểm cuối của chuỗi bán hàng — khách hàng là lý do Synetic tồn tại.</p></article>
+      <article class="val"><div class="n">05</div><h4>HỢP LỰC</h4>
+        <div class="s">Một hệ thống – Một sức mạnh</div>
+        <p>Không công ty nào phát triển độc lập. Synetic tạo giá trị lớn nhất khi 1 + 1 &gt; 2.</p></article>
+      <article class="val"><div class="n">06</div><h4>CHÍNH TRỰC</h4>
+        <div class="s">Làm đúng để đi xa</div>
+        <p>Minh bạch, cam kết, trách nhiệm. Không có niềm tin, không có thương hiệu trường tồn.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto" id="tuyen-ngon">
+  <div class="wrap">
+    <svg class="mkhead"><use href="#mark-w"/></svg>
+    <p class="label">LỜI TUYÊN NGÔN</p>
+    <h2>SYNETIC</h2>
+    <div class="rule"></div>
+    <div class="lines">
+      <p>Chúng tôi tin vào sức mạnh của khát vọng.</p>
+      <p>Tin rằng mọi giới hạn đều có thể được vượt qua bằng tư duy mới, năng lực mới và cách làm tốt hơn.</p>
+      <p>Chúng tôi không ngừng chuyển động để tạo ra những sản phẩm tốt hơn, những dịch vụ hiệu quả hơn và những cơ hội lớn hơn.</p>
+      <p>Chúng tôi đặt khách hàng vào trung tâm của mọi quyết định.</p>
+      <p>Chúng tôi kết nối những năng lực khác biệt thành một sức mạnh chung.</p>
+      <p class="hi">Chúng tôi tiên phong không phải để trở nên khác biệt,<br>mà để tạo ra giá trị vượt trội.</p>
+      <p>Và chúng tôi theo đuổi tăng trưởng không chỉ vì sự lớn mạnh của Synetic, mà còn vì một tương lai
+         tốt đẹp hơn cho khách hàng, người lao động, đối tác, cộng đồng và đất nước.</p>
+    </div>
+    <div class="sig">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</div>
+  </div>
+</section>
+
+<section class="units" id="he-sinh-thai">
+  <div class="wrap">
+    <p class="label">HỆ SINH THÁI</p>
+    <h2>Năm sức mạnh — Một Synetic.</h2>
+    <div class="cards">
+      <article class="card">
+        <div class="ulogo">
+          <svg class="mk"><use href="#mark"/></svg>
+          <span class="mk-name">SYNETIC</span><span class="mk-unit">CAPITAL</span>
+        </div>
+        <p>Trung tâm phân bổ nguồn lực tài chính của hệ sinh thái.</p>
+        <div class="sg">VỐN ĐI ĐÚNG NƠI – GIÁ TRỊ ĐI XA</div>
+      </article>
+      <article class="card">
+        <div class="ulogo">
+          <svg class="mk"><use href="#mark"/></svg>
+          <span class="mk-name">SYNETIC</span><span class="mk-unit">NUTRITION</span>
+        </div>
+        <p>Giải quyết bài toán hiệu quả dinh dưỡng vật nuôi, không chỉ bán thức ăn.</p>
+        <div class="sg">DINH DƯỠNG ĐÚNG – HIỆU QUẢ CAO</div>
+      </article>
+      <article class="card">
+        <div class="ulogo">
+          <svg class="mk"><use href="#mark"/></svg>
+          <span class="mk-name">SYNETIC</span><span class="mk-unit">VET</span>
+        </div>
+        <p>Quản trị sức khoẻ vật nuôi — giảm khả năng vật nuôi phải dùng thuốc.</p>
+        <div class="sg">CHỦ ĐỘNG PHÒNG – BỀN SỨC KHOẺ</div>
+      </article>
+      <article class="card">
+        <div class="ulogo">
+          <svg class="mk"><use href="#mark"/></svg>
+          <span class="mk-name">SYNETIC</span><span class="mk-unit">FARM</span>
+        </div>
+        <p>Chăn nuôi hiệu quả, an toàn sinh học; nơi kiểm chứng thực tế của cả hệ thống.</p>
+        <div class="sg">NUÔI BẰNG TÂM – LỚN BẰNG CHUẨN</div>
+      </article>
+      <article class="card">
+        <div class="ulogo">
+          <svg class="mk"><use href="#mark"/></svg>
+          <span class="mk-name">SYNETIC</span><span class="mk-unit">LOGISTICS</span>
+        </div>
+        <p>Đảm bảo dòng chảy hàng hoá của toàn hệ thống, không chỉ là đội xe.</p>
+        <div class="sg">ĐÚNG HÀNG – ĐÚNG NƠI – ĐÚNG LÚC</div>
+      </article>
+    </div>
+    <div class="eco-note">Dòng tiền · Dữ liệu · Nhu cầu thị trường quay ngược trở lại toàn hệ thống — đó mới là hệ sinh thái</div>
+  </div>
+</section>
+
+</main>
+
+<footer id="lien-he">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="fbrand">
+          <svg class="mk"><use href="#mark-w"/></svg>
+          <span><span class="nm">SYNETIC</span><span class="sb">GROUP</span></span>
+        </div>
+        <p>Công ty Cổ phần Tập đoàn Synetic<br>
+           Tầng 12, Toà nhà ……………, Quận ……, Hà Nội<br>
+           MST: 01xxxxxxxx</p>
+        <p style="margin-top:14px">T (024) 3xxx xxxx · <a href="mailto:info@synetic.com.vn">info@synetic.com.vn</a></p>
+      </div>
+      <div><h5>THÀNH VIÊN</h5><ul>
+        <li><a href="#he-sinh-thai">Synetic Capital</a></li>
+        <li><a href="#he-sinh-thai">Synetic Nutrition</a></li>
+        <li><a href="#he-sinh-thai">Synetic Vet</a></li>
+        <li><a href="#he-sinh-thai">Synetic Farm</a></li>
+        <li><a href="#he-sinh-thai">Synetic Logistics</a></li>
+      </ul></div>
+      <div><h5>DÀNH CHO ĐỐI TÁC</h5><ul>
+        <li><a href="#lien-he">Đăng ký làm đại lý</a></li>
+        <li><a href="#lien-he">Tra cứu nguồn gốc lô hàng</a></li>
+        <li><a href="#lien-he">Hỗ trợ kỹ thuật tại trại</a></li>
+        <li><a href="#lien-he">Tuyển dụng</a></li>
+      </ul></div>
+    </div>
+    <div class="fbot">
+      <span class="fsl">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</span>
+      <span>© 2026 Công ty Cổ phần Tập đoàn Synetic. Bảo lưu mọi quyền.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

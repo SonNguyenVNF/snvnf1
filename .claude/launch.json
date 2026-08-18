@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "synetic-website",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "website", "-l", "63400"],
+      "port": 63400
+    }
+  ]
+}
