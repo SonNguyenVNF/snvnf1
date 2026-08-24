@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synetic Group — Kiến tạo giá trị vượt trội</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--em:#0F6B50;--jt:#1FA38A;--ob:#1F5FAF;--gd:#C9A24B;--ch:#2B2B2B;--iv:#F7F5EF;--mist:#E4EFEA;
+--mo:"Montserrat",Arial,sans-serif;--in:"Inter",Arial,sans-serif;--max:1180px}
+*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+body{font-family:var(--in);background:#fff;color:var(--ch);line-height:1.65}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+a{color:inherit;text-decoration:none} :focus-visible{outline:2px solid var(--gd);outline-offset:3px}
+h1,h2,h3,h4{font-family:var(--mo);font-weight:700;letter-spacing:-.01em}
+.mk{width:100%;height:100%}
+header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid #EEE}
+.nav{display:flex;align-items:center;justify-content:space-between;height:88px;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .box{width:52px;height:57px;flex:none}
+.brand b{display:block;font-family:var(--mo);font-size:27px;font-weight:600;color:var(--ch);line-height:1}
+.brand i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.22em;color:var(--gd);margin-top:5px}
+nav ul{display:flex;gap:26px;list-style:none;font-size:14px;font-weight:500}
+nav a:hover{color:var(--em)}
+.btn{display:inline-block;background:var(--em);color:#fff;padding:12px 22px;font-size:13.5px;font-weight:600;border-radius:3px}
+.btn:hover{background:#0B5540}
+.hero{background:linear-gradient(120deg,var(--em) 0%,#12735A 45%,var(--ob) 130%);color:#fff;padding:96px 0 104px;position:relative;overflow:hidden}
+.hero .big{position:absolute;right:-40px;top:60px;width:420px;height:460px;opacity:.16}
+.hero .wrap{position:relative;z-index:2}
+.hero .eb{font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--gd);margin-bottom:20px}
+.hero h1{font-size:clamp(36px,5vw,58px);line-height:1.12;max-width:16ch}
+.hero h1 span{color:var(--gd)}
+.hero p{margin-top:24px;font-size:17px;max-width:52ch;color:rgba(255,255,255,.88)}
+.cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+.btn-gd{background:var(--gd);color:#1c1c1c} .btn-gd:hover{background:#b88f36}
+.btn-gh{background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff}
+section{padding:90px 0}
+.lb{font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--jt);margin-bottom:14px}
+h2{font-size:clamp(26px,3.2vw,36px);color:var(--em);max-width:22ch;line-height:1.22}
+.two{display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:start}
+.lead{font-size:16.5px;color:#4A5550} .lead p+p{margin-top:16px}
+.vm{background:var(--iv)}
+.vm .row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:44px}
+.vm .bx{padding:34px 30px} .vm .bx.a{background:var(--em);color:#fff} .vm .bx.b{background:#fff}
+.vm .k{font-size:11px;font-weight:700;letter-spacing:.24em;margin-bottom:12px}
+.vm .bx.a .k{color:var(--gd)} .vm .bx.b .k{color:var(--jt)}
+.vm h3{font-size:23px;margin-bottom:12px} .vm .bx.b h3{color:var(--em);font-size:19px;line-height:1.4}
+.vm p{font-size:14.5px} .vm .bx.a p{color:rgba(255,255,255,.85)} .vm .bx.b p{color:#4A5550}
+.vals{background:#fff}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:44px}
+.val{background:var(--iv);padding:26px 24px;border-top:4px solid var(--em)}
+.val:nth-child(3n-1){border-top-color:var(--jt)} .val:nth-child(3n){border-top-color:var(--gd)}
+.val .n{font-family:var(--mo);font-size:13px;font-weight:700;color:var(--gd)}
+.val h4{font-size:19px;color:var(--em);margin:8px 0 6px}
+.val p{font-size:13.5px;color:#5A6560}
+.units{background:var(--mist)}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(206px,1fr));gap:18px;margin-top:44px}
+.ucard{background:#fff;padding:26px 20px;text-align:center;transition:transform .25s,box-shadow .25s}
+.ucard:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(15,107,80,.16)}
+.ulogo{display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:14px;border-bottom:1px solid var(--mist)}
+.ulogo .mk{width:52px;height:57px}
+.ulogo b{display:block;font-family:var(--mo);font-size:19px;font-weight:600;color:var(--ch);line-height:1}
+.ulogo i{display:block;font-style:normal;font-size:9px;letter-spacing:.2em;color:var(--jt);margin-top:5px}
+.ucard p{font-size:13px;color:#5A6560;min-height:56px;margin-top:14px}
+.ufoot{font-size:11.5px;color:#8A948F;margin-top:8px}
+.cl{background:var(--em);color:#fff;text-align:center}
+.cl h2{color:#fff;max-width:none;margin:0 auto}
+.cl .rule{width:60px;height:3px;background:var(--gd);margin:24px auto 28px}
+.cl p{max-width:60ch;margin:0 auto;font-size:16px;color:rgba(255,255,255,.86)}
+.cl .sig{display:inline-block;background:#fff;color:var(--em);font-family:var(--mo);font-weight:700;
+letter-spacing:.1em;font-size:14px;padding:15px 32px;margin-top:32px}
+footer{background:#1E2422;color:rgba(255,255,255,.7);padding:66px 0 30px;font-size:14px}
+.fb{display:flex;align-items:center;gap:12px;margin-bottom:18px} .fb .box{width:46px;height:50px}
+.fb b{display:block;font-family:var(--mo);font-size:22px;font-weight:600;color:#fff;line-height:1}
+.fb i{display:block;font-style:normal;font-size:8.5px;letter-spacing:.24em;color:var(--gd);margin-top:4px}
+.fg{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:46px}
+footer h5{color:#fff;font-size:11px;font-weight:700;letter-spacing:.22em;margin-bottom:16px;font-family:var(--mo)}
+footer ul{list-style:none} footer li{margin-bottom:9px} footer a:hover{color:var(--gd)}
+.fbot{margin-top:46px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);display:flex;
+justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px}
+.fsl{color:var(--gd);font-family:var(--mo);font-weight:700;letter-spacing:.1em}
+@media(max-width:900px){.two,.vm .row,.fg{grid-template-columns:1fr;gap:32px} nav ul{display:none}
+section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style></head><body>
+
+<header><div class="wrap nav">
+  <a class="brand" href="#top"><span class="box"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
+  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg></span>
+    <span><b>Synetic</b><i>GROUP</i></span></a>
+  <nav><ul>
+    <li><a href="#gioi-thieu">Giới thiệu</a></li>
+    <li><a href="#tam-nhin">Tầm nhìn</a></li>
+    <li><a href="#gia-tri">Giá trị cốt lõi</a></li>
+    <li><a href="#thanh-vien">Thành viên</a></li>
+    <li><a href="#lien-he">Liên hệ</a></li>
+  </ul></nav>
+  <a class="btn" href="#lien-he">Liên hệ ngay</a>
+</div></header>
+
+<main id="top">
+<section class="hero"><span class="big"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gmw" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#FFFFFF"/></g>
+  <g stroke="#FFFFFF" stroke-width="5" fill="#FFFFFF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg></span><div class="wrap">
+  <p class="eb">SYNETIC GROUP</p>
+  <h1>Kiến tạo <span>giá trị vượt trội</span></h1>
+  <p>Synetic Group kiến tạo giá trị vượt trội thông qua đổi mới, kết nối và phát triển bền vững,
+     hướng tới một tương lai tốt đẹp hơn cho khách hàng, đối tác và cộng đồng.</p>
+  <div class="cta"><a class="btn btn-gd" href="#thanh-vien">Khám phá hệ sinh thái</a>
+    <a class="btn btn-gh" href="#gioi-thieu">Về Synetic Group</a></div>
+</div></section>
+
+<section id="gioi-thieu"><div class="wrap two">
+  <div><p class="lb">VỀ SYNETIC GROUP</p>
+    <h2>Hệ sinh thái doanh nghiệp hoạt động đa lĩnh vực.</h2></div>
+  <div class="lead">
+    <p>Synetic Group hoạt động trong các lĩnh vực cốt lõi: nông nghiệp, dinh dưỡng, thú y,
+       chuỗi cung ứng và đầu tư — cam kết mang đến các giải pháp và dịch vụ chất lượng,
+       góp phần thúc đẩy sự phát triển bền vững của cộng đồng và xã hội.</p>
+    <p>Tên gọi SYNETIC ghép từ hai gốc Hy Lạp: <b>SYN</b> (hợp lực) và <b>-ETIC</b> từ
+       <i>kinetikos</i> (chuyển động) — hợp lực trong chuyển động.</p>
+  </div>
+</div></section>
+
+<section class="vm" id="tam-nhin"><div class="wrap">
+  <p class="lb">ĐỊNH HƯỚNG</p><h2>Tầm nhìn và Sứ mệnh.</h2>
+  <div class="row">
+    <div class="bx a"><div class="k">TẦM NHÌN</div><h3>Mở lối phồn vinh</h3>
+      <p>Trở thành hệ sinh thái kinh doanh tích hợp hàng đầu Việt Nam trong nông nghiệp, dinh dưỡng,
+         dịch vụ chuỗi cung ứng và đầu tư; tiên phong tạo ra những mô hình kinh doanh hiệu quả,
+         khác biệt và bền vững.</p></div>
+    <div class="bx b"><div class="k">SỨ MỆNH</div>
+      <h3>Phụng sự khách hàng — Kiến tạo thành công — Lan toả thịnh vượng</h3>
+      <p>Kết nối con người, nguồn lực, công nghệ, thị trường và vốn để tạo ra những sản phẩm,
+         dịch vụ và giải pháp vượt trội; nâng cao hiệu quả cho đối tác, tạo cơ hội phát triển
+         cho người lao động và đóng góp thiết thực cho cộng đồng.</p></div>
+  </div>
+</div></section>
+
+<section class="vals" id="gia-tri"><div class="wrap">
+  <p class="lb">GIÁ TRỊ CỐT LÕI</p><h2>Sáu giá trị dẫn đường.</h2>
+  <div class="vgrid">
+      <article class="val"><span class="n">01</span><h4>KHÁT VỌNG</h4><p>Nghĩ lớn – Làm lớn – Đi xa</p></article>
+      <article class="val"><span class="n">02</span><h4>TIÊN PHONG</h4><p>Không theo cuộc chơi – Tạo cuộc chơi</p></article>
+      <article class="val"><span class="n">03</span><h4>CHUYỂN ĐỘNG</h4><p>Không ngừng tốt hơn</p></article>
+      <article class="val"><span class="n">04</span><h4>PHỤNG SỰ</h4><p>Thành công của khách hàng là thước đo</p></article>
+      <article class="val"><span class="n">05</span><h4>HỢP LỰC</h4><p>Một hệ thống – Một sức mạnh</p></article>
+      <article class="val"><span class="n">06</span><h4>CHÍNH TRỰC</h4><p>Làm đúng để đi xa</p></article></div>
+</div></section>
+
+<section class="units" id="thanh-vien"><div class="wrap">
+  <p class="lb">HỆ SINH THÁI</p><h2>Thành viên trong hệ sinh thái.</h2>
+  <div class="ugrid">
+      <article class="ucard">
+        <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
+  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>NUTRITION</i></span></div>
+        <p>Chuẩn dinh dưỡng, bền tăng trưởng</p>
+        <div class="ufoot">Công ty Cổ phần Synetic Dinh Dưỡng</div>
+      </article>
+      <article class="ucard">
+        <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
+  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>VET</i></span></div>
+        <p>Chủ động phòng, bền sức khoẻ</p>
+        <div class="ufoot">Công ty Cổ phần Synetic Thú Y</div>
+      </article>
+      <article class="ucard">
+        <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
+  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>LOGISTICS</i></span></div>
+        <p>Kết nối chuẩn, vận hành nhanh</p>
+        <div class="ufoot">Công ty Cổ phần Synetic Logistics</div>
+      </article>
+      <article class="ucard">
+        <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
+  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>FARM</i></span></div>
+        <p>Nuôi bằng tâm, lớn bằng chuẩn</p>
+        <div class="ufoot">Công ty Cổ phần Synetic Nông Trại</div>
+      </article>
+      <article class="ucard">
+        <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
+  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>CAPITAL</i></span></div>
+        <p>Dẫn vốn hiệu quả, mở lối tăng trưởng</p>
+        <div class="ufoot">Công ty Cổ phần Synetic Capital</div>
+      </article></div>
+</div></section>
+
+<section class="cl">
+  <div class="wrap">
+    <h2>Sẵn sàng hợp tác cùng Synetic?</h2>
+    <div class="rule"></div>
+    <p>Đội ngũ của chúng tôi luôn sẵn sàng đồng hành và mang đến giải pháp tốt nhất
+       cho doanh nghiệp của bạn.</p>
+    <a class="sig" href="#lien-he">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</a>
+  </div>
+</section>
+</main>
+
+<footer id="lien-he"><div class="wrap">
+  <div class="fg">
+    <div>
+      <div class="fb"><span class="box"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
+  <defs><linearGradient id="gmw" x1="0.15" y1="0" x2="0.85" y2="1">
+    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
+  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round"/>
+  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#FFFFFF"/></g>
+  <g stroke="#FFFFFF" stroke-width="5" fill="#FFFFFF" stroke-linecap="round">
+    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
+    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg></span><span><b>Synetic</b><i>GROUP</i></span></div>
+      <p>CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC<br>Tầng 12, Toà nhà ……………, Quận ……, Hà Nội<br>MST: 01xxxxxxxx</p>
+      <p style="margin-top:12px">T (024) 3xxx xxxx · <a href="mailto:info@synetic.vn">info@synetic.vn</a></p>
+    </div>
+    <div><h5>THÀNH VIÊN</h5><ul><li><a href="#thanh-vien">Synetic Dinh Dưỡng</a></li><li><a href="#thanh-vien">Synetic Thú Y</a></li><li><a href="#thanh-vien">Synetic Logistics</a></li><li><a href="#thanh-vien">Synetic Nông Trại</a></li><li><a href="#thanh-vien">Synetic Capital</a></li></ul></div>
+    <div><h5>HỖ TRỢ</h5><ul>
+      <li><a href="#lien-he">Câu hỏi thường gặp</a></li>
+      <li><a href="#lien-he">Chính sách bảo mật</a></li>
+      <li><a href="#lien-he">Điều khoản sử dụng</a></li>
+      <li><a href="#lien-he">Tuyển dụng</a></li></ul></div>
+  </div>
+  <div class="fbot"><span class="fsl">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</span>
+    <span>© 2026 CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC. Bảo lưu mọi quyền.</span></div>
+</div></footer>
+</body></html>

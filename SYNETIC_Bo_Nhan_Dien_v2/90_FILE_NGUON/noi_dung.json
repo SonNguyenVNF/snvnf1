@@ -1,0 +1,69 @@
+{
+  "_huong_dan": "Sửa các giá trị trong file này rồi gửi lại cho Claude để dựng lại toàn bộ ấn phẩm với thông tin mới. Không cần sửa từng file ảnh.",
+
+  "tap_doan": {
+    "ten_thuong_hieu": "Synetic",
+    "ten_phap_nhan": "CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC",
+    "ten_phap_nhan_en": "SYNETIC GROUP JOINT STOCK COMPANY",
+    "slogan": "Kiến tạo giá trị vượt trội",
+    "slogan_en": "Creating Outstanding Value",
+    "tam_nhin": "Mở lối phồn vinh",
+    "dia_chi": "Tầng 12, Toà nhà ……………, Quận ……, Hà Nội",
+    "dien_thoai": "(024) 3xxx xxxx",
+    "hotline": "1900 xxxx",
+    "email": "info@synetic.vn",
+    "website": "www.synetic.vn",
+    "mst": "01xxxxxxxx",
+    "nam_thanh_lap": "2020"
+  },
+
+  "nguoi_dai_dien": {
+    "ho_ten": "NGUYỄN VĂN PHONG",
+    "chuc_danh": "Chủ tịch Hội đồng Quản trị",
+    "chuc_danh_en": "Chairman of the Board",
+    "di_dong": "0912 345 678",
+    "email": "phong.nv@synetic.vn"
+  },
+
+  "cong_ty_thanh_vien": [
+    { "ma": "NUTRITION", "ten_vn": "Dinh Dưỡng", "phap_nhan": "CÔNG TY CỔ PHẦN SYNETIC DINH DƯỠNG",
+      "slogan": "Chuẩn dinh dưỡng, bền tăng trưởng", "mau": "EMERALD" },
+    { "ma": "VET", "ten_vn": "Thú Y", "phap_nhan": "CÔNG TY CỔ PHẦN SYNETIC THÚ Y",
+      "slogan": "Chủ động phòng, bền sức khoẻ", "mau": "JADE" },
+    { "ma": "LOGISTICS", "ten_vn": "Logistics", "phap_nhan": "CÔNG TY CỔ PHẦN SYNETIC LOGISTICS",
+      "slogan": "Kết nối chuẩn, vận hành nhanh", "mau": "OCEAN" },
+    { "ma": "FARM", "ten_vn": "Nông Trại", "phap_nhan": "CÔNG TY CỔ PHẦN SYNETIC NÔNG TRẠI",
+      "slogan": "Nuôi bằng tâm, lớn bằng chuẩn", "mau": "EMERALD" },
+    { "ma": "CAPITAL", "ten_vn": "Capital", "phap_nhan": "CÔNG TY CỔ PHẦN SYNETIC CAPITAL",
+      "slogan": "Dẫn vốn hiệu quả, mở lối tăng trưởng", "mau": "GOLD" }
+  ],
+
+  "bang_mau": {
+    "EMERALD": { "hex": "#0F6B50", "ten": "Emerald",         "y_nghia": "Tăng trưởng · Bền vững" },
+    "JADE":    { "hex": "#1FA38A", "ten": "Jade Teal",       "y_nghia": "Cân bằng · Hài hoà" },
+    "OCEAN":   { "hex": "#1F5FAF", "ten": "Ocean Blue",      "y_nghia": "Tin cậy · Chuyên nghiệp" },
+    "GOLD":    { "hex": "#C9A24B", "ten": "Prosperity Gold", "y_nghia": "Thịnh vượng · Giá trị" },
+    "CHARCOAL":{ "hex": "#2B2B2B", "ten": "Charcoal",        "y_nghia": "Vững chắc · Hiện đại" },
+    "IVORY":   { "hex": "#F7F5EF", "ten": "Ivory",           "y_nghia": "Tinh tế · Tối giản" }
+  },
+
+  "tu_khoa_thuong_hieu": ["Tiên phong", "Tin cậy", "Kết nối", "Tăng trưởng", "Bền vững", "Khát vọng"],
+
+  "gia_tri_cot_loi": [
+    { "ten": "KHÁT VỌNG",   "cau": "Nghĩ lớn – Làm lớn – Đi xa" },
+    { "ten": "TIÊN PHONG",  "cau": "Không theo cuộc chơi – Tạo cuộc chơi" },
+    { "ten": "CHUYỂN ĐỘNG", "cau": "Không ngừng tốt hơn" },
+    { "ten": "PHỤNG SỰ",    "cau": "Thành công của khách hàng là thước đo" },
+    { "ten": "HỢP LỰC",     "cau": "Một hệ thống – Một sức mạnh" },
+    { "ten": "CHÍNH TRỰC",  "cau": "Làm đúng để đi xa" }
+  ],
+
+  "san_pham_nutrition": [
+    { "ma": "SN-312", "ten": "THỨC ĂN HỖN HỢP", "dong": "CHO HEO THỊT", "klt": "25kg",
+      "tccs": "01:2026/SNT-NUTRITION" },
+    { "ma": "SN-PMX", "ten": "PREMIX",          "dong": "CHO GIA CẦM",  "klt": "1kg",
+      "tccs": "02:2026/SNT-NUTRITION" },
+    { "ma": "SN-MV",  "ten": "MULTI VITAMIN",   "dong": "CHO VẬT NUÔI", "klt": "1L",
+      "tccs": "03:2026/SNT-NUTRITION" }
+  ]
+}
