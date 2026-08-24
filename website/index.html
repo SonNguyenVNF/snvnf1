@@ -54,8 +54,9 @@ h2{font-size:clamp(26px,3.2vw,36px);color:var(--em);max-width:22ch;line-height:1
 .val p{font-size:13.5px;color:#5A6560}
 .units{background:var(--mist)}
 .ugrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(206px,1fr));gap:18px;margin-top:44px}
-.ucard{background:#fff;padding:26px 20px;text-align:center;transition:transform .25s,box-shadow .25s}
-.ucard:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(15,107,80,.16)}
+.ucard{background:#fff;padding:26px 20px;text-align:center;transition:transform .25s,box-shadow .25s;cursor:pointer;border:none;font:inherit;color:inherit;display:block;width:100%}
+.ucard:hover,.ucard:focus-visible{transform:translateY(-6px);box-shadow:0 16px 34px rgba(15,107,80,.16)}
+.ucard .more{display:inline-block;margin-top:14px;font-size:11.5px;font-weight:700;letter-spacing:.16em;color:var(--em)}
 .ulogo{display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:14px;border-bottom:1px solid var(--mist)}
 .ulogo .mk{width:52px;height:57px}
 .ulogo b{display:block;font-family:var(--mo);font-size:19px;font-weight:600;color:var(--ch);line-height:1}
@@ -81,6 +82,20 @@ justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px}
 @media(max-width:900px){.two,.vm .row,.fg{grid-template-columns:1fr;gap:32px} nav ul{display:none}
 section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,25,22,.6);display:none;align-items:center;justify-content:center;padding:24px;z-index:200}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;width:100%;max-width:640px;max-height:86vh;overflow-y:auto;border-top:6px solid var(--em);position:relative;padding:44px 40px 36px}
+.modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border:none;border-radius:50%;background:var(--iv);color:var(--ch);font-size:20px;line-height:1;cursor:pointer}
+.modal-close:hover{background:var(--mist)}
+.modal .k{font-size:11px;font-weight:700;letter-spacing:.24em;color:var(--jt);margin-bottom:10px}
+.modal h3{font-size:27px;color:var(--em);margin-bottom:8px}
+.modal .slogan{font-size:15px;font-weight:600;color:var(--gd);margin-bottom:22px}
+.modal .art p{font-size:15px;color:#4A5550;margin-bottom:14px}
+.modal .flist{list-style:none;margin-top:20px;border-top:1px solid var(--mist)}
+.modal .flist li{padding:12px 0;border-bottom:1px solid var(--mist);font-size:13.5px;color:#4A5550;display:flex;justify-content:space-between;gap:16px}
+.modal .flist li b{color:var(--em);font-family:var(--mo);font-weight:600;flex:none}
+.modal .cfoot{margin-top:24px;padding-top:18px;border-top:1px solid var(--mist);font-size:13px;color:#8A948F}
+@media(max-width:600px){.modal{padding:36px 24px 28px}}
 </style></head><body>
 
 <header><div class="wrap nav">
@@ -161,7 +176,7 @@ section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
 <section class="units" id="thanh-vien"><div class="wrap">
   <p class="lb">HỆ SINH THÁI</p><h2>Thành viên trong hệ sinh thái.</h2>
   <div class="ugrid">
-      <article class="ucard">
+      <article class="ucard" tabindex="0" role="button" data-member="nutrition" aria-haspopup="dialog" aria-label="Xem bài viết về Synetic Dinh Dưỡng">
         <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
   <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
     <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
@@ -172,8 +187,9 @@ section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
     <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>NUTRITION</i></span></div>
         <p>Chuẩn dinh dưỡng, bền tăng trưởng</p>
         <div class="ufoot">Công ty Cổ phần Synetic Dinh Dưỡng</div>
+        <span class="more">XEM BÀI VIẾT →</span>
       </article>
-      <article class="ucard">
+      <article class="ucard" tabindex="0" role="button" data-member="vet" aria-haspopup="dialog" aria-label="Xem bài viết về Synetic Thú Y">
         <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
   <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
     <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
@@ -184,8 +200,9 @@ section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
     <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>VET</i></span></div>
         <p>Chủ động phòng, bền sức khoẻ</p>
         <div class="ufoot">Công ty Cổ phần Synetic Thú Y</div>
+        <span class="more">XEM BÀI VIẾT →</span>
       </article>
-      <article class="ucard">
+      <article class="ucard" tabindex="0" role="button" data-member="logistics" aria-haspopup="dialog" aria-label="Xem bài viết về Synetic Logistics">
         <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
   <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
     <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
@@ -196,8 +213,9 @@ section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
     <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>LOGISTICS</i></span></div>
         <p>Kết nối chuẩn, vận hành nhanh</p>
         <div class="ufoot">Công ty Cổ phần Synetic Logistics</div>
+        <span class="more">XEM BÀI VIẾT →</span>
       </article>
-      <article class="ucard">
+      <article class="ucard" tabindex="0" role="button" data-member="farm" aria-haspopup="dialog" aria-label="Xem bài viết về Synetic Nông Trại">
         <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
   <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
     <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
@@ -208,8 +226,9 @@ section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
     <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>FARM</i></span></div>
         <p>Nuôi bằng tâm, lớn bằng chuẩn</p>
         <div class="ufoot">Công ty Cổ phần Synetic Nông Trại</div>
+        <span class="more">XEM BÀI VIẾT →</span>
       </article>
-      <article class="ucard">
+      <article class="ucard" tabindex="0" role="button" data-member="capital" aria-haspopup="dialog" aria-label="Xem bài viết về Synetic Capital">
         <div class="ulogo"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
   <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
     <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
@@ -220,6 +239,7 @@ section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
     <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><span><b>Synetic</b><i>CAPITAL</i></span></div>
         <p>Dẫn vốn hiệu quả, mở lối tăng trưởng</p>
         <div class="ufoot">Công ty Cổ phần Synetic Capital</div>
+        <span class="more">XEM BÀI VIẾT →</span>
       </article></div>
 </div></section>
 
@@ -258,4 +278,136 @@ section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
   <div class="fbot"><span class="fsl">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</span>
     <span>© 2026 CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC. Bảo lưu mọi quyền.</span></div>
 </div></footer>
+
+<div class="modal-overlay" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Đóng">✕</button>
+    <p class="k" id="modalEyebrow"></p>
+    <h3 id="modalTitle"></h3>
+    <p class="slogan" id="modalSlogan"></p>
+    <div class="art" id="modalBody"></div>
+    <ul class="flist" id="modalFacts"></ul>
+    <p class="cfoot" id="modalFoot"></p>
+  </div>
+</div>
+
+<script>
+var MEMBERS = {
+  nutrition: {
+    ten: "Synetic Dinh Dưỡng", slogan: "Chuẩn dinh dưỡng, bền tăng trưởng",
+    phapNhan: "Công ty Cổ phần Synetic Dinh Dưỡng",
+    body: [
+      "Synetic Dinh Dưỡng phát triển và sản xuất thức ăn chăn nuôi, premix và các dòng bổ sung dinh dưỡng theo tiêu chuẩn cơ sở nghiêm ngặt, giúp vật nuôi tăng trưởng đều và khoẻ mạnh qua từng giai đoạn.",
+      "Danh mục sản phẩm trải dài từ thức ăn hỗn hợp cho heo thịt, premix cho gia cầm đến multi-vitamin cho vật nuôi — mỗi công thức được kiểm soát chất lượng từ đầu vào đến đầu ra."
+    ],
+    facts: [
+      ["SN-312", "Thức ăn hỗn hợp cho heo thịt · 25kg"],
+      ["SN-PMX", "Premix cho gia cầm · 1kg"],
+      ["SN-MV", "Multi Vitamin cho vật nuôi · 1L"]
+    ]
+  },
+  vet: {
+    ten: "Synetic Thú Y", slogan: "Chủ động phòng, bền sức khoẻ",
+    phapNhan: "Công ty Cổ phần Synetic Thú Y",
+    body: [
+      "Synetic Thú Y cung cấp vắc-xin, thuốc thú y và giải pháp phòng bệnh chủ động cho trang trại, giúp giảm thiểu rủi ro dịch bệnh và chi phí điều trị về lâu dài.",
+      "Đội ngũ kỹ thuật đồng hành cùng người chăn nuôi từ khâu tư vấn phác đồ, giám sát sức khoẻ đàn đến hỗ trợ xử lý tình huống dịch bệnh tại hiện trường."
+    ],
+    facts: [
+      ["Lĩnh vực", "Vắc-xin & thuốc thú y"],
+      ["Mô hình", "Phòng bệnh chủ động"],
+      ["Đồng hành", "Tư vấn kỹ thuật tại trang trại"]
+    ]
+  },
+  logistics: {
+    ten: "Synetic Logistics", slogan: "Kết nối chuẩn, vận hành nhanh",
+    phapNhan: "Công ty Cổ phần Synetic Logistics",
+    body: [
+      "Synetic Logistics vận hành chuỗi cung ứng cho toàn hệ sinh thái — từ kho vận nguyên liệu, vận chuyển thành phẩm đến giao nhận tận trang trại — đảm bảo hàng hoá lưu thông đúng chuẩn, đúng thời gian.",
+      "Hệ thống kho bãi và đội xe được chuẩn hoá theo quy trình chung của tập đoàn, tối ưu chi phí vận hành cho các đơn vị thành viên và đối tác."
+    ],
+    facts: [
+      ["Lĩnh vực", "Kho vận & vận chuyển"],
+      ["Phạm vi", "Nguyên liệu – thành phẩm – trang trại"],
+      ["Cam kết", "Đúng chuẩn, đúng thời gian"]
+    ]
+  },
+  farm: {
+    ten: "Synetic Nông Trại", slogan: "Nuôi bằng tâm, lớn bằng chuẩn",
+    phapNhan: "Công ty Cổ phần Synetic Nông Trại",
+    body: [
+      "Synetic Nông Trại vận hành các trang trại chăn nuôi theo tiêu chuẩn an toàn sinh học, kết hợp kinh nghiệm thực tế với quy trình giám sát chặt chẽ ở từng giai đoạn nuôi.",
+      "Đây cũng là nơi thử nghiệm và chứng minh hiệu quả thực tế của sản phẩm dinh dưỡng và giải pháp thú y trong hệ sinh thái, trước khi nhân rộng ra thị trường."
+    ],
+    facts: [
+      ["Lĩnh vực", "Chăn nuôi trang trại"],
+      ["Tiêu chuẩn", "An toàn sinh học"],
+      ["Vai trò", "Thực chứng giải pháp trong hệ sinh thái"]
+    ]
+  },
+  capital: {
+    ten: "Synetic Capital", slogan: "Dẫn vốn hiệu quả, mở lối tăng trưởng",
+    phapNhan: "Công ty Cổ phần Synetic Capital",
+    body: [
+      "Synetic Capital giữ vai trò dẫn vốn và điều phối tài chính cho hệ sinh thái, thẩm định và rót vốn cho các dự án mở rộng của các công ty thành viên.",
+      "Ngoài đầu tư nội bộ, Synetic Capital tìm kiếm và hợp tác với các đối tác tài chính bên ngoài để mở rộng năng lực sản xuất và mạng lưới của toàn tập đoàn."
+    ],
+    facts: [
+      ["Lĩnh vực", "Đầu tư & tài chính"],
+      ["Vai trò", "Dẫn vốn cho hệ sinh thái"],
+      ["Định hướng", "Mở rộng năng lực sản xuất & mạng lưới"]
+    ]
+  }
+};
+
+(function(){
+  var overlay = document.getElementById('memberModal');
+  var closeBtn = document.getElementById('modalClose');
+  var lastFocused = null;
+
+  function openMember(id){
+    var m = MEMBERS[id];
+    if(!m) return;
+    document.getElementById('modalEyebrow').textContent = 'BÀI VIẾT · THÀNH VIÊN HỆ SINH THÁI';
+    document.getElementById('modalTitle').textContent = m.ten;
+    document.getElementById('modalSlogan').textContent = m.slogan;
+    var bodyEl = document.getElementById('modalBody');
+    bodyEl.innerHTML = '';
+    m.body.forEach(function(t){ var p = document.createElement('p'); p.textContent = t; bodyEl.appendChild(p); });
+    var factsEl = document.getElementById('modalFacts');
+    factsEl.innerHTML = '';
+    m.facts.forEach(function(f){
+      var li = document.createElement('li');
+      var b = document.createElement('b'); b.textContent = f[0];
+      var span = document.createElement('span'); span.textContent = f[1];
+      li.appendChild(b); li.appendChild(span);
+      factsEl.appendChild(li);
+    });
+    document.getElementById('modalFoot').textContent = m.phapNhan + ' — thành viên hệ sinh thái Synetic Group.';
+    lastFocused = document.activeElement;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    if(lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('.ucard').forEach(function(card){
+    card.addEventListener('click', function(){ openMember(card.dataset.member); });
+    card.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openMember(card.dataset.member); }
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+})();
+</script>
 </body></html>
