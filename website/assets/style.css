@@ -74,7 +74,7 @@ background:linear-gradient(100deg,rgba(8,46,36,.93) 0%,rgba(8,46,36,.74) 42%,rgb
 .cta{margin-top:var(--sp-4);display:flex;gap:16px;flex-wrap:wrap}
 
 /* ---------- SECTIONS (shared rhythm) ---------- */
-section{padding:var(--sp-7) 0}
+section{padding:72px 0}
 .lb{font-size:12px;font-weight:700;letter-spacing:.32em;color:var(--jt);margin-bottom:16px}
 h2{font-size:clamp(28px,3.2vw,38px);color:var(--em);max-width:22ch;line-height:1.24;letter-spacing:-.015em}
 .two{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:start}
@@ -82,11 +82,16 @@ h2{font-size:clamp(28px,3.2vw,38px);color:var(--em);max-width:22ch;line-height:1
 
 .vm{background:var(--iv)}
 .vm .row{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin-top:var(--sp-5)}
-.vm .bx{padding:40px 34px;border-radius:var(--radius)} .vm .bx.a{background:var(--em);color:#fff;box-shadow:var(--shadow-md)} .vm .bx.b{background:#fff;box-shadow:var(--shadow-sm)}
-.vm .k{font-size:11px;font-weight:700;letter-spacing:.26em;margin-bottom:14px}
+.vm .bx{padding:44px 38px 38px;border-radius:0 0 var(--radius) var(--radius);border-top:4px solid;position:relative;overflow:hidden}
+.vm .bx.a{background:var(--em);color:#fff;box-shadow:var(--shadow-md);border-top-color:var(--gd)}
+.vm .bx.b{background:#fff;box-shadow:var(--shadow-sm);border-top-color:var(--jt)}
+.vm .bx.a::after{content:'';position:absolute;inset:0;pointer-events:none;
+background-image:radial-gradient(rgba(255,255,255,.14) 1.5px,transparent 1.5px);background-size:26px 26px;
+-webkit-mask-image:linear-gradient(200deg,#000 15%,transparent 60%);mask-image:linear-gradient(200deg,#000 15%,transparent 60%)}
+.vm .k{font-size:11px;font-weight:700;letter-spacing:.26em;margin-bottom:16px;position:relative}
 .vm .bx.a .k{color:var(--gd)} .vm .bx.b .k{color:var(--jt)}
-.vm h3{font-size:24px;margin-bottom:14px;line-height:1.3} .vm .bx.b h3{color:var(--em);font-size:20px;line-height:1.4}
-.vm p{font-size:15px;line-height:1.7} .vm .bx.a p{color:rgba(255,255,255,.86)} .vm .bx.b p{color:var(--muted)}
+.vm h3{font-size:24px;margin-bottom:14px;line-height:1.3;position:relative} .vm .bx.b h3{color:var(--em);font-size:20px;line-height:1.4}
+.vm p{font-size:15px;line-height:1.7;position:relative} .vm .bx.a p{color:rgba(255,255,255,.88)} .vm .bx.b p{color:var(--muted)}
 
 .vals{background:#fff}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-2);margin-top:var(--sp-5)}
