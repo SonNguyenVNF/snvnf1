@@ -7,12 +7,12 @@ a{color:inherit;text-decoration:none} :focus-visible{outline:2px solid var(--gd)
 h1,h2,h3,h4{font-family:var(--mo);font-weight:700;letter-spacing:-.01em}
 .mk{width:100%;height:100%}
 header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid #EEE}
-.nav{display:flex;align-items:center;justify-content:space-between;height:88px;gap:20px}
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px;padding:18px 0}
 .brand{display:flex;align-items:center;gap:12px}
 .brand .box{width:52px;height:57px;flex:none}
 .brand b{display:block;font-family:var(--mo);font-size:27px;font-weight:600;color:var(--ch);line-height:1}
 .brand i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.22em;color:var(--gd);margin-top:5px}
-nav ul{display:flex;gap:26px;list-style:none;font-size:14px;font-weight:500}
+nav ul{display:flex;flex-wrap:wrap;gap:12px 26px;list-style:none;font-size:14px;font-weight:500}
 nav a:hover{color:var(--em)}
 .has-dropdown{position:relative}
 .dropdown-toggle{background:none;border:none;font:inherit;font-weight:500;color:inherit;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:5px}
@@ -37,7 +37,6 @@ justify-content:center;color:var(--em);font-family:var(--mo);font-weight:700;fon
 .lang-item.current{color:var(--em);font-weight:600}
 .lang-item.disabled{color:#A9B2AD;cursor:default}
 .lang-item.disabled i{font-style:normal;font-size:11px}
-@media(max-width:600px){header .btn{display:none}}
 .btn{display:inline-block;background:var(--em);color:#fff;padding:12px 22px;font-size:13.5px;font-weight:600;border-radius:3px}
 .btn:hover{background:#0B5540}
 .hero{background:linear-gradient(120deg,var(--em) 0%,#12735A 45%,var(--ob) 130%);color:#fff;padding:96px 0 104px;position:relative;overflow:hidden}
@@ -135,6 +134,6 @@ body.m-gold{--accent:var(--gd)}
 .arel a:hover{transform:translateY(-3px);color:var(--em)}
 .arel a span{display:block;font-family:var(--in);font-weight:400;font-size:12.5px;color:#8A948F;margin-top:4px}
 
-@media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:32px} nav ul{display:none}
-section{padding:62px 0} .hero .big{display:none} .nav{height:74px}}
+@media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:32px}
+section{padding:62px 0} .hero .big{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
