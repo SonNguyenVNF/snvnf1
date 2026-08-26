@@ -27,6 +27,17 @@
       if(e.key === 'Escape') closeAllDropdowns();
     });
 
+    /* ---- back-to-top floating button ---- */
+    var fabTop = document.getElementById('fabTop');
+    if(fabTop){
+      window.addEventListener('scroll', function(){
+        fabTop.classList.toggle('show', window.scrollY > 400);
+      });
+      fabTop.addEventListener('click', function(){
+        window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      });
+    }
+
     /* ---- hero background slideshow ---- */
     var slides = document.querySelectorAll('.hero-bg .hslide');
     if(slides.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
