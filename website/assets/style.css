@@ -179,8 +179,8 @@ box-shadow:var(--shadow-md);border:none;padding:0;cursor:pointer;transition:tran
 
 /* ---------- NEWS TICKER (pinned bottom) ---------- */
 body{padding-bottom:44px}
-.ticker-bar{position:fixed;left:0;right:0;bottom:0;z-index:140;height:44px;background:var(--ch);
-display:flex;align-items:stretch;box-shadow:0 -6px 18px rgba(0,0,0,.14)}
+.ticker-bar{position:fixed;left:0;right:0;bottom:0;z-index:140;height:44px;background:#C0272D;
+display:flex;align-items:stretch;box-shadow:0 -6px 18px rgba(0,0,0,.18)}
 .ticker-label{flex:none;display:flex;align-items:center;gap:8px;background:var(--em);color:#fff;
 padding:0 20px;font-family:var(--mo);font-weight:700;font-size:12px;letter-spacing:.16em;white-space:nowrap}
 .ticker-label .dot{width:7px;height:7px;border-radius:50%;background:var(--gd)}
