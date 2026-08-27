@@ -5,16 +5,29 @@
 --shadow-sm:0 2px 10px rgba(15,40,32,.08);
 --shadow-md:0 16px 34px rgba(15,40,32,.14);
 --shadow-lg:0 28px 56px rgba(15,40,32,.20);
---sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:32px;--sp-5:48px;--sp-6:64px;--sp-7:96px}
+--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:32px;--sp-5:48px;--sp-6:64px;--sp-7:96px;
+--ease:cubic-bezier(.4,0,.2,1);--ease-out:cubic-bezier(.16,1,.3,1);--ease-spring:cubic-bezier(.34,1.56,.64,1)}
 *{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
 body{font-family:var(--in);background:#fff;color:var(--ch);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
 a{color:inherit;text-decoration:none} :focus-visible{outline:2px solid var(--gd);outline-offset:3px}
-body{animation:page-fade-in .35s ease}
-@keyframes page-fade-in{from{opacity:0}to{opacity:1}}
-body.page-leaving{opacity:0;transition:opacity .18s ease}
+
+/* ---------- PAGE TRANSITIONS ---------- */
+#page-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:300;opacity:0;pointer-events:none;
+background:linear-gradient(90deg,var(--jt),var(--em) 55%,var(--gd));box-shadow:0 0 8px rgba(31,163,138,.6);
+transition:width .4s var(--ease-out),opacity .25s ease}
+#page-progress.active{opacity:1}
+#page-progress.done{width:100%!important;transition:width .25s var(--ease),opacity .4s ease .15s;opacity:0}
+body{animation:page-enter .55s var(--ease-out) both}
+@keyframes page-enter{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+body.page-leaving{opacity:0;transform:translateY(-10px) scale(.985);filter:saturate(.9);
+transition:opacity .3s var(--ease),transform .3s var(--ease),filter .3s var(--ease)}
 h1,h2,h3,h4{font-family:var(--mo);font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .mk{width:100%;height:100%}
+
+/* ---------- SCROLL-REVEAL ---------- */
+.reveal-init{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.reveal-in{opacity:1;transform:translateY(0)}
 
 /* ---------- HEADER / NAV ---------- */
 header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid #ECEAE3}
@@ -28,20 +41,21 @@ nav ul{display:flex;flex-wrap:wrap;gap:10px 28px;list-style:none;font-size:14px;
 nav a{transition:color .2s ease}
 nav a:hover{color:var(--em)}
 nav ul li>a{position:relative;padding-bottom:3px}
-nav ul li>a::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--em);
-transition:right .25s ease}
-nav ul li>a:hover::after,nav ul li>a.active::after{right:0}
+nav ul li>a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--jt),var(--em));
+transform:scaleX(0);transform-origin:center;transition:transform .35s var(--ease-spring)}
+nav ul li>a:hover::after,nav ul li>a.active::after{transform:scaleX(1)}
 .has-dropdown{position:relative}
 .dropdown-toggle{background:none;border:none;font:inherit;font-weight:500;color:inherit;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:5px;transition:color .2s ease}
 .dropdown-toggle:hover{color:var(--em)}
-.dropdown-toggle .car{font-size:9px;transition:transform .25s ease}
+.dropdown-toggle .car{font-size:9px;transition:transform .3s var(--ease-spring)}
 .has-dropdown:hover .car,.has-dropdown.open .car{transform:rotate(180deg)}
 .dropdown{position:absolute;top:calc(100% + 20px);left:-20px;background:#fff;min-width:270px;padding:10px 0;
 border-top:3px solid var(--em);box-shadow:var(--shadow-md);border-radius:0 0 var(--radius) var(--radius);
-opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .22s ease,transform .22s ease,visibility .22s;z-index:70}
-.has-dropdown:hover .dropdown,.has-dropdown.open .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
-.dropdown a{display:block;padding:11px 22px;font-size:13.5px;font-weight:500;color:var(--ch);transition:background .2s ease,color .2s ease,padding-left .2s ease}
-.dropdown a:hover{background:var(--iv);color:var(--em);padding-left:26px}
+opacity:0;visibility:hidden;transform:translateY(-10px) scale(.97);transform-origin:top center;
+transition:opacity .28s var(--ease),transform .35s var(--ease-spring),visibility .28s;z-index:70}
+.has-dropdown:hover .dropdown,.has-dropdown.open .dropdown{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.dropdown a{display:block;padding:11px 22px;font-size:13.5px;font-weight:500;color:var(--ch);transition:background .2s ease,color .2s ease,padding-left .25s var(--ease-out)}
+.dropdown a:hover{background:var(--iv);color:var(--em);padding-left:28px}
 .nav-home{display:inline-flex;align-items:center;gap:6px}
 .nav-home .hico{font-size:15px;line-height:1}
 nav ul li>a.active{color:var(--em);font-weight:700}
@@ -57,10 +71,14 @@ justify-content:center;color:var(--em);font-family:var(--mo);font-weight:700;fon
 .lang-item.disabled i{font-style:normal;font-size:11px}
 
 /* ---------- BUTTONS ---------- */
-.btn{display:inline-block;background:var(--em);color:#fff;padding:13px 24px;font-size:14px;font-weight:600;
-border-radius:var(--radius);transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.btn:hover{background:#0B5540;box-shadow:var(--shadow-sm);transform:translateY(-2px)}
-.btn:active{transform:translateY(0) scale(.97)}
+.btn{position:relative;overflow:hidden;display:inline-block;background:var(--em);color:#fff;padding:13px 24px;font-size:14px;font-weight:600;
+border-radius:var(--radius);transition:background .25s ease,transform .3s var(--ease-spring),box-shadow .25s ease}
+.btn::before{content:'';position:absolute;top:0;left:-75%;width:40%;height:100%;
+background:linear-gradient(115deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-18deg);
+transition:left .6s var(--ease-out)}
+.btn:hover{background:#0B5540;box-shadow:var(--shadow-sm);transform:translateY(-3px)}
+.btn:hover::before{left:130%}
+.btn:active{transform:translateY(-1px) scale(.97)}
 .btn-gd{background:var(--gd);color:#20261F} .btn-gd:hover{background:#B5893A}
 .btn-gh{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff}
 .btn-gh:hover{background:rgba(255,255,255,.1);border-color:#fff}
@@ -107,23 +125,25 @@ background-image:radial-gradient(rgba(255,255,255,.14) 1.5px,transparent 1.5px);
 .vals{background:#fff}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-2);margin-top:var(--sp-5)}
 .val{background:var(--iv);padding:30px 26px;border-top:3px solid var(--em);border-radius:0 0 var(--radius) var(--radius);
-transition:transform .2s,box-shadow .2s}
-.val:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm)}
+transition:transform .35s var(--ease-spring),box-shadow .3s var(--ease)}
+.val:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
 .val:nth-child(3n-1){border-top-color:var(--jt)} .val:nth-child(3n){border-top-color:var(--gd)}
-.val .n{font-family:var(--mo);font-size:13px;font-weight:700;color:var(--gd)}
+.val .n{font-family:var(--mo);font-size:13px;font-weight:700;color:var(--gd);display:inline-block;transition:transform .3s var(--ease-spring)}
+.val:hover .n{transform:scale(1.2)}
 .val h4{font-size:19px;color:var(--em);margin:10px 0 8px;letter-spacing:0}
 .val p{font-size:14px;color:var(--muted)}
 
 .units{background:var(--mist)}
 .ugrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(206px,1fr));gap:var(--sp-2);margin-top:var(--sp-5)}
-.ucard{background:#fff;padding:30px 22px;text-align:center;transition:transform .25s,box-shadow .25s;display:block;
+.ucard{background:#fff;padding:30px 22px;text-align:center;transition:transform .4s var(--ease-spring),box-shadow .3s var(--ease);display:block;
 border-radius:var(--radius);box-shadow:var(--shadow-sm)}
-.ucard:hover,.ucard:focus-visible{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.ucard:hover,.ucard:focus-visible{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
 .ucard:active{transform:translateY(-2px) scale(.98)}
-.ucard .more{display:inline-block;margin-top:16px;font-size:11.5px;font-weight:700;letter-spacing:.16em;color:var(--em);transition:letter-spacing .2s ease}
+.ucard .more{display:inline-block;margin-top:16px;font-size:11.5px;font-weight:700;letter-spacing:.16em;color:var(--em);transition:letter-spacing .25s ease}
 .ucard:hover .more{letter-spacing:.24em}
 .ulogo{display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--mist)}
-.ulogo .mk{width:52px;height:57px}
+.ulogo .mk{width:52px;height:57px;transition:transform .4s var(--ease-spring)}
+.ucard:hover .ulogo .mk{transform:scale(1.1) rotate(-3deg)}
 .ulogo b{display:block;font-family:var(--mo);font-size:19px;font-weight:600;color:var(--ch);line-height:1}
 .ulogo i{display:block;font-style:normal;font-size:9px;letter-spacing:.2em;color:var(--jt);margin-top:5px}
 .ucard p{font-size:13px;color:var(--muted);min-height:56px;margin-top:16px;line-height:1.6}
@@ -187,8 +207,12 @@ display:block;border-radius:var(--radius);box-shadow:var(--shadow-sm);transition
 /* ---------- FLOATING CONTACT BUTTONS ---------- */
 .fab-stack{position:fixed;right:22px;bottom:78px;display:flex;flex-direction:column;gap:12px;z-index:150}
 .fab-btn{width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;
-box-shadow:var(--shadow-md);border:none;padding:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.fab-btn:hover{transform:translateY(-3px) scale(1.06);box-shadow:var(--shadow-lg)}
+box-shadow:var(--shadow-md);border:none;padding:0;cursor:pointer;transition:transform .3s var(--ease-spring),box-shadow .25s ease}
+.fab-stack .fab-btn:not(.fab-top){animation:fab-in .5s var(--ease-out) both}
+.fab-stack .fab-btn:nth-child(1){animation-delay:.05s} .fab-stack .fab-btn:nth-child(2){animation-delay:.14s}
+.fab-stack .fab-btn:nth-child(3){animation-delay:.23s} .fab-stack .fab-btn:nth-child(4){animation-delay:.32s}
+@keyframes fab-in{from{opacity:0;transform:translateX(24px) scale(.7)}to{opacity:1;transform:translateX(0) scale(1)}}
+.fab-btn:hover{transform:translateY(-4px) scale(1.1);box-shadow:var(--shadow-lg)}
 .fab-btn:active{transform:translateY(-1px) scale(.95)}
 .fab-top{background:var(--em);color:#fff;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px)}
 .fab-top.show{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
