@@ -169,13 +169,32 @@ display:block;border-radius:var(--radius);box-shadow:var(--shadow-sm);transition
 .arel a span{display:block;font-family:var(--in);font-weight:400;font-size:12.5px;color:var(--faint);margin-top:5px}
 
 /* ---------- FLOATING CONTACT BUTTONS ---------- */
-.fab-stack{position:fixed;right:22px;bottom:26px;display:flex;flex-direction:column;gap:12px;z-index:150}
+.fab-stack{position:fixed;right:22px;bottom:78px;display:flex;flex-direction:column;gap:12px;z-index:150}
 .fab-btn{width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;
 box-shadow:var(--shadow-md);border:none;padding:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
 .fab-btn:hover{transform:translateY(-3px) scale(1.06);box-shadow:var(--shadow-lg)}
 .fab-top{background:var(--em);color:#fff;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px)}
 .fab-top.show{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
-@media(max-width:600px){.fab-stack{right:14px;bottom:16px;gap:10px} .fab-btn{width:46px;height:46px}}
+@media(max-width:600px){.fab-stack{right:14px;bottom:60px;gap:10px} .fab-btn{width:46px;height:46px}}
+
+/* ---------- NEWS TICKER (pinned bottom) ---------- */
+body{padding-bottom:44px}
+.ticker-bar{position:fixed;left:0;right:0;bottom:0;z-index:140;height:44px;background:var(--ch);
+display:flex;align-items:stretch;box-shadow:0 -6px 18px rgba(0,0,0,.14)}
+.ticker-label{flex:none;display:flex;align-items:center;gap:8px;background:var(--em);color:#fff;
+padding:0 20px;font-family:var(--mo);font-weight:700;font-size:12px;letter-spacing:.16em;white-space:nowrap}
+.ticker-label .dot{width:7px;height:7px;border-radius:50%;background:var(--gd)}
+.ticker-viewport{flex:1;overflow:hidden;position:relative}
+.ticker-track{position:absolute;top:0;left:0;height:100%;display:flex;align-items:center;white-space:nowrap;
+animation:ticker-scroll 30s linear infinite}
+.ticker-bar:hover .ticker-track{animation-play-state:paused}
+.ticker-track a{color:rgba(255,255,255,.92);font-size:13.5px;margin-right:52px;display:inline-flex;align-items:center;gap:10px}
+.ticker-track a::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gd);flex:none}
+.ticker-track a:hover{color:var(--gd)}
+@keyframes ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:600px){.ticker-bar{height:40px} .ticker-label{padding:0 12px;font-size:10.5px;letter-spacing:.1em}
+.ticker-track a{font-size:12.5px;margin-right:34px} body{padding-bottom:40px}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
 
 @media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
 section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:88px 0 96px}}
