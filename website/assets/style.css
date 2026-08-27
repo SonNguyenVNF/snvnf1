@@ -11,7 +11,7 @@ body{font-family:var(--in);background:#fff;color:var(--ch);line-height:1.65;font
 .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
 a{color:inherit;text-decoration:none} :focus-visible{outline:2px solid var(--gd);outline-offset:3px}
 h1,h2,h3,h4{font-family:var(--mo);font-weight:700;letter-spacing:-.01em;text-wrap:balance}
-.mk{width:100%;height:100%}
+.mk{width:100%;height:100%;object-fit:contain}
 
 /* ---------- HEADER / NAV ---------- */
 header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid #ECEAE3}
