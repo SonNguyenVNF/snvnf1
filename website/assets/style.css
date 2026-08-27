@@ -13,15 +13,21 @@ body{font-family:var(--in);background:#fff;color:var(--ch);line-height:1.65;font
 a{color:inherit;text-decoration:none} :focus-visible{outline:2px solid var(--gd);outline-offset:3px}
 
 /* ---------- PAGE TRANSITIONS ---------- */
+#page-overlay{position:fixed;inset:0;z-index:280;pointer-events:none;will-change:transform;
+background:linear-gradient(135deg,var(--jt) 0%,var(--em) 55%,var(--ob) 130%);
+box-shadow:14px 0 40px rgba(0,0,0,.25);transform:translateX(101%)}
+#page-overlay::after{content:'';position:absolute;top:50%;left:50%;width:70px;height:76px;
+transform:translate(-50%,-50%);opacity:.9;
+background:radial-gradient(circle,rgba(255,255,255,.9) 0%,rgba(255,255,255,0) 72%)}
 #page-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:300;opacity:0;pointer-events:none;
 background:linear-gradient(90deg,var(--jt),var(--em) 55%,var(--gd));box-shadow:0 0 8px rgba(31,163,138,.6);
 transition:width .4s var(--ease-out),opacity .25s ease}
 #page-progress.active{opacity:1}
 #page-progress.done{width:100%!important;transition:width .25s var(--ease),opacity .4s ease .15s;opacity:0}
-body{animation:page-enter .55s var(--ease-out) both}
-@keyframes page-enter{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
-body.page-leaving{opacity:0;transform:translateY(-10px) scale(.985);filter:saturate(.9);
-transition:opacity .3s var(--ease),transform .3s var(--ease),filter .3s var(--ease)}
+body{animation:page-enter .6s var(--ease-out) both}
+@keyframes page-enter{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+body.page-leaving{opacity:0;transform:translateY(-8px) scale(.99);
+transition:opacity .4s var(--ease),transform .4s var(--ease)}
 h1,h2,h3,h4{font-family:var(--mo);font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .mk{width:100%;height:100%}
 

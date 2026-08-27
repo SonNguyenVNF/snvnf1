@@ -40,18 +40,52 @@
 
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ---- top loading-bar + fade/scale transition between pages ---- */
+    /* ---- curtain-wipe + loading-bar transition between pages ---- */
     var bar = document.createElement('div');
     bar.id = 'page-progress';
     document.body.appendChild(bar);
 
+    var overlay = document.createElement('div');
+    overlay.id = 'page-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(overlay);
+
+    function storageGet(key){ try{ return sessionStorage.getItem(key); }catch(e){ return null; } }
+    function storageSet(key, val){ try{ sessionStorage.setItem(key, val); }catch(e){} }
+    function storageClear(key){ try{ sessionStorage.removeItem(key); }catch(e){} }
+
+    var justArrived = storageGet('pt-arrive') === '1';
+    storageClear('pt-arrive');
+
+    function resetOverlay(){
+      overlay.style.transition = 'none';
+      overlay.style.transform = 'translateX(101%)';
+    }
+    overlay.addEventListener('transitionend', function(e){
+      if(e.propertyName === 'transform' && overlay.style.transform.indexOf('-101%') !== -1) resetOverlay();
+    });
+    window.addEventListener('pageshow', function(e){
+      if(e.persisted){ resetOverlay(); bar.classList.remove('active','done'); bar.style.width = '0'; }
+    });
+
     if(!reduceMotion){
+      if(justArrived){
+        overlay.style.transition = 'none';
+        overlay.style.transform = 'translateX(0)';
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            overlay.style.transition = 'transform .6s var(--ease-out)';
+            overlay.style.transform = 'translateX(-101%)';
+          });
+        });
+      }
+
       requestAnimationFrame(function(){
         bar.classList.add('active');
         bar.style.width = '70%';
         setTimeout(function(){
           bar.classList.add('done');
-        }, 260);
+        }, 300);
       });
 
       document.addEventListener('click', function(e){
@@ -69,7 +103,10 @@
         bar.classList.add('active');
         bar.style.width = '85%';
         document.body.classList.add('page-leaving');
-        setTimeout(function(){ window.location.href = href; }, 300);
+        overlay.style.transition = 'transform .45s var(--ease-out)';
+        overlay.style.transform = 'translateX(0)';
+        storageSet('pt-arrive', '1');
+        setTimeout(function(){ window.location.href = href; }, 450);
       });
     }
 
