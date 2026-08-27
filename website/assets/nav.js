@@ -38,6 +38,23 @@
       });
     }
 
+    /* ---- smooth fade transition between pages ---- */
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduceMotion){
+      document.addEventListener('click', function(e){
+        var a = e.target.closest('a[href]');
+        if(!a) return;
+        var href = a.getAttribute('href');
+        if(!href || href.charAt(0) === '#') return;
+        if(href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0) return;
+        if(a.target === '_blank' || a.hasAttribute('download')) return;
+        if(a.origin && a.origin !== window.location.origin) return;
+        e.preventDefault();
+        document.body.classList.add('page-leaving');
+        setTimeout(function(){ window.location.href = href; }, 180);
+      });
+    }
+
     /* ---- hero background slideshow ---- */
     var slides = document.querySelectorAll('.hero-bg .hslide');
     if(slides.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
