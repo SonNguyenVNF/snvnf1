@@ -15,26 +15,29 @@ h1,h2,h3,h4{font-family:var(--mo);font-weight:700;letter-spacing:-.01em;text-wra
 
 /* ---------- HEADER / NAV ---------- */
 header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid #ECEAE3}
-.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-2) var(--sp-3);padding:18px 0}
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-2) var(--sp-3);padding:18px 28px}
 .brand{display:flex;align-items:center;gap:12px}
 .brand .box{width:52px;height:57px;flex:none}
 .brand b{display:block;font-family:var(--mo);font-size:26px;font-weight:600;color:var(--ch);line-height:1}
 .brand i{display:block;font-style:normal;font-size:10px;letter-spacing:.22em;color:var(--gd);margin-top:5px}
-nav ul{display:flex;flex-wrap:wrap;gap:10px 28px;list-style:none;font-size:14px;font-weight:500}
+nav ul{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;list-style:none;font-size:14px;font-weight:500}
+nav ul li>a,nav ul .dropdown-toggle{padding:8px 14px;border-radius:22px;transition:background .2s ease,color .2s ease}
 nav a:hover{color:var(--em)}
+nav ul li>a:hover,nav ul .dropdown-toggle:hover{background:var(--iv);color:var(--em)}
 .has-dropdown{position:relative}
 .dropdown-toggle{background:none;border:none;font:inherit;font-weight:500;color:inherit;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:5px}
 .dropdown-toggle:hover{color:var(--em)}
 .dropdown-toggle .car{font-size:9px;transition:transform .2s}
 .has-dropdown:hover .car,.has-dropdown.open .car{transform:rotate(180deg)}
-.dropdown{position:absolute;top:calc(100% + 20px);left:-20px;background:#fff;min-width:270px;padding:10px 0;
+.has-dropdown.open .dropdown-toggle{background:var(--mist);color:var(--em)}
+.dropdown{position:absolute;top:calc(100% + 14px);left:-20px;background:#fff;min-width:270px;padding:10px 0;
 border-top:3px solid var(--em);box-shadow:var(--shadow-md);border-radius:0 0 var(--radius) var(--radius);display:none;z-index:70}
 .has-dropdown:hover .dropdown,.has-dropdown.open .dropdown{display:block}
-.dropdown a{display:block;padding:11px 22px;font-size:13.5px;font-weight:500;color:var(--ch)}
+.dropdown a{display:block;padding:11px 22px;font-size:13.5px;font-weight:500;color:var(--ch);border-radius:0}
 .dropdown a:hover{background:var(--iv);color:var(--em)}
 .nav-home{display:inline-flex;align-items:center;gap:6px}
 .nav-home .hico{font-size:15px;line-height:1}
-nav ul li>a.active{color:var(--em);font-weight:700}
+nav ul li>a.active{background:var(--mist);color:var(--em);font-weight:700}
 .nav-icons{display:flex;align-items:center;gap:10px}
 .nav-icons .has-dropdown .dropdown-toggle{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--em);
 justify-content:center;color:var(--em);font-family:var(--mo);font-weight:700;font-size:11px;transition:background .2s,color .2s}
@@ -175,7 +178,7 @@ box-shadow:var(--shadow-md);border:none;padding:0;cursor:pointer;transition:tran
 .fab-btn:hover{transform:translateY(-3px) scale(1.06);box-shadow:var(--shadow-lg)}
 .fab-top{background:var(--em);color:#fff;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px)}
 .fab-top.show{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
-@media(max-width:600px){.fab-stack{right:14px;bottom:60px;gap:10px} .fab-btn{width:46px;height:46px}}
+@media(max-width:600px){.fab-stack{right:14px;bottom:60px;gap:10px;padding:9px 7px} .fab-btn{width:46px;height:46px}}
 
 /* ---------- NEWS TICKER (pinned bottom) ---------- */
 body{padding-bottom:44px}
@@ -197,5 +200,24 @@ animation:ticker-scroll 30s linear infinite}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
 
 @media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
-section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:88px 0 96px}}
+section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:88px 0 96px}
+
+  /* header: brand top-left, "Liên hệ ngay" + language switch grouped top-right, nav links on their own centered row */
+  .nav{justify-content:flex-start;gap:10px 8px}
+  .brand{gap:8px}
+  .brand .box{width:34px;height:37px}
+  .brand b{font-size:18px}
+  .brand i{font-size:7.5px}
+  .btn{order:1;margin-left:auto;padding:8px 13px;font-size:12px}
+  .nav-icons{order:1}
+  .nav-icons .has-dropdown .dropdown-toggle{width:32px;height:32px;font-size:10px}
+  header nav{order:2;flex-basis:100%}
+  header nav ul{width:100%;justify-content:center;gap:9px 16px}
+
+  /* floating contact buttons: pill-shaped panel instead of loose circles */
+  .fab-stack{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    padding:11px 9px;border-radius:32px;box-shadow:var(--shadow-md);border:1px solid rgba(15,40,32,.07)}
+  .fab-stack .fab-btn{box-shadow:0 2px 8px rgba(15,40,32,.12)}
+  .fab-top{background:var(--em)}
+}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto} .fab-btn{transition:none}}
