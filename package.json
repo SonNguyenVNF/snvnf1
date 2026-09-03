@@ -1,0 +1,12 @@
+{
+  "name": "synetic-group-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Synetic Group static website served via a minimal Node.js static file server for Plesk Node.js hosting.",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
