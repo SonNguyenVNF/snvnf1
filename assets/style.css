@@ -65,7 +65,7 @@ background-size:cover;background-position:center}
 .hero-bg .hslide.active{opacity:1}
 .hero-bg .p1{background-image:url(hero/hero-1.jpg)}
 .hero-bg .p2{background-image:url(hero/hero-2.webp)}
-.hero-bg .p3{background-image:url(hero/hero-3.jpg)}
+.hero-bg .p3{background-image:url(hero/hero-3.jpg);background-position:22% 45%}
 .hero-scrim{position:absolute;inset:0;z-index:1;
 background:linear-gradient(100deg,rgba(8,46,36,.93) 0%,rgba(8,46,36,.74) 42%,rgba(8,46,36,.4) 70%,rgba(8,46,36,.15) 100%)}
 .hero .big{position:absolute;right:-40px;top:60px;width:420px;height:460px;opacity:.14;z-index:2}
