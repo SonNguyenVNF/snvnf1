@@ -4,7 +4,7 @@
     {
       "name": "synetic-website",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "serve", "website", "-l", "63400"],
+      "runtimeArgs": ["--yes", "serve", ".", "-l", "63400"],
       "port": 63400
     }
   ]
