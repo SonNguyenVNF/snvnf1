@@ -21,15 +21,15 @@ header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.97);backdro
 .brand b{display:block;font-family:var(--mo);font-size:26px;font-weight:600;color:var(--ch);line-height:1}
 .brand i{display:block;font-style:normal;font-size:10px;letter-spacing:.22em;color:var(--gd);margin-top:5px}
 nav ul{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;list-style:none;font-size:14px;font-weight:500}
-nav ul li>a,nav ul .dropdown-toggle{padding:8px 14px;border-radius:22px;transition:background .2s ease,color .2s ease}
+nav ul li>a,nav ul .dropdown-toggle{padding:8px 14px;border-radius:22px;border:1.5px solid #DDE6E0;transition:background .2s ease,color .2s ease,border-color .2s ease}
 nav a:hover{color:var(--em)}
-nav ul li>a:hover,nav ul .dropdown-toggle:hover{background:var(--iv);color:var(--em)}
+nav ul li>a:hover,nav ul .dropdown-toggle:hover{background:var(--iv);color:var(--em);border-color:var(--em)}
 .has-dropdown{position:relative}
 .dropdown-toggle{background:none;border:none;font:inherit;font-weight:500;color:inherit;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:5px}
 .dropdown-toggle:hover{color:var(--em)}
 .dropdown-toggle .car{font-size:9px;transition:transform .2s}
 .has-dropdown:hover .car,.has-dropdown.open .car{transform:rotate(180deg)}
-.has-dropdown.open .dropdown-toggle{background:var(--mist);color:var(--em)}
+.has-dropdown.open .dropdown-toggle{background:var(--mist);color:var(--em);border-color:var(--em)}
 .dropdown{position:absolute;top:calc(100% + 14px);left:-20px;background:#fff;min-width:270px;padding:10px 0;
 border-top:3px solid var(--em);box-shadow:var(--shadow-md);border-radius:0 0 var(--radius) var(--radius);display:none;z-index:70}
 .has-dropdown:hover .dropdown,.has-dropdown.open .dropdown{display:block}
@@ -37,7 +37,7 @@ border-top:3px solid var(--em);box-shadow:var(--shadow-md);border-radius:0 0 var
 .dropdown a:hover{background:var(--iv);color:var(--em)}
 .nav-home{display:inline-flex;align-items:center;gap:6px}
 .nav-home .hico{font-size:15px;line-height:1}
-nav ul li>a.active{background:var(--mist);color:var(--em);font-weight:700}
+nav ul li>a.active{background:var(--mist);color:var(--em);font-weight:700;border-color:var(--em)}
 .nav-icons{display:flex;align-items:center;gap:10px}
 .nav-icons .has-dropdown .dropdown-toggle{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--em);
 justify-content:center;color:var(--em);font-family:var(--mo);font-weight:700;font-size:11px;transition:background .2s,color .2s}
