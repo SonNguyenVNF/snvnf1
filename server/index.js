@@ -4,6 +4,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const crypto = require('crypto');
 
 const { readJSON, writeJSON } = require('./data-store');
@@ -30,6 +31,7 @@ if (!process.env.SESSION_SECRET) {
   console.warn('CẢNH BÁO: SESSION_SECRET chưa được đặt trong .env — dùng khóa tạm thời, mọi người sẽ bị đăng xuất khi khởi động lại server.');
 }
 app.use(session({
+  store: new FileStore({ path: path.join(ROOT, 'data', 'sessions'), logFn: () => {} }),
   secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
