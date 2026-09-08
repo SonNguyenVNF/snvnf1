@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', root: root }) %></head><body>
+
+<%- include('partials/header', { root: root, active: 'tin-tuc' }) %>
+
+<main>
+<div class="abar wrap"><a href="<%= root %>tin-tuc.html">← Tất cả tin tức</a> &nbsp;/&nbsp; Tin tức</div>
+
+<section class="ahero"><div class="wrap">
+  <p class="k"><%= item.publishedAt.split('-').reverse().join('/') %></p>
+  <h1><%= item.title %></h1>
+</div></section>
+
+<section class="abody"><div class="wrap">
+  <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt="" style="width:100%;max-width:820px;border-radius:var(--radius);margin-bottom:32px"><% } %>
+  <div class="art" style="max-width:720px">
+    <% item.body.replace(/\r\n/g, '\n').split(/\n{2,}/).forEach(function(paragraph) { %>
+      <% if (paragraph.trim()) { %><p><%= paragraph.trim() %></p><% } %>
+    <% }); %>
+  </div>
+</div></section>
+</main>
+
+<%- include('partials/footer', { root: root, active: 'tin-tuc' }) %>
+<%- include('partials/ticker', { root: root, ticker: ticker }) %>
+<%- include('partials/fab', { root: root }) %>
+</body></html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= item ? 'Sửa tin tức' : 'Thêm tin tức' %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/tin-tuc">← Tin tức</a></div>
+  <div class="admin-card">
+    <h1><%= item ? 'Sửa tin tức' : 'Thêm tin tức' %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="<%= item ? '/admin/tin-tuc/' + item.id + '/edit' : '/admin/tin-tuc/new' %>" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="title">Tiêu đề</label>
+        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Synetic khai trương nhà máy mới tại Tây Ninh">
+      </div>
+
+      <div class="admin-field">
+        <label for="excerpt">Tóm tắt (hiển thị ở danh sách tin tức)</label>
+        <input type="text" id="excerpt" name="excerpt" value="<%= item ? item.excerpt : '' %>" placeholder="1-2 câu tóm tắt ngắn gọn">
+      </div>
+
+      <div class="admin-field">
+        <label for="body">Nội dung</label>
+        <textarea id="body" name="body" rows="10" placeholder="Nội dung chi tiết bài viết. Xuống dòng để tách đoạn."><%= item ? item.body : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label for="image">Ảnh đại diện</label>
+        <% if (item && item.image) { %>
+          <div style="margin-bottom:10px"><img src="/<%= item.image %>" alt="" style="max-width:220px;border-radius:8px;display:block"></div>
+        <% } %>
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif">
+      </div>
+
+      <div class="admin-field">
+        <label for="publishedAt">Ngày đăng</label>
+        <input type="date" id="publishedAt" name="publishedAt" value="<%= item ? item.publishedAt : today %>">
+      </div>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label>
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm tin tức' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/tin-tuc" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

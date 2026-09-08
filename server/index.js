@@ -8,6 +8,10 @@ const crypto = require('crypto');
 
 const { readJSON, writeJSON } = require('./data-store');
 const auth = require('./auth');
+const { slugify } = require('./slug');
+const { createUploader, publicPathFor, deleteUploadedFile } = require('./upload');
+
+const newsUpload = createUploader('news');
 
 const ROOT = path.join(__dirname, '..');
 const PORT = process.env.PORT || 3000;
@@ -42,7 +46,6 @@ app.use(session({
 const PAGES = [
   { urls: ['/', '/index.html'], view: 'index', root: '' },
   { urls: ['/du-an.html'], view: 'du-an', root: '' },
-  { urls: ['/tin-tuc.html'], view: 'tin-tuc', root: '' },
   { urls: ['/tuyen-dung.html'], view: 'tuyen-dung', root: '' },
   { urls: ['/thu-vien.html'], view: 'thu-vien', root: '' },
   { urls: ['/ve-synetic/thong-diep-chu-tich-hdqt.html'], view: 've-synetic/thong-diep-chu-tich-hdqt', root: '../' },
@@ -70,6 +73,30 @@ for (const page of PAGES) {
     });
   }
 }
+
+// ---------- Tin tức (News) ----------
+
+function publishedNewsSorted() {
+  const news = readJSON('news');
+  return news.items
+    .filter((i) => i.published)
+    .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+}
+
+app.get('/tin-tuc.html', (req, res) => {
+  const ticker = readJSON('ticker');
+  res.render('tin-tuc', { root: '', ticker, items: publishedNewsSorted() });
+});
+
+app.get('/tin-tuc/:slug.html', (req, res) => {
+  const ticker = readJSON('ticker');
+  const news = readJSON('news');
+  const item = news.items.find((i) => i.slug === req.params.slug && i.published);
+  if (!item) {
+    return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
+  }
+  res.render('tin-tuc-chi-tiet', { root: '../', ticker, item });
+});
 
 // ---------- Admin ----------
 
@@ -158,6 +185,97 @@ adminRouter.post('/ticker/:id/delete', auth.verifyCsrf, (req, res) => {
   ticker.items = ticker.items.filter((i) => i.id !== req.params.id);
   writeJSON('ticker', ticker);
   res.redirect('/admin/ticker');
+});
+
+// ---------- Admin: Tin tức (News) ----------
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+adminRouter.get('/tin-tuc', (req, res) => {
+  const news = readJSON('news');
+  res.render('admin/news-list', { items: news.items, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.get('/tin-tuc/new', (req, res) => {
+  res.render('admin/news-form', { item: null, error: null, today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/tin-tuc/new', (req, res) => {
+  newsUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/news-form', { item: null, error: err.message, today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/news-form', { item: null, error: 'Vui lòng nhập tiêu đề.', today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
+    }
+    const news = readJSON('news');
+    news.items.push({
+      id: Date.now().toString(),
+      slug: slugify(title),
+      title,
+      excerpt: (req.body.excerpt || '').trim(),
+      body: (req.body.body || '').replace(/\r\n/g, '\n').trim(),
+      image: req.file ? publicPathFor('news', req.file.filename) : null,
+      publishedAt: req.body.publishedAt || todayStr(),
+      published: req.body.published === '1'
+    });
+    writeJSON('news', news);
+    res.redirect('/admin/tin-tuc');
+  });
+});
+
+adminRouter.get('/tin-tuc/:id/edit', (req, res) => {
+  const news = readJSON('news');
+  const item = news.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/tin-tuc');
+  res.render('admin/news-form', { item, error: null, today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/tin-tuc/:id/edit', (req, res) => {
+  const news = readJSON('news');
+  const item = news.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/tin-tuc');
+
+  newsUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/news-form', { item, error: err.message, today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/news-form', { item, error: 'Vui lòng nhập tiêu đề.', today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
+    }
+    item.title = title;
+    item.excerpt = (req.body.excerpt || '').trim();
+    item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
+    item.publishedAt = req.body.publishedAt || item.publishedAt;
+    item.published = req.body.published === '1';
+    if (req.file) {
+      deleteUploadedFile(item.image);
+      item.image = publicPathFor('news', req.file.filename);
+    }
+    writeJSON('news', news);
+    res.redirect('/admin/tin-tuc');
+  });
+});
+
+adminRouter.post('/tin-tuc/:id/delete', auth.verifyCsrf, (req, res) => {
+  const news = readJSON('news');
+  const item = news.items.find((i) => i.id === req.params.id);
+  if (item) {
+    deleteUploadedFile(item.image);
+    news.items = news.items.filter((i) => i.id !== req.params.id);
+    writeJSON('news', news);
+  }
+  res.redirect('/admin/tin-tuc');
 });
 
 app.use('/admin', adminRouter);

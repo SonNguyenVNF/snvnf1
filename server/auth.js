@@ -41,9 +41,13 @@ function ensureCsrfToken(req) {
   return req.session.csrfToken;
 }
 
-function verifyCsrf(req, res, next) {
+function csrfOk(req) {
   const token = req.body && req.body._csrf;
-  if (!token || token !== req.session.csrfToken) {
+  return Boolean(token) && token === req.session.csrfToken;
+}
+
+function verifyCsrf(req, res, next) {
+  if (!csrfOk(req)) {
     return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
   }
   return next();
@@ -63,6 +67,7 @@ module.exports = {
   recordSuccess,
   requireAdmin,
   ensureCsrfToken,
+  csrfOk,
   verifyCsrf,
   checkPassword
 };
