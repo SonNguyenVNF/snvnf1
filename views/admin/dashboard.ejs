@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang quản trị — Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-card">
+    <h1>Xin chào</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Chọn mục bạn muốn cập nhật.</p>
+    <ul class="admin-list">
+      <li><span class="txt">Tin chạy (news ticker) — hiển thị trên mọi trang</span>
+        <span class="actions"><a class="admin-btn" href="/admin/ticker">Quản lý</a></span></li>
+    </ul>
+    <p style="color:var(--muted);font-size:13px">Các mục khác (Tin tức, Dự án, Tuyển dụng, Đội ngũ, Đối tác) sẽ được thêm ở các đợt cập nhật tiếp theo.</p>
+  </div>
+</div>
+</body></html>

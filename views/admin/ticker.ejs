@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tin chạy — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card" style="margin-bottom:24px">
+    <h1>Tin chạy</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Dòng chữ chạy hiển thị ở cuối mọi trang trên website. Sửa ở đây sẽ cập nhật đồng thời trên toàn bộ site.</p>
+
+    <ul class="admin-list">
+      <% ticker.items.forEach(function(item) { %>
+      <li>
+        <div>
+          <div class="txt"><%= item.text %></div>
+          <div class="url"><%= item.url %></div>
+        </div>
+        <span class="actions">
+          <a class="admin-btn admin-btn-ghost" href="/admin/ticker/<%= item.id %>/edit">Sửa</a>
+          <form method="POST" action="/admin/ticker/<%= item.id %>/delete" onsubmit="return confirm('Xoá dòng tin này?')">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="admin-btn admin-btn-danger" type="submit">Xoá</button>
+          </form>
+        </span>
+      </li>
+      <% }); %>
+      <% if (!ticker.items.length) { %><li><span class="txt" style="color:var(--muted)">Chưa có tin nào.</span></li><% } %>
+    </ul>
+  </div>
+
+  <div class="admin-card">
+    <h2><%= editItem ? 'Sửa tin' : 'Thêm tin mới' %></h2>
+    <form method="POST" action="<%= editItem ? '/admin/ticker/' + editItem.id + '/edit' : '/admin/ticker/add' %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field">
+        <label for="text">Nội dung tin</label>
+        <input type="text" id="text" name="text" required value="<%= editItem ? editItem.text : '' %>" placeholder="Ví dụ: Synetic khai trương nhà máy mới tại Tây Ninh">
+      </div>
+      <div class="admin-field">
+        <label for="url">Đường dẫn khi bấm vào (để trống nếu chưa có)</label>
+        <input type="text" id="url" name="url" value="<%= editItem ? editItem.url : 'tin-tuc.html' %>" placeholder="tin-tuc.html">
+      </div>
+      <button class="admin-btn" type="submit"><%= editItem ? 'Lưu thay đổi' : 'Thêm tin' %></button>
+      <% if (editItem) { %><a class="admin-btn admin-btn-ghost" href="/admin/ticker" style="margin-left:8px">Huỷ</a><% } %>
+    </form>
+  </div>
+</div>
+</body></html>

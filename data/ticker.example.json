@@ -1,0 +1,7 @@
+{
+  "items": [
+    { "id": "1", "text": "Tin tức 1: Nội dung sẽ được cập nhật", "url": "tin-tuc.html" },
+    { "id": "2", "text": "Tin tức 2: Nội dung sẽ được cập nhật", "url": "tin-tuc.html" },
+    { "id": "3", "text": "Tin tức 3: Nội dung sẽ được cập nhật", "url": "tin-tuc.html" }
+  ]
+}

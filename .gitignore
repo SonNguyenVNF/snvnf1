@@ -1,2 +1,6 @@
 .claude/skills/
 node_modules/
+.env
+data/*.json
+!data/*.example.json
+serve.ps1

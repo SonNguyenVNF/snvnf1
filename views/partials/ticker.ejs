@@ -1,0 +1,12 @@
+<div class="ticker-bar" id="tickerBar">
+  <div class="ticker-label"><span class="dot"></span>TIN TỨC</div>
+  <div class="ticker-viewport">
+    <div class="ticker-track">
+<% for (var pass = 0; pass < 2; pass++) { %>
+<% ticker.items.forEach(function(item) { %>
+      <a href="<%= root %><%= item.url %>"><%= item.text %></a>
+<% }); %>
+<% } %>
+    </div>
+  </div>
+</div>

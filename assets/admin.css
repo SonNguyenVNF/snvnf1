@@ -1,0 +1,32 @@
+body{background:var(--iv);font-family:var(--in);color:var(--ch)}
+.admin-wrap{max-width:720px;margin:0 auto;padding:40px 20px}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;background:#fff;padding:16px 24px;border-bottom:1px solid #ECEAE3}
+.admin-topbar b{font-family:var(--mo);color:var(--em)}
+.admin-topbar a{color:var(--muted);font-size:13px;text-decoration:none}
+.admin-topbar a:hover{color:var(--em)}
+.admin-card{background:#fff;border-radius:var(--radius);padding:32px;box-shadow:var(--shadow-sm)}
+.admin-card h1{font-family:var(--mo);font-size:22px;color:var(--em);margin-bottom:8px}
+.admin-card h2{font-family:var(--mo);font-size:17px;color:var(--ch);margin:0 0 16px}
+.admin-field{margin-bottom:16px}
+.admin-field label{display:block;font-size:13px;font-weight:600;color:var(--ch);margin-bottom:6px}
+.admin-field input[type=text],.admin-field input[type=password],.admin-field input[type=url],.admin-field textarea{
+  width:100%;padding:10px 12px;border:1.5px solid #DDE6E0;border-radius:8px;font:inherit;font-size:14px;color:var(--ch)}
+.admin-field input:focus,.admin-field textarea:focus{outline:none;border-color:var(--em)}
+.admin-btn{display:inline-block;background:var(--em);color:#fff;border:none;padding:10px 20px;font-size:14px;font-weight:600;
+  border-radius:8px;cursor:pointer;transition:background .2s}
+.admin-btn:hover{background:#0B5540}
+.admin-btn-danger{background:#B3261E}
+.admin-btn-danger:hover{background:#8C1D17}
+.admin-btn-ghost{background:none;border:1.5px solid #DDE6E0;color:var(--ch)}
+.admin-btn-ghost:hover{border-color:var(--em);color:var(--em)}
+.admin-error{background:#FDECEC;color:#B3261E;padding:12px 16px;border-radius:8px;font-size:13.5px;margin-bottom:20px}
+.admin-list{list-style:none;margin:0 0 28px}
+.admin-list li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid var(--mist)}
+.admin-list li:first-child{border-top:none}
+.admin-list .txt{font-size:14px;color:var(--ch)}
+.admin-list .url{font-size:12px;color:var(--muted)}
+.admin-list .actions{display:flex;gap:8px;flex:none}
+.admin-list .actions form{margin:0}
+.admin-nav{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.admin-nav a{padding:8px 16px;border-radius:20px;border:1.5px solid #DDE6E0;font-size:13.5px;color:var(--ch);text-decoration:none}
+.admin-nav a:hover{border-color:var(--em);color:var(--em)}
