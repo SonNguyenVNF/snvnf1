@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= item ? 'Sửa dự án' : 'Thêm dự án' %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/du-an">← Dự án</a></div>
+  <div class="admin-card">
+    <h1><%= item ? 'Sửa dự án' : 'Thêm dự án' %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="<%= item ? '/admin/du-an/' + item.id + '/edit' : '/admin/du-an/new' %>" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="title">Tên dự án</label>
+        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Nhà máy chế biến thức ăn chăn nuôi Tây Ninh">
+      </div>
+
+      <div class="admin-field">
+        <label for="location">Địa điểm</label>
+        <input type="text" id="location" name="location" value="<%= item ? (item.location || '') : '' %>" placeholder="Ví dụ: Tây Ninh">
+      </div>
+
+      <div class="admin-field">
+        <label for="excerpt">Mô tả ngắn</label>
+        <textarea id="excerpt" name="excerpt" rows="4" placeholder="Mô tả ngắn gọn về dự án"><%= item ? item.excerpt : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label for="image">Hình ảnh</label>
+        <% if (item && item.image) { %>
+          <div style="margin-bottom:10px"><img src="/<%= item.image %>" alt="" style="max-width:220px;border-radius:8px;display:block"></div>
+        <% } %>
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif">
+      </div>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label>
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm dự án' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/du-an" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

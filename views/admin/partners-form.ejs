@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= item ? 'Sửa đối tác' : 'Thêm đối tác' %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/doi-tac-khach-hang">← Đối tác</a></div>
+  <div class="admin-card">
+    <h1><%= item ? 'Sửa đối tác' : 'Thêm đối tác' %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="<%= item ? '/admin/doi-tac-khach-hang/' + item.id + '/edit' : '/admin/doi-tac-khach-hang/new' %>" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="name">Tên đối tác</label>
+        <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: Công ty TNHH ABC">
+      </div>
+
+      <div class="admin-field">
+        <label for="url">Đường dẫn website đối tác (để trống nếu không có)</label>
+        <input type="text" id="url" name="url" value="<%= item ? (item.url || '') : '' %>" placeholder="https://...">
+      </div>
+
+      <div class="admin-field">
+        <label for="logo">Logo</label>
+        <% if (item && item.logo) { %>
+          <div style="margin-bottom:10px"><img src="/<%= item.logo %>" alt="" style="max-width:160px;border-radius:8px;display:block"></div>
+        <% } %>
+        <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif">
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm đối tác' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/doi-tac-khach-hang" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

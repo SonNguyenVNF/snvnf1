@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= item ? 'Sửa tin tuyển dụng' : 'Thêm tin tuyển dụng' %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/tuyen-dung">← Tuyển dụng</a></div>
+  <div class="admin-card">
+    <h1><%= item ? 'Sửa tin tuyển dụng' : 'Thêm tin tuyển dụng' %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="<%= item ? '/admin/tuyen-dung/' + item.id + '/edit' : '/admin/tuyen-dung/new' %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="title">Vị trí tuyển dụng</label>
+        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Nhân viên Kinh doanh">
+      </div>
+
+      <div class="admin-field">
+        <label for="department">Phòng ban</label>
+        <input type="text" id="department" name="department" value="<%= item ? (item.department || '') : '' %>" placeholder="Ví dụ: Synetic Dinh Dưỡng">
+      </div>
+
+      <div class="admin-field">
+        <label for="location">Địa điểm làm việc</label>
+        <input type="text" id="location" name="location" value="<%= item ? (item.location || '') : '' %>" placeholder="Ví dụ: Hà Nội">
+      </div>
+
+      <div class="admin-field">
+        <label for="type">Hình thức</label>
+        <input type="text" id="type" name="type" value="<%= item ? (item.type || '') : '' %>" placeholder="Ví dụ: Toàn thời gian">
+      </div>
+
+      <div class="admin-field">
+        <label for="description">Mô tả công việc</label>
+        <textarea id="description" name="description" rows="6" placeholder="Mô tả công việc, yêu cầu, quyền lợi..."><%= item ? item.description : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label for="deadline">Hạn nộp hồ sơ (để trống nếu chưa có)</label>
+        <input type="date" id="deadline" name="deadline" value="<%= item ? (item.deadline || '') : '' %>">
+      </div>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label>
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm tin tuyển dụng' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/tuyen-dung" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

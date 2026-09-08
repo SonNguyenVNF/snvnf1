@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đội ngũ lãnh đạo — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Đội ngũ lãnh đạo</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Hiển thị ở trang "Về Synetic → Đội ngũ lãnh đạo".</p>
+
+    <a class="admin-btn" href="/admin/doi-ngu-lanh-dao/new" style="margin-bottom:20px;display:inline-block">+ Thêm thành viên</a>
+
+    <ul class="admin-list">
+      <% items.forEach(function(item) { %>
+      <li>
+        <div>
+          <div class="txt"><%= item.name %></div>
+          <div class="url"><%= item.title %></div>
+        </div>
+        <span class="actions">
+          <a class="admin-btn admin-btn-ghost" href="/admin/doi-ngu-lanh-dao/<%= item.id %>/edit">Sửa</a>
+          <form method="POST" action="/admin/doi-ngu-lanh-dao/<%= item.id %>/delete" onsubmit="return confirm('Xoá thành viên này?')">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="admin-btn admin-btn-danger" type="submit">Xoá</button>
+          </form>
+        </span>
+      </li>
+      <% }); %>
+      <% if (!items.length) { %><li><span class="txt" style="color:var(--muted)">Chưa có thành viên nào.</span></li><% } %>
+    </ul>
+  </div>
+</div>
+</body></html>

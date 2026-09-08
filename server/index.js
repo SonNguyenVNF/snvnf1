@@ -13,6 +13,9 @@ const { slugify } = require('./slug');
 const { createUploader, publicPathFor, deleteUploadedFile } = require('./upload');
 
 const newsUpload = createUploader('news');
+const projectsUpload = createUploader('projects');
+const teamUpload = createUploader('team');
+const partnersUpload = createUploader('partners');
 
 const ROOT = path.join(__dirname, '..');
 const PORT = process.env.PORT || 3000;
@@ -47,8 +50,6 @@ app.use(session({
 
 const PAGES = [
   { urls: ['/', '/index.html'], view: 'index', root: '' },
-  { urls: ['/du-an.html'], view: 'du-an', root: '' },
-  { urls: ['/tuyen-dung.html'], view: 'tuyen-dung', root: '' },
   { urls: ['/thu-vien.html'], view: 'thu-vien', root: '' },
   { urls: ['/ve-synetic/thong-diep-chu-tich-hdqt.html'], view: 've-synetic/thong-diep-chu-tich-hdqt', root: '../' },
   { urls: ['/ve-synetic/thong-diep-tong-giam-doc.html'], view: 've-synetic/thong-diep-tong-giam-doc', root: '../' },
@@ -56,10 +57,8 @@ const PAGES = [
   { urls: ['/ve-synetic/lich-su.html'], view: 've-synetic/lich-su', root: '../' },
   { urls: ['/ve-synetic/tam-nhin-chien-luoc.html'], view: 've-synetic/tam-nhin-chien-luoc', root: '../' },
   { urls: ['/ve-synetic/mang-luoi-hoat-dong.html'], view: 've-synetic/mang-luoi-hoat-dong', root: '../' },
-  { urls: ['/ve-synetic/doi-ngu-lanh-dao.html'], view: 've-synetic/doi-ngu-lanh-dao', root: '../' },
   { urls: ['/ve-synetic/trach-nhiem-xa-hoi.html'], view: 've-synetic/trach-nhiem-xa-hoi', root: '../' },
   { urls: ['/ve-synetic/giai-thuong.html'], view: 've-synetic/giai-thuong', root: '../' },
-  { urls: ['/ve-synetic/doi-tac-khach-hang.html'], view: 've-synetic/doi-tac-khach-hang', root: '../' },
   { urls: ['/thanh-vien/nutrition.html'], view: 'thanh-vien/nutrition', root: '../' },
   { urls: ['/thanh-vien/vet.html'], view: 'thanh-vien/vet', root: '../' },
   { urls: ['/thanh-vien/logistics.html'], view: 'thanh-vien/logistics', root: '../' },
@@ -98,6 +97,32 @@ app.get('/tin-tuc/:slug.html', (req, res) => {
     return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
   }
   res.render('tin-tuc-chi-tiet', { root: '../', ticker, item });
+});
+
+// ---------- Dự án, Tuyển dụng, Đội ngũ, Đối tác (public) ----------
+
+app.get('/du-an.html', (req, res) => {
+  const ticker = readJSON('ticker');
+  const projects = readJSON('projects');
+  res.render('du-an', { root: '', ticker, items: projects.items.filter((i) => i.published) });
+});
+
+app.get('/tuyen-dung.html', (req, res) => {
+  const ticker = readJSON('ticker');
+  const jobs = readJSON('jobs');
+  res.render('tuyen-dung', { root: '', ticker, items: jobs.items.filter((i) => i.published) });
+});
+
+app.get('/ve-synetic/doi-ngu-lanh-dao.html', (req, res) => {
+  const ticker = readJSON('ticker');
+  const team = readJSON('team');
+  res.render('ve-synetic/doi-ngu-lanh-dao', { root: '../', ticker, team });
+});
+
+app.get('/ve-synetic/doi-tac-khach-hang.html', (req, res) => {
+  const ticker = readJSON('ticker');
+  const partners = readJSON('partners');
+  res.render('ve-synetic/doi-tac-khach-hang', { root: '../', ticker, partners });
 });
 
 // ---------- Admin ----------
@@ -278,6 +303,316 @@ adminRouter.post('/tin-tuc/:id/delete', auth.verifyCsrf, (req, res) => {
     writeJSON('news', news);
   }
   res.redirect('/admin/tin-tuc');
+});
+
+// ---------- Admin: Dự án ----------
+
+adminRouter.get('/du-an', (req, res) => {
+  const projects = readJSON('projects');
+  res.render('admin/projects-list', { items: projects.items, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.get('/du-an/new', (req, res) => {
+  res.render('admin/projects-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/du-an/new', (req, res) => {
+  projectsUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/projects-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/projects-form', { item: null, error: 'Vui lòng nhập tên dự án.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    const projects = readJSON('projects');
+    projects.items.push({
+      id: Date.now().toString(),
+      title,
+      location: (req.body.location || '').trim(),
+      excerpt: (req.body.excerpt || '').trim(),
+      image: req.file ? publicPathFor('projects', req.file.filename) : null,
+      published: req.body.published === '1'
+    });
+    writeJSON('projects', projects);
+    res.redirect('/admin/du-an');
+  });
+});
+
+adminRouter.get('/du-an/:id/edit', (req, res) => {
+  const projects = readJSON('projects');
+  const item = projects.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/du-an');
+  res.render('admin/projects-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/du-an/:id/edit', (req, res) => {
+  const projects = readJSON('projects');
+  const item = projects.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/du-an');
+
+  projectsUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/projects-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/projects-form', { item, error: 'Vui lòng nhập tên dự án.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    item.title = title;
+    item.location = (req.body.location || '').trim();
+    item.excerpt = (req.body.excerpt || '').trim();
+    item.published = req.body.published === '1';
+    if (req.file) {
+      deleteUploadedFile(item.image);
+      item.image = publicPathFor('projects', req.file.filename);
+    }
+    writeJSON('projects', projects);
+    res.redirect('/admin/du-an');
+  });
+});
+
+adminRouter.post('/du-an/:id/delete', auth.verifyCsrf, (req, res) => {
+  const projects = readJSON('projects');
+  const item = projects.items.find((i) => i.id === req.params.id);
+  if (item) {
+    deleteUploadedFile(item.image);
+    projects.items = projects.items.filter((i) => i.id !== req.params.id);
+    writeJSON('projects', projects);
+  }
+  res.redirect('/admin/du-an');
+});
+
+// ---------- Admin: Tuyển dụng ----------
+
+adminRouter.get('/tuyen-dung', (req, res) => {
+  const jobs = readJSON('jobs');
+  res.render('admin/jobs-list', { items: jobs.items, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.get('/tuyen-dung/new', (req, res) => {
+  res.render('admin/jobs-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/tuyen-dung/new', auth.verifyCsrf, (req, res) => {
+  const title = (req.body.title || '').trim();
+  if (!title) {
+    return res.status(400).render('admin/jobs-form', { item: null, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
+  }
+  const jobs = readJSON('jobs');
+  jobs.items.push({
+    id: Date.now().toString(),
+    title,
+    department: (req.body.department || '').trim(),
+    location: (req.body.location || '').trim(),
+    type: (req.body.type || '').trim(),
+    description: (req.body.description || '').replace(/\r\n/g, '\n').trim(),
+    deadline: (req.body.deadline || '').trim(),
+    published: req.body.published === '1'
+  });
+  writeJSON('jobs', jobs);
+  res.redirect('/admin/tuyen-dung');
+});
+
+adminRouter.get('/tuyen-dung/:id/edit', (req, res) => {
+  const jobs = readJSON('jobs');
+  const item = jobs.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/tuyen-dung');
+  res.render('admin/jobs-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/tuyen-dung/:id/edit', auth.verifyCsrf, (req, res) => {
+  const jobs = readJSON('jobs');
+  const item = jobs.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/tuyen-dung');
+  const title = (req.body.title || '').trim();
+  if (!title) {
+    return res.status(400).render('admin/jobs-form', { item, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
+  }
+  item.title = title;
+  item.department = (req.body.department || '').trim();
+  item.location = (req.body.location || '').trim();
+  item.type = (req.body.type || '').trim();
+  item.description = (req.body.description || '').replace(/\r\n/g, '\n').trim();
+  item.deadline = (req.body.deadline || '').trim();
+  item.published = req.body.published === '1';
+  writeJSON('jobs', jobs);
+  res.redirect('/admin/tuyen-dung');
+});
+
+adminRouter.post('/tuyen-dung/:id/delete', auth.verifyCsrf, (req, res) => {
+  const jobs = readJSON('jobs');
+  jobs.items = jobs.items.filter((i) => i.id !== req.params.id);
+  writeJSON('jobs', jobs);
+  res.redirect('/admin/tuyen-dung');
+});
+
+// ---------- Admin: Đội ngũ lãnh đạo ----------
+
+adminRouter.get('/doi-ngu-lanh-dao', (req, res) => {
+  const team = readJSON('team');
+  res.render('admin/team-list', { items: team.items, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.get('/doi-ngu-lanh-dao/new', (req, res) => {
+  res.render('admin/team-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/doi-ngu-lanh-dao/new', (req, res) => {
+  teamUpload.single('photo')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/team-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const name = (req.body.name || '').trim();
+    if (!name) {
+      return res.status(400).render('admin/team-form', { item: null, error: 'Vui lòng nhập họ tên.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    const team = readJSON('team');
+    team.items.push({
+      id: Date.now().toString(),
+      name,
+      title: (req.body.title || '').trim(),
+      bio: (req.body.bio || '').trim(),
+      photo: req.file ? publicPathFor('team', req.file.filename) : null
+    });
+    writeJSON('team', team);
+    res.redirect('/admin/doi-ngu-lanh-dao');
+  });
+});
+
+adminRouter.get('/doi-ngu-lanh-dao/:id/edit', (req, res) => {
+  const team = readJSON('team');
+  const item = team.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/doi-ngu-lanh-dao');
+  res.render('admin/team-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/doi-ngu-lanh-dao/:id/edit', (req, res) => {
+  const team = readJSON('team');
+  const item = team.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/doi-ngu-lanh-dao');
+
+  teamUpload.single('photo')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/team-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const name = (req.body.name || '').trim();
+    if (!name) {
+      return res.status(400).render('admin/team-form', { item, error: 'Vui lòng nhập họ tên.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    item.name = name;
+    item.title = (req.body.title || '').trim();
+    item.bio = (req.body.bio || '').trim();
+    if (req.file) {
+      deleteUploadedFile(item.photo);
+      item.photo = publicPathFor('team', req.file.filename);
+    }
+    writeJSON('team', team);
+    res.redirect('/admin/doi-ngu-lanh-dao');
+  });
+});
+
+adminRouter.post('/doi-ngu-lanh-dao/:id/delete', auth.verifyCsrf, (req, res) => {
+  const team = readJSON('team');
+  const item = team.items.find((i) => i.id === req.params.id);
+  if (item) {
+    deleteUploadedFile(item.photo);
+    team.items = team.items.filter((i) => i.id !== req.params.id);
+    writeJSON('team', team);
+  }
+  res.redirect('/admin/doi-ngu-lanh-dao');
+});
+
+// ---------- Admin: Đối tác ----------
+
+adminRouter.get('/doi-tac-khach-hang', (req, res) => {
+  const partners = readJSON('partners');
+  res.render('admin/partners-list', { items: partners.items, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.get('/doi-tac-khach-hang/new', (req, res) => {
+  res.render('admin/partners-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/doi-tac-khach-hang/new', (req, res) => {
+  partnersUpload.single('logo')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/partners-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const name = (req.body.name || '').trim();
+    if (!name) {
+      return res.status(400).render('admin/partners-form', { item: null, error: 'Vui lòng nhập tên đối tác.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    const partners = readJSON('partners');
+    partners.items.push({
+      id: Date.now().toString(),
+      name,
+      url: (req.body.url || '').trim(),
+      logo: req.file ? publicPathFor('partners', req.file.filename) : null
+    });
+    writeJSON('partners', partners);
+    res.redirect('/admin/doi-tac-khach-hang');
+  });
+});
+
+adminRouter.get('/doi-tac-khach-hang/:id/edit', (req, res) => {
+  const partners = readJSON('partners');
+  const item = partners.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/doi-tac-khach-hang');
+  res.render('admin/partners-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/doi-tac-khach-hang/:id/edit', (req, res) => {
+  const partners = readJSON('partners');
+  const item = partners.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/doi-tac-khach-hang');
+
+  partnersUpload.single('logo')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/partners-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const name = (req.body.name || '').trim();
+    if (!name) {
+      return res.status(400).render('admin/partners-form', { item, error: 'Vui lòng nhập tên đối tác.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    item.name = name;
+    item.url = (req.body.url || '').trim();
+    if (req.file) {
+      deleteUploadedFile(item.logo);
+      item.logo = publicPathFor('partners', req.file.filename);
+    }
+    writeJSON('partners', partners);
+    res.redirect('/admin/doi-tac-khach-hang');
+  });
+});
+
+adminRouter.post('/doi-tac-khach-hang/:id/delete', auth.verifyCsrf, (req, res) => {
+  const partners = readJSON('partners');
+  const item = partners.items.find((i) => i.id === req.params.id);
+  if (item) {
+    deleteUploadedFile(item.logo);
+    partners.items = partners.items.filter((i) => i.id !== req.params.id);
+    writeJSON('partners', partners);
+  }
+  res.redirect('/admin/doi-tac-khach-hang');
 });
 
 app.use('/admin', adminRouter);

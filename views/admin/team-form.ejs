@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= item ? 'Sửa thành viên' : 'Thêm thành viên' %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/doi-ngu-lanh-dao">← Đội ngũ lãnh đạo</a></div>
+  <div class="admin-card">
+    <h1><%= item ? 'Sửa thành viên' : 'Thêm thành viên' %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="<%= item ? '/admin/doi-ngu-lanh-dao/' + item.id + '/edit' : '/admin/doi-ngu-lanh-dao/new' %>" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="name">Họ tên</label>
+        <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: Nguyễn Văn A">
+      </div>
+
+      <div class="admin-field">
+        <label for="title">Chức danh</label>
+        <input type="text" id="title" name="title" value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Chủ tịch Hội đồng Quản trị">
+      </div>
+
+      <div class="admin-field">
+        <label for="bio">Giới thiệu ngắn</label>
+        <textarea id="bio" name="bio" rows="4" placeholder="1-2 câu giới thiệu ngắn gọn"><%= item ? item.bio : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label for="photo">Ảnh chân dung</label>
+        <% if (item && item.photo) { %>
+          <div style="margin-bottom:10px"><img src="/<%= item.photo %>" alt="" style="max-width:160px;border-radius:8px;display:block"></div>
+        <% } %>
+        <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png,.webp,.gif">
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm thành viên' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/doi-ngu-lanh-dao" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

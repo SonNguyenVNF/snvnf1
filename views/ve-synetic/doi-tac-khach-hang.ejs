@@ -1,56 +1,7 @@
 <!DOCTYPE html>
-<html lang="vi"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Đối tác và khách hàng — Synetic Group</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="../assets/style.css" rel="stylesheet">
-</head><body>
+<html lang="vi"><head><%- include('../partials/head', { title: 'Đối tác và khách hàng — Synetic Group', root: root }) %></head><body>
 
-<header><div class="wrap nav">
-  <a class="brand" href="../index.html"><span class="box"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
-  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
-    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
-  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
-  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
-  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
-    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
-    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg></span>
-    <span><b>Synetic</b><i>GROUP</i></span></a>
-  <nav><ul>
-    <li><a class="nav-home" href="../index.html"><span class="hico" aria-hidden="true">⌂</span> Trang chủ</a></li>
-    <li class="has-dropdown">
-      <button class="dropdown-toggle" type="button">Về Synetic <span class="car">▾</span></button>
-      <div class="dropdown">
-        <a href="thong-diep-chu-tich-hdqt.html">Thông điệp Chủ tịch HĐQT</a>
-        <a href="thong-diep-tong-giam-doc.html">Thông điệp Tổng giám đốc</a>
-        <a href="gia-tri-cot-loi.html">Giá trị cốt lõi</a>
-        <a href="lich-su.html">Lịch sử</a>
-        <a href="tam-nhin-chien-luoc.html">Tầm nhìn chiến lược</a>
-        <a href="mang-luoi-hoat-dong.html">Mạng lưới hoạt động</a>
-        <a href="doi-ngu-lanh-dao.html">Đội ngũ lãnh đạo</a>
-        <a href="trach-nhiem-xa-hoi.html">Trách nhiệm xã hội</a>
-        <a href="giai-thuong.html">Giải thưởng</a>
-        <a href="doi-tac-khach-hang.html">Đối tác và khách hàng</a>
-      </div>
-    </li>
-    <li><a href="../index.html#thanh-vien">Hệ sinh thái</a></li>
-    <li><a href="../du-an.html">Dự án</a></li>
-    <li><a href="../tin-tuc.html">Tin tức</a></li>
-    <li><a class="active" href="doi-tac-khach-hang.html">Đối tác</a></li>
-    <li><a href="../tuyen-dung.html">Cơ hội việc làm</a></li>
-  </ul></nav>
-  <a class="btn" href="../index.html#lien-he">Liên hệ ngay</a>
-  <div class="nav-icons">
-    <div class="has-dropdown lang-switch">
-      <button class="dropdown-toggle" type="button" aria-label="Chọn ngôn ngữ">VI</button>
-      <div class="dropdown lang-dropdown">
-        <span class="lang-item current">🇻🇳 Tiếng Việt</span>
-        <span class="lang-item disabled">🇬🇧 English <i>(sắp ra mắt)</i></span>
-      </div>
-    </div>
-  </div>
-</div></header>
+<%- include('../partials/header', { root: root, active: 'doi-tac' }) %>
 
 <main>
 <div class="abar wrap"><a href="../index.html">← Về trang chủ</a> &nbsp;/&nbsp; Về Synetic &nbsp;/&nbsp; Đối tác và khách hàng</div>
@@ -73,51 +24,22 @@
   <div class="art" style="max-width:720px;margin-top:36px">
     <p>Synetic Group cam kết xây dựng quan hệ hợp tác lâu dài, minh bạch và cùng có lợi với tất cả đối tác trong hệ sinh thái.</p>
   </div>
+  <% if (partners.items.length) { %>
+  <div class="ugrid" style="margin-top:var(--sp-5)">
+    <% partners.items.forEach(function(p) { %>
+    <% if (p.url) { %><a class="ucard" href="<%= p.url %>" target="_blank" rel="noopener"><% } else { %><div class="ucard"><% } %>
+      <div class="ulogo">
+        <% if (p.logo) { %><img class="mk" src="<%= root %><%= p.logo %>" alt="<%= p.name %>"><% } %>
+        <span><b><%= p.name %></b></span>
+      </div>
+    <% if (p.url) { %></a><% } else { %></div><% } %>
+    <% }); %>
+  </div>
+  <% } %>
 </div></section>
 </main>
 
-<footer id="lien-he"><div class="wrap">
-  <div class="fg">
-    <div>
-      <div class="fb"><span class="box"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
-  <defs><linearGradient id="gmw" x1="0.15" y1="0" x2="0.85" y2="1">
-    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
-  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round"/>
-  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#FFFFFF"/></g>
-  <g stroke="#FFFFFF" stroke-width="5" fill="#FFFFFF" stroke-linecap="round">
-    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
-    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg></span><span><b>Synetic</b><i>GROUP</i></span></div>
-      <p>CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC<br>Tầng 12, Toà nhà ……………, Quận ……, Hà Nội<br>MST: 01xxxxxxxx</p>
-      <p style="margin-top:12px">T (024) 3xxx xxxx · <a href="mailto:info@synetic.vn">info@synetic.vn</a></p>
-    </div>
-    <div><h5>THÀNH VIÊN</h5><ul><li><a href="../thanh-vien/nutrition.html">Synetic Dinh Dưỡng</a></li><li><a href="../thanh-vien/vet.html">Synetic Thú Y</a></li><li><a href="../thanh-vien/logistics.html">Synetic Logistics</a></li><li><a href="../thanh-vien/farm.html">Synetic Nông Trại</a></li><li><a href="../thanh-vien/capital.html">Synetic Capital</a></li></ul></div>
-    <div><h5>HỖ TRỢ</h5><ul>
-      <li><a href="../index.html#lien-he">Câu hỏi thường gặp</a></li>
-      <li><a href="../index.html#lien-he">Chính sách bảo mật</a></li>
-      <li><a href="../index.html#lien-he">Điều khoản sử dụng</a></li>
-      <li><a href="../tuyen-dung.html">Tuyển dụng</a></li></ul></div>
-  </div>
-  <div class="fbot"><span class="fsl">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</span>
-    <span>© 2026 CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC. Bảo lưu mọi quyền.</span></div>
-</div></footer>
+<%- include('../partials/footer', { root: root, active: 'doi-tac' }) %>
 <%- include('../partials/ticker', { root: root, ticker: ticker }) %>
-<div class="fab-stack" id="fabStack">
-  <a class="fab-btn" href="#" target="_blank" rel="noopener" aria-label="Chat qua Zalo">
-    <svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><rect x="4" y="4" width="40" height="40" rx="11" fill="#0068FF"/><path d="M12 16.5a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4h-9.3l-5.9 4.4c-.7.5-1.8 0-1.8-.9V16.5Z" fill="#fff"/><text x="24" y="24.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-style="italic" font-size="10.5" fill="#0068FF">Zalo</text></svg>
-  </a>
-  <a class="fab-btn" href="mailto:info@synetic.vn" aria-label="Gửi email">
-    <svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><rect x="2" y="4.5" width="20" height="15" rx="2" fill="#fff" stroke="#EA4335" stroke-width="1.6"/><path d="M3 5.5l9 7 9-7" fill="none" stroke="#EA4335" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </a>
-  <a class="fab-btn" href="#" target="_blank" rel="noopener" aria-label="Chat qua Messenger">
-    <svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true">
-      <defs><linearGradient id="mg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#00C6FF"/><stop offset=".5" stop-color="#8B3DFF"/><stop offset="1" stop-color="#FF5CA8"/></linearGradient></defs>
-      <path d="M24 4C12.4 4 4 12.1 4 23.1c0 6.1 2.7 11.5 7 15.1-.3 1.7-1.5 5.5-1.7 6.3-.2.8.2 1 .8.7.4-.2 5.2-3.6 7.2-5 2.2.6 4.5.9 6.7.9 11.6 0 20-8.1 20-19S35.6 4 24 4Z" fill="url(#mg)"/>
-      <path d="M13.5 27.3 20.7 19.6l5.1 4.9 7-4.9-7.3 7.8-5-4.9-6.9 4.8Z" fill="#fff"/>
-    </svg>
-  </a>
-  <button class="fab-btn fab-top" id="fabTop" type="button" aria-label="Lên đầu trang">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 15 12 9 18 15"/></svg>
-  </button>
-</div>
-<script src="../assets/nav.js" defer></script>
+<%- include('../partials/fab', { root: root }) %>
 </body></html>
