@@ -11,6 +11,7 @@ const { readJSON, writeJSON } = require('./data-store');
 const auth = require('./auth');
 const { slugify } = require('./slug');
 const { createUploader, publicPathFor, deleteUploadedFile } = require('./upload');
+const { siteLockMiddleware } = require('./site-lock');
 
 const newsUpload = createUploader('news');
 const projectsUpload = createUploader('projects');
@@ -24,6 +25,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(ROOT, 'views'));
 app.set('trust proxy', 1);
+
+app.use(siteLockMiddleware());
 
 app.use('/assets', express.static(path.join(ROOT, 'assets')));
 
