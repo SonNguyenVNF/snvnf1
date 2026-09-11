@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sửa <%= label %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/noi-dung">← Nội dung trang Về Synetic</a></div>
+  <div class="admin-card">
+    <h1>Sửa: <%= label %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="/admin/noi-dung/<%= key %>/edit">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="body">Nội dung (mỗi đoạn cách nhau 1 dòng trống)</label>
+        <textarea id="body" name="body" rows="14"><%= data.body %></textarea>
+      </div>
+
+      <% if (hasSign) { %>
+      <div class="admin-field">
+        <label for="signName">Tên người ký</label>
+        <input type="text" id="signName" name="signName" value="<%= data.signName %>">
+      </div>
+      <div class="admin-field">
+        <label for="signTitle">Chức danh</label>
+        <input type="text" id="signTitle" name="signTitle" value="<%= data.signTitle %>">
+      </div>
+      <% } %>
+
+      <% if (hasChairmanNote) { %>
+      <div class="admin-field">
+        <label for="chairmanNote">Tên Chủ tịch HĐQT (hiển thị sau nhãn "Chủ tịch Hội đồng Quản trị:")</label>
+        <input type="text" id="chairmanNote" name="chairmanNote" value="<%= data.chairmanNote %>">
+      </div>
+      <% } %>
+
+      <button class="admin-btn" type="submit">Lưu thay đổi</button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/noi-dung" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

@@ -18,6 +18,16 @@ const projectsUpload = createUploader('projects');
 const teamUpload = createUploader('team');
 const partnersUpload = createUploader('partners');
 
+const EDITABLE_PAGES = [
+  { key: 'thong-diep-chu-tich-hdqt', label: 'Thông điệp Chủ tịch HĐQT', hasSign: true },
+  { key: 'thong-diep-tong-giam-doc', label: 'Thông điệp Tổng giám đốc', hasSign: true },
+  { key: 'doi-ngu-lanh-dao-intro', label: 'Đội ngũ lãnh đạo (đoạn giới thiệu)', hasChairmanNote: true },
+  { key: 'lich-su', label: 'Lịch sử' },
+  { key: 'tam-nhin-chien-luoc', label: 'Tầm nhìn chiến lược' },
+  { key: 'trach-nhiem-xa-hoi', label: 'Trách nhiệm xã hội' },
+  { key: 'giai-thuong', label: 'Giải thưởng' }
+];
+
 const ROOT = path.join(__dirname, '..');
 const PORT = process.env.PORT || 3000;
 
@@ -73,7 +83,8 @@ for (const page of PAGES) {
   for (const url of page.urls) {
     app.get(url, (req, res) => {
       const ticker = readJSON('ticker');
-      res.render(page.view, { root: page.root, ticker });
+      const pages = readJSON('pages');
+      res.render(page.view, { root: page.root, ticker, pages });
     });
   }
 }
@@ -119,7 +130,8 @@ app.get('/tuyen-dung.html', (req, res) => {
 app.get('/ve-synetic/doi-ngu-lanh-dao.html', (req, res) => {
   const ticker = readJSON('ticker');
   const team = readJSON('team');
-  res.render('ve-synetic/doi-ngu-lanh-dao', { root: '../', ticker, team });
+  const pages = readJSON('pages');
+  res.render('ve-synetic/doi-ngu-lanh-dao', { root: '../', ticker, team, pages });
 });
 
 app.get('/ve-synetic/doi-tac-khach-hang.html', (req, res) => {
@@ -616,6 +628,58 @@ adminRouter.post('/doi-tac-khach-hang/:id/delete', auth.verifyCsrf, (req, res) =
     writeJSON('partners', partners);
   }
   res.redirect('/admin/doi-tac-khach-hang');
+});
+
+// ---------- Admin: Nội dung trang Về Synetic ----------
+
+adminRouter.get('/noi-dung', (req, res) => {
+  res.render('admin/pages-list', { pageList: EDITABLE_PAGES });
+});
+
+adminRouter.get('/noi-dung/:key/edit', (req, res) => {
+  const def = EDITABLE_PAGES.find((p) => p.key === req.params.key);
+  if (!def) return res.redirect('/admin/noi-dung');
+  const pages = readJSON('pages');
+  const data = pages[def.key] || {};
+  res.render('admin/pages-form', {
+    key: def.key,
+    label: def.label,
+    hasSign: Boolean(def.hasSign),
+    hasChairmanNote: Boolean(def.hasChairmanNote),
+    data: { body: data.body || '', signName: data.signName || '', signTitle: data.signTitle || '', chairmanNote: data.chairmanNote || '' },
+    error: null,
+    csrfToken: auth.ensureCsrfToken(req)
+  });
+});
+
+adminRouter.post('/noi-dung/:key/edit', auth.verifyCsrf, (req, res) => {
+  const def = EDITABLE_PAGES.find((p) => p.key === req.params.key);
+  if (!def) return res.redirect('/admin/noi-dung');
+  const body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
+  if (!body) {
+    return res.status(400).render('admin/pages-form', {
+      key: def.key,
+      label: def.label,
+      hasSign: Boolean(def.hasSign),
+      hasChairmanNote: Boolean(def.hasChairmanNote),
+      data: { body, signName: req.body.signName || '', signTitle: req.body.signTitle || '', chairmanNote: req.body.chairmanNote || '' },
+      error: 'Vui lòng nhập nội dung.',
+      csrfToken: auth.ensureCsrfToken(req)
+    });
+  }
+  const pages = readJSON('pages');
+  const entry = pages[def.key] || {};
+  entry.body = body;
+  if (def.hasSign) {
+    entry.signName = (req.body.signName || '').trim();
+    entry.signTitle = (req.body.signTitle || '').trim();
+  }
+  if (def.hasChairmanNote) {
+    entry.chairmanNote = (req.body.chairmanNote || '').trim();
+  }
+  pages[def.key] = entry;
+  writeJSON('pages', pages);
+  res.redirect('/admin/noi-dung');
 });
 
 app.use('/admin', adminRouter);

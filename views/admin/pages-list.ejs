@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nội dung trang Về Synetic — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Nội dung trang Về Synetic</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Sửa văn bản trên các trang giới thiệu. (Trang "Giá trị cốt lõi" và "Mạng lưới hoạt động" có bố cục dạng thẻ, chưa hỗ trợ sửa ở đây.)</p>
+
+    <ul class="admin-list">
+      <% pageList.forEach(function(p) { %>
+      <li>
+        <span class="txt"><%= p.label %></span>
+        <span class="actions"><a class="admin-btn admin-btn-ghost" href="/admin/noi-dung/<%= p.key %>/edit">Sửa</a></span>
+      </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>
+</body></html>
