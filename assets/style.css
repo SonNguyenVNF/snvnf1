@@ -46,6 +46,9 @@ justify-content:center;color:var(--em);font-family:var(--mo);font-weight:700;fon
 .lang-item.current{color:var(--em);font-weight:600}
 .lang-item.disabled{color:#A9B2AD;cursor:default}
 .lang-item.disabled i{font-style:normal;font-size:11px}
+.menu-toggle{display:none;flex:none;width:40px;height:40px;padding:0;background:none;border:none;cursor:pointer;
+flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.menu-toggle span{display:block;width:22px;height:2px;border-radius:2px;background:var(--ch);transition:transform .25s ease,opacity .2s ease}
 
 /* ---------- BUTTONS ---------- */
 .btn{display:inline-block;background:var(--em);color:#fff;padding:13px 24px;font-size:14px;font-weight:600;
@@ -208,17 +211,25 @@ animation:ticker-scroll 30s linear infinite}
 @media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
 section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:88px 0 96px}
 
-  /* header: brand top-left, "Liên hệ ngay" + language switch grouped top-right, nav links on their own centered row */
+  /* header: brand top-left, "Liên hệ ngay" + language switch + hamburger top-right, nav collapses behind the hamburger */
   .nav{justify-content:flex-start;gap:10px 8px}
   .brand{gap:8px}
   .brand-logo{height:38px}
   .btn{order:1;margin-left:auto;padding:8px 13px;font-size:12px}
   .nav-icons{order:1}
   .nav-icons .has-dropdown .dropdown-toggle{width:32px;height:32px;font-size:10px}
-  header nav{order:2;flex-basis:100%}
+  .menu-toggle{display:flex;order:2}
+  header.nav-open .menu-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  header.nav-open .menu-toggle span:nth-child(2){opacity:0}
+  header.nav-open .menu-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  header nav{order:3;flex-basis:100%;display:none;margin-top:6px;padding-top:14px;border-top:1px solid #ECEAE3}
+  header.nav-open nav{display:block}
   header nav ul{display:grid;grid-template-columns:repeat(2,1fr);justify-items:center;width:100%;gap:9px 10px}
   header nav ul li:last-child{grid-column:1 / -1}
-  header nav .dropdown{left:0}
+  header nav .has-dropdown.open{grid-column:1 / -1}
+  header nav .dropdown{position:static;display:none;width:100%;min-width:0;margin-top:8px;padding:6px 0;
+    border-top:1px solid #ECEAE3;box-shadow:none;border-radius:0}
+  header nav .has-dropdown.open .dropdown{display:block}
 
   /* floating contact buttons: pill-shaped panel instead of loose circles */
   .fab-stack{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
