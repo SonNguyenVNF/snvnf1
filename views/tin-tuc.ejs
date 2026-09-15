@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi"><head><%- include('partials/head', { title: 'Tin tức — Synetic Group', root: root }) %></head><body>
 
-<%- include('partials/header', { root: root, active: 'tin-tuc' }) %>
+<%- include('partials/header', { root: root, active: 'tin-tuc' , siteImages: siteImages }) %>
 
 <main>
 <div class="abar wrap"><a href="index.html">← Về trang chủ</a> &nbsp;/&nbsp; Tin tức</div>
@@ -32,7 +32,7 @@
 </div></section>
 </main>
 
-<%- include('partials/footer', { root: root, active: 'tin-tuc' }) %>
+<%- include('partials/footer', { root: root, active: 'tin-tuc' , siteImages: siteImages }) %>
 <%- include('partials/ticker', { root: root, ticker: ticker }) %>
 <%- include('partials/fab', { root: root }) %>
 </body></html>

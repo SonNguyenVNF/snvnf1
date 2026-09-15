@@ -17,6 +17,7 @@ const newsUpload = createUploader('news');
 const projectsUpload = createUploader('projects');
 const teamUpload = createUploader('team');
 const partnersUpload = createUploader('partners');
+const siteImageUpload = createUploader('site');
 
 const EDITABLE_PAGES = [
   { key: 'thong-diep-chu-tich-hdqt', label: 'Thông điệp Chủ tịch HĐQT', hasSign: true },
@@ -27,6 +28,22 @@ const EDITABLE_PAGES = [
   { key: 'trach-nhiem-xa-hoi', label: 'Trách nhiệm xã hội' },
   { key: 'giai-thuong', label: 'Giải thưởng' }
 ];
+
+const EDITABLE_IMAGES = [
+  { key: 'logo', label: 'Logo (hiển thị ở đầu trang và chân trang)' },
+  { key: 'hero-1', label: 'Ảnh nền trang chủ — 1' },
+  { key: 'hero-2', label: 'Ảnh nền trang chủ — 2' },
+  { key: 'hero-3', label: 'Ảnh nền trang chủ — 3' },
+  { key: 'member-nutrition', label: 'Logo — Synetic Dinh Dưỡng' },
+  { key: 'member-vet', label: 'Logo — Synetic Thú Y' },
+  { key: 'member-logistics', label: 'Logo — Synetic Logistics' },
+  { key: 'member-farm', label: 'Logo — Synetic Nông Trại' },
+  { key: 'member-capital', label: 'Logo — Synetic Capital' }
+];
+
+function commonLocals() {
+  return { ticker: readJSON('ticker'), siteImages: readJSON('site-images') };
+}
 
 const ROOT = path.join(__dirname, '..');
 const PORT = process.env.PORT || 3000;
@@ -82,9 +99,8 @@ const PAGES = [
 for (const page of PAGES) {
   for (const url of page.urls) {
     app.get(url, (req, res) => {
-      const ticker = readJSON('ticker');
       const pages = readJSON('pages');
-      res.render(page.view, { root: page.root, ticker, pages });
+      res.render(page.view, { root: page.root, ...commonLocals(), pages });
     });
   }
 }
@@ -99,45 +115,39 @@ function publishedNewsSorted() {
 }
 
 app.get('/tin-tuc.html', (req, res) => {
-  const ticker = readJSON('ticker');
-  res.render('tin-tuc', { root: '', ticker, items: publishedNewsSorted() });
+  res.render('tin-tuc', { root: '', ...commonLocals(), items: publishedNewsSorted() });
 });
 
 app.get('/tin-tuc/:slug.html', (req, res) => {
-  const ticker = readJSON('ticker');
   const news = readJSON('news');
   const item = news.items.find((i) => i.slug === req.params.slug && i.published);
   if (!item) {
     return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
   }
-  res.render('tin-tuc-chi-tiet', { root: '../', ticker, item });
+  res.render('tin-tuc-chi-tiet', { root: '../', ...commonLocals(), item });
 });
 
 // ---------- Dự án, Tuyển dụng, Đội ngũ, Đối tác (public) ----------
 
 app.get('/du-an.html', (req, res) => {
-  const ticker = readJSON('ticker');
   const projects = readJSON('projects');
-  res.render('du-an', { root: '', ticker, items: projects.items.filter((i) => i.published) });
+  res.render('du-an', { root: '', ...commonLocals(), items: projects.items.filter((i) => i.published) });
 });
 
 app.get('/tuyen-dung.html', (req, res) => {
-  const ticker = readJSON('ticker');
   const jobs = readJSON('jobs');
-  res.render('tuyen-dung', { root: '', ticker, items: jobs.items.filter((i) => i.published) });
+  res.render('tuyen-dung', { root: '', ...commonLocals(), items: jobs.items.filter((i) => i.published) });
 });
 
 app.get('/ve-synetic/doi-ngu-lanh-dao.html', (req, res) => {
-  const ticker = readJSON('ticker');
   const team = readJSON('team');
   const pages = readJSON('pages');
-  res.render('ve-synetic/doi-ngu-lanh-dao', { root: '../', ticker, team, pages });
+  res.render('ve-synetic/doi-ngu-lanh-dao', { root: '../', ...commonLocals(), team, pages });
 });
 
 app.get('/ve-synetic/doi-tac-khach-hang.html', (req, res) => {
-  const ticker = readJSON('ticker');
   const partners = readJSON('partners');
-  res.render('ve-synetic/doi-tac-khach-hang', { root: '../', ticker, partners });
+  res.render('ve-synetic/doi-tac-khach-hang', { root: '../', ...commonLocals(), partners });
 });
 
 // ---------- Admin ----------
@@ -680,6 +690,61 @@ adminRouter.post('/noi-dung/:key/edit', auth.verifyCsrf, (req, res) => {
   pages[def.key] = entry;
   writeJSON('pages', pages);
   res.redirect('/admin/noi-dung');
+});
+
+// ---------- Admin: Ảnh cố định của website ----------
+
+adminRouter.get('/hinh-anh', (req, res) => {
+  const siteImages = readJSON('site-images');
+  res.render('admin/site-images-list', { imageList: EDITABLE_IMAGES, siteImages });
+});
+
+adminRouter.get('/hinh-anh/:key/edit', (req, res) => {
+  const def = EDITABLE_IMAGES.find((i) => i.key === req.params.key);
+  if (!def) return res.redirect('/admin/hinh-anh');
+  const siteImages = readJSON('site-images');
+  res.render('admin/site-images-form', {
+    key: def.key,
+    label: def.label,
+    currentImage: siteImages[def.key] || null,
+    error: null,
+    csrfToken: auth.ensureCsrfToken(req)
+  });
+});
+
+adminRouter.post('/hinh-anh/:key/edit', (req, res) => {
+  const def = EDITABLE_IMAGES.find((i) => i.key === req.params.key);
+  if (!def) return res.redirect('/admin/hinh-anh');
+  const siteImages = readJSON('site-images');
+
+  siteImageUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/site-images-form', {
+        key: def.key,
+        label: def.label,
+        currentImage: siteImages[def.key] || null,
+        error: err.message,
+        csrfToken: auth.ensureCsrfToken(req)
+      });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    if (!req.file) {
+      return res.status(400).render('admin/site-images-form', {
+        key: def.key,
+        label: def.label,
+        currentImage: siteImages[def.key] || null,
+        error: 'Vui lòng chọn một ảnh để tải lên.',
+        csrfToken: auth.ensureCsrfToken(req)
+      });
+    }
+    const oldImage = siteImages[def.key];
+    siteImages[def.key] = publicPathFor('site', req.file.filename);
+    writeJSON('site-images', siteImages);
+    deleteUploadedFile(oldImage);
+    res.redirect('/admin/hinh-anh');
+  });
 });
 
 app.use('/admin', adminRouter);

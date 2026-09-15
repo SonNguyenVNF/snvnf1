@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thay <%= label %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/hinh-anh">← Ảnh cố định của website</a></div>
+  <div class="admin-card">
+    <h1>Thay: <%= label %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+
+    <% if (currentImage) { %>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Ảnh hiện tại:</p>
+      <div style="margin-bottom:20px"><img src="/<%= currentImage %>" alt="" style="max-width:280px;max-height:200px;object-fit:contain;background:var(--iv);border-radius:8px;padding:8px"></div>
+    <% } %>
+
+    <form method="POST" action="/admin/hinh-anh/<%= key %>/edit" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field">
+        <label for="image">Chọn ảnh mới</label>
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif" required>
+      </div>
+      <button class="admin-btn" type="submit">Lưu ảnh mới</button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/hinh-anh" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

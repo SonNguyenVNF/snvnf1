@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ảnh cố định của website — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Ảnh cố định của website</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Logo, ảnh nền trang chủ và logo các công ty thành viên. Thay ảnh ở đây sẽ cập nhật ngay trên toàn bộ website.</p>
+
+    <ul class="admin-list">
+      <% imageList.forEach(function(img) { %>
+      <li>
+        <div style="display:flex;align-items:center;gap:14px">
+          <% if (siteImages[img.key]) { %>
+            <img src="/<%= siteImages[img.key] %>" alt="" style="width:56px;height:56px;object-fit:contain;background:var(--iv);border-radius:8px;padding:4px">
+          <% } else { %>
+            <span style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--iv);border-radius:8px;color:var(--muted);font-size:11px">Chưa có</span>
+          <% } %>
+          <span class="txt"><%= img.label %></span>
+        </div>
+        <span class="actions"><a class="admin-btn admin-btn-ghost" href="/admin/hinh-anh/<%= img.key %>/edit">Thay ảnh</a></span>
+      </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>
+</body></html>
