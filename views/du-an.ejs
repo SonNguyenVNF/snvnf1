@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Dự án — Synetic Group', root: root }) %></head><body>
+<html lang="vi"><head><%- include('partials/head', { title: 'Dự án — Synetic Group', root: root, assetVersion: assetVersion }) %></head><body>
 
 <%- include('partials/header', { root: root, active: 'du-an' , siteImages: siteImages }) %>
 
@@ -33,5 +33,5 @@
 
 <%- include('partials/footer', { root: root, active: 'du-an' , siteImages: siteImages, footer: footer }) %>
 <%- include('partials/ticker', { root: root, ticker: ticker }) %>
-<%- include('partials/fab', { root: root, footer: footer }) %>
+<%- include('partials/fab', { root: root, footer: footer, assetVersion: assetVersion }) %>
 </body></html>

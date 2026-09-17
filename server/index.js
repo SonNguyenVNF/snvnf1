@@ -54,6 +54,11 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(ROOT, 'views'));
 app.set('trust proxy', 1);
 
+// Cache-busting query string for CSS/JS, so every restart forces browsers
+// to fetch fresh assets instead of serving a stale cached copy.
+const ASSET_VERSION = Date.now();
+app.locals.assetVersion = ASSET_VERSION;
+
 app.use(siteLockMiddleware());
 
 app.use('/assets', express.static(path.join(ROOT, 'assets')));
