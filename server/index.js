@@ -256,7 +256,7 @@ adminRouter.get('/tin-tuc/new', (req, res) => {
 });
 
 adminRouter.post('/tin-tuc/new', (req, res) => {
-  newsUpload.single('image')(req, res, (err) => {
+  newsUpload.fields([{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 10 }])(req, res, (err) => {
     if (err) {
       return res.status(400).render('admin/news-form', { item: null, error: err.message, today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
     }
@@ -267,6 +267,8 @@ adminRouter.post('/tin-tuc/new', (req, res) => {
     if (!title) {
       return res.status(400).render('admin/news-form', { item: null, error: 'Vui lòng nhập tiêu đề.', today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
     }
+    const coverFile = req.files && req.files.image && req.files.image[0];
+    const galleryFiles = (req.files && req.files.images) || [];
     const news = readJSON('news');
     news.items.push({
       id: Date.now().toString(),
@@ -274,7 +276,8 @@ adminRouter.post('/tin-tuc/new', (req, res) => {
       title,
       excerpt: (req.body.excerpt || '').trim(),
       body: (req.body.body || '').replace(/\r\n/g, '\n').trim(),
-      image: req.file ? publicPathFor('news', req.file.filename) : null,
+      image: coverFile ? publicPathFor('news', coverFile.filename) : null,
+      images: galleryFiles.map((f) => publicPathFor('news', f.filename)),
       publishedAt: req.body.publishedAt || todayStr(),
       published: req.body.published === '1'
     });
@@ -295,7 +298,7 @@ adminRouter.post('/tin-tuc/:id/edit', (req, res) => {
   const item = news.items.find((i) => i.id === req.params.id);
   if (!item) return res.redirect('/admin/tin-tuc');
 
-  newsUpload.single('image')(req, res, (err) => {
+  newsUpload.fields([{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 10 }])(req, res, (err) => {
     if (err) {
       return res.status(400).render('admin/news-form', { item, error: err.message, today: todayStr(), csrfToken: auth.ensureCsrfToken(req) });
     }
@@ -311,10 +314,29 @@ adminRouter.post('/tin-tuc/:id/edit', (req, res) => {
     item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
     item.publishedAt = req.body.publishedAt || item.publishedAt;
     item.published = req.body.published === '1';
-    if (req.file) {
+
+    const coverFile = req.files && req.files.image && req.files.image[0];
+    if (coverFile) {
       deleteUploadedFile(item.image);
-      item.image = publicPathFor('news', req.file.filename);
+      item.image = publicPathFor('news', coverFile.filename);
     }
+
+    if (!Array.isArray(item.images)) item.images = [];
+    const removeSet = new Set([].concat(req.body.removeImages || []));
+    if (removeSet.size) {
+      item.images = item.images.filter((p) => {
+        if (removeSet.has(p)) {
+          deleteUploadedFile(p);
+          return false;
+        }
+        return true;
+      });
+    }
+    const galleryFiles = (req.files && req.files.images) || [];
+    for (const f of galleryFiles) {
+      item.images.push(publicPathFor('news', f.filename));
+    }
+
     writeJSON('news', news);
     res.redirect('/admin/tin-tuc');
   });
@@ -325,6 +347,7 @@ adminRouter.post('/tin-tuc/:id/delete', auth.verifyCsrf, (req, res) => {
   const item = news.items.find((i) => i.id === req.params.id);
   if (item) {
     deleteUploadedFile(item.image);
+    (item.images || []).forEach(deleteUploadedFile);
     news.items = news.items.filter((i) => i.id !== req.params.id);
     writeJSON('news', news);
   }

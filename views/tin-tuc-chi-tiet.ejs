@@ -18,6 +18,13 @@
       <% if (paragraph.trim()) { %><p><%= paragraph.trim() %></p><% } %>
     <% }); %>
   </div>
+  <% if (item.images && item.images.length) { %>
+  <div style="max-width:820px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:32px">
+    <% item.images.forEach(function(img) { %>
+      <img src="<%= root %><%= img %>" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius)">
+    <% }); %>
+  </div>
+  <% } %>
 </div></section>
 </main>
 

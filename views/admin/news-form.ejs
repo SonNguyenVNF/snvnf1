@@ -34,11 +34,26 @@
       </div>
 
       <div class="admin-field">
-        <label for="image">Ảnh đại diện</label>
+        <label for="image">Ảnh đại diện (hiển thị ở danh sách tin tức)</label>
         <% if (item && item.image) { %>
           <div style="margin-bottom:10px"><img src="/<%= item.image %>" alt="" style="max-width:220px;border-radius:8px;display:block"></div>
         <% } %>
         <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif">
+      </div>
+
+      <div class="admin-field">
+        <label for="images">Thêm ảnh khác cho bài viết (chọn được nhiều ảnh cùng lúc)</label>
+        <% if (item && item.images && item.images.length) { %>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+            <% item.images.forEach(function(img) { %>
+              <label style="display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:400">
+                <img src="/<%= img %>" alt="" style="width:100px;height:100px;object-fit:cover;border-radius:8px">
+                <span><input type="checkbox" name="removeImages" value="<%= img %>" style="width:auto"> Xoá</span>
+              </label>
+            <% }); %>
+          </div>
+        <% } %>
+        <input type="file" id="images" name="images" accept=".jpg,.jpeg,.png,.webp,.gif" multiple>
       </div>
 
       <div class="admin-field">
