@@ -209,7 +209,7 @@ animation:ticker-scroll 30s linear infinite}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
 
 @media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
-section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:60px 0 52px}
+section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:28px 0 52px}
   .hero-scrim{background:linear-gradient(175deg,rgba(8,46,36,.9) 0%,rgba(8,46,36,.62) 55%,rgba(8,46,36,.8) 100%)}
   .hero .eb{margin-bottom:16px} .hero p{margin-top:18px;font-size:16px}
   .hero .cta{margin-top:28px}
