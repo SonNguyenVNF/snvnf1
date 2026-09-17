@@ -225,21 +225,22 @@ section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:28px 0 52p
   header.nav-open .menu-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   header.nav-open .menu-toggle span:nth-child(2){opacity:0}
   header.nav-open .menu-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-  header nav{order:3;flex-basis:100%;display:none;margin-top:14px}
+  header nav{order:3;flex-basis:100%;display:none;margin-top:10px;border-top:1px solid #ECEAE3}
   header.nav-open nav{display:block}
-  header nav ul{display:flex;flex-direction:column;gap:3px;width:100%;list-style:none;
-    background:var(--iv);border:1px solid #ECEAE3;border-radius:18px;padding:10px}
-  header nav ul li{width:100%}
+  header nav ul{display:flex;flex-direction:column;width:100%;list-style:none}
+  header nav ul li{width:100%;border-bottom:1px solid #ECEAE3}
   header nav ul li>a,header nav ul .dropdown-toggle{display:flex;align-items:center;justify-content:space-between;
-    gap:8px;width:100%;padding:13px 16px;border-radius:11px;border:none;font-size:14.5px;font-weight:600;color:var(--ch)}
-  header nav ul li>a:active,header nav ul .dropdown-toggle:active{background:#fff}
-  header nav ul li>a.active{background:#fff;color:var(--em);box-shadow:var(--shadow-sm)}
-  header nav .has-dropdown.open>.dropdown-toggle{background:#fff;color:var(--em)}
+    gap:8px;width:100%;padding:16px 4px;border-radius:0;border:none;font-size:15px;font-weight:500;color:var(--ch)}
+  header nav ul li>a .hico{display:none}
+  header nav ul li>a:active,header nav ul .dropdown-toggle:active{color:var(--em)}
+  header nav ul li>a.active{background:none;border:none;color:var(--em);font-weight:600}
+  header nav .dropdown-toggle .car{font-size:11px;color:#A9B2AD}
+  header nav .has-dropdown.open>.dropdown-toggle{background:none;border:none;color:var(--em)}
   header nav .dropdown{position:static;display:none;width:100%;min-width:0;background:none;border-top:none;
-    box-shadow:none;border-radius:0;padding:2px 0 6px 10px;margin:0}
+    box-shadow:none;border-radius:0;padding:0 0 10px 14px;margin:0}
   header nav .has-dropdown.open .dropdown{display:block}
-  header nav .dropdown a{padding:10px 14px;font-size:13.5px;border-radius:9px;color:var(--muted)}
-  header nav .dropdown a:active{background:#fff;color:var(--em)}
+  header nav .dropdown a{padding:10px 4px;font-size:13.5px;border-radius:0;color:var(--muted)}
+  header nav .dropdown a:active{color:var(--em)}
 
   /* floating contact buttons: pill-shaped panel instead of loose circles */
   .fab-stack{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
