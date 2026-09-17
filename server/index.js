@@ -80,7 +80,6 @@ app.use(session({
 // ---------- Public static-content pages (ticker pulled from data/ticker.json) ----------
 
 const PAGES = [
-  { urls: ['/', '/index.html'], view: 'index', root: '' },
   { urls: ['/thu-vien.html'], view: 'thu-vien', root: '' },
   { urls: ['/ve-synetic/thong-diep-chu-tich-hdqt.html'], view: 've-synetic/thong-diep-chu-tich-hdqt', root: '../' },
   { urls: ['/ve-synetic/thong-diep-tong-giam-doc.html'], view: 've-synetic/thong-diep-tong-giam-doc', root: '../' },
@@ -105,6 +104,11 @@ for (const page of PAGES) {
     });
   }
 }
+
+app.get(['/', '/index.html'], (req, res) => {
+  const pages = readJSON('pages');
+  res.render('index', { root: '', ...commonLocals(), pages, news: publishedNewsSorted().slice(0, 6) });
+});
 
 // ---------- Tin tức (News) ----------
 

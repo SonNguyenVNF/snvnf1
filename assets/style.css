@@ -129,6 +129,38 @@ transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
 .newscard .more{display:inline-block;margin-top:16px;font-size:11.5px;font-weight:700;letter-spacing:.16em;color:var(--em)}
 .newsempty{color:var(--muted);font-size:14.5px;margin-top:var(--sp-5)}
 
+/* ---------- FEATURED NEWS SLIDER (homepage) ---------- */
+.nf-slider{position:relative;margin-top:var(--sp-5)}
+.nf-track{position:relative}
+.nf-slide{display:none;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center;
+background:var(--iv);border-radius:var(--radius);overflow:hidden}
+.nf-slide.active{display:grid}
+.nf-slide.no-image{grid-template-columns:1fr}
+.nf-slide.no-image .nf-body{padding:36px 44px}
+.nf-slide img{width:100%;height:360px;object-fit:cover;display:block;background:var(--mist)}
+.nf-body{padding:8px 40px 8px 0}
+.nf-body h3{font-size:24px;line-height:1.35;color:var(--ch);margin-bottom:14px}
+.nf-body p{color:var(--muted);line-height:1.7;margin-bottom:24px;
+display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.nf-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+background:#fff;border:1px solid #ECEAE3;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;
+font-size:20px;line-height:1;cursor:pointer;color:var(--ch);z-index:5;padding:0}
+.nf-arrow:hover{background:var(--em);color:#fff;border-color:var(--em)}
+.nf-prev{left:-22px}
+.nf-next{right:-22px}
+.nf-dots{display:flex;justify-content:center;gap:8px;margin-top:22px}
+.nf-dot{width:8px;height:8px;border-radius:50%;background:#DDE6E0;border:none;cursor:pointer;padding:0}
+.nf-dot.active{background:var(--em);width:22px;border-radius:4px}
+@media(max-width:900px){
+  .nf-slide{grid-template-columns:1fr}
+  .nf-slide img{height:200px}
+  .nf-body{padding:20px}
+  .nf-body h3{font-size:19px}
+  .nf-prev{left:8px}
+  .nf-next{right:8px}
+  .nf-arrow{top:100px;width:38px;height:38px;font-size:17px}
+}
+
 .cl{background:var(--em);color:#fff;text-align:center}
 .cl h2{color:#fff;max-width:none;margin:0 auto}
 .cl .rule{width:60px;height:3px;background:var(--gd);margin:26px auto 30px}

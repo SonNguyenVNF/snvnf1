@@ -37,6 +37,29 @@
   </div>
 </div></section>
 
+<% if (news.length) { %>
+<section class="news-feat" id="tin-tuc-noi-bat"><div class="wrap">
+  <p class="lb">TIN TỨC</p><h2>Tin tức nổi bật.</h2>
+  <div class="nf-slider">
+    <button class="nf-arrow nf-prev" type="button" aria-label="Tin trước">‹</button>
+    <div class="nf-track">
+      <% news.forEach(function(item, i) { %>
+      <div class="nf-slide<%= i === 0 ? ' active' : '' %><%= item.image ? '' : ' no-image' %>">
+        <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt=""><% } %>
+        <div class="nf-body">
+          <h3><%= item.title %></h3>
+          <p><%= item.excerpt %></p>
+          <a class="btn btn-gd" href="<%= root %>tin-tuc/<%= item.slug %>.html">Xem thêm →</a>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <button class="nf-arrow nf-next" type="button" aria-label="Tin sau">›</button>
+  </div>
+  <div class="nf-dots"></div>
+</div></section>
+<% } %>
+
 <section class="vm" id="tam-nhin"><div class="wrap">
   <p class="lb">ĐỊNH HƯỚNG</p><h2>Tầm nhìn và Sứ mệnh.</h2>
   <div class="row">
