@@ -128,13 +128,42 @@ app.get('/tin-tuc.html', (req, res) => {
   res.render('tin-tuc', { root: '', ...commonLocals(), items: publishedNewsSorted() });
 });
 
+// Turns a news article's body text + gallery images into an ordered list of
+// blocks (paragraphs and images), so an admin can place an image mid-article
+// by typing a placeholder like "[ảnh 1]" on its own line. Any gallery image
+// with no matching placeholder is appended at the end, so nothing uploaded
+// is ever silently dropped from the page.
+function renderNewsBlocks(body, images) {
+  images = Array.isArray(images) ? images : [];
+  const used = new Set();
+  const placeholderRe = /^\[\s*ảnh\s*(\d+)\s*\]$/i;
+  const blocks = [];
+  (body || '').replace(/\r\n/g, '\n').split(/\n{2,}/).forEach((raw) => {
+    const text = raw.trim();
+    if (!text) return;
+    const m = text.match(placeholderRe);
+    const idx = m ? parseInt(m[1], 10) - 1 : -1;
+    if (m && images[idx]) {
+      blocks.push({ type: 'img', src: images[idx] });
+      used.add(idx);
+    } else {
+      blocks.push({ type: 'p', text });
+    }
+  });
+  images.forEach((src, i) => {
+    if (!used.has(i)) blocks.push({ type: 'img', src });
+  });
+  return blocks;
+}
+
 app.get('/tin-tuc/:slug.html', (req, res) => {
   const news = readJSON('news');
   const item = news.items.find((i) => i.slug === req.params.slug && i.published);
   if (!item) {
     return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
   }
-  res.render('tin-tuc-chi-tiet', { root: '../', ...commonLocals(), item });
+  const blocks = renderNewsBlocks(item.body, item.images);
+  res.render('tin-tuc-chi-tiet', { root: '../', ...commonLocals(), item, blocks });
 });
 
 // ---------- Dự án, Tuyển dụng, Đội ngũ, Đối tác (public) ----------

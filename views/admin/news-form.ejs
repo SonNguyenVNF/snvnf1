@@ -30,7 +30,8 @@
 
       <div class="admin-field">
         <label for="body">Nội dung</label>
-        <textarea id="body" name="body" rows="10" placeholder="Nội dung chi tiết bài viết. Xuống dòng để tách đoạn."><%= item ? item.body : '' %></textarea>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Xuống dòng (cách 1 dòng trống) để tách đoạn. Muốn chèn ảnh vào giữa bài, gõ <b>[ảnh 1]</b>, <b>[ảnh 2]</b>... trên 1 dòng riêng, đúng số thứ tự ảnh bên dưới (ảnh nào chưa dùng số nào sẽ tự hiện ở cuối bài).</p>
+        <textarea id="body" name="body" rows="10" placeholder="Nội dung chi tiết bài viết. Xuống dòng để tách đoạn. Gõ [ảnh 1] để chèn ảnh 1 vào đây."><%= item ? item.body : '' %></textarea>
       </div>
 
       <div class="admin-field">
@@ -44,10 +45,12 @@
       <div class="admin-field">
         <label for="images">Thêm ảnh khác cho bài viết (chọn được nhiều ảnh cùng lúc)</label>
         <% if (item && item.images && item.images.length) { %>
+          <p style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Số dưới mỗi ảnh là số dùng trong ô Nội dung, ví dụ ảnh số 1 thì gõ <b>[ảnh 1]</b>. Ảnh mới thêm vào sẽ xếp số tiếp theo sau các ảnh hiện có.</p>
           <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px">
-            <% item.images.forEach(function(img) { %>
+            <% item.images.forEach(function(img, idx) { %>
               <label style="display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:400">
                 <img src="/<%= img %>" alt="" style="width:100px;height:100px;object-fit:cover;border-radius:8px">
+                <span style="font-weight:700;color:var(--em)">Ảnh <%= idx + 1 %></span>
                 <span><input type="checkbox" name="removeImages" value="<%= img %>" style="width:auto"> Xoá</span>
               </label>
             <% }); %>
