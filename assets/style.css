@@ -253,7 +253,7 @@ section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:28px 0 52p
   /* header: brand top-left, "Liên hệ ngay" + language switch + hamburger top-right, nav collapses behind the hamburger */
   .nav{justify-content:flex-start;gap:10px 8px}
   .brand{gap:8px}
-  .brand-logo{height:46px}
+  .brand-logo{height:58px}
   .btn{order:1;margin-left:auto;padding:8px 13px;font-size:12px}
   .nav-icons{order:1}
   .nav-icons .has-dropdown .dropdown-toggle{width:32px;height:32px;font-size:10px}
