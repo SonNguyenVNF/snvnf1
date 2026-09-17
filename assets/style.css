@@ -209,12 +209,15 @@ animation:ticker-scroll 30s linear infinite}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
 
 @media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
-section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:88px 0 96px}
+section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:60px 0 52px}
+  .hero-scrim{background:linear-gradient(175deg,rgba(8,46,36,.9) 0%,rgba(8,46,36,.62) 55%,rgba(8,46,36,.8) 100%)}
+  .hero .eb{margin-bottom:16px} .hero p{margin-top:18px;font-size:16px}
+  .hero .cta{margin-top:28px}
 
   /* header: brand top-left, "Liên hệ ngay" + language switch + hamburger top-right, nav collapses behind the hamburger */
   .nav{justify-content:flex-start;gap:10px 8px}
   .brand{gap:8px}
-  .brand-logo{height:38px}
+  .brand-logo{height:46px}
   .btn{order:1;margin-left:auto;padding:8px 13px;font-size:12px}
   .nav-icons{order:1}
   .nav-icons .has-dropdown .dropdown-toggle{width:32px;height:32px;font-size:10px}
