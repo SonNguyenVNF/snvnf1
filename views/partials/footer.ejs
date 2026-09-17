@@ -2,8 +2,8 @@
   <div class="fg">
     <div>
       <div class="fb"><img class="footer-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></div>
-      <p>CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC<br>Tầng 12, Toà nhà ……………, Quận ……, Hà Nội<br>MST: 01xxxxxxxx</p>
-      <p style="margin-top:12px">T (024) 3xxx xxxx · <a href="mailto:info@synetic.vn">info@synetic.vn</a></p>
+      <p><%= footer.companyName %><br><%= footer.address %><br>MST: <%= footer.taxCode %></p>
+      <p style="margin-top:12px">T <%= footer.phone %> · <a href="mailto:<%= footer.email %>"><%= footer.email %></a></p>
     </div>
     <div><h5>THÀNH VIÊN</h5><ul><li><a href="<%= root %>thanh-vien/nutrition.html">Synetic Dinh Dưỡng</a></li><li><a href="<%= root %>thanh-vien/vet.html">Synetic Thú Y</a></li><li><a href="<%= root %>thanh-vien/logistics.html">Synetic Logistics</a></li><li><a href="<%= root %>thanh-vien/farm.html">Synetic Nông Trại</a></li><li><a href="<%= root %>thanh-vien/capital.html">Synetic Capital</a></li></ul></div>
     <div><h5>HỖ TRỢ</h5><ul>
@@ -12,6 +12,6 @@
       <li><a href="<%= active === 'home' ? '#lien-he' : root + 'index.html#lien-he' %>">Điều khoản sử dụng</a></li>
       <li><a href="<%= root %>tuyen-dung.html">Tuyển dụng</a></li></ul></div>
   </div>
-  <div class="fbot"><span class="fsl">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</span>
-    <span>© 2026 CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC. Bảo lưu mọi quyền.</span></div>
+  <div class="fbot"><span class="fsl"><%= footer.tagline %></span>
+    <span>© <%= new Date().getFullYear() %> <%= footer.companyName %>. Bảo lưu mọi quyền.</span></div>
 </div></footer>

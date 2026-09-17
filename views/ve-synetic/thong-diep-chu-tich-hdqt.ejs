@@ -67,8 +67,8 @@
   <div class="fg">
     <div>
       <div class="fb"><img class="footer-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></div>
-      <p>CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC<br>Tầng 12, Toà nhà ……………, Quận ……, Hà Nội<br>MST: 01xxxxxxxx</p>
-      <p style="margin-top:12px">T (024) 3xxx xxxx · <a href="mailto:info@synetic.vn">info@synetic.vn</a></p>
+      <p><%= footer.companyName %><br><%= footer.address %><br>MST: <%= footer.taxCode %></p>
+      <p style="margin-top:12px">T <%= footer.phone %> · <a href="mailto:<%= footer.email %>"><%= footer.email %></a></p>
     </div>
     <div><h5>THÀNH VIÊN</h5><ul><li><a href="../thanh-vien/nutrition.html">Synetic Dinh Dưỡng</a></li><li><a href="../thanh-vien/vet.html">Synetic Thú Y</a></li><li><a href="../thanh-vien/logistics.html">Synetic Logistics</a></li><li><a href="../thanh-vien/farm.html">Synetic Nông Trại</a></li><li><a href="../thanh-vien/capital.html">Synetic Capital</a></li></ul></div>
     <div><h5>HỖ TRỢ</h5><ul>
@@ -77,15 +77,15 @@
       <li><a href="../index.html#lien-he">Điều khoản sử dụng</a></li>
       <li><a href="../tuyen-dung.html">Tuyển dụng</a></li></ul></div>
   </div>
-  <div class="fbot"><span class="fsl">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</span>
-    <span>© 2026 CÔNG TY CỔ PHẦN TẬP ĐOÀN SYNETIC. Bảo lưu mọi quyền.</span></div>
+  <div class="fbot"><span class="fsl"><%= footer.tagline %></span>
+    <span>© <%= new Date().getFullYear() %> <%= footer.companyName %>. Bảo lưu mọi quyền.</span></div>
 </div></footer>
 <%- include('../partials/ticker', { root: root, ticker: ticker }) %>
 <div class="fab-stack" id="fabStack">
   <a class="fab-btn" href="#" target="_blank" rel="noopener" aria-label="Chat qua Zalo">
     <svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><rect x="4" y="4" width="40" height="40" rx="11" fill="#0068FF"/><path d="M12 16.5a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4h-9.3l-5.9 4.4c-.7.5-1.8 0-1.8-.9V16.5Z" fill="#fff"/><text x="24" y="24.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-style="italic" font-size="10.5" fill="#0068FF">Zalo</text></svg>
   </a>
-  <a class="fab-btn" href="mailto:info@synetic.vn" aria-label="Gửi email">
+  <a class="fab-btn" href="mailto:<%= footer.email %>" aria-label="Gửi email">
     <svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><rect x="2" y="4.5" width="20" height="15" rx="2" fill="#fff" stroke="#EA4335" stroke-width="1.6"/><path d="M3 5.5l9 7 9-7" fill="none" stroke="#EA4335" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
   <a class="fab-btn" href="#" target="_blank" rel="noopener" aria-label="Chat qua Messenger">

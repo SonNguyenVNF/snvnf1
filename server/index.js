@@ -42,7 +42,7 @@ const EDITABLE_IMAGES = [
 ];
 
 function commonLocals() {
-  return { ticker: readJSON('ticker'), siteImages: readJSON('site-images') };
+  return { ticker: readJSON('ticker'), siteImages: readJSON('site-images'), footer: readJSON('footer') };
 }
 
 const ROOT = path.join(__dirname, '..');
@@ -690,6 +690,29 @@ adminRouter.post('/noi-dung/:key/edit', auth.verifyCsrf, (req, res) => {
   pages[def.key] = entry;
   writeJSON('pages', pages);
   res.redirect('/admin/noi-dung');
+});
+
+// ---------- Admin: Thông tin liên hệ (chân trang) ----------
+
+adminRouter.get('/lien-he', (req, res) => {
+  const footer = readJSON('footer');
+  res.render('admin/footer-form', { footer, csrfToken: auth.ensureCsrfToken(req), error: null });
+});
+
+adminRouter.post('/lien-he', (req, res) => {
+  if (!auth.csrfOk(req)) {
+    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+  }
+  const footer = {
+    companyName: (req.body.companyName || '').trim(),
+    address: (req.body.address || '').trim(),
+    taxCode: (req.body.taxCode || '').trim(),
+    phone: (req.body.phone || '').trim(),
+    email: (req.body.email || '').trim(),
+    tagline: (req.body.tagline || '').trim()
+  };
+  writeJSON('footer', footer);
+  res.redirect('/admin/lien-he');
 });
 
 // ---------- Admin: Ảnh cố định của website ----------

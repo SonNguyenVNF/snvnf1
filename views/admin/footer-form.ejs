@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thông tin liên hệ — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Thông tin liên hệ (chân trang)</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Thông tin này hiển thị ở chân trang trên tất cả các trang của website.</p>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/admin/lien-he">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field">
+        <label for="companyName">Tên công ty</label>
+        <input type="text" id="companyName" name="companyName" value="<%= footer.companyName %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="address">Địa chỉ</label>
+        <input type="text" id="address" name="address" value="<%= footer.address %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="taxCode">Mã số thuế</label>
+        <input type="text" id="taxCode" name="taxCode" value="<%= footer.taxCode %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="phone">Số điện thoại</label>
+        <input type="text" id="phone" name="phone" value="<%= footer.phone %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<%= footer.email %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="tagline">Khẩu hiệu (slogan)</label>
+        <input type="text" id="tagline" name="tagline" value="<%= footer.tagline %>" required>
+      </div>
+      <button class="admin-btn" type="submit">Lưu thay đổi</button>
+    </form>
+  </div>
+</div>
+</body></html>
