@@ -15,6 +15,7 @@ const { siteLockMiddleware } = require('./site-lock');
 
 const newsUpload = createUploader('news');
 const projectsUpload = createUploader('projects');
+const jobsUpload = createUploader('jobs');
 const teamUpload = createUploader('team');
 const partnersUpload = createUploader('partners');
 const siteImageUpload = createUploader('site');
@@ -425,24 +426,33 @@ adminRouter.get('/tuyen-dung/new', (req, res) => {
   res.render('admin/jobs-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
 });
 
-adminRouter.post('/tuyen-dung/new', auth.verifyCsrf, (req, res) => {
-  const title = (req.body.title || '').trim();
-  if (!title) {
-    return res.status(400).render('admin/jobs-form', { item: null, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
-  }
-  const jobs = readJSON('jobs');
-  jobs.items.push({
-    id: Date.now().toString(),
-    title,
-    department: (req.body.department || '').trim(),
-    location: (req.body.location || '').trim(),
-    type: (req.body.type || '').trim(),
-    description: (req.body.description || '').replace(/\r\n/g, '\n').trim(),
-    deadline: (req.body.deadline || '').trim(),
-    published: req.body.published === '1'
+adminRouter.post('/tuyen-dung/new', (req, res) => {
+  jobsUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/jobs-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/jobs-form', { item: null, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    const jobs = readJSON('jobs');
+    jobs.items.push({
+      id: Date.now().toString(),
+      title,
+      department: (req.body.department || '').trim(),
+      location: (req.body.location || '').trim(),
+      type: (req.body.type || '').trim(),
+      description: (req.body.description || '').replace(/\r\n/g, '\n').trim(),
+      deadline: (req.body.deadline || '').trim(),
+      image: req.file ? publicPathFor('jobs', req.file.filename) : null,
+      published: req.body.published === '1'
+    });
+    writeJSON('jobs', jobs);
+    res.redirect('/admin/tuyen-dung');
   });
-  writeJSON('jobs', jobs);
-  res.redirect('/admin/tuyen-dung');
 });
 
 adminRouter.get('/tuyen-dung/:id/edit', (req, res) => {
@@ -452,29 +462,46 @@ adminRouter.get('/tuyen-dung/:id/edit', (req, res) => {
   res.render('admin/jobs-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
 });
 
-adminRouter.post('/tuyen-dung/:id/edit', auth.verifyCsrf, (req, res) => {
+adminRouter.post('/tuyen-dung/:id/edit', (req, res) => {
   const jobs = readJSON('jobs');
   const item = jobs.items.find((i) => i.id === req.params.id);
   if (!item) return res.redirect('/admin/tuyen-dung');
-  const title = (req.body.title || '').trim();
-  if (!title) {
-    return res.status(400).render('admin/jobs-form', { item, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
-  }
-  item.title = title;
-  item.department = (req.body.department || '').trim();
-  item.location = (req.body.location || '').trim();
-  item.type = (req.body.type || '').trim();
-  item.description = (req.body.description || '').replace(/\r\n/g, '\n').trim();
-  item.deadline = (req.body.deadline || '').trim();
-  item.published = req.body.published === '1';
-  writeJSON('jobs', jobs);
-  res.redirect('/admin/tuyen-dung');
+
+  jobsUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/jobs-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/jobs-form', { item, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    item.title = title;
+    item.department = (req.body.department || '').trim();
+    item.location = (req.body.location || '').trim();
+    item.type = (req.body.type || '').trim();
+    item.description = (req.body.description || '').replace(/\r\n/g, '\n').trim();
+    item.deadline = (req.body.deadline || '').trim();
+    item.published = req.body.published === '1';
+    if (req.file) {
+      deleteUploadedFile(item.image);
+      item.image = publicPathFor('jobs', req.file.filename);
+    }
+    writeJSON('jobs', jobs);
+    res.redirect('/admin/tuyen-dung');
+  });
 });
 
 adminRouter.post('/tuyen-dung/:id/delete', auth.verifyCsrf, (req, res) => {
   const jobs = readJSON('jobs');
-  jobs.items = jobs.items.filter((i) => i.id !== req.params.id);
-  writeJSON('jobs', jobs);
+  const item = jobs.items.find((i) => i.id === req.params.id);
+  if (item) {
+    deleteUploadedFile(item.image);
+    jobs.items = jobs.items.filter((i) => i.id !== req.params.id);
+    writeJSON('jobs', jobs);
+  }
   res.redirect('/admin/tuyen-dung');
 });
 

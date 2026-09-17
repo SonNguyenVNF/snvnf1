@@ -16,6 +16,7 @@
   <div class="vgrid">
     <% items.forEach(function(item) { %>
     <article class="val">
+      <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt="" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:16px"><% } %>
       <h4><%= item.title %></h4>
       <p style="color:var(--gd);font-weight:600;font-size:12.5px;margin-bottom:8px">
         <%= [item.department, item.location, item.type].filter(Boolean).join(' · ') %>
