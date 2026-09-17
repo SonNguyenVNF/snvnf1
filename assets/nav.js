@@ -53,12 +53,9 @@
       if(e.key === 'Escape') closeAllDropdowns();
     });
 
-    /* ---- back-to-top floating button ---- */
+    /* ---- back-to-top button (in-flow at page bottom) ---- */
     var fabTop = document.getElementById('fabTop');
     if(fabTop){
-      window.addEventListener('scroll', function(){
-        fabTop.classList.toggle('show', window.scrollY > 400);
-      });
       fabTop.addEventListener('click', function(){
         window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       });
