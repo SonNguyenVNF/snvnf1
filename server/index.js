@@ -41,7 +41,12 @@ const EDITABLE_IMAGES = [
 ];
 
 function commonLocals() {
-  return { ticker: readJSON('ticker'), siteImages: readJSON('site-images'), footer: readJSON('footer') };
+  return {
+    ticker: readJSON('ticker'),
+    siteImages: readJSON('site-images'),
+    footer: readJSON('footer'),
+    coreValues: readJSON('core-values').items
+  };
 }
 
 // Lets an admin bold part of a hero slide title with **like this** instead of
@@ -815,6 +820,27 @@ adminRouter.post('/lien-he', (req, res) => {
   };
   writeJSON('footer', footer);
   res.redirect('/admin/lien-he');
+});
+
+// ---------- Admin: Giá trị cốt lõi (trang chủ) ----------
+
+adminRouter.get('/gia-tri', (req, res) => {
+  const coreValues = readJSON('core-values');
+  res.render('admin/core-values-form', { items: coreValues.items, csrfToken: auth.ensureCsrfToken(req), error: null });
+});
+
+adminRouter.post('/gia-tri', (req, res) => {
+  if (!auth.csrfOk(req)) {
+    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+  }
+  const titles = [].concat(req.body.title || []);
+  const descriptions = [].concat(req.body.description || []);
+  const items = titles.map((title, i) => ({
+    title: (title || '').trim(),
+    description: (descriptions[i] || '').trim()
+  }));
+  writeJSON('core-values', { items });
+  res.redirect('/admin/gia-tri');
 });
 
 // ---------- Admin: Slide trang chủ (ảnh nền + tiêu đề) ----------
