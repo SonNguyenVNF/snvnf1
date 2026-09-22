@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thành viên hệ sinh thái — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Thành viên hệ sinh thái</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Khẩu hiệu và tên công ty pháp lý — dùng chung cho thẻ trên trang chủ và đầu trang chi tiết của từng thành viên.</p>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/admin/thanh-vien">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <% memberKeys.forEach(function(m, i) { %>
+        <div class="admin-field" style="<%= i > 0 ? 'border-top:1px solid #ECEAE3;padding-top:16px;margin-top:16px' : '' %>">
+          <label style="font-size:14px;color:var(--em)"><%= m.label %></label>
+          <label style="margin-top:8px">Khẩu hiệu</label>
+          <input type="text" name="tagline_<%= m.key %>" value="<%= members[m.key].tagline %>">
+          <label style="margin-top:10px">Tên công ty pháp lý</label>
+          <input type="text" name="legalName_<%= m.key %>" value="<%= members[m.key].legalName %>">
+        </div>
+      <% }); %>
+
+      <button class="admin-btn" type="submit" style="margin-top:16px">Lưu thay đổi</button>
+    </form>
+  </div>
+</div>
+</body></html>

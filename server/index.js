@@ -45,7 +45,9 @@ function commonLocals() {
     ticker: readJSON('ticker'),
     siteImages: readJSON('site-images'),
     footer: readJSON('footer'),
-    coreValues: readJSON('core-values').items
+    coreValues: readJSON('core-values').items,
+    homepage: readJSON('homepage'),
+    members: readJSON('members')
   };
 }
 
@@ -841,6 +843,59 @@ adminRouter.post('/gia-tri', (req, res) => {
   }));
   writeJSON('core-values', { items });
   res.redirect('/admin/gia-tri');
+});
+
+// ---------- Admin: Nội dung khác trang chủ (giới thiệu, tầm nhìn, sứ mệnh) ----------
+
+adminRouter.get('/noi-dung-trang-chu', (req, res) => {
+  const homepage = readJSON('homepage');
+  res.render('admin/homepage-form', { homepage, csrfToken: auth.ensureCsrfToken(req), error: null });
+});
+
+adminRouter.post('/noi-dung-trang-chu', (req, res) => {
+  if (!auth.csrfOk(req)) {
+    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+  }
+  const homepage = {
+    introHeading: (req.body.introHeading || '').trim(),
+    introText: (req.body.introText || '').trim(),
+    visionTitle: (req.body.visionTitle || '').trim(),
+    visionText: (req.body.visionText || '').trim(),
+    missionTitle: (req.body.missionTitle || '').trim(),
+    missionText: (req.body.missionText || '').trim()
+  };
+  writeJSON('homepage', homepage);
+  res.redirect('/admin/noi-dung-trang-chu');
+});
+
+// ---------- Admin: Thành viên hệ sinh thái (tên, khẩu hiệu) ----------
+
+const MEMBER_KEYS = [
+  { key: 'nutrition', label: 'Synetic Dinh Dưỡng' },
+  { key: 'vet', label: 'Synetic Thú Y' },
+  { key: 'logistics', label: 'Synetic Logistics' },
+  { key: 'farm', label: 'Synetic Nông Trại' },
+  { key: 'capital', label: 'Synetic Capital' }
+];
+
+adminRouter.get('/thanh-vien', (req, res) => {
+  const members = readJSON('members');
+  res.render('admin/members-form', { members, memberKeys: MEMBER_KEYS, csrfToken: auth.ensureCsrfToken(req), error: null });
+});
+
+adminRouter.post('/thanh-vien', (req, res) => {
+  if (!auth.csrfOk(req)) {
+    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+  }
+  const members = {};
+  MEMBER_KEYS.forEach((m) => {
+    members[m.key] = {
+      tagline: (req.body['tagline_' + m.key] || '').trim(),
+      legalName: (req.body['legalName_' + m.key] || '').trim()
+    };
+  });
+  writeJSON('members', members);
+  res.redirect('/admin/thanh-vien');
 });
 
 // ---------- Admin: Slide trang chủ (ảnh nền + tiêu đề) ----------

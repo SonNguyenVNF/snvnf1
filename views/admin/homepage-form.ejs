@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nội dung trang chủ — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Nội dung khác trên trang chủ</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Phần "Về Synetic Group" và "Tầm nhìn và Sứ mệnh" ở giữa trang chủ.</p>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/admin/noi-dung-trang-chu">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <h3 style="margin:20px 0 10px">Về Synetic Group</h3>
+      <div class="admin-field">
+        <label for="introHeading">Tiêu đề</label>
+        <input type="text" id="introHeading" name="introHeading" value="<%= homepage.introHeading %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="introText">Đoạn mô tả</label>
+        <textarea id="introText" name="introText" rows="4"><%= homepage.introText %></textarea>
+      </div>
+
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Tầm nhìn</h3>
+      <div class="admin-field">
+        <label for="visionTitle">Tiêu đề</label>
+        <input type="text" id="visionTitle" name="visionTitle" value="<%= homepage.visionTitle %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="visionText">Nội dung</label>
+        <textarea id="visionText" name="visionText" rows="4"><%= homepage.visionText %></textarea>
+      </div>
+
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Sứ mệnh</h3>
+      <div class="admin-field">
+        <label for="missionTitle">Tiêu đề</label>
+        <input type="text" id="missionTitle" name="missionTitle" value="<%= homepage.missionTitle %>" required>
+      </div>
+      <div class="admin-field">
+        <label for="missionText">Nội dung</label>
+        <textarea id="missionText" name="missionText" rows="4"><%= homepage.missionText %></textarea>
+      </div>
+
+      <button class="admin-btn" type="submit" style="margin-top:16px">Lưu thay đổi</button>
+    </form>
+  </div>
+</div>
+</body></html>
