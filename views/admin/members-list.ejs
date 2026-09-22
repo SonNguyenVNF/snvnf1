@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thành viên hệ sinh thái — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Thành viên hệ sinh thái</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Các công ty thành viên hiển thị ở mục "Hệ sinh thái" trên trang chủ, mỗi công ty có 1 trang riêng. Dùng mũi tên ↑↓ để đổi thứ tự. Chỉ thành viên đã bật "Hiển thị" mới lên trang công khai.</p>
+
+    <a class="admin-btn" href="/admin/thanh-vien/new" style="margin-bottom:20px;display:inline-block">+ Thêm thành viên</a>
+
+    <ul class="admin-list">
+      <% items.forEach(function(item, idx) { %>
+      <li>
+        <div style="display:flex;align-items:center;gap:14px">
+          <% if (item.logo) { %><img src="/<%= item.logo %>" alt="" style="width:44px;height:44px;object-fit:contain;background:var(--iv);border-radius:6px;flex:none;padding:4px"><% } %>
+          <div>
+            <div class="txt"><%= item.name %>
+              <% if (!item.published) { %><span style="color:#B3261E;font-size:11.5px;font-weight:700;margin-left:8px">(Ẩn)</span><% } %>
+            </div>
+            <div class="url"><%= item.tagline || '' %></div>
+          </div>
+        </div>
+        <span class="actions">
+          <form method="POST" action="/admin/thanh-vien/<%= item.id %>/move" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="direction" value="up">
+            <button class="admin-btn admin-btn-ghost" type="submit" <%= idx === 0 ? 'disabled' : '' %>>↑</button>
+          </form>
+          <form method="POST" action="/admin/thanh-vien/<%= item.id %>/move" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="direction" value="down">
+            <button class="admin-btn admin-btn-ghost" type="submit" <%= idx === items.length - 1 ? 'disabled' : '' %>>↓</button>
+          </form>
+          <a class="admin-btn admin-btn-ghost" href="/admin/thanh-vien/<%= item.id %>/edit">Sửa</a>
+          <form method="POST" action="/admin/thanh-vien/<%= item.id %>/delete" onsubmit="return confirm('Xoá thành viên này? Trang chi tiết của thành viên cũng sẽ không còn.')" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="admin-btn admin-btn-danger" type="submit">Xoá</button>
+          </form>
+        </span>
+      </li>
+      <% }); %>
+      <% if (!items.length) { %><li><span class="txt" style="color:var(--muted)">Chưa có thành viên nào.</span></li><% } %>
+    </ul>
+  </div>
+</div>
+</body></html>

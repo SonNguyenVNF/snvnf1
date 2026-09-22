@@ -75,7 +75,7 @@
       <p><%= footer.companyName %><br><%= footer.address %><br>MST: <%= footer.taxCode %></p>
       <p style="margin-top:12px">T <%= footer.phone %> · <a href="mailto:<%= footer.email %>"><%= footer.email %></a></p>
     </div>
-    <div><h5>THÀNH VIÊN</h5><ul><li><a href="../thanh-vien/nutrition.html">Synetic Dinh Dưỡng</a></li><li><a href="../thanh-vien/vet.html">Synetic Thú Y</a></li><li><a href="../thanh-vien/logistics.html">Synetic Logistics</a></li><li><a href="../thanh-vien/farm.html">Synetic Nông Trại</a></li><li><a href="../thanh-vien/capital.html">Synetic Capital</a></li></ul></div>
+    <div><h5>THÀNH VIÊN</h5><ul><% members.forEach(function(m) { %><li><a href="../thanh-vien/<%= m.slug %>.html"><%= m.name %></a></li><% }); %></ul></div>
     <div><h5>HỖ TRỢ</h5><ul>
       <li><a href="../index.html#lien-he">Câu hỏi thường gặp</a></li>
       <li><a href="../index.html#lien-he">Chính sách bảo mật</a></li>

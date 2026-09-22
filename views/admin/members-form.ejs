@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thành viên hệ sinh thái — Quản trị Synetic Group</title>
+<title><%= item ? 'Sửa thành viên' : 'Thêm thành viên' %> — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
@@ -11,25 +11,74 @@
   <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
 </div>
 <div class="admin-wrap">
-  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-nav"><a href="/admin/thanh-vien">← Thành viên hệ sinh thái</a></div>
   <div class="admin-card">
-    <h1>Thành viên hệ sinh thái</h1>
-    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Khẩu hiệu và tên công ty pháp lý — dùng chung cho thẻ trên trang chủ và đầu trang chi tiết của từng thành viên.</p>
+    <h1><%= item ? 'Sửa thành viên' : 'Thêm thành viên' %></h1>
     <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
-
-    <form method="POST" action="/admin/thanh-vien">
+    <form method="POST" action="<%= item ? '/admin/thanh-vien/' + item.id + '/edit' : '/admin/thanh-vien/new' %>" enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <% memberKeys.forEach(function(m, i) { %>
-        <div class="admin-field" style="<%= i > 0 ? 'border-top:1px solid #ECEAE3;padding-top:16px;margin-top:16px' : '' %>">
-          <label style="font-size:14px;color:var(--em)"><%= m.label %></label>
-          <label style="margin-top:8px">Khẩu hiệu</label>
-          <input type="text" name="tagline_<%= m.key %>" value="<%= members[m.key].tagline %>">
-          <label style="margin-top:10px">Tên công ty pháp lý</label>
-          <input type="text" name="legalName_<%= m.key %>" value="<%= members[m.key].legalName %>">
-        </div>
-      <% }); %>
 
-      <button class="admin-btn" type="submit" style="margin-top:16px">Lưu thay đổi</button>
+      <div class="admin-field">
+        <label for="name">Tên công ty</label>
+        <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: Synetic Dinh Dưỡng">
+      </div>
+
+      <div class="admin-field">
+        <label for="brandSub">Chữ nhỏ dưới logo (không dấu, viết hoa)</label>
+        <input type="text" id="brandSub" name="brandSub" value="<%= item ? item.brandSub : '' %>" placeholder="Ví dụ: NUTRITION">
+      </div>
+
+      <div class="admin-field">
+        <label for="tagline">Khẩu hiệu</label>
+        <input type="text" id="tagline" name="tagline" value="<%= item ? (item.tagline || '') : '' %>" placeholder="Ví dụ: Chuẩn dinh dưỡng, bền tăng trưởng">
+      </div>
+
+      <div class="admin-field">
+        <label for="legalName">Tên công ty pháp lý</label>
+        <input type="text" id="legalName" name="legalName" value="<%= item ? (item.legalName || '') : '' %>" placeholder="Ví dụ: Công ty Cổ phần Synetic Dinh Dưỡng">
+      </div>
+
+      <div class="admin-field">
+        <label for="accent">Màu chủ đạo trang chi tiết</label>
+        <select id="accent" name="accent">
+          <option value="emerald" <%= (!item || item.accent === 'emerald') ? 'selected' : '' %>>Xanh lá đậm</option>
+          <option value="jade" <%= (item && item.accent === 'jade') ? 'selected' : '' %>>Xanh ngọc</option>
+          <option value="ocean" <%= (item && item.accent === 'ocean') ? 'selected' : '' %>>Xanh dương</option>
+          <option value="gold" <%= (item && item.accent === 'gold') ? 'selected' : '' %>>Vàng đồng</option>
+        </select>
+      </div>
+
+      <div class="admin-field">
+        <label for="logo">Logo</label>
+        <% if (item && item.logo) { %>
+          <div style="margin-bottom:10px"><img src="/<%= item.logo %>" alt="" style="max-width:140px;max-height:100px;object-fit:contain;background:var(--iv);border-radius:8px;padding:8px;display:block"></div>
+        <% } %>
+        <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif">
+        <p style="font-size:12px;color:var(--muted);margin-top:6px">Để trống nếu chưa có ảnh — trang sẽ tự hiện biểu tượng mặc định.</p>
+      </div>
+
+      <div class="admin-field">
+        <label for="body">Giới thiệu (xuống dòng cách 1 dòng trống để tách đoạn)</label>
+        <textarea id="body" name="body" rows="8"><%= item ? item.body : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label for="factsTitle">Tiêu đề bảng thông tin nhanh (để trống nếu không cần bảng này)</label>
+        <input type="text" id="factsTitle" name="factsTitle" value="<%= item ? (item.factsTitle || '') : '' %>" placeholder="Ví dụ: THÔNG TIN NHANH">
+      </div>
+      <% for (let i = 1; i <= 3; i++) { const f = item && item.facts && item.facts[i - 1]; %>
+        <div class="admin-field" style="display:flex;gap:10px">
+          <div style="flex:1"><label>Dòng <%= i %> — Nhãn</label><input type="text" name="factLabel<%= i %>" value="<%= f ? f.label : '' %>"></div>
+          <div style="flex:1"><label>Dòng <%= i %> — Nội dung</label><input type="text" name="factValue<%= i %>" value="<%= f ? f.value : '' %>"></div>
+        </div>
+      <% } %>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label>
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm thành viên' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/thanh-vien" style="margin-left:8px">Huỷ</a>
     </form>
   </div>
 </div>

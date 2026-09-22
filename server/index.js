@@ -20,6 +20,7 @@ const teamUpload = createUploader('team');
 const partnersUpload = createUploader('partners');
 const siteImageUpload = createUploader('site');
 const heroUpload = createUploader('hero');
+const memberUpload = createUploader('members');
 
 const EDITABLE_PAGES = [
   { key: 'thong-diep-chu-tich-hdqt', label: 'Thông điệp Chủ tịch HĐQT', hasSign: true },
@@ -32,13 +33,89 @@ const EDITABLE_PAGES = [
 ];
 
 const EDITABLE_IMAGES = [
-  { key: 'logo', label: 'Logo (hiển thị ở đầu trang và chân trang)' },
-  { key: 'member-nutrition', label: 'Logo — Synetic Dinh Dưỡng' },
-  { key: 'member-vet', label: 'Logo — Synetic Thú Y' },
-  { key: 'member-logistics', label: 'Logo — Synetic Logistics' },
-  { key: 'member-farm', label: 'Logo — Synetic Nông Trại' },
-  { key: 'member-capital', label: 'Logo — Synetic Capital' }
+  { key: 'logo', label: 'Logo (hiển thị ở đầu trang và chân trang)' }
 ];
+
+// Default content for the 5 members that already existed as hardcoded pages,
+// used once to seed data/members.json (or to migrate the older flat-object
+// format from an earlier version of this feature) the first time it's read.
+// Logos are pulled live from data/site-images.json at migration time so any
+// logo already uploaded through the old /admin/hinh-anh flow isn't lost.
+const MEMBER_SEED = [
+  { slug: 'nutrition', name: 'Synetic Dinh Dưỡng', brand: 'Synetic', brandSub: 'NUTRITION', accent: 'emerald',
+    tagline: 'Chuẩn dinh dưỡng, bền tăng trưởng', legalName: 'Công ty Cổ phần Synetic Dinh Dưỡng', siteImageKey: 'member-nutrition',
+    body: 'Synetic Dinh Dưỡng phát triển và sản xuất thức ăn chăn nuôi, premix và các dòng bổ sung dinh dưỡng theo tiêu chuẩn cơ sở nghiêm ngặt, giúp vật nuôi tăng trưởng đều và khoẻ mạnh qua từng giai đoạn.\n\nDanh mục sản phẩm trải dài từ thức ăn hỗn hợp cho heo thịt, premix cho gia cầm đến multi-vitamin cho vật nuôi — mỗi công thức được kiểm soát chất lượng từ đầu vào đến đầu ra, theo đúng tiêu chuẩn cơ sở đã công bố.\n\nLà mắt xích dinh dưỡng của hệ sinh thái, Synetic Dinh Dưỡng phối hợp chặt chẽ với Synetic Nông Trại để kiểm chứng hiệu quả thực tế trước khi đưa sản phẩm ra thị trường.\n\nVận hành trong hệ sinh thái Synetic Group, công ty sử dụng chung hệ thống nhận diện thương hiệu và được hỗ trợ bởi khối dịch vụ dùng chung của Tập đoàn — tài chính, nhân sự, logistics — để tập trung nguồn lực vào chuyên môn cốt lõi là nghiên cứu và sản xuất dinh dưỡng vật nuôi.',
+    factsTitle: 'SẢN PHẨM TIÊU BIỂU',
+    facts: [
+      { label: 'SN-312 · Thức ăn hỗn hợp', value: 'Cho heo thịt · 25kg · TCCS 01:2026/SNT-NUTRITION' },
+      { label: 'SN-PMX · Premix', value: 'Cho gia cầm · 1kg · TCCS 02:2026/SNT-NUTRITION' },
+      { label: 'SN-MV · Multi Vitamin', value: 'Cho vật nuôi · 1L · TCCS 03:2026/SNT-NUTRITION' }
+    ] },
+  { slug: 'vet', name: 'Synetic Thú Y', brand: 'Synetic', brandSub: 'VET', accent: 'jade',
+    tagline: 'Chủ động phòng, bền sức khoẻ', legalName: 'Công ty Cổ phần Synetic Thú Y', siteImageKey: 'member-vet',
+    body: 'Synetic Thú Y cung cấp vắc-xin, thuốc thú y và giải pháp phòng bệnh chủ động cho trang trại, giúp giảm thiểu rủi ro dịch bệnh và chi phí điều trị về lâu dài.\n\nĐội ngũ kỹ thuật đồng hành cùng người chăn nuôi từ khâu tư vấn phác đồ, giám sát sức khoẻ đàn đến hỗ trợ xử lý tình huống dịch bệnh tại hiện trường.\n\nTriết lý "phòng hơn chống" được áp dụng xuyên suốt, phối hợp cùng Synetic Nông Trại để theo dõi sức khoẻ đàn nuôi theo thời gian thực.\n\nĐội ngũ kỹ thuật của công ty được đào tạo và cập nhật chuyên môn thường xuyên qua Học viện Synetic — chương trình đào tạo dùng chung của Tập đoàn cho cán bộ nhân viên và hệ thống đại lý trong toàn hệ sinh thái.',
+    factsTitle: 'THÔNG TIN NHANH',
+    facts: [
+      { label: 'Lĩnh vực', value: 'Vắc-xin & thuốc thú y' },
+      { label: 'Mô hình', value: 'Phòng bệnh chủ động' },
+      { label: 'Đồng hành', value: 'Tư vấn kỹ thuật tại trang trại' }
+    ] },
+  { slug: 'logistics', name: 'Synetic Logistics', brand: 'Synetic', brandSub: 'LOGISTICS', accent: 'ocean',
+    tagline: 'Kết nối chuẩn, vận hành nhanh', legalName: 'Công ty Cổ phần Synetic Logistics', siteImageKey: 'member-logistics',
+    body: 'Synetic Logistics vận hành chuỗi cung ứng cho toàn hệ sinh thái — từ kho vận nguyên liệu, vận chuyển thành phẩm đến giao nhận tận trang trại — đảm bảo hàng hoá lưu thông đúng chuẩn, đúng thời gian.\n\nHệ thống kho bãi và đội xe được chuẩn hoá theo quy trình chung của tập đoàn, tối ưu chi phí vận hành cho các đơn vị thành viên và đối tác.\n\nLà mắt xích kết nối giữa Synetic Dinh Dưỡng, Synetic Thú Y và Synetic Nông Trại, đảm bảo nguyên liệu và sản phẩm luôn đến đúng nơi, đúng lúc.\n\nSynetic Logistics vận hành hạ tầng kho bãi và vận chuyển theo đúng định hướng "dịch vụ dùng chung" mà Synetic Group xây dựng, giúp các công ty thành viên không phải tự đầu tư đội xe và kho riêng lẻ, tối ưu chi phí cho toàn hệ sinh thái.',
+    factsTitle: 'THÔNG TIN NHANH',
+    facts: [
+      { label: 'Lĩnh vực', value: 'Kho vận & vận chuyển' },
+      { label: 'Phạm vi', value: 'Nguyên liệu – thành phẩm – trang trại' },
+      { label: 'Cam kết', value: 'Đúng chuẩn, đúng thời gian' }
+    ] },
+  { slug: 'farm', name: 'Synetic Nông Trại', brand: 'Synetic', brandSub: 'FARM', accent: 'emerald',
+    tagline: 'Nuôi bằng tâm, lớn bằng chuẩn', legalName: 'Công ty Cổ phần Synetic Nông Trại', siteImageKey: 'member-farm',
+    body: 'Synetic Nông Trại vận hành các trang trại chăn nuôi theo tiêu chuẩn an toàn sinh học, kết hợp kinh nghiệm thực tế với quy trình giám sát chặt chẽ ở từng giai đoạn nuôi.\n\nĐây cũng là nơi thử nghiệm và chứng minh hiệu quả thực tế của sản phẩm dinh dưỡng và giải pháp thú y trong hệ sinh thái, trước khi nhân rộng ra thị trường.\n\nToàn bộ dữ liệu sức khoẻ và tăng trưởng đàn nuôi được ghi nhận xuyên suốt, làm cơ sở để Synetic Dinh Dưỡng và Synetic Thú Y liên tục cải tiến sản phẩm.\n\nSynetic Nông Trại vận hành trên hạ tầng đất đai, nhà xưởng do Tập đoàn đầu tư và quản lý tập trung, đồng thời là nơi thực chứng hiệu quả của công nghệ chăn nuôi thông minh mà Synetic Group đang từng bước ứng dụng.',
+    factsTitle: 'THÔNG TIN NHANH',
+    facts: [
+      { label: 'Lĩnh vực', value: 'Chăn nuôi trang trại' },
+      { label: 'Tiêu chuẩn', value: 'An toàn sinh học' },
+      { label: 'Vai trò', value: 'Thực chứng giải pháp trong hệ sinh thái' }
+    ] },
+  { slug: 'capital', name: 'Synetic Capital', brand: 'Synetic', brandSub: 'CAPITAL', accent: 'gold',
+    tagline: 'Dẫn vốn hiệu quả, mở lối tăng trưởng', legalName: 'Công ty Cổ phần Synetic Capital', siteImageKey: 'member-capital',
+    body: 'Synetic Capital giữ vai trò dẫn vốn và điều phối tài chính cho hệ sinh thái, thẩm định và rót vốn cho các dự án mở rộng của các công ty thành viên.\n\nNgoài đầu tư nội bộ, Synetic Capital tìm kiếm và hợp tác với các đối tác tài chính bên ngoài để mở rộng năng lực sản xuất và mạng lưới của toàn tập đoàn.\n\nMọi quyết định rót vốn đều gắn với hiệu quả thực tế đã được kiểm chứng tại Synetic Nông Trại và nhu cầu mở rộng của các đơn vị sản xuất, vận hành.\n\nSynetic Capital phối hợp chặt chẽ với khối Quản trị – Điều hành của Tập đoàn trong việc thẩm định các dự án bất động sản, hạ tầng và mở rộng sản xuất, đảm bảo dòng vốn được phân bổ đúng ưu tiên chiến lược của toàn hệ sinh thái.',
+    factsTitle: 'THÔNG TIN NHANH',
+    facts: [
+      { label: 'Lĩnh vực', value: 'Đầu tư & tài chính' },
+      { label: 'Vai trò', value: 'Dẫn vốn cho hệ sinh thái' },
+      { label: 'Định hướng', value: 'Mở rộng năng lực sản xuất & mạng lưới' }
+    ] }
+];
+
+// Reads data/members.json as a proper array-based list, seeding it from
+// MEMBER_SEED (+ any logo already uploaded via the old fixed image slots)
+// on first use, or migrating it if it's still in the older flat-object shape.
+function getMembersData() {
+  const current = readJSON('members');
+  if (Array.isArray(current.items)) return current;
+
+  const siteImages = readJSON('site-images');
+  const items = MEMBER_SEED.map((m, i) => ({
+    id: (Date.now() + i).toString(),
+    slug: m.slug,
+    name: m.name,
+    brand: m.brand,
+    brandSub: m.brandSub,
+    accent: m.accent,
+    tagline: (current[m.slug] && current[m.slug].tagline) || m.tagline,
+    legalName: (current[m.slug] && current[m.slug].legalName) || m.legalName,
+    logo: siteImages[m.siteImageKey] || null,
+    body: m.body,
+    factsTitle: m.factsTitle,
+    facts: m.facts,
+    published: true
+  }));
+  const migrated = { items };
+  writeJSON('members', migrated);
+  return migrated;
+}
 
 function commonLocals() {
   return {
@@ -47,7 +124,7 @@ function commonLocals() {
     footer: readJSON('footer'),
     coreValues: readJSON('core-values').items,
     homepage: readJSON('homepage'),
-    members: readJSON('members')
+    members: getMembersData().items.filter((m) => m.published)
   };
 }
 
@@ -106,12 +183,7 @@ const PAGES = [
   { urls: ['/ve-synetic/tam-nhin-chien-luoc.html'], view: 've-synetic/tam-nhin-chien-luoc', root: '../' },
   { urls: ['/ve-synetic/mang-luoi-hoat-dong.html'], view: 've-synetic/mang-luoi-hoat-dong', root: '../' },
   { urls: ['/ve-synetic/trach-nhiem-xa-hoi.html'], view: 've-synetic/trach-nhiem-xa-hoi', root: '../' },
-  { urls: ['/ve-synetic/giai-thuong.html'], view: 've-synetic/giai-thuong', root: '../' },
-  { urls: ['/thanh-vien/nutrition.html'], view: 'thanh-vien/nutrition', root: '../' },
-  { urls: ['/thanh-vien/vet.html'], view: 'thanh-vien/vet', root: '../' },
-  { urls: ['/thanh-vien/logistics.html'], view: 'thanh-vien/logistics', root: '../' },
-  { urls: ['/thanh-vien/farm.html'], view: 'thanh-vien/farm', root: '../' },
-  { urls: ['/thanh-vien/capital.html'], view: 'thanh-vien/capital', root: '../' }
+  { urls: ['/ve-synetic/giai-thuong.html'], view: 've-synetic/giai-thuong', root: '../' }
 ];
 
 for (const page of PAGES) {
@@ -134,6 +206,18 @@ app.get(['/', '/index.html'], (req, res) => {
     heroSlides,
     renderHeroTitle
   });
+});
+
+// ---------- Thành viên hệ sinh thái (public detail page) ----------
+
+app.get('/thanh-vien/:slug.html', (req, res) => {
+  const members = getMembersData().items.filter((i) => i.published);
+  const item = members.find((i) => i.slug === req.params.slug);
+  if (!item) {
+    return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
+  }
+  const otherMembers = members.filter((i) => i.slug !== item.slug);
+  res.render('thanh-vien-chi-tiet', { root: '../', ...commonLocals(), item, otherMembers });
 });
 
 // ---------- Tin tức (News) ----------
@@ -868,33 +952,122 @@ adminRouter.post('/noi-dung-trang-chu', (req, res) => {
   res.redirect('/admin/noi-dung-trang-chu');
 });
 
-// ---------- Admin: Thành viên hệ sinh thái (tên, khẩu hiệu) ----------
-
-const MEMBER_KEYS = [
-  { key: 'nutrition', label: 'Synetic Dinh Dưỡng' },
-  { key: 'vet', label: 'Synetic Thú Y' },
-  { key: 'logistics', label: 'Synetic Logistics' },
-  { key: 'farm', label: 'Synetic Nông Trại' },
-  { key: 'capital', label: 'Synetic Capital' }
-];
+// ---------- Admin: Thành viên hệ sinh thái ----------
 
 adminRouter.get('/thanh-vien', (req, res) => {
-  const members = readJSON('members');
-  res.render('admin/members-form', { members, memberKeys: MEMBER_KEYS, csrfToken: auth.ensureCsrfToken(req), error: null });
+  const members = getMembersData();
+  res.render('admin/members-list', { items: members.items, csrfToken: auth.ensureCsrfToken(req) });
 });
 
-adminRouter.post('/thanh-vien', (req, res) => {
-  if (!auth.csrfOk(req)) {
-    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-  }
-  const members = {};
-  MEMBER_KEYS.forEach((m) => {
-    members[m.key] = {
-      tagline: (req.body['tagline_' + m.key] || '').trim(),
-      legalName: (req.body['legalName_' + m.key] || '').trim()
-    };
+adminRouter.get('/thanh-vien/new', (req, res) => {
+  res.render('admin/members-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/thanh-vien/new', (req, res) => {
+  memberUpload.single('logo')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/members-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const name = (req.body.name || '').trim();
+    if (!name) {
+      return res.status(400).render('admin/members-form', { item: null, error: 'Vui lòng nhập tên thành viên.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    const facts = [1, 2, 3].map((i) => ({
+      label: (req.body['factLabel' + i] || '').trim(),
+      value: (req.body['factValue' + i] || '').trim()
+    })).filter((f) => f.label || f.value);
+    const members = getMembersData();
+    members.items.push({
+      id: Date.now().toString(),
+      slug: slugify(name),
+      name,
+      brand: (req.body.brand || 'Synetic').trim(),
+      brandSub: (req.body.brandSub || '').trim().toUpperCase(),
+      accent: req.body.accent || 'emerald',
+      tagline: (req.body.tagline || '').trim(),
+      legalName: (req.body.legalName || '').trim(),
+      logo: req.file ? publicPathFor('members', req.file.filename) : null,
+      body: (req.body.body || '').replace(/\r\n/g, '\n').trim(),
+      factsTitle: (req.body.factsTitle || '').trim(),
+      facts,
+      published: req.body.published === '1'
+    });
+    writeJSON('members', members);
+    res.redirect('/admin/thanh-vien');
   });
-  writeJSON('members', members);
+});
+
+adminRouter.get('/thanh-vien/:id/edit', (req, res) => {
+  const members = getMembersData();
+  const item = members.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/thanh-vien');
+  res.render('admin/members-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/thanh-vien/:id/edit', (req, res) => {
+  const members = getMembersData();
+  const item = members.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/thanh-vien');
+
+  memberUpload.single('logo')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/members-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const name = (req.body.name || '').trim();
+    if (!name) {
+      return res.status(400).render('admin/members-form', { item, error: 'Vui lòng nhập tên thành viên.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    item.name = name;
+    item.slug = slugify(name);
+    item.brand = (req.body.brand || 'Synetic').trim();
+    item.brandSub = (req.body.brandSub || '').trim().toUpperCase();
+    item.accent = req.body.accent || 'emerald';
+    item.tagline = (req.body.tagline || '').trim();
+    item.legalName = (req.body.legalName || '').trim();
+    item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
+    item.factsTitle = (req.body.factsTitle || '').trim();
+    item.facts = [1, 2, 3].map((i) => ({
+      label: (req.body['factLabel' + i] || '').trim(),
+      value: (req.body['factValue' + i] || '').trim()
+    })).filter((f) => f.label || f.value);
+    item.published = req.body.published === '1';
+    if (req.file) {
+      deleteUploadedFile(item.logo);
+      item.logo = publicPathFor('members', req.file.filename);
+    }
+    writeJSON('members', members);
+    res.redirect('/admin/thanh-vien');
+  });
+});
+
+adminRouter.post('/thanh-vien/:id/delete', auth.verifyCsrf, (req, res) => {
+  const members = getMembersData();
+  const item = members.items.find((i) => i.id === req.params.id);
+  if (item) {
+    deleteUploadedFile(item.logo);
+    members.items = members.items.filter((i) => i.id !== req.params.id);
+    writeJSON('members', members);
+  }
+  res.redirect('/admin/thanh-vien');
+});
+
+adminRouter.post('/thanh-vien/:id/move', auth.verifyCsrf, (req, res) => {
+  const members = getMembersData();
+  const idx = members.items.findIndex((i) => i.id === req.params.id);
+  const dir = req.body.direction === 'up' ? -1 : 1;
+  const swapWith = idx + dir;
+  if (idx !== -1 && swapWith >= 0 && swapWith < members.items.length) {
+    const tmp = members.items[idx];
+    members.items[idx] = members.items[swapWith];
+    members.items[swapWith] = tmp;
+    writeJSON('members', members);
+  }
   res.redirect('/admin/thanh-vien');
 });
 
