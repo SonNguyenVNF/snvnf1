@@ -254,10 +254,11 @@ animation:ticker-scroll 30s linear infinite}
 
 @media(max-width:900px){.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
 .two{grid-template-columns:1fr;gap:var(--sp-2)}
-section{padding:var(--sp-4) 0} .hero .big{display:none} .hero{padding:28px 0 52px}
-  .ahero{padding:40px 0 32px}
-  .abody{padding:36px 0}
+section{padding:var(--sp-3) 0} .hero .big{display:none} .hero{padding:28px 0 52px}
+  .ahero{padding:36px 0 28px}
+  .abody{padding:28px 0}
   .newsempty{margin-top:0}
+  .vm .row,.vgrid,.ugrid,.newsgrid{margin-top:var(--sp-3)}
   .hero-scrim{background:linear-gradient(175deg,rgba(8,46,36,.9) 0%,rgba(8,46,36,.62) 55%,rgba(8,46,36,.8) 100%)}
   .hero .eb{margin-bottom:16px} .hero p{margin-top:18px;font-size:16px}
   .hero .cta{margin-top:28px}
