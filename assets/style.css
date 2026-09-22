@@ -73,6 +73,17 @@ background:linear-gradient(100deg,rgba(8,46,36,.93) 0%,rgba(8,46,36,.74) 42%,rgb
 .hero h1{font-size:clamp(38px,5vw,60px);line-height:1.12;max-width:16ch;letter-spacing:-.02em}
 .hero h1 span{color:var(--gd)}
 .hero p{margin-top:26px;font-size:18px;line-height:1.7;max-width:50ch;color:rgba(255,255,255,.9)}
+.hero-text{display:none}
+.hero-text.active{display:block}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;
+background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);color:#fff;display:flex;align-items:center;
+justify-content:center;font-size:22px;line-height:1;cursor:pointer;z-index:4;padding:0;transition:background .2s}
+.hero-arrow:hover{background:rgba(255,255,255,.28)}
+.hero-prev{left:24px}
+.hero-next{right:24px}
+.hero-dots{display:flex;gap:8px;margin-top:32px}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);border:none;cursor:pointer;padding:0}
+.hero-dot.active{background:var(--gd);width:22px;border-radius:4px}
 .cta{margin-top:var(--sp-4);display:flex;gap:16px;flex-wrap:wrap}
 
 /* ---------- SECTIONS (shared rhythm) ---------- */
@@ -241,14 +252,19 @@ animation:ticker-scroll 30s linear infinite}
 .ticker-track a{font-size:12.5px;margin-right:34px} body{padding-bottom:40px}}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
 
-@media(max-width:900px){.two,.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
-section{padding:var(--sp-5) 0} .hero .big{display:none} .hero{padding:28px 0 52px}
+@media(max-width:900px){.vm .row,.fg,.abody .grid{grid-template-columns:1fr;gap:var(--sp-4)}
+.two{grid-template-columns:1fr;gap:var(--sp-2)}
+section{padding:var(--sp-4) 0} .hero .big{display:none} .hero{padding:28px 0 52px}
   .ahero{padding:40px 0 32px}
   .abody{padding:36px 0}
   .newsempty{margin-top:0}
   .hero-scrim{background:linear-gradient(175deg,rgba(8,46,36,.9) 0%,rgba(8,46,36,.62) 55%,rgba(8,46,36,.8) 100%)}
   .hero .eb{margin-bottom:16px} .hero p{margin-top:18px;font-size:16px}
   .hero .cta{margin-top:28px}
+  .hero-arrow{width:38px;height:38px;font-size:18px}
+  .hero-prev{left:10px}
+  .hero-next{right:10px}
+  .hero-dots{margin-top:22px}
 
   /* header: brand top-left, "Liên hệ ngay" + language switch + hamburger top-right, nav collapses behind the hamburger */
   .nav{justify-content:flex-start;gap:10px 8px}

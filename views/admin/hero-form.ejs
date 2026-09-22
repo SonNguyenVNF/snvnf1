@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= item ? 'Sửa slide' : 'Thêm slide' %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/hero">← Slide trang chủ</a></div>
+  <div class="admin-card">
+    <h1><%= item ? 'Sửa slide' : 'Thêm slide' %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="<%= item ? '/admin/hero/' + item.id + '/edit' : '/admin/hero/new' %>" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="image">Ảnh nền</label>
+        <% if (item && item.image) { %>
+          <div style="margin-bottom:10px"><img src="/<%= item.image %>" alt="" style="max-width:280px;border-radius:8px;display:block"></div>
+        <% } %>
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif" <%= item ? '' : 'required' %>>
+      </div>
+
+      <div class="admin-field">
+        <label for="eyebrow">Dòng nhỏ phía trên tiêu đề</label>
+        <input type="text" id="eyebrow" name="eyebrow" value="<%= item ? (item.eyebrow || '') : 'SYNETIC GROUP' %>" placeholder="Ví dụ: SYNETIC GROUP">
+      </div>
+
+      <div class="admin-field">
+        <label for="title">Tiêu đề lớn</label>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Đặt 2 dấu <b>**</b> quanh phần chữ muốn tô màu vàng, ví dụ: Kiến tạo **giá trị vượt trội**</p>
+        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Kiến tạo **giá trị vượt trội**">
+      </div>
+
+      <div class="admin-field">
+        <label for="description">Mô tả</label>
+        <textarea id="description" name="description" rows="4"><%= item ? (item.description || '') : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label>
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm slide' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/hero" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

@@ -89,15 +89,39 @@
       if (nfNext) nfNext.addEventListener('click', function(){ nfGoTo(nfIdx + 1); });
     }
 
-    /* ---- hero background slideshow ---- */
-    var slides = document.querySelectorAll('.hero-bg .hslide');
-    if(slides.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      var idx = 0;
-      setInterval(function(){
-        slides[idx].classList.remove('active');
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('active');
-      }, 5000);
+    /* ---- hero slider (background + title/description move together) ---- */
+    var heroBgSlides = document.querySelectorAll('.hero-bg .hslide');
+    var heroTextSlides = document.querySelectorAll('.hero-text');
+    if (heroBgSlides.length > 1) {
+      var heroDotsWrap = document.querySelector('.hero-dots');
+      var heroIdx = 0;
+      if (heroDotsWrap) {
+        heroBgSlides.forEach(function(s, i){
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+          dot.addEventListener('click', function(){ heroGoTo(i); });
+          heroDotsWrap.appendChild(dot);
+        });
+      }
+      var heroDots = heroDotsWrap ? heroDotsWrap.querySelectorAll('.hero-dot') : [];
+      function heroGoTo(i){
+        heroBgSlides[heroIdx].classList.remove('active');
+        heroTextSlides[heroIdx].classList.remove('active');
+        if (heroDots[heroIdx]) heroDots[heroIdx].classList.remove('active');
+        heroIdx = (i + heroBgSlides.length) % heroBgSlides.length;
+        heroBgSlides[heroIdx].classList.add('active');
+        heroTextSlides[heroIdx].classList.add('active');
+        if (heroDots[heroIdx]) heroDots[heroIdx].classList.add('active');
+      }
+      var heroPrev = document.querySelector('.hero-prev');
+      var heroNext = document.querySelector('.hero-next');
+      if (heroPrev) heroPrev.addEventListener('click', function(){ heroGoTo(heroIdx - 1); });
+      if (heroNext) heroNext.addEventListener('click', function(){ heroGoTo(heroIdx + 1); });
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setInterval(function(){ heroGoTo(heroIdx + 1); }, 6000);
+      }
     }
   });
 })();

@@ -19,6 +19,7 @@ const jobsUpload = createUploader('jobs');
 const teamUpload = createUploader('team');
 const partnersUpload = createUploader('partners');
 const siteImageUpload = createUploader('site');
+const heroUpload = createUploader('hero');
 
 const EDITABLE_PAGES = [
   { key: 'thong-diep-chu-tich-hdqt', label: 'Thông điệp Chủ tịch HĐQT', hasSign: true },
@@ -32,9 +33,6 @@ const EDITABLE_PAGES = [
 
 const EDITABLE_IMAGES = [
   { key: 'logo', label: 'Logo (hiển thị ở đầu trang và chân trang)' },
-  { key: 'hero-1', label: 'Ảnh nền trang chủ — 1' },
-  { key: 'hero-2', label: 'Ảnh nền trang chủ — 2' },
-  { key: 'hero-3', label: 'Ảnh nền trang chủ — 3' },
   { key: 'member-nutrition', label: 'Logo — Synetic Dinh Dưỡng' },
   { key: 'member-vet', label: 'Logo — Synetic Thú Y' },
   { key: 'member-logistics', label: 'Logo — Synetic Logistics' },
@@ -44,6 +42,14 @@ const EDITABLE_IMAGES = [
 
 function commonLocals() {
   return { ticker: readJSON('ticker'), siteImages: readJSON('site-images'), footer: readJSON('footer') };
+}
+
+// Lets an admin bold part of a hero slide title with **like this** instead of
+// needing to know HTML — rendered as the existing gold <span> highlight.
+function renderHeroTitle(title) {
+  return (title || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<span>$1</span>');
 }
 
 const ROOT = path.join(__dirname, '..');
@@ -112,7 +118,15 @@ for (const page of PAGES) {
 
 app.get(['/', '/index.html'], (req, res) => {
   const pages = readJSON('pages');
-  res.render('index', { root: '', ...commonLocals(), pages, news: publishedNewsSorted().slice(0, 6) });
+  const heroSlides = readJSON('hero-slides').items.filter((i) => i.published);
+  res.render('index', {
+    root: '',
+    ...commonLocals(),
+    pages,
+    news: publishedNewsSorted().slice(0, 6),
+    heroSlides,
+    renderHeroTitle
+  });
 });
 
 // ---------- Tin tức (News) ----------
@@ -801,6 +815,107 @@ adminRouter.post('/lien-he', (req, res) => {
   };
   writeJSON('footer', footer);
   res.redirect('/admin/lien-he');
+});
+
+// ---------- Admin: Slide trang chủ (ảnh nền + tiêu đề) ----------
+
+adminRouter.get('/hero', (req, res) => {
+  const heroSlides = readJSON('hero-slides');
+  res.render('admin/hero-list', { items: heroSlides.items, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.get('/hero/new', (req, res) => {
+  res.render('admin/hero-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/hero/new', (req, res) => {
+  heroUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/hero-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/hero-form', { item: null, error: 'Vui lòng nhập tiêu đề.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!req.file) {
+      return res.status(400).render('admin/hero-form', { item: null, error: 'Vui lòng chọn ảnh nền.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    const heroSlides = readJSON('hero-slides');
+    heroSlides.items.push({
+      id: Date.now().toString(),
+      image: publicPathFor('hero', req.file.filename),
+      eyebrow: (req.body.eyebrow || '').trim(),
+      title,
+      description: (req.body.description || '').trim(),
+      published: req.body.published === '1'
+    });
+    writeJSON('hero-slides', heroSlides);
+    res.redirect('/admin/hero');
+  });
+});
+
+adminRouter.get('/hero/:id/edit', (req, res) => {
+  const heroSlides = readJSON('hero-slides');
+  const item = heroSlides.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/hero');
+  res.render('admin/hero-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/hero/:id/edit', (req, res) => {
+  const heroSlides = readJSON('hero-slides');
+  const item = heroSlides.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/hero');
+
+  heroUpload.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(400).render('admin/hero-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
+    }
+    if (!auth.csrfOk(req)) {
+      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
+    }
+    const title = (req.body.title || '').trim();
+    if (!title) {
+      return res.status(400).render('admin/hero-form', { item, error: 'Vui lòng nhập tiêu đề.', csrfToken: auth.ensureCsrfToken(req) });
+    }
+    item.title = title;
+    item.eyebrow = (req.body.eyebrow || '').trim();
+    item.description = (req.body.description || '').trim();
+    item.published = req.body.published === '1';
+    if (req.file) {
+      deleteUploadedFile(item.image);
+      item.image = publicPathFor('hero', req.file.filename);
+    }
+    writeJSON('hero-slides', heroSlides);
+    res.redirect('/admin/hero');
+  });
+});
+
+adminRouter.post('/hero/:id/delete', auth.verifyCsrf, (req, res) => {
+  const heroSlides = readJSON('hero-slides');
+  const item = heroSlides.items.find((i) => i.id === req.params.id);
+  if (item) {
+    deleteUploadedFile(item.image);
+    heroSlides.items = heroSlides.items.filter((i) => i.id !== req.params.id);
+    writeJSON('hero-slides', heroSlides);
+  }
+  res.redirect('/admin/hero');
+});
+
+adminRouter.post('/hero/:id/move', auth.verifyCsrf, (req, res) => {
+  const heroSlides = readJSON('hero-slides');
+  const idx = heroSlides.items.findIndex((i) => i.id === req.params.id);
+  const dir = req.body.direction === 'up' ? -1 : 1;
+  const swapWith = idx + dir;
+  if (idx !== -1 && swapWith >= 0 && swapWith < heroSlides.items.length) {
+    const tmp = heroSlides.items[idx];
+    heroSlides.items[idx] = heroSlides.items[swapWith];
+    heroSlides.items[swapWith] = tmp;
+    writeJSON('hero-slides', heroSlides);
+  }
+  res.redirect('/admin/hero');
 });
 
 // ---------- Admin: Ảnh cố định của website ----------

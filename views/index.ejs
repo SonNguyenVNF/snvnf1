@@ -4,13 +4,18 @@
 <%- include('partials/header', { root: root, active: 'home' , siteImages: siteImages }) %>
 
 <main id="top">
+<% if (heroSlides.length) { %>
 <section class="hero">
 <div class="hero-bg" aria-hidden="true">
-  <div class="hslide active" style="background-image:url('<%= root %><%= siteImages['hero-1'] %>')"></div>
-  <div class="hslide" style="background-image:url('<%= root %><%= siteImages['hero-2'] %>')"></div>
-  <div class="hslide" style="background-image:url('<%= root %><%= siteImages['hero-3'] %>');background-position:22% 45%"></div>
+  <% heroSlides.forEach(function(slide, i) { %>
+  <div class="hslide<%= i === 0 ? ' active' : '' %>" style="background-image:url('<%= root %><%= slide.image %>')"></div>
+  <% }); %>
 </div>
 <div class="hero-scrim" aria-hidden="true"></div>
+<% if (heroSlides.length > 1) { %>
+<button class="hero-arrow hero-prev" type="button" aria-label="Slide trước">‹</button>
+<button class="hero-arrow hero-next" type="button" aria-label="Slide sau">›</button>
+<% } %>
 <span class="big"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
   <defs><linearGradient id="gmw" x1="0.15" y1="0" x2="0.85" y2="1">
     <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
@@ -19,13 +24,18 @@
   <g stroke="#FFFFFF" stroke-width="5" fill="#FFFFFF" stroke-linecap="round">
     <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
     <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg></span><div class="wrap">
-  <p class="eb">SYNETIC GROUP</p>
-  <h1>Kiến tạo <span>giá trị vượt trội</span></h1>
-  <p>Synetic Group kiến tạo giá trị vượt trội thông qua đổi mới, kết nối và phát triển bền vững,
-     hướng tới một tương lai tốt đẹp hơn cho khách hàng, đối tác và cộng đồng.</p>
-  <div class="cta"><a class="btn btn-gd" href="#thanh-vien">Khám phá hệ sinh thái</a>
-    <a class="btn btn-gh" href="#gioi-thieu">Về Synetic Group</a></div>
+  <% heroSlides.forEach(function(slide, i) { %>
+  <div class="hero-text<%= i === 0 ? ' active' : '' %>">
+    <% if (slide.eyebrow) { %><p class="eb"><%= slide.eyebrow %></p><% } %>
+    <h1><%- renderHeroTitle(slide.title) %></h1>
+    <% if (slide.description) { %><p><%= slide.description %></p><% } %>
+    <div class="cta"><a class="btn btn-gd" href="#thanh-vien">Khám phá hệ sinh thái</a>
+      <a class="btn btn-gh" href="#gioi-thieu">Về Synetic Group</a></div>
+  </div>
+  <% }); %>
+  <% if (heroSlides.length > 1) { %><div class="hero-dots"></div><% } %>
 </div></section>
+<% } %>
 
 <section id="gioi-thieu"><div class="wrap two">
   <div><p class="lb">VỀ SYNETIC GROUP</p>

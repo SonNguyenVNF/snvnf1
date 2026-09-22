@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "image": "assets/hero/hero-1.jpg",
+      "eyebrow": "SYNETIC GROUP",
+      "title": "Kiến tạo **giá trị vượt trội**",
+      "description": "Synetic Group kiến tạo giá trị vượt trội thông qua đổi mới, kết nối và phát triển bền vững, hướng tới một tương lai tốt đẹp hơn cho khách hàng, đối tác và cộng đồng.",
+      "published": true
+    },
+    {
+      "id": "2",
+      "image": "assets/hero/hero-2.webp",
+      "eyebrow": "SYNETIC GROUP",
+      "title": "Kiến tạo **giá trị vượt trội**",
+      "description": "Synetic Group kiến tạo giá trị vượt trội thông qua đổi mới, kết nối và phát triển bền vững, hướng tới một tương lai tốt đẹp hơn cho khách hàng, đối tác và cộng đồng.",
+      "published": true
+    },
+    {
+      "id": "3",
+      "image": "assets/hero/hero-3.jpg",
+      "eyebrow": "SYNETIC GROUP",
+      "title": "Kiến tạo **giá trị vượt trội**",
+      "description": "Synetic Group kiến tạo giá trị vượt trội thông qua đổi mới, kết nối và phát triển bền vững, hướng tới một tương lai tốt đẹp hơn cho khách hàng, đối tác và cộng đồng.",
+      "published": true
+    }
+  ]
+}
