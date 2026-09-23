@@ -1,6 +1,6 @@
 :root{--em:#0F6B50;--jt:#1FA38A;--ob:#1F5FAF;--gd:#C9A24B;--ch:#20261F;--iv:#F7F5EF;--mist:#E4EFEA;
 --muted:#525C56;--faint:#5F6960;
---mo:"Montserrat",Arial,sans-serif;--in:"Inter",Arial,sans-serif;--max:1180px;--accent:var(--em);
+--mo:"Inter",Arial,sans-serif;--in:"Inter",Arial,sans-serif;--max:1180px;--accent:var(--em);
 --radius:6px;--radius-sm:3px;
 --shadow-sm:0 2px 10px rgba(15,40,32,.08);
 --shadow-md:0 16px 34px rgba(15,40,32,.14);
