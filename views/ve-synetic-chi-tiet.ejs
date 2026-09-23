@@ -1,39 +1,34 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tầm nhìn chiến lược — Synetic Group</title>
+<title><%= item.label %> — Synetic Group</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="../assets/style.css?v=<%= assetVersion %>" rel="stylesheet">
+<link href="<%= root %>assets/style.css?v=<%= assetVersion %>" rel="stylesheet">
 <style>:root{--logo-h:<%= siteImages.logoHeight || 52 %>px;--logo-h-mobile:<%= siteImages.logoHeightMobile || 58 %>px}</style>
 </head><body>
 
 <header><div class="wrap nav">
-  <a class="brand" href="../index.html"><img class="brand-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></a>
+  <a class="brand" href="<%= root %>index.html"><img class="brand-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></a>
   <nav><ul>
-    <li><a class="nav-home" href="../index.html"><span class="hico" aria-hidden="true">⌂</span> Trang chủ</a></li>
+    <li><a class="nav-home" href="<%= root %>index.html"><span class="hico" aria-hidden="true">⌂</span> Trang chủ</a></li>
     <li class="has-dropdown">
       <button class="dropdown-toggle" type="button">Về Synetic <span class="car">▾</span></button>
       <div class="dropdown">
-        <a href="thong-diep-chu-tich-hdqt.html">Thông điệp Chủ tịch HĐQT</a>
-        <a href="thong-diep-tong-giam-doc.html">Thông điệp Tổng giám đốc</a>
-        <a href="gia-tri-cot-loi.html">Giá trị cốt lõi</a>
-        <a href="lich-su.html">Lịch sử</a>
-        <a href="tam-nhin-chien-luoc.html">Tầm nhìn chiến lược</a>
-        <a href="mang-luoi-hoat-dong.html">Mạng lưới hoạt động</a>
-        <a href="doi-ngu-lanh-dao.html">Đội ngũ lãnh đạo</a>
-        <a href="trach-nhiem-xa-hoi.html">Trách nhiệm xã hội</a>
-        <a href="giai-thuong.html">Giải thưởng</a>
-        <a href="doi-tac-khach-hang.html">Đối tác và khách hàng</a>
+        <% vePages.forEach(function(p) { %><a href="<%= root %>ve-synetic/<%= p.slug %>.html"><%= p.label %></a><% }); %>
+        <a href="<%= root %>ve-synetic/gia-tri-cot-loi.html">Giá trị cốt lõi</a>
+        <a href="<%= root %>ve-synetic/mang-luoi-hoat-dong.html">Mạng lưới hoạt động</a>
+        <a href="<%= root %>ve-synetic/doi-ngu-lanh-dao.html">Đội ngũ lãnh đạo</a>
+        <a href="<%= root %>ve-synetic/doi-tac-khach-hang.html">Đối tác và khách hàng</a>
       </div>
     </li>
-    <li><a href="../index.html#thanh-vien">Hệ sinh thái</a></li>
-    <li><a href="../du-an.html">Dự án</a></li>
-    <li><a href="../tin-tuc.html">Tin tức</a></li>
-    <li><a href="doi-tac-khach-hang.html">Đối tác</a></li>
-    <li><a href="../tuyen-dung.html">Cơ hội việc làm</a></li>
+    <li><a href="<%= root %>index.html#thanh-vien">Hệ sinh thái</a></li>
+    <li><a href="<%= root %>du-an.html">Dự án</a></li>
+    <li><a href="<%= root %>tin-tuc.html">Tin tức</a></li>
+    <li><a href="<%= root %>ve-synetic/doi-tac-khach-hang.html">Đối tác</a></li>
+    <li><a href="<%= root %>tuyen-dung.html">Cơ hội việc làm</a></li>
   </ul></nav>
-  <a class="btn" href="../index.html#lien-he">Liên hệ ngay</a>
+  <a class="btn" href="<%= root %>index.html#lien-he">Liên hệ ngay</a>
   <div class="nav-icons">
     <div class="has-dropdown lang-switch">
       <button class="dropdown-toggle" type="button" aria-label="Chọn ngôn ngữ">VI</button>
@@ -47,18 +42,21 @@
 </div></header>
 
 <main>
-<div class="abar wrap"><a href="../index.html">← Về trang chủ</a> &nbsp;/&nbsp; Về Synetic &nbsp;/&nbsp; Tầm nhìn chiến lược</div>
+<div class="abar wrap"><a href="<%= root %>index.html">← Về trang chủ</a> &nbsp;/&nbsp; Về Synetic &nbsp;/&nbsp; <%= item.label %></div>
 
 <section class="ahero"><div class="wrap">
   <p class="k">VỀ SYNETIC</p>
-  <h1>Tầm nhìn chiến lược</h1>
+  <h1><%= item.label %></h1>
 </div></section>
 
 <section class="abody"><div class="wrap">
   <div class="art" style="max-width:720px">
-    <% pages['tam-nhin-chien-luoc'].body.replace(/\r\n/g, '\n').split(/\n{2,}/).forEach(function(paragraph) { %>
+    <% item.body.replace(/\r\n/g, '\n').split(/\n{2,}/).forEach(function(paragraph) { %>
       <% if (paragraph.trim()) { %><p><%= paragraph.trim() %></p><% } %>
     <% }); %>
+    <% if (item.hasSign && item.signName) { %>
+      <p class="sign" style="margin-top:24px;font-weight:700"><%= item.signName %><% if (item.signTitle) { %><br><span style="font-weight:400"><%= item.signTitle %></span><% } %></p>
+    <% } %>
   </div>
 </div></section>
 </main>
@@ -70,17 +68,17 @@
       <p><%= footer.companyName %><br><%= footer.address %><br>MST: <%= footer.taxCode %></p>
       <p style="margin-top:12px">T <%= footer.phone %> · <a href="mailto:<%= footer.email %>"><%= footer.email %></a></p>
     </div>
-    <div><h5>THÀNH VIÊN</h5><ul><% members.forEach(function(m) { %><li><a href="../thanh-vien/<%= m.slug %>.html"><%= m.name %></a></li><% }); %></ul></div>
+    <div><h5>THÀNH VIÊN</h5><ul><% members.forEach(function(m) { %><li><a href="<%= root %>thanh-vien/<%= m.slug %>.html"><%= m.name %></a></li><% }); %></ul></div>
     <div><h5>HỖ TRỢ</h5><ul>
-      <li><a href="../index.html#lien-he">Câu hỏi thường gặp</a></li>
-      <li><a href="../index.html#lien-he">Chính sách bảo mật</a></li>
-      <li><a href="../index.html#lien-he">Điều khoản sử dụng</a></li>
-      <li><a href="../tuyen-dung.html">Tuyển dụng</a></li></ul></div>
+      <li><a href="<%= root %>index.html#lien-he">Câu hỏi thường gặp</a></li>
+      <li><a href="<%= root %>index.html#lien-he">Chính sách bảo mật</a></li>
+      <li><a href="<%= root %>index.html#lien-he">Điều khoản sử dụng</a></li>
+      <li><a href="<%= root %>tuyen-dung.html">Tuyển dụng</a></li></ul></div>
   </div>
   <div class="fbot"><span class="fsl"><%= footer.tagline %></span>
     <span>© <%= new Date().getFullYear() %> <%= footer.companyName %>. Bảo lưu mọi quyền.</span></div>
 </div></footer>
-<%- include('../partials/ticker', { root: root, ticker: ticker }) %>
+<%- include('partials/ticker', { root: root, ticker: ticker }) %>
 <div class="fab-stack" id="fabStack">
   <a class="fab-btn" href="#" target="_blank" rel="noopener" aria-label="Chat qua Zalo">
     <svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><rect x="4" y="4" width="40" height="40" rx="11" fill="#0068FF"/><path d="M12 16.5a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4h-9.3l-5.9 4.4c-.7.5-1.8 0-1.8-.9V16.5Z" fill="#fff"/><text x="24" y="24.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-style="italic" font-size="10.5" fill="#0068FF">Zalo</text></svg>
@@ -99,5 +97,5 @@
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 15 12 9 18 15"/></svg>
   </button>
 </div>
-<script src="../assets/nav.js?v=<%= assetVersion %>" defer></script>
+<script src="<%= root %>assets/nav.js?v=<%= assetVersion %>" defer></script>
 </body></html>

@@ -15,15 +15,10 @@
     <li class="has-dropdown">
       <button class="dropdown-toggle" type="button">Về Synetic <span class="car">▾</span></button>
       <div class="dropdown">
-        <a href="thong-diep-chu-tich-hdqt.html">Thông điệp Chủ tịch HĐQT</a>
-        <a href="thong-diep-tong-giam-doc.html">Thông điệp Tổng giám đốc</a>
+        <% vePages.forEach(function(p) { %><a href="<%= p.slug %>.html"><%= p.label %></a><% }); %>
         <a href="gia-tri-cot-loi.html">Giá trị cốt lõi</a>
-        <a href="lich-su.html">Lịch sử</a>
-        <a href="tam-nhin-chien-luoc.html">Tầm nhìn chiến lược</a>
         <a href="mang-luoi-hoat-dong.html">Mạng lưới hoạt động</a>
         <a href="doi-ngu-lanh-dao.html">Đội ngũ lãnh đạo</a>
-        <a href="trach-nhiem-xa-hoi.html">Trách nhiệm xã hội</a>
-        <a href="giai-thuong.html">Giải thưởng</a>
         <a href="doi-tac-khach-hang.html">Đối tác và khách hàng</a>
       </div>
     </li>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nội dung trang Về Synetic — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Nội dung trang Về Synetic</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Mỗi mục dưới đây là 1 trang riêng trong menu "Về Synetic" trên website. Dùng mũi tên ↑↓ để đổi thứ tự. Chỉ trang đã bật "Hiển thị" mới lên trang công khai. (Trang "Giá trị cốt lõi" và "Mạng lưới hoạt động" có bố cục dạng thẻ, chưa hỗ trợ sửa ở đây. Đoạn giới thiệu trên trang "Đội ngũ lãnh đạo" sửa riêng ở mục bên dưới.)</p>
+
+    <a class="admin-btn" href="/admin/ve-synetic/new" style="margin-bottom:20px;display:inline-block">+ Thêm trang mới</a>
+
+    <ul class="admin-list">
+      <% items.forEach(function(item, idx) { %>
+      <li>
+        <div>
+          <div class="txt"><%= item.label %>
+            <% if (!item.published) { %><span style="color:#B3261E;font-size:11.5px;font-weight:700;margin-left:8px">(Ẩn)</span><% } %>
+          </div>
+          <div class="url">ve-synetic/<%= item.slug %>.html</div>
+        </div>
+        <span class="actions">
+          <form method="POST" action="/admin/ve-synetic/<%= item.id %>/move" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="direction" value="up">
+            <button class="admin-btn admin-btn-ghost" type="submit" <%= idx === 0 ? 'disabled' : '' %>>↑</button>
+          </form>
+          <form method="POST" action="/admin/ve-synetic/<%= item.id %>/move" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="direction" value="down">
+            <button class="admin-btn admin-btn-ghost" type="submit" <%= idx === items.length - 1 ? 'disabled' : '' %>>↓</button>
+          </form>
+          <a class="admin-btn admin-btn-ghost" href="/admin/ve-synetic/<%= item.id %>/edit">Sửa</a>
+          <form method="POST" action="/admin/ve-synetic/<%= item.id %>/delete" onsubmit="return confirm('Xoá trang này? Đường dẫn của trang cũng sẽ không còn.')" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="admin-btn admin-btn-danger" type="submit">Xoá</button>
+          </form>
+        </span>
+      </li>
+      <% }); %>
+      <% if (!items.length) { %><li><span class="txt" style="color:var(--muted)">Chưa có trang nào.</span></li><% } %>
+    </ul>
+
+    <div style="margin-top:28px;padding-top:20px;border-top:1px solid #ECEAE3">
+      <a class="admin-btn admin-btn-ghost" href="/admin/noi-dung/doi-ngu-lanh-dao-intro/edit">Sửa đoạn giới thiệu trang "Đội ngũ lãnh đạo"</a>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -23,14 +23,44 @@ const heroUpload = createUploader('hero');
 const memberUpload = createUploader('members');
 
 const EDITABLE_PAGES = [
-  { key: 'thong-diep-chu-tich-hdqt', label: 'Thông điệp Chủ tịch HĐQT', hasSign: true },
-  { key: 'thong-diep-tong-giam-doc', label: 'Thông điệp Tổng giám đốc', hasSign: true },
-  { key: 'doi-ngu-lanh-dao-intro', label: 'Đội ngũ lãnh đạo (đoạn giới thiệu)', hasChairmanNote: true },
-  { key: 'lich-su', label: 'Lịch sử' },
-  { key: 'tam-nhin-chien-luoc', label: 'Tầm nhìn chiến lược' },
-  { key: 'trach-nhiem-xa-hoi', label: 'Trách nhiệm xã hội' },
-  { key: 'giai-thuong', label: 'Giải thưởng' }
+  { key: 'doi-ngu-lanh-dao-intro', label: 'Đội ngũ lãnh đạo (đoạn giới thiệu)', hasChairmanNote: true }
 ];
+
+// The 6 "Về Synetic" pages that used to be EDITABLE_PAGES entries tied to a
+// fixed template file each. Used once to seed/migrate data/ve-synetic-pages.json
+// into the new addable/deletable list the first time it's read.
+const VE_SYNETIC_SEED = [
+  { slug: 'thong-diep-chu-tich-hdqt', label: 'Thông điệp Chủ tịch HĐQT', hasSign: true, signName: 'BÙI NHẬT PHONG', signTitle: 'Chủ tịch Hội đồng Quản trị',
+    body: 'Kính gửi Quý đối tác, khách hàng và toàn thể cán bộ nhân viên,\n\nSynetic Group được hình thành từ khát vọng xây dựng một hệ sinh thái kinh doanh tích hợp, nơi nông nghiệp, dinh dưỡng, thú y, chuỗi cung ứng và đầu tư cùng vận hành trong một hệ thống hợp lực — đúng như tên gọi SYNETIC ghép từ SYN (hợp lực) và -ETIC (chuyển động).\n\nChúng tôi tin rằng giá trị bền vững chỉ đến từ sự kết nối thực chất: giữa các công ty thành viên trong hệ sinh thái, giữa doanh nghiệp với người chăn nuôi và đối tác, và giữa tăng trưởng hôm nay với trách nhiệm cho tương lai. Đó là lý do Hội đồng Quản trị luôn đặt quản trị minh bạch, đầu tư bài bản và phát triển con người làm nền tảng cho mọi quyết định chiến lược của Tập đoàn.\n\nThay mặt Hội đồng Quản trị, tôi trân trọng cảm ơn sự tin tưởng của Quý đối tác, khách hàng trong suốt thời gian qua, và cam kết đồng hành cùng toàn thể cán bộ nhân viên Synetic Group trên hành trình kiến tạo giá trị vượt trội.' },
+  { slug: 'thong-diep-tong-giam-doc', label: 'Thông điệp Tổng giám đốc', hasSign: true, signName: 'BAN TỔNG GIÁM ĐỐC', signTitle: 'Synetic Group',
+    body: 'Kính gửi Quý đối tác, khách hàng và toàn thể cán bộ nhân viên,\n\nTrên cương vị điều hành, chúng tôi xác định sứ mệnh của Synetic Group là "Phụng sự khách hàng — Kiến tạo thành công — Lan toả thịnh vượng". Đây không chỉ là khẩu hiệu mà là kim chỉ nam cho cách chúng tôi vận hành từng công ty thành viên: lấy chất lượng sản phẩm và hiệu quả thực tế tại trang trại làm thước đo, thay vì chỉ dựa trên cam kết trên giấy.\n\nBan Tổng Giám đốc tập trung nguồn lực vào ba trọng tâm: chuẩn hoá vận hành và chuỗi cung ứng giữa các công ty thành viên thông qua mô hình dịch vụ dùng chung, đầu tư vào nghiên cứu – ứng dụng công nghệ số và trí tuệ nhân tạo trong chăn nuôi và quản trị, và xây dựng đội ngũ nhân sự vững chuyên môn, vững đạo đức nghề nghiệp.\n\nChúng tôi cam kết tiếp tục lắng nghe, cải tiến và đồng hành cùng Quý đối tác trên từng chặng đường phát triển của hệ sinh thái Synetic.' },
+  { slug: 'lich-su', label: 'Lịch sử', hasSign: false, signName: '', signTitle: '',
+    body: 'Synetic Group được thành lập từ năm 2026 với xuất phát điểm là hoạt động trong lĩnh vực nông nghiệp và dinh dưỡng vật nuôi. Từ nền tảng ban đầu đó, Tập đoàn từng bước mở rộng sang các lĩnh vực liên quan mật thiết trong chuỗi giá trị chăn nuôi: thú y, logistics – chuỗi cung ứng, và đầu tư tài chính, hình thành nên hệ sinh thái năm thành viên như hiện nay — Synetic Dinh Dưỡng, Synetic Thú Y, Synetic Logistics, Synetic Nông Trại và Synetic Capital.\n\nQuá trình phát triển của Synetic Group gắn liền với định hướng "hợp lực" — thay vì phát triển từng mảng kinh doanh riêng lẻ, Tập đoàn xây dựng các công ty thành viên để bổ trợ lẫn nhau trong cùng một chuỗi giá trị khép kín: từ dinh dưỡng đầu vào, chăm sóc sức khoẻ vật nuôi, vận chuyển – lưu kho, đến chăn nuôi thực tế và nguồn vốn đầu tư.\n\nSynetic Group hiện tiếp tục đầu tư vào chuẩn hoá thương hiệu, quản trị và công nghệ để phát triển hệ sinh thái theo hướng chuyên nghiệp, bền vững và có khả năng mở rộng dài hạn.' },
+  { slug: 'tam-nhin-chien-luoc', label: 'Tầm nhìn chiến lược', hasSign: false, signName: '', signTitle: '',
+    body: 'Chiến lược phát triển của Synetic Group được xây dựng trên ba trụ cột chính.\n\nMở rộng và chuẩn hoá hệ sinh thái — tiếp tục củng cố năng lực của từng công ty thành viên (dinh dưỡng, thú y, logistics, nông trại, đầu tư), đồng thời chuẩn hoá vận hành theo mô hình dịch vụ dùng chung để tối ưu chi phí và tốc độ ra quyết định trên toàn hệ thống.\n\nĐầu tư vào công nghệ và đổi mới sáng tạo — ứng dụng số hoá, tự động hoá và trí tuệ nhân tạo (AI) vào quản trị chuỗi cung ứng và chăn nuôi thông minh, hướng tới nâng cao năng suất và giảm rủi ro dịch bệnh trong toàn chuỗi.\n\nPhát triển bền vững và có trách nhiệm — chủ động tiếp cận các tiêu chuẩn ESG, truy xuất nguồn gốc và giảm phát thải, đón đầu các yêu cầu ngày càng khắt khe của chuỗi thực phẩm – chăn nuôi xuất khẩu.\n\nTầm nhìn "Mở lối phồn vinh" của Synetic Group không dừng lại ở quy mô tăng trưởng, mà hướng đến việc trở thành hệ sinh thái kinh doanh tích hợp đáng tin cậy hàng đầu Việt Nam trong lĩnh vực nông nghiệp, dinh dưỡng, dịch vụ chuỗi cung ứng và đầu tư.' },
+  { slug: 'trach-nhiem-xa-hoi', label: 'Trách nhiệm xã hội', hasSign: false, signName: '', signTitle: '',
+    body: 'Trách nhiệm xã hội tại Synetic Group được triển khai gắn liền với lĩnh vực hoạt động cốt lõi là nông nghiệp, dinh dưỡng và thú y — nơi doanh nghiệp có tác động trực tiếp đến sinh kế của người chăn nuôi, sức khoẻ vật nuôi và an toàn thực phẩm cho cộng đồng.\n\nVới con người — Synetic Group đầu tư vào đào tạo nội bộ thông qua Học viện Synetic, chương trình đào tạo kỹ năng quản trị, bán hàng và kỹ thuật cho cán bộ nhân viên, hệ thống đại lý và khách hàng, góp phần nâng cao năng lực cho toàn chuỗi giá trị, không chỉ trong nội bộ Tập đoàn.\n\nVới môi trường và chuỗi cung ứng — Tập đoàn từng bước tiếp cận các tiêu chuẩn phát triển bền vững (ESG), truy xuất nguồn gốc và giảm phát thải trong hoạt động sản xuất – chăn nuôi, nhằm đáp ứng yêu cầu ngày càng cao của thị trường trong nước và xuất khẩu.\n\nVới cộng đồng — Synetic Group hướng tới đồng hành lâu dài cùng người chăn nuôi và đối tác đại lý tại các địa phương nơi Tập đoàn đầu tư nhà máy, trang trại và cơ sở vận hành, thông qua chuyển giao kỹ thuật, hỗ trợ đầu ra sản phẩm và tạo việc làm tại chỗ.' },
+  { slug: 'giai-thuong', label: 'Giải thưởng', hasSign: false, signName: '', signTitle: '',
+    body: 'Synetic Group xác định uy tín thương hiệu được xây dựng bền vững thông qua chất lượng sản phẩm, dịch vụ và cam kết thực tế với khách hàng — thay vì chỉ dựa trên danh hiệu, giải thưởng.\n\nCác công ty thành viên trong hệ sinh thái đang trong quá trình chuẩn hoá theo các tiêu chuẩn chất lượng và quản lý phù hợp với từng lĩnh vực (dinh dưỡng vật nuôi, thú y, logistics), làm nền tảng để hướng tới các chứng nhận và ghi nhận chính thức từ các tổ chức trong và ngoài nước trong thời gian tới.\n\nDanh sách giải thưởng và chứng nhận cụ thể sẽ được cập nhật khi Synetic Group chính thức nhận được.' }
+];
+
+function getVeSyneticPages() {
+  const current = readJSON('ve-synetic-pages');
+  if (Array.isArray(current.items)) return current;
+  const items = VE_SYNETIC_SEED.map((p, i) => ({
+    id: (Date.now() + i).toString(),
+    slug: p.slug,
+    label: p.label,
+    hasSign: p.hasSign,
+    signName: p.signName,
+    signTitle: p.signTitle,
+    body: p.body,
+    published: true
+  }));
+  const migrated = { items };
+  writeJSON('ve-synetic-pages', migrated);
+  return migrated;
+}
 
 const EDITABLE_IMAGES = [
   { key: 'logo', label: 'Logo (hiển thị ở đầu trang và chân trang)' }
@@ -124,7 +154,8 @@ function commonLocals() {
     footer: readJSON('footer'),
     coreValues: readJSON('core-values').items,
     homepage: readJSON('homepage'),
-    members: getMembersData().items.filter((m) => m.published)
+    members: getMembersData().items.filter((m) => m.published),
+    vePages: getVeSyneticPages().items.filter((p) => p.published)
   };
 }
 
@@ -176,14 +207,8 @@ app.use(session({
 
 const PAGES = [
   { urls: ['/thu-vien.html'], view: 'thu-vien', root: '' },
-  { urls: ['/ve-synetic/thong-diep-chu-tich-hdqt.html'], view: 've-synetic/thong-diep-chu-tich-hdqt', root: '../' },
-  { urls: ['/ve-synetic/thong-diep-tong-giam-doc.html'], view: 've-synetic/thong-diep-tong-giam-doc', root: '../' },
   { urls: ['/ve-synetic/gia-tri-cot-loi.html'], view: 've-synetic/gia-tri-cot-loi', root: '../' },
-  { urls: ['/ve-synetic/lich-su.html'], view: 've-synetic/lich-su', root: '../' },
-  { urls: ['/ve-synetic/tam-nhin-chien-luoc.html'], view: 've-synetic/tam-nhin-chien-luoc', root: '../' },
-  { urls: ['/ve-synetic/mang-luoi-hoat-dong.html'], view: 've-synetic/mang-luoi-hoat-dong', root: '../' },
-  { urls: ['/ve-synetic/trach-nhiem-xa-hoi.html'], view: 've-synetic/trach-nhiem-xa-hoi', root: '../' },
-  { urls: ['/ve-synetic/giai-thuong.html'], view: 've-synetic/giai-thuong', root: '../' }
+  { urls: ['/ve-synetic/mang-luoi-hoat-dong.html'], view: 've-synetic/mang-luoi-hoat-dong', root: '../' }
 ];
 
 for (const page of PAGES) {
@@ -194,6 +219,15 @@ for (const page of PAGES) {
     });
   }
 }
+
+// ---------- Về Synetic pages (thêm/xoá được, public detail page) ----------
+
+app.get('/ve-synetic/:slug.html', (req, res, next) => {
+  const vePages = getVeSyneticPages().items.filter((i) => i.published);
+  const item = vePages.find((i) => i.slug === req.params.slug);
+  if (!item) return next();
+  res.render('ve-synetic-chi-tiet', { root: '../', ...commonLocals(), item, vePages });
+});
 
 app.get(['/', '/index.html'], (req, res) => {
   const pages = readJSON('pages');
@@ -883,6 +917,86 @@ adminRouter.post('/noi-dung/:key/edit', auth.verifyCsrf, (req, res) => {
   pages[def.key] = entry;
   writeJSON('pages', pages);
   res.redirect('/admin/noi-dung');
+});
+
+// ---------- Admin: Các trang "Về Synetic" (thêm/xoá được) ----------
+
+adminRouter.get('/ve-synetic', (req, res) => {
+  const vePages = getVeSyneticPages();
+  res.render('admin/ve-synetic-list', { items: vePages.items, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.get('/ve-synetic/new', (req, res) => {
+  res.render('admin/ve-synetic-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/ve-synetic/new', auth.verifyCsrf, (req, res) => {
+  const label = (req.body.label || '').trim();
+  const body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
+  if (!label || !body) {
+    return res.status(400).render('admin/ve-synetic-form', { item: null, error: 'Vui lòng nhập tiêu đề và nội dung.', csrfToken: auth.ensureCsrfToken(req) });
+  }
+  const vePages = getVeSyneticPages();
+  vePages.items.push({
+    id: Date.now().toString(),
+    slug: slugify(label),
+    label,
+    hasSign: req.body.hasSign === '1',
+    signName: (req.body.signName || '').trim(),
+    signTitle: (req.body.signTitle || '').trim(),
+    body,
+    published: req.body.published === '1'
+  });
+  writeJSON('ve-synetic-pages', vePages);
+  res.redirect('/admin/ve-synetic');
+});
+
+adminRouter.get('/ve-synetic/:id/edit', (req, res) => {
+  const vePages = getVeSyneticPages();
+  const item = vePages.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/ve-synetic');
+  res.render('admin/ve-synetic-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+});
+
+adminRouter.post('/ve-synetic/:id/edit', auth.verifyCsrf, (req, res) => {
+  const vePages = getVeSyneticPages();
+  const item = vePages.items.find((i) => i.id === req.params.id);
+  if (!item) return res.redirect('/admin/ve-synetic');
+  const label = (req.body.label || '').trim();
+  const body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
+  if (!label || !body) {
+    return res.status(400).render('admin/ve-synetic-form', { item, error: 'Vui lòng nhập tiêu đề và nội dung.', csrfToken: auth.ensureCsrfToken(req) });
+  }
+  item.label = label;
+  item.slug = slugify(label);
+  item.hasSign = req.body.hasSign === '1';
+  item.signName = (req.body.signName || '').trim();
+  item.signTitle = (req.body.signTitle || '').trim();
+  item.body = body;
+  item.published = req.body.published === '1';
+  writeJSON('ve-synetic-pages', vePages);
+  res.redirect('/admin/ve-synetic');
+});
+
+adminRouter.post('/ve-synetic/:id/delete', auth.verifyCsrf, (req, res) => {
+  const vePages = getVeSyneticPages();
+  vePages.items = vePages.items.filter((i) => i.id !== req.params.id);
+  writeJSON('ve-synetic-pages', vePages);
+  res.redirect('/admin/ve-synetic');
+});
+
+adminRouter.post('/ve-synetic/:id/move', auth.verifyCsrf, (req, res) => {
+  const vePages = getVeSyneticPages();
+  const idx = vePages.items.findIndex((i) => i.id === req.params.id);
+  const dir = req.body.direction === 'up' ? -1 : 1;
+  const swapWith = idx + dir;
+  if (idx !== -1 && swapWith >= 0 && swapWith < vePages.items.length) {
+    const tmp = vePages.items[idx];
+    vePages.items[idx] = vePages.items[swapWith];
+    vePages.items[swapWith] = tmp;
+    writeJSON('ve-synetic-pages', vePages);
+  }
+  res.redirect('/admin/ve-synetic');
 });
 
 // ---------- Admin: Thông tin liên hệ (chân trang) ----------

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= item ? 'Sửa trang' : 'Thêm trang' %> — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/style.css" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin/ve-synetic">← Nội dung trang Về Synetic</a></div>
+  <div class="admin-card">
+    <h1><%= item ? 'Sửa trang' : 'Thêm trang mới' %></h1>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="<%= item ? '/admin/ve-synetic/' + item.id + '/edit' : '/admin/ve-synetic/new' %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="admin-field">
+        <label for="label">Tiêu đề trang</label>
+        <input type="text" id="label" name="label" required value="<%= item ? item.label : '' %>" placeholder="Ví dụ: Thông điệp Phó Tổng giám đốc">
+      </div>
+
+      <div class="admin-field">
+        <label for="body">Nội dung (mỗi đoạn cách nhau 1 dòng trống)</label>
+        <textarea id="body" name="body" rows="14"><%= item ? item.body : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="hasSign" value="1" <%= (item && item.hasSign) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Có chữ ký cuối bài</label>
+      </div>
+      <div class="admin-field">
+        <label for="signName">Tên người ký (nếu có chữ ký)</label>
+        <input type="text" id="signName" name="signName" value="<%= item ? item.signName : '' %>">
+      </div>
+      <div class="admin-field">
+        <label for="signTitle">Chức danh (nếu có chữ ký)</label>
+        <input type="text" id="signTitle" name="signTitle" value="<%= item ? item.signTitle : '' %>">
+      </div>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label>
+      </div>
+
+      <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm trang' %></button>
+      <a class="admin-btn admin-btn-ghost" href="/admin/ve-synetic" style="margin-left:8px">Huỷ</a>
+    </form>
+  </div>
+</div>
+</body></html>

@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve", ".", "-l", "63400"],
       "port": 63400
+    },
+    {
+      "name": "synetic-app",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["app.js"],
+      "port": 3000
     }
   ]
 }
