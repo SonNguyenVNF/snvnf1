@@ -268,7 +268,7 @@ section{padding:var(--sp-3) 0} .hero .big{display:none} .hero{padding:28px 0 52p
   .hero-dots{margin-top:22px}
 
   /* header: brand top-left, "Liên hệ ngay" + language switch + hamburger top-right, nav collapses behind the hamburger */
-  .nav{justify-content:flex-start;gap:10px 8px}
+  .nav{justify-content:flex-start;gap:10px 8px;padding:6px 20px}
   .brand{gap:8px}
   .brand-logo{height:var(--logo-h-mobile,58px)}
   .btn{order:1;margin-left:auto;padding:8px 13px;font-size:12px}
