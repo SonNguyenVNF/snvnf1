@@ -1187,6 +1187,8 @@ adminRouter.get('/hinh-anh/:key/edit', (req, res) => {
     key: def.key,
     label: def.label,
     currentImage: siteImages[def.key] || null,
+    logoHeight: siteImages.logoHeight || 52,
+    logoHeightMobile: siteImages.logoHeightMobile || 58,
     error: null,
     csrfToken: auth.ensureCsrfToken(req)
   });
@@ -1203,6 +1205,8 @@ adminRouter.post('/hinh-anh/:key/edit', (req, res) => {
         key: def.key,
         label: def.label,
         currentImage: siteImages[def.key] || null,
+        logoHeight: siteImages.logoHeight || 52,
+        logoHeightMobile: siteImages.logoHeightMobile || 58,
         error: err.message,
         csrfToken: auth.ensureCsrfToken(req)
       });
@@ -1210,19 +1214,29 @@ adminRouter.post('/hinh-anh/:key/edit', (req, res) => {
     if (!auth.csrfOk(req)) {
       return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
     }
-    if (!req.file) {
+    if (!req.file && !siteImages[def.key]) {
       return res.status(400).render('admin/site-images-form', {
         key: def.key,
         label: def.label,
-        currentImage: siteImages[def.key] || null,
+        currentImage: null,
+        logoHeight: siteImages.logoHeight || 52,
+        logoHeightMobile: siteImages.logoHeightMobile || 58,
         error: 'Vui lòng chọn một ảnh để tải lên.',
         csrfToken: auth.ensureCsrfToken(req)
       });
     }
-    const oldImage = siteImages[def.key];
-    siteImages[def.key] = publicPathFor('site', req.file.filename);
+    if (req.file) {
+      const oldImage = siteImages[def.key];
+      siteImages[def.key] = publicPathFor('site', req.file.filename);
+      deleteUploadedFile(oldImage);
+    }
+    if (def.key === 'logo') {
+      const h1 = parseInt(req.body.logoHeight, 10);
+      const h2 = parseInt(req.body.logoHeightMobile, 10);
+      siteImages.logoHeight = (h1 >= 16 && h1 <= 200) ? h1 : 52;
+      siteImages.logoHeightMobile = (h2 >= 16 && h2 <= 200) ? h2 : 58;
+    }
     writeJSON('site-images', siteImages);
-    deleteUploadedFile(oldImage);
     res.redirect('/admin/hinh-anh');
   });
 });

@@ -24,10 +24,23 @@
     <form method="POST" action="/admin/hinh-anh/<%= key %>/edit" enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div class="admin-field">
-        <label for="image">Chọn ảnh mới</label>
-        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif" required>
+        <label for="image">Chọn ảnh mới (để trống nếu chỉ đổi kích thước bên dưới)</label>
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif" <%= currentImage ? '' : 'required' %>>
       </div>
-      <button class="admin-btn" type="submit">Lưu ảnh mới</button>
+      <% if (key === 'logo') { %>
+      <div class="admin-field" style="display:flex;gap:16px;border-top:1px solid #ECEAE3;padding-top:16px;margin-top:16px">
+        <div style="flex:1">
+          <label for="logoHeight">Chiều cao logo — máy tính (px)</label>
+          <input type="number" id="logoHeight" name="logoHeight" min="16" max="200" value="<%= logoHeight %>">
+        </div>
+        <div style="flex:1">
+          <label for="logoHeightMobile">Chiều cao logo — điện thoại (px)</label>
+          <input type="number" id="logoHeightMobile" name="logoHeightMobile" min="16" max="200" value="<%= logoHeightMobile %>">
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px">Mặc định: 52px (máy tính), 58px (điện thoại). Ảnh tự giữ đúng tỷ lệ, chỉ chiều cao thay đổi.</p>
+      <% } %>
+      <button class="admin-btn" type="submit" style="margin-top:16px">Lưu thay đổi</button>
       <a class="admin-btn admin-btn-ghost" href="/admin/hinh-anh" style="margin-left:8px">Huỷ</a>
     </form>
   </div>

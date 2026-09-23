@@ -18,7 +18,7 @@ h1,h2,h3,h4{font-family:var(--mo);font-weight:700;letter-spacing:-.01em;text-wra
 header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid #ECEAE3}
 .nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-2) var(--sp-3);padding:18px 28px}
 .brand{display:flex;align-items:center;gap:12px}
-.brand-logo{height:52px;width:auto;display:block}
+.brand-logo{height:var(--logo-h,52px);width:auto;display:block}
 nav ul{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;list-style:none;font-size:14px;font-weight:500}
 nav ul li>a,nav ul .dropdown-toggle{padding:8px 14px;border-radius:22px;border:1.5px solid #DDE6E0;transition:background .2s ease,color .2s ease,border-color .2s ease}
 nav a:hover{color:var(--em)}
@@ -270,7 +270,7 @@ section{padding:var(--sp-3) 0} .hero .big{display:none} .hero{padding:28px 0 52p
   /* header: brand top-left, "Liên hệ ngay" + language switch + hamburger top-right, nav collapses behind the hamburger */
   .nav{justify-content:flex-start;gap:10px 8px}
   .brand{gap:8px}
-  .brand-logo{height:58px}
+  .brand-logo{height:var(--logo-h-mobile,58px)}
   .btn{order:1;margin-left:auto;padding:8px 13px;font-size:12px}
   .nav-icons{order:1}
   .nav-icons .has-dropdown .dropdown-toggle{width:32px;height:32px;font-size:10px}
