@@ -511,3 +511,7 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .pgrid .pi .pico{margin-left:auto;margin-right:auto}
 .j-hero{background-size:cover;background-position:center}
 .pico{width:auto;height:auto;max-width:clamp(70px,7vw,100px);max-height:clamp(62px,6.4vw,90px);object-fit:contain}
+
+/* hero title: soft metallic fade, white at the top to warm grey at the bottom */
+.hero-text h1{text-shadow:none;filter:drop-shadow(0 3px 7px rgba(0,0,0,.45))}
+.hero-text h1 .w{background:linear-gradient(180deg,#fdfcfc 0%,#fdfcfc 38%,#efebe7 58%,#d5cdbf 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;padding-bottom:.06em}
