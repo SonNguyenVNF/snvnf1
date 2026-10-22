@@ -100,6 +100,8 @@
         per = Math.max(1, Math.round(viewport.getBoundingClientRect().width / w));
         pages = Math.max(1, Math.ceil(items.length / per));
         if(page >= pages) page = pages - 1;
+        // fewer cards than fit on screen: centre them instead of leaving a gap on the right
+        track.classList.toggle('car-center', items.length <= per);
         track.style.transform = 'translateX(' + offsetFor(page) + 'px)';
         if(dots){
           dots.innerHTML = '';

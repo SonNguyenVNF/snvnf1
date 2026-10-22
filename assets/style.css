@@ -503,3 +503,5 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .car-viewport,.gal-v{touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
 .car-viewport:active,.gal-v:active{cursor:grabbing}
 .car-viewport img,.gal-v img{-webkit-user-drag:none}
+
+.car-track.car-center{justify-content:center}
