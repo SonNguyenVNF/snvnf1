@@ -60,6 +60,8 @@ const IMAGE_SLOTS = [
   { key: 'map', label: 'Trang chủ — ảnh bản đồ phía trên chân trang', def: 'assets/img/map.jpg' },
   { key: 'footerBg', label: 'Chân trang — ảnh nền (phủ màu xanh)', def: 'assets/img/footer-bg.jpg' },
   { key: 'jobsBg', label: 'Trang Tuyển dụng — ảnh nền dải xanh đầu trang', def: 'assets/img/jobs-bg.jpg' },
+  { key: 'chairBg', label: 'Về chúng tôi — ảnh nền phần Chủ tịch (phủ màu xanh)', def: 'assets/img/jobs-bg.jpg' },
+  { key: 'strategyBg', label: 'Về chúng tôi — ảnh nền phần Tầm nhìn chiến lược (bên phải)', def: 'assets/img/strategy-bg.jpg' },
   { key: 'chairman', label: 'Về chúng tôi — ảnh Chủ tịch HĐQT', def: 'assets/img/chairman.png' },
   { key: 'history', label: 'Về chúng tôi — ảnh Lịch sử hình thành', def: 'assets/img/history.jpg' },
   { key: 'csr', label: 'Về chúng tôi — ảnh Trách nhiệm xã hội', def: 'assets/img/csr.jpg' },
@@ -229,8 +231,23 @@ function getNetwork() {
 
 const VALUES_NOTE_DEFAULT = 'Sáu giá trị này là kim chỉ nam cho mọi quyết định và hành động của Synetic Group — từ chiến lược đầu tư đến từng tương tác với khách hàng, đối tác và người lao động.';
 
+const VALUES_LONG = {
+  'KHÁT VỌNG': 'Nghĩ lớn – Làm lớn – Đi xa. Chúng tôi theo đuổi những mục tiêu dài hạn, không ngại đầu tư bài bản cho các giá trị cần thời gian để chứng minh.',
+  'TIÊN PHONG': 'Không theo cuộc chơi – Tạo cuộc chơi. Chủ động tìm kiếm mô hình kinh doanh mới, ứng dụng công nghệ thay vì đi theo lối mòn của thị trường.',
+  'CHUYỂN ĐỘNG': 'Không ngừng tốt hơn. Liên tục cải tiến quy trình, sản phẩm và năng lực đội ngũ để thích ứng với một thị trường luôn thay đổi.',
+  'PHỤNG SỰ': 'Thành công của khách hàng là thước đo. Mọi sản phẩm, dịch vụ của hệ sinh thái đều được đánh giá bằng hiệu quả thực tế mà khách hàng nhận được.',
+  'HỢP LỰC': 'Một hệ thống – Một sức mạnh. Các công ty thành viên vận hành như một hệ thống thống nhất, chia sẻ nguồn lực và tri thức để cùng phát triển.',
+  'CHÍNH TRỰC': 'Làm đúng để đi xa. Minh bạch trong quản trị, trung thực trong cam kết — nền tảng để xây dựng niềm tin bền vững với đối tác và cộng đồng.'
+};
+
 function getCoreValues() {
   const raw = readJSON('core-values');
+  if (!raw.longV1 && Array.isArray(raw.items)) {
+    // the short one-liners were only a homepage placeholder; the About page shows the full text
+    raw.items.forEach((it) => { const long = VALUES_LONG[String(it.title || '').toUpperCase()]; if (long && String(it.description || '').length < 70) it.description = long; });
+    raw.longV1 = true;
+    writeJSON('core-values', raw);
+  }
   return { items: raw.items || [], note: (typeof raw.note === 'string' && raw.note.trim()) || VALUES_NOTE_DEFAULT };
 }
 

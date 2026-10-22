@@ -28,7 +28,7 @@ const ROLES = [
   { key: 'subheading', label: 'Tiêu đề nhỏ trên thẻ (tên tin, dự án, thành viên, giá trị cốt lõi...)', css: '.ncard h3,.n-big h3,.n-sm h3,.n-row h3,.pcard h3,.icard h4,.pillar h3,.vitem h3,.net-item h4,.net-center b,.tcard h3,.csr-item h3,.why-grid h3,.pgrid h3,.pt-cat h3,.j-row .tt a,.mcard .mn,.mcard .ms,.vcenter,.j-side h4,.rich h3' },
   { key: 'button', label: 'Chữ trên các nút bấm (XEM THÊM, TÌM HIỂU THÊM...)', css: '.btn,.btn-find' },
   { key: 'number', label: 'Con số lớn (100+, 01. 02. 03...)', css: '.j-stats b,.pillar .pn,.pcard .pn b' },
-  { key: 'script', label: 'Chữ trang trí (chữ "Thông điệp" ở phần Chủ tịch)', css: '.ab-card .tt' },
+  { key: 'script', label: 'Chữ trang trí (chữ "Thông điệp" ở phần Chủ tịch)', css: '.ab-card .t1', def: 'fz-photograph' },
   { key: 'article', label: 'Nội dung bài viết, dự án, tuyển dụng, giới thiệu', css: '.a-body p,.pd-text,.jd-body,.m-grid .body p,.ab-split p,.ab-card p,.rich' },
   { key: 'footer', label: 'Chân trang (tên công ty, địa chỉ, form, bản quyền)', css: '.ft,.ft h3,.copy,.ft-form input,.ft-form textarea' }
 ];
@@ -114,7 +114,7 @@ function getSettings() {
   const byKey = {};
   fams.forEach((f) => { byKey[f.key] = f; });
   const out = {};
-  ROLES.forEach((r) => { out[r.key] = byKey[roles[r.key]] ? roles[r.key] : 'roboto'; });
+  ROLES.forEach((r) => { out[r.key] = byKey[roles[r.key]] ? roles[r.key] : (byKey[r.def] ? r.def : 'roboto'); });
   return { roles: out, families: fams, byKey };
 }
 
@@ -137,7 +137,7 @@ function buildCss() {
   });
   // handwriting fonts run small, so enlarge the decorative "Thông điệp" word when one is chosen
   const script = s.byKey[s.roles.script];
-  if (script && script.key === 'fz-photograph') rules += '.ab-card .tt{font-size:clamp(34px,4.2vw,62px);line-height:1;letter-spacing:.02em}';
+  if (script && script.key === 'fz-photograph') rules += '.ab-card .t1{font-size:clamp(44px,5vw,76px);line-height:1;letter-spacing:.01em;font-weight:400}';
   const custom = readStyles().map((r) => ruleCss(r, s.byKey)).join('');
   return css + ':root{' + vars + '}' + rules + custom;
 }

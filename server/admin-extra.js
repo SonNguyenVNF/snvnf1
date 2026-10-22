@@ -173,6 +173,7 @@ module.exports = function registerAdminExtra(adminRouter) {
     name: one(req.body.name),
     title: one(req.body.title),
     subtitle: one(req.body.subtitle),
+    year: one(req.body.year),
     bio: one(req.body.bio),
     phone: one(req.body.phone),
     email: one(req.body.email)
@@ -402,7 +403,7 @@ module.exports = function registerAdminExtra(adminRouter) {
     const titles = arr(req.body.title);
     const descriptions = arr(req.body.description);
     const items = titles.map((t, i) => ({ title: one(t), description: one(descriptions[i]) })).filter((v) => v.title);
-    writeJSON('core-values', { items, note: one(req.body.note) });
+    writeJSON('core-values', { items, note: one(req.body.note), longV1: true });
     res.redirect('/admin/gia-tri?saved=1');
   });
 

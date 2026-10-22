@@ -37,6 +37,11 @@
         <textarea id="bio" name="bio" rows="4" placeholder="1-2 câu"><%= item ? item.bio : '' %></textarea>
       </div>
 
+      <div class="admin-field">
+        <label for="year">Năm sinh / mốc (hiện cạnh biểu tượng lịch, để trống nếu không cần)</label>
+        <input type="text" id="year" name="year" value="<%= item ? (item.year || '') : '' %>" placeholder="Ví dụ: 1989">
+      </div>
+
       <div class="admin-field row2">
         <div><label for="phone">Số điện thoại</label>
           <input type="text" id="phone" name="phone" value="<%= item ? (item.phone || '') : '' %>"></div>
