@@ -35,6 +35,7 @@
             <% if (r.size) { %>Cỡ: <%= r.size %>px · <% } %>
             <% if (r.sizeMobile) { %>Điện thoại: <%= r.sizeMobile %>px · <% } %>
             <% if (r.weight) { %>Đậm: <%= r.weight %> · <% } %>
+            <% if (r.x || r.y) { %>Dời: <%= r.x || 0 %>px ngang, <%= r.y || 0 %>px dọc · <% } %>
             <% if (r.color) { %>Màu: <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:<%= r.color %>;border:1px solid #bbb;vertical-align:-2px"></span> <%= r.color %><% } %>
           </div>
           <div style="color:#999;font-size:11.5px;margin-top:3px;word-break:break-all"><%= r.selector %></div>

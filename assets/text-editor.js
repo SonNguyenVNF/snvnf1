@@ -26,6 +26,7 @@
     '#te-msg{font-size:12.5px;padding:0 14px 10px;color:#1d8a47;min-height:16px}' +
     '.te-hover{outline:2px dashed #cb9029!important;outline-offset:2px;cursor:pointer!important}' +
     '.te-sel{outline:2px solid #0b47c9!important;outline-offset:2px}' +
+    '.te-drag{cursor:move!important;user-select:none!important}' +
     '.te-sw{width:26px;height:26px;border-radius:50%;border:1px solid #bbb;cursor:pointer;flex:none}');
   document.head.appendChild(css);
   var live = el('style', {id: 'te-live'}); document.head.appendChild(live);
@@ -47,6 +48,10 @@
         '<div class="row"><input type="number" id="te-size-n" min="8" max="200" style="width:90px"><button type="button" id="te-size-x" style="border:0;background:#eee;border-radius:7px;padding:8px 10px;cursor:pointer;font-size:12.5px">Giữ cỡ gốc</button></div>' +
         '<label>Cỡ chữ điện thoại (để trống = tự co theo)</label><input type="number" id="te-size-m" min="8" max="120" placeholder="ví dụ 28">' +
         '<label>Độ đậm</label><select id="te-weight">' + weights + '</select>' +
+        '<label>Vị trí (kéo chữ bằng chuột, hoặc dùng phím mũi tên)</label>' +
+        '<div class="row"><span style="font-size:12.5px;width:46px">Ngang</span><input type="number" id="te-x" step="1" value="0"><span style="font-size:12.5px;width:34px;text-align:right">Dọc</span><input type="number" id="te-y" step="1" value="0"></div>' +
+        '<div class="row" style="margin-top:8px"><button type="button" id="te-pos-x" style="border:0;background:#eee;border-radius:7px;padding:8px 10px;cursor:pointer;font-size:12.5px">Về vị trí gốc</button></div>' +
+        '<label style="font-weight:400;display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="te-mm" style="width:auto"> Áp dụng cả trên điện thoại (bỏ tick = chỉ dời trên máy tính)</label>' +
         '<label>Màu chữ</label>' +
         '<div class="row"><input type="color" id="te-color" value="#ffffff"><input type="text" id="te-color-t" placeholder="#ffffff"><button type="button" id="te-color-x" style="border:0;background:#eee;border-radius:7px;padding:8px 10px;cursor:pointer;font-size:12.5px;flex:none">Giữ màu gốc</button></div>' +
         '<div class="row" style="margin-top:8px;flex-wrap:wrap">' + swatches + '</div>' +
@@ -105,16 +110,20 @@
     if(r.size) d += 'font-size:' + r.size + 'px!important;';
     if(r.weight) d += 'font-weight:' + r.weight + '!important;';
     if(r.color) d += 'color:' + r.color + '!important;-webkit-text-fill-color:' + r.color + '!important;background:none!important;';
+    if(r.x || r.y) d += 'translate:' + (r.x || 0) + 'px ' + (r.y || 0) + 'px!important;' + (r.inline ? 'display:inline-block!important;' : '');
     return d;
   }
   function ruleCss(r){
     var s = decl(r) ? r.selector + '{' + decl(r) + '}' : '';
+    if((r.x || r.y) && !r.moveMobile) s += '@media(max-width:860px){' + r.selector + '{translate:none!important}}';
     if(r.sizeMobile) s += '@media(max-width:860px){' + r.selector + '{font-size:' + r.sizeMobile + 'px!important}}';
     return s;
   }
   function renderLive(extra){
     var all = rules.filter(function(r){ return !extra || r.selector !== extra.selector; }).concat(extra ? [extra] : []);
     live.textContent = all.map(ruleCss).join('');
+    // moving back to the original place must also cancel a position that is already saved
+    if(extra && !extra.x && !extra.y && extra.selector) live.textContent += extra.selector + '{translate:none!important}';
   }
 
   /* ---- panel logic ---- */
@@ -124,7 +133,9 @@
     var m = parseFloat($('te-size-m').value) || 0;
     return {
       selector: cur.selector, font: $('te-font').value, size: size ? Math.round(size) : 0, sizeMobile: m ? Math.round(m) : 0,
-      weight: $('te-weight').value, color: $('te-color-t').value.trim() ? $('te-color-t').value.trim() : ''
+      weight: $('te-weight').value, color: $('te-color-t').value.trim() ? $('te-color-t').value.trim() : '',
+      x: Math.round(parseFloat($('te-x').value) || 0), y: Math.round(parseFloat($('te-y').value) || 0),
+      moveMobile: $('te-mm').checked, inline: current && getComputedStyle(current).display === 'inline'
     };
   }
   var sizeSet = false, colorSet = false;
@@ -138,6 +149,7 @@
     sizeSet = !!(r && r.size);
     $('te-size').value = r && r.size ? r.size : px; $('te-size-n').value = r && r.size ? r.size : px; $('te-sz-v').textContent = (r && r.size ? r.size : px) + 'px' + (sizeSet ? '' : ' (gốc)');
     $('te-size-m').value = r && r.sizeMobile ? r.sizeMobile : '';
+    $('te-x').value = r && r.x ? r.x : 0; $('te-y').value = r && r.y ? r.y : 0; $('te-mm').checked = !!(r && r.moveMobile);
     $('te-weight').value = r ? (r.weight || '') : '';
     colorSet = !!(r && r.color);
     var hex = r && r.color ? r.color : rgb2hex(cs.color);
@@ -170,7 +182,7 @@
   document.addEventListener('click', function(e){
     if(!on || inEditor(e.target)) return;
     e.preventDefault(); e.stopPropagation();
-    var t = textTarget(e.target); if(t) openFor(t);
+    var t = textTarget(e.target); if(t && t !== current) openFor(t);
   }, true);
 
   $('te-scope').addEventListener('change', function(){ updateSelector(); preview(); });
@@ -187,6 +199,35 @@
   panel.addEventListener('click', function(e){ var c = e.target.getAttribute && e.target.getAttribute('data-c'); if(c) setColor(c); });
   function updateSelectorKeepScope(){ var sc = $('te-scope').value; updateSelector(); $('te-scope').value = sc; }
 
+  $('te-x').addEventListener('input', preview); $('te-y').addEventListener('input', preview); $('te-mm').addEventListener('change', preview);
+  $('te-pos-x').addEventListener('click', function(){ $('te-x').value = 0; $('te-y').value = 0; preview(); });
+
+  /* drag the selected text with the mouse or a finger */
+  var drag = null;
+  document.addEventListener('pointerdown', function(e){
+    if(!on || !current || inEditor(e.target) || e.button > 0) return;
+    if(!(current === e.target || current.contains(e.target))) return;
+    e.preventDefault(); e.stopPropagation();
+    drag = { sx: e.clientX, sy: e.clientY, x0: parseFloat($('te-x').value) || 0, y0: parseFloat($('te-y').value) || 0 };
+    current.classList.add('te-drag');
+    try { current.setPointerCapture(e.pointerId); } catch(err) {}
+  }, true);
+  document.addEventListener('pointermove', function(e){
+    if(!drag) return;
+    $('te-x').value = Math.round(drag.x0 + e.clientX - drag.sx); $('te-y').value = Math.round(drag.y0 + e.clientY - drag.sy);
+    preview();
+  });
+  function endDrag(){ if(!drag) return; drag = null; if(current) current.classList.remove('te-drag'); }
+  document.addEventListener('pointerup', endDrag); document.addEventListener('pointercancel', endDrag);
+  /* arrow keys nudge by 1px (Shift = 10px) when the focus is not inside a field */
+  document.addEventListener('keydown', function(e){
+    if(!on || !current || !/^Arrow/.test(e.key)) return;
+    var t = e.target; if(t && /^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName)) return;
+    var step = e.shiftKey ? 10 : 1, x = parseFloat($('te-x').value) || 0, y = parseFloat($('te-y').value) || 0;
+    if(e.key === 'ArrowLeft') x -= step; if(e.key === 'ArrowRight') x += step; if(e.key === 'ArrowUp') y -= step; if(e.key === 'ArrowDown') y += step;
+    $('te-x').value = x; $('te-y').value = y; preview(); e.preventDefault();
+  });
+
   function post(url, data){
     var body = new URLSearchParams(); body.append('_csrf', cfg.csrf);
     for(var k in data) body.append(k, data[k]);
@@ -196,6 +237,7 @@
     var r = readForm(); if(!sizeSet) r.size = 0;
     if(!/^#[0-9a-fA-F]{6}$/.test(r.color)) r.color = '';
     r.label = (current.textContent || '').trim().slice(0, 40);
+    r.moveMobile = r.moveMobile ? '1' : ''; r.inline = r.inline ? '1' : '';
     post('/admin/chinh-chu/save', r).then(function(res){
       if(res && res.ok){
         rules = res.rules; renderLive(null);
