@@ -31,10 +31,28 @@ const NEWS = [
     body: 'Tháng Mười thu dịu dàng gõ cửa cũng là lúc chúng ta cùng nhau hướng về Ngày Phụ nữ Việt Nam 20/10 – một dịp đặc biệt để tôn vinh và gửi trao những tình cảm trân quý nhất đến một nửa yêu thương của thế giới.\n\nTrong hành trình xây dựng và phát triển không ngừng nghỉ, các chị em luôn là những mảnh ghép vô cùng quan trọng và đầy tự hào. Không chỉ mang đến sự mềm mại, tinh tế và gắn kết trong văn hóa tập thể, phái đẹp còn khẳng định bản lĩnh vững vàng, trí tuệ sắc bén và sự cống hiến bền bỉ trong từng dự án, từng mục tiêu chung.\n\nMỗi thành tựu đạt được ngày hôm nay đều mang đậm dấu ấn từ những nỗ lực thầm lặng nhưng phi thường của các bà, các mẹ, các chị và các em – những người phụ nữ hiện đại vừa giỏi việc chuyên môn, vừa khéo léo giữ lửa ấm gia đình. Nhân ngày Phụ nữ Việt Nam 20/10, xin được gửi lời tri ân sâu sắc cùng những lời chúc tốt đẹp nhất đến toàn thể chị em phụ nữ.\n\nChúc phái đẹp luôn dồi dào sức khỏe, giữ mãi nét thanh xuân rạng rỡ, tâm hồn luôn bình yên và trái tim luôn tràn đầy nhiệt huyết. Mong rằng trên mọi chặng đường phía trước, chị em sẽ luôn được yêu thương, trân trọng và tiếp tục tỏa sáng rực rỡ với những ước mơ, hoài bão của chính mình!' }
 ];
 
+// the 3 news cards shown on the design's home page
+const HOME_NEWS = [
+  { slug: 'san-xuat-nong-nghiep-thang-08-2026', category: 'thi-truong', publishedAt: '2026-09-08', image: img('proj-picity.jpg'),
+    title: 'SẢN XUẤT NÔNG NGHIỆP THÁNG 08/2026 TIẾP TỤC PHÁT TRIỂN ỔN ĐỊNH',
+    excerpt: 'Dự án bất động sản phân phối thành công tại các thị trường trọng điểm, tạo nền tảng cho tăng trưởng toàn chuỗi trong thời gian tới.' },
+  { slug: 'vi-sao-nganh-thu-y-hot-10-nam-toi', category: 'thi-truong', publishedAt: '2026-09-08', image: img('news-building-2.jpg'),
+    title: 'VÌ SAO NGÀNH THÚ Y ĐƯỢC DỰ BÁO LÀ "HOT" TRONG 10 NĂM TỚI',
+    excerpt: 'Dự án bất động sản phân phối thành công tại các thị trường trọng điểm, tạo nền tảng cho tăng trưởng toàn chuỗi trong thời gian tới.' },
+  { slug: 'phan-tich-tinh-hinh-tai-chinh-giai-phap-nang-cao', category: 'thi-truong', publishedAt: '2026-09-08', image: img('proj-felix.jpg'),
+    title: 'PHÂN TÍCH TÌNH HÌNH TÀI CHÍNH VÀ CÁC GIẢI PHÁP NÂNG CAO',
+    excerpt: 'Dự án bất động sản phân phối thành công tại các thị trường trọng điểm, tạo nền tảng cho tăng trưởng toàn chuỗi trong thời gian tới.' }
+];
+
+HOME_NEWS.forEach((n) => { n.featured = true; });
+
+const HERO_DESC = 'Synetic Group kiến tạo giá trị vượt trội thông qua **đổi mới, kết nối và phát triển bền vững**, hướng tới một tương lai tốt đẹp hơn cho khách hàng, đối tác và cộng đồng.';
+const HERO = ['hero-1.jpg', 'hero-2.jpg', 'hero-3.jpg', 'hero-4.jpg', 'hero-5.jpg'];
+
 const PROJECT_EXCERPT = 'Synetic Group hoạt động trong các lĩnh vực cốt lõi: nông nghiệp, dinh dưỡng, thú y, chuỗi cung ứng và đầu tư — cam kết mang đến các giải pháp và dịch vụ chất lượng, góp phần thúc đẩy sự phát triển bền vững của cộng đồng và xã hội.';
 
 const PROJECTS = [
-  { slug: 'hi-lifeshop-picity-highpark', title: 'HI-LIFESHOP PICITY HIGHPARK', type: 'Dự án thuộc chữa PARVO', location: 'Thạnh Xuân 13 - Phường Thới An (Quận 12 cũ) - TP Hồ Chí Minh', status: 'Đang triển khai', featured: true },
+  { slug: 'hi-lifeshop-picity-highpark', title: 'HI-LIFESHOP PICITY HIGHPARK', type: 'Dự án thuộc chữa PARVO', location: 'Thạnh Xuân 13 - Phường Thới An (Quận 12 cũ) - TP Hồ Chí Minh', status: 'Đang triển khai', featured: true, images: [img('proj-picity.jpg'), img('proj-picity-2.jpg'), img('proj-picity-3.jpg'), img('proj-picity-4.jpg')] },
   { slug: 'ak-tower', title: 'A&K TOWER', type: 'CĂN HỘ CAO CẤP', location: 'TP Hồ Chí Minh', status: 'Đang triển khai' },
   { slug: 'the-felix', title: 'THE FELIX', type: 'CĂN HỘ CAO CẤP', location: 'Bình Dương', status: 'Đang triển khai' },
   { slug: 'setia-edenia', title: 'SETIA EDENIA', type: 'CĂN HỘ CAO CẤP', location: 'Bình Dương', status: 'Đang triển khai' },
@@ -67,21 +85,36 @@ const JOBS = [
 const SALE_ADMIN_BODY = '# MÔ TẢ CÔNG VIỆC\n\n1. Hỗ trợ bộ phận kinh doanh, đối tác lock căn, lập biên nhận cọc, giữ chỗ, và các chứng từ liên quan\n\n2. Soạn thảo hợp đồng, chính sách, các văn bản của bộ phận kinh doanh\n\n3. Cập nhật tình trạng sản phẩm, giỏ hàng, giải quyết những vấn đề liên quan đến sản phẩm.\n\n4. Theo dõi, kiểm tra, báo cáo kết quả kinh doanh hàng tháng.\n\n5. Quản lý, lưu trữ dữ liệu/ tài liệu.\n\n6. Tham gia các sự kiện do công ty và CĐT tổ chức.\n\n7. Một số công việc phát sinh khác theo sự phân công của quản lý trực tiếp.\n\n8. Có trách nhiệm bảo mật số liệu, dữ liệu theo quy định của công ty.\n\n9. Các công việc khác theo sự phân công của Trưởng bộ phận và Ban Lãnh đạo.\n\n# YÊU CẦU ỨNG VIÊN\n\n1. Trình độ: Tốt nghiệp Đại học, Cao đẳng.\n\n2. Kinh nghiệm: ít nhất 1 năm ở vị trí sale admin cho mảng bất động sản\n\n3. Năng động, sáng tạo, chịu khó không ngại việc\n\n# THU NHẬP\n\n- Thu nhập khi đạt 100% KPI: Thoả thuận\n- Thu nhập tính theo tỷ lệ đạt KPI\n- Lương cứng: 12 – 14 triệu VND\n- Lương cứng không phụ thuộc doanh số\n\n# QUYỀN LỢI ỨNG VIÊN\n\n1. Lương cứng: 12.000.000 – 14.000.000 đồng + Hoa hồng + Thưởng.\n\n2. Môi trường làm việc trẻ trung, năng động, tăng trưởng nhanh, sáng tạo, chuyên nghiệp, được đào tạo bài bản phát huy tối đa năng lực bản thân.\n\n3. Được hưởng đầy đủ các chế độ : BHXH, BHYT, lễ tết, sinh nhật, cưới hỏi,....\n\n4. Được tham gia các chương trình gắn kết, teambuilding, du lịch hàng năm.\n\n# ĐỊA ĐIỂM VÀ THỜI GIAN\n\nĐịa điểm làm việc\n- Hà Nội: Tầng 2, Toà nhà Housinco Premium, số 288 Nguyễn Xiển,, Phường Thanh Liệt (huyện Thanh Trì cũ)\nThời gian làm việc\n- Thứ 2 – Thứ 7 (từ 08:30 đến 17:30)\n- Từ T2 đến sáng T7';
 
 function importDemo() {
-  const counts = { news: 0, projects: 0, jobs: 0 };
+  const counts = { news: 0, projects: 0, jobs: 0, hero: 0 };
   let n = 0;
   const nextId = () => (Date.now() + (n++)).toString();
 
   const news = readJSON('news');
-  NEWS.forEach((d) => {
+  NEWS.concat(HOME_NEWS).forEach((d) => {
     if (news.items.some((i) => i.slug === d.slug)) return;
     news.items.push(Object.assign({ id: nextId(), images: [], body: d.excerpt, published: true }, d));
     counts.news++;
   });
   writeJSON('news', news);
 
+  // hero: replace the 3 original sample slides by your 5 photos, but never touch slides you edited yourself
+  const hero = readJSON('hero-slides');
+  const untouched = hero.items.length > 0 && hero.items.every((s) => /^assets\/hero\//.test(s.image || ''));
+  counts.hero = 0;
+  if (untouched) {
+    hero.items = HERO.map((f) => ({ id: nextId(), image: img(f), eyebrow: '', title: 'Kiến tạo **giá trị vượt trội**', description: HERO_DESC, published: true }));
+    writeJSON('hero-slides', hero);
+    counts.hero = HERO.length;
+  }
+
   const projects = sd.getProjects();
   PROJECTS.concat([FACTORY]).forEach((d) => {
-    if (projects.items.some((i) => i.slug === d.slug)) return;
+    const have = projects.items.find((i) => i.slug === d.slug);
+    if (have) {
+      // an earlier import left this sample project without its photos: add them (never overwrite your own)
+      if (d.images && d.images.length && (!have.images || !have.images.length)) have.images = d.images;
+      return;
+    }
     projects.items.push(Object.assign({ id: nextId(), published: true }, d));
     counts.projects++;
   });

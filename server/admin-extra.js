@@ -323,11 +323,11 @@ module.exports = function registerAdminExtra(adminRouter) {
 
   // ---------- Nhập nội dung mẫu theo thiết kế ----------
   adminRouter.get('/nhap-mau', (req, res) => {
-    res.render('admin/demo-import', { csrfToken: csrf(req), done: req.query.done === '1', counts: { news: req.query.news || 0, projects: req.query.projects || 0, jobs: req.query.jobs || 0 } });
+    res.render('admin/demo-import', { csrfToken: csrf(req), done: req.query.done === '1', counts: { news: req.query.news || 0, projects: req.query.projects || 0, jobs: req.query.jobs || 0, hero: req.query.hero || 0 } });
   });
   adminRouter.post('/nhap-mau', auth.verifyCsrf, (req, res) => {
     const c = require('./demo-content').importDemo();
-    res.redirect('/admin/nhap-mau?done=1&news=' + c.news + '&projects=' + c.projects + '&jobs=' + c.jobs);
+    res.redirect('/admin/nhap-mau?done=1&news=' + c.news + '&projects=' + c.projects + '&jobs=' + c.jobs + '&hero=' + c.hero);
   });
 
   // ---------- Tin nhắn liên hệ (form chân trang) ----------

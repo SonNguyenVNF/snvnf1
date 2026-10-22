@@ -119,7 +119,7 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .partners-band .closing{position:relative;font-size:13px}
 
 /* ---------- news cards / carousel ---------- */
-.news-sec{padding:clamp(36px,4vw,60px) 0 clamp(30px,4vw,50px);background:#fff url("img/bg-line.svg") center bottom/cover no-repeat}
+.news-sec{padding:clamp(36px,4vw,60px) 0 clamp(30px,4vw,50px);background:#fff url("img/skyline.jpg") center bottom/cover no-repeat}
 .news-sec h2{text-align:center;color:var(--navy);font-weight:700;text-transform:uppercase;font-size:clamp(22px,2.3vw,32px);margin-bottom:clamp(22px,2.6vw,36px)}
 .car{position:relative}
 .car-viewport{overflow:hidden;padding:6px 4px 14px}
@@ -243,7 +243,7 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .related .h-line{margin-bottom:24px}
 
 /* ---------- projects ---------- */
-.p-feature{position:relative;padding:clamp(34px,4vw,56px) 0 clamp(26px,3vw,40px);background:#fff url("img/bg-line.svg") center/cover no-repeat}
+.p-feature{position:relative;padding:clamp(34px,4vw,56px) 0 clamp(26px,3vw,40px);background:#fff url("img/skyline.jpg") center/cover no-repeat}
 .pf-slide{display:none;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,64px);align-items:center}
 .pf-slide.active{display:grid}
 .pf-slide h2{font-size:clamp(28px,3.6vw,54px);font-weight:700;color:var(--navy);text-transform:uppercase;line-height:1.1}
@@ -347,7 +347,7 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .ab-card .sg{margin-top:14px;font-weight:700;text-transform:uppercase;font-size:12px;line-height:1.5}
 .ab-card .sg span{display:block;font-weight:400;text-transform:none;color:#dfe6ff;font-size:11px}
 .ab-photo{align-self:end;justify-self:center}
-.ab-photo img{max-height:clamp(300px,34vw,600px);width:auto;margin:0 auto;-webkit-mask-image:linear-gradient(to right,transparent,#000 24%,#000 76%,transparent),linear-gradient(to bottom,transparent,#000 16%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 24%,#000 76%,transparent),linear-gradient(to bottom,transparent,#000 16%);mask-composite:intersect}
+.ab-photo img{max-height:clamp(320px,36vw,640px);width:auto;margin:0 auto;display:block}
 .ab-block{padding:clamp(36px,4.6vw,72px) 0}
 .ab-split{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4.4vw,70px);align-items:center}
 .ab-split.rev{grid-template-columns:.9fr 1.1fr}
@@ -505,3 +505,9 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .car-viewport img,.gal-v img{-webkit-user-drag:none}
 
 .car-track.car-center{justify-content:center}
+
+.pico{width:clamp(58px,6vw,84px);height:clamp(58px,6vw,84px);object-fit:contain;margin-bottom:18px}
+.pt-cat .pico{margin:0 auto 14px;filter:invert(62%) sepia(55%) saturate(560%) hue-rotate(2deg) brightness(.92)}
+.pgrid .pi .pico{margin-left:auto;margin-right:auto}
+.j-hero{background-size:cover;background-position:center}
+.pico{width:auto;height:auto;max-width:clamp(70px,7vw,100px);max-height:clamp(62px,6.4vw,90px);object-fit:contain}

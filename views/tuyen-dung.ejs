@@ -5,7 +5,7 @@
 <%- include('partials/banner', { root: root, title: 'CƠ HỘI VIỆC LÀM', siteImages: siteImages }) %>
 
 <main>
-<section class="j-hero"<%- fx('job-hero') %>>
+<section class="j-hero"<%- fx('job-hero') %> style="background-image:url('<%= root %><%= siteImages.jobsBg %>')">
   <h2><%= recruit.heroTitle %></h2>
   <h3><%= recruit.heroSub %></h3>
   <% recruit.heroText.split(/\n+/).forEach(function(l) { %><p><%= l %></p><% }); %>

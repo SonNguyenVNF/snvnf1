@@ -13,8 +13,8 @@
   <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
   <div class="admin-card">
     <h1>Nhập nội dung mẫu theo thiết kế</h1>
-    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Bấm nút bên dưới để thêm sẵn nội dung giống hệt các trang thiết kế: 7 bài Tin tức, 7 Dự án và 8 vị trí Tuyển dụng (có ảnh minh hoạ). Sau đó bạn vào từng mục để sửa hoặc xoá tuỳ ý. Nội dung của bạn đang có sẽ không bị đụng tới; bấm nhiều lần cũng không bị trùng.</p>
-    <% if (done) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã thêm: <%= counts.news %> tin tức, <%= counts.projects %> dự án, <%= counts.jobs %> vị trí tuyển dụng.</div><% } %>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Bấm nút bên dưới để thêm sẵn nội dung giống hệt các trang thiết kế: 5 slide đầu trang (ảnh từ file thiết kế; chỉ thay khi bạn chưa tự sửa slide), 10 bài Tin tức, 7 Dự án và 8 vị trí Tuyển dụng (có ảnh minh hoạ). Sau đó bạn vào từng mục để sửa hoặc xoá tuỳ ý. Nội dung của bạn đang có sẽ không bị đụng tới; bấm nhiều lần cũng không bị trùng.</p>
+    <% if (done) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã thêm: <%= counts.hero %> slide đầu trang, <%= counts.news %> tin tức, <%= counts.projects %> dự án, <%= counts.jobs %> vị trí tuyển dụng.</div><% } %>
     <form method="POST" action="/admin/nhap-mau">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <button class="admin-btn" type="submit">Nhập nội dung mẫu</button>

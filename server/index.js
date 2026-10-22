@@ -382,6 +382,7 @@ adminRouter.post('/tin-tuc/new', (req, res) => {
       images: galleryFiles.map((f) => publicPathFor('news', f.filename)),
       publishedAt: req.body.publishedAt || todayStr(),
       category: req.body.category === 'thi-truong' ? 'thi-truong' : 'noi-bo',
+      featured: req.body.featured === '1',
       published: req.body.published === '1'
     });
     writeJSON('news', news);
@@ -417,6 +418,7 @@ adminRouter.post('/tin-tuc/:id/edit', (req, res) => {
     item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
     item.publishedAt = req.body.publishedAt || item.publishedAt;
     item.category = req.body.category === 'thi-truong' ? 'thi-truong' : 'noi-bo';
+    item.featured = req.body.featured === '1';
     item.published = req.body.published === '1';
 
     const coverFile = req.files && req.files.image && req.files.image[0];

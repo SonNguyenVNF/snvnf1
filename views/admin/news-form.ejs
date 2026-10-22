@@ -67,6 +67,10 @@
       </div>
 
       <div class="admin-field">
+        <label><input type="checkbox" name="featured" value="1" <%= (item && item.featured) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiện ở mục "Tin tức nổi bật" trên trang chủ (nếu không bài nào được tick, trang chủ hiện các bài mới nhất)</label>
+      </div>
+
+      <div class="admin-field">
         <label for="publishedAt">Ngày đăng</label>
         <input type="date" id="publishedAt" name="publishedAt" value="<%= item ? item.publishedAt : today %>">
       </div>

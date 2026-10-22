@@ -122,6 +122,7 @@ module.exports = function registerPublic(app, deps) {
   function publishedNewsSorted() {
     return readJSON('news').items
       .filter((i) => i.published)
+      .map((i) => (i.image || !(i.images && i.images[0]) ? i : Object.assign({}, i, { image: i.images[0] })))
       .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0));
   }
   deps.publishedNewsSorted = publishedNewsSorted;
@@ -158,7 +159,11 @@ module.exports = function registerPublic(app, deps) {
       ...commonLocals(),
       homepage: sd.getHomepage(),
       heroSlides: readJSON('hero-slides').items.filter((i) => i.published),
-      news: publishedNewsSorted().slice(0, 9),
+      news: (function () {
+        const all = publishedNewsSorted();
+        const featured = all.filter((i) => i.featured);
+        return (featured.length ? featured : all).slice(0, 9);
+      })(),
       renderHeroTitle,
       renderHeroWords
     });

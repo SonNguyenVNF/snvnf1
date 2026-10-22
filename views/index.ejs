@@ -65,8 +65,8 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
     <h2><%= homepage.partnersTitle %></h2>
     <p class="lead"><%= homepage.partnersText %></p>
     <div class="pgrid">
-      <% var picons = ['b_farm', 'b_hub', 'b_truck', 'b_money']; homepage.partnerItems.forEach(function(p, i) { %>
-      <div class="pi"><%- include('partials/icon', { name: picons[i % 4] }) %><h3><%= p.title %></h3><p><%= p.text %></p></div>
+      <% var picons = ['ico-farm', 'ico-hub', 'ico-truck', 'ico-money']; homepage.partnerItems.forEach(function(p, i) { %>
+      <div class="pi"><img class="pico" src="<%= root %>assets/img/<%= picons[i % 4] %>.png" alt="" loading="lazy"><h3><%= p.title %></h3><p><%= p.text %></p></div>
       <% }); %>
     </div>
     <p class="closing"><%= homepage.partnersClosing %></p>

@@ -58,8 +58,9 @@ const IMAGE_SLOTS = [
   { key: 'banner', label: 'Ảnh nền thanh tiêu đề các trang trong (hoàng hôn)', def: 'assets/img/banner.jpg' },
   { key: 'intro', label: 'Trang chủ — ảnh giới thiệu Synetic Group', def: 'assets/img/trophy.jpg' },
   { key: 'map', label: 'Trang chủ — ảnh bản đồ phía trên chân trang', def: 'assets/img/map.jpg' },
-  { key: 'footerBg', label: 'Chân trang — ảnh nền (xanh, mờ)', def: null },
-  { key: 'chairman', label: 'Về chúng tôi — ảnh Chủ tịch HĐQT', def: 'assets/img/chairman.jpg' },
+  { key: 'footerBg', label: 'Chân trang — ảnh nền (phủ màu xanh)', def: 'assets/img/footer-bg.jpg' },
+  { key: 'jobsBg', label: 'Trang Tuyển dụng — ảnh nền dải xanh đầu trang', def: 'assets/img/jobs-bg.jpg' },
+  { key: 'chairman', label: 'Về chúng tôi — ảnh Chủ tịch HĐQT', def: 'assets/img/chairman.png' },
   { key: 'history', label: 'Về chúng tôi — ảnh Lịch sử hình thành', def: 'assets/img/history.jpg' },
   { key: 'csr', label: 'Về chúng tôi — ảnh Trách nhiệm xã hội', def: 'assets/img/csr.jpg' },
   { key: 'award', label: 'Về chúng tôi — ảnh Các giải thưởng', def: 'assets/img/trophy.jpg' }
