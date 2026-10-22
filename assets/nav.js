@@ -131,8 +131,7 @@
           try { viewport.setPointerCapture(e.pointerId); } catch(err) {}
         }
         if(moved){
-          var edge = (page === 0 && dx > 0) || (page === pages - 1 && dx < 0);
-          track.style.transform = 'translateX(' + (offsetFor(page) + dx * (edge ? 0.3 : 1)) + 'px)';
+          track.style.transform = 'translateX(' + (offsetFor(page) + dx) + 'px)';
         }
       });
       function end(){
@@ -141,8 +140,9 @@
         track.style.transition = '';
         if(moved){
           var limit = Math.min(80, viewport.getBoundingClientRect().width * 0.15);
-          if(dx < -limit && page < pages - 1) page++;
-          else if(dx > limit && page > 0) page--;
+          // wraps around: past the last news comes the first, before the first comes the last
+          if(dx < -limit) page = (page + 1) % pages;
+          else if(dx > limit) page = (page - 1 + pages) % pages;
           build(); play();
           justDragged = true;
           setTimeout(function(){ justDragged = false; }, 60);
