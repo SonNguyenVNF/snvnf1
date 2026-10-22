@@ -235,6 +235,26 @@ app.use(session({
   }
 }));
 
+// Signed-in admins get the on-page text editor injected before </body> of public pages
+app.use((req, res, next) => {
+  if (!req.session || !req.session.isAdmin || req.path.startsWith('/admin') || req.method !== 'GET') return next();
+  const send = res.send;
+  res.send = function (body) {
+    if (typeof body === 'string' && body.includes('</body>')) {
+      const fm = require('./fonts');
+      const cfg = {
+        csrf: auth.ensureCsrfToken(req),
+        rules: fm.readStyles(),
+        families: fm.families().map((f) => ({ key: f.key, name: f.name, css: f.css }))
+      };
+      const tag = '<script>window.__TE=' + JSON.stringify(cfg).replace(/</g, '\\u003c') + '</script><script src="/assets/text-editor.js?v=' + app.locals.assetVersion + '"></script>';
+      body = body.replace('</body>', tag + '</body>');
+    }
+    return send.call(this, body);
+  };
+  next();
+});
+
 // ---------- Public pages ----------
 
 app.use((req, res, next) => {

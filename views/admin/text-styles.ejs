@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chỉnh chữ trực tiếp — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Chỉnh chữ trực tiếp trên web</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:16px">Cách dễ nhất để đổi phông chữ, cỡ chữ và màu chữ: làm ngay trên chính trang web, thấy kết quả liền.</p>
+    <ol style="margin:0 0 18px 20px;line-height:1.9;font-size:14px">
+      <li>Giữ nguyên trạng thái đăng nhập admin, mở trang web <a href="/" target="_blank" style="color:#0b47c9;font-weight:700">synetic.vn</a> (hoặc trang nào bạn muốn chỉnh).</li>
+      <li>Bấm nút xanh <b>"Chỉnh chữ"</b> ở góc dưới bên trái màn hình.</li>
+      <li>Bấm vào <b>chữ bất kỳ</b> trên trang. Bảng chỉnh hiện ra bên phải.</li>
+      <li>Chọn <b>phông, cỡ chữ, độ đậm, màu</b> — chữ trên trang đổi ngay để bạn xem.</li>
+      <li>Bấm <b>Lưu</b>. Muốn bỏ thì bấm <b>Khôi phục mặc định</b>.</li>
+    </ol>
+    <p class="hint" style="margin-bottom:6px"><b>Áp dụng cho:</b> "Mọi chữ cùng loại" sẽ đổi tất cả chữ giống nhau (ví dụ mọi tiêu đề thẻ tin tức). "Chỉ chữ này" chỉ đổi đúng chữ bạn đã bấm. Cỡ chữ điện thoại để trống thì tự co theo cỡ máy tính.</p>
+    <p class="hint">Bảng chỉnh chỉ hiện với người đang đăng nhập admin; khách vào web không thấy. Phông mới tải lên ở mục <a href="/admin/phong-chu" style="color:#0b47c9">Phông chữ</a> cũng xuất hiện trong bảng này.</p>
+
+    <h2 style="margin-top:30px;padding-top:18px;border-top:1px solid #ECEAE3">Các chỉnh sửa đã lưu (<%= rules.length %>)</h2>
+    <% if (!rules.length) { %><p style="color:var(--muted)">Chưa có chỉnh sửa nào.</p><% } %>
+    <% rules.forEach(function(r) { %>
+      <div style="border:1px solid #ECEAE3;border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+        <div style="font-size:13.5px;min-width:0">
+          <div style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">“<%= r.label || r.selector %>”</div>
+          <div style="color:var(--muted);margin-top:3px">
+            <% if (r.font && families[r.font]) { %>Phông: <%= families[r.font].name %> · <% } %>
+            <% if (r.size) { %>Cỡ: <%= r.size %>px · <% } %>
+            <% if (r.sizeMobile) { %>Điện thoại: <%= r.sizeMobile %>px · <% } %>
+            <% if (r.weight) { %>Đậm: <%= r.weight %> · <% } %>
+            <% if (r.color) { %>Màu: <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:<%= r.color %>;border:1px solid #bbb;vertical-align:-2px"></span> <%= r.color %><% } %>
+          </div>
+          <div style="color:#999;font-size:11.5px;margin-top:3px;word-break:break-all"><%= r.selector %></div>
+        </div>
+        <form method="POST" action="/admin/chinh-chu/delete" style="margin:0;flex:none">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>"><input type="hidden" name="selector" value="<%= r.selector %>"><input type="hidden" name="back" value="1">
+          <button class="admin-btn admin-btn-danger" type="submit">Xoá</button>
+        </form>
+      </div>
+    <% }); %>
+    <% if (rules.length) { %>
+    <form method="POST" action="/admin/chinh-chu/delete-all" onsubmit="return confirm('Xoá hết các chỉnh sửa chữ và về lại mặc định?')">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button class="admin-btn admin-btn-ghost" type="submit">Khôi phục tất cả về mặc định</button>
+    </form>
+    <% } %>
+  </div>
+</div>
+</body></html>

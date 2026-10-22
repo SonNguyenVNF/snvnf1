@@ -33,6 +33,47 @@ const ROLES = [
   { key: 'footer', label: 'Chân trang (tên công ty, địa chỉ, form, bản quyền)', css: '.ft,.ft h3,.copy,.ft-form input,.ft-form textarea' }
 ];
 
+// ---------- per-text styles set with the on-page editor ----------
+const SEL_OK = /^[A-Za-z0-9_\-#.\s>:()+~]+$/;
+const WEIGHTS = ['300', '400', '500', '700', '800', '900'];
+
+function readStyles() {
+  let raw = {};
+  try { raw = readJSON('text-styles'); } catch (e) { raw = {}; }
+  return Array.isArray(raw.items) ? raw.items : [];
+}
+
+function cleanRule(b) {
+  const selector = String(b.selector || '').trim();
+  if (!selector || selector.length > 220 || !SEL_OK.test(selector)) return null;
+  const valid = new Set(families().map((f) => f.key));
+  const size = Math.round(Number(b.size)) || 0;
+  const sizeMobile = Math.round(Number(b.sizeMobile)) || 0;
+  const rule = {
+    selector,
+    label: safeName(b.label).slice(0, 40),
+    font: valid.has(b.font) ? b.font : '',
+    size: size >= 8 && size <= 200 ? size : 0,
+    sizeMobile: sizeMobile >= 8 && sizeMobile <= 200 ? sizeMobile : 0,
+    weight: WEIGHTS.includes(String(b.weight)) ? String(b.weight) : '',
+    color: /^#[0-9a-fA-F]{6}$/.test(String(b.color || '')) ? String(b.color).toLowerCase() : ''
+  };
+  if (!rule.font && !rule.size && !rule.sizeMobile && !rule.weight && !rule.color) return null;
+  return rule;
+}
+
+function ruleCss(r, byKey) {
+  let d = '';
+  const fam = byKey[r.font];
+  if (fam) d += 'font-family:' + stackFor(fam) + '!important;';
+  if (r.size) d += 'font-size:' + r.size + 'px!important;';
+  if (r.weight) d += 'font-weight:' + r.weight + '!important;';
+  if (r.color) d += 'color:' + r.color + '!important;-webkit-text-fill-color:' + r.color + '!important;background:none!important;';
+  let out = d ? r.selector + '{' + d + '}' : '';
+  if (r.sizeMobile) out += '@media(max-width:860px){' + r.selector + '{font-size:' + r.sizeMobile + 'px!important}}';
+  return out;
+}
+
 function read() {
   let raw = {};
   try { raw = readJSON('typography'); } catch (e) { raw = {}; }
@@ -86,7 +127,8 @@ function buildCss() {
   // handwriting fonts run small, so enlarge the decorative "Thông điệp" word when one is chosen
   const script = s.byKey[s.roles.script];
   if (script && script.key === 'fz-photograph') rules += '.ab-card .tt{font-size:clamp(34px,4.2vw,62px);line-height:1;letter-spacing:.02em}';
-  return css + ':root{' + vars + '}' + rules;
+  const custom = readStyles().map((r) => ruleCss(r, s.byKey)).join('');
+  return css + ':root{' + vars + '}' + rules + custom;
 }
 
-module.exports = { BUILTIN, ROLES, families, getSettings, buildCss, read, safeName };
+module.exports = { BUILTIN, ROLES, families, getSettings, buildCss, read, safeName, readStyles, cleanRule };

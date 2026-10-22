@@ -230,6 +230,39 @@ module.exports = function registerAdminExtra(adminRouter) {
     res.redirect('/admin/doi-ngu-lanh-dao');
   });
 
+  // ---------- Chỉnh chữ trực tiếp trên trang ----------
+  adminRouter.get('/chinh-chu', (req, res) => {
+    const fm = require('./fonts');
+    const s = fm.getSettings();
+    res.render('admin/text-styles', { rules: fm.readStyles(), families: s.byKey, csrfToken: csrf(req) });
+  });
+  adminRouter.post('/chinh-chu/save', (req, res) => {
+    if (!auth.csrfOk(req)) return res.status(403).json({ ok: false, error: 'Phiên làm việc đã hết hạn, hãy tải lại trang.' });
+    const fm = require('./fonts');
+    const rule = fm.cleanRule(req.body);
+    const rules = fm.readStyles().filter((r) => r.selector !== one(req.body.selector));
+    if (!rule) {
+      writeJSON('text-styles', { items: rules });
+      return res.json({ ok: true, rules });
+    }
+    rules.push(rule);
+    writeJSON('text-styles', { items: rules });
+    res.json({ ok: true, rules });
+  });
+  adminRouter.post('/chinh-chu/delete', (req, res) => {
+    if (!auth.csrfOk(req)) return res.status(403).json({ ok: false, error: 'Phiên làm việc đã hết hạn, hãy tải lại trang.' });
+    const fm = require('./fonts');
+    const sel = one(req.body.selector);
+    const rules = fm.readStyles().filter((r) => r.selector !== sel);
+    writeJSON('text-styles', { items: rules });
+    if (req.accepts(['json', 'html']) === 'html' && req.body.back) return res.redirect('/admin/chinh-chu');
+    res.json({ ok: true, rules });
+  });
+  adminRouter.post('/chinh-chu/delete-all', auth.verifyCsrf, (req, res) => {
+    writeJSON('text-styles', { items: [] });
+    res.redirect('/admin/chinh-chu');
+  });
+
   // ---------- Phông chữ ----------
   const fontsMod = require('./fonts');
   const multer = require('multer');
