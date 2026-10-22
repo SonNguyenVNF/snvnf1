@@ -317,6 +317,7 @@ module.exports = function registerAdminExtra(adminRouter) {
     const homepage = readJSON('homepage');
     homeKeys.forEach((k) => { homepage[k] = clean(req.body[k]); });
     const num = (v, min, max, def) => { const n = parseFloat(String(v).replace(',', '.')); return String(n >= min && n <= max ? n : def); };
+    homepage.heroAnimEvery = req.body.heroAnimEvery === '1' ? '1' : '0';
     homepage.heroWordDuration = num(homepage.heroWordDuration, 0.2, 5, sd.HOMEPAGE_DEFAULTS.heroWordDuration);
     homepage.heroWordGap = num(homepage.heroWordGap, 0, 2, sd.HOMEPAGE_DEFAULTS.heroWordGap);
     homepage.heroStartDelay = num(homepage.heroStartDelay, 0, 5, sd.HOMEPAGE_DEFAULTS.heroStartDelay);

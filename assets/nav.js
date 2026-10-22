@@ -71,7 +71,7 @@
       var started = false;
       function go(i){
         // the title animation plays only on the first slide shown after the page loads
-        if(started) hero.classList.add('hero-played');
+        if(started && hero.getAttribute('data-once') === '1') hero.classList.add('hero-played');
         started = true;
         cur = (i + slides.length) % slides.length;
         slides.forEach(function(s,k){ s.classList.toggle('active', k === cur); });

@@ -121,6 +121,7 @@ function getFooter() {
 // ---------- homepage texts ----------
 
 const HOMEPAGE_DEFAULTS = {
+  heroAnimEvery: '1',
   heroWordDuration: '1',
   heroWordGap: '0.2',
   heroStartDelay: '0.2',

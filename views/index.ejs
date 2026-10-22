@@ -7,7 +7,7 @@ function highlightDesc(d) { d = d || ''; return d.indexOf('**') === -1 ? d.repla
 var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title: 'KIẾN TẠO GIÁ TRỊ **VƯỢT TRỘI**', description: homepage.introText }];
 %>
 <main id="top">
-<section class="hero" data-interval="<%= homepage.heroSlideSeconds %>" style="--w-dur:<%= homepage.heroWordDuration %>s;--w-gap:<%= homepage.heroWordGap %>s;--w-start:<%= homepage.heroStartDelay %>s">
+<section class="hero" data-once="<%= homepage.heroAnimEvery === '0' ? '1' : '0' %>" data-interval="<%= homepage.heroSlideSeconds %>" style="--w-dur:<%= homepage.heroWordDuration %>s;--w-gap:<%= homepage.heroWordGap %>s;--w-start:<%= homepage.heroStartDelay %>s">
   <% slides.forEach(function(slide, i) { %><div class="hslide<%= i === 0 ? ' active' : '' %>" style="background-image:url('<%= root %><%= slide.image %>')"></div>
   <% }); %>
   <% slides.forEach(function(slide, i) { %>

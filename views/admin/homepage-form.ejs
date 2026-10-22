@@ -22,6 +22,9 @@
 
       <h3 style="margin:8px 0 6px">Tốc độ hiệu ứng chữ ở slide đầu trang</h3>
       <p class="hint">Đơn vị là giây, có thể gõ số lẻ (ví dụ 0.5). Số càng nhỏ thì chữ vào càng nhanh.</p>
+      <div class="admin-field">
+        <label><input type="checkbox" name="heroAnimEvery" value="1" <%= homepage.heroAnimEvery !== '0' ? 'checked' : '' %> style="width:auto;margin-right:8px"> Chạy hiệu ứng chữ ở mọi slide (bỏ tick = chỉ chạy một lần ở slide đầu khi mới vào web)</label>
+      </div>
       <div class="admin-field row2">
         <div><label for="heroWordDuration">Mỗi chữ bay vào mất (giây)</label><input type="text" id="heroWordDuration" name="heroWordDuration" value="<%= homepage.heroWordDuration %>"></div>
         <div><label for="heroWordGap">Cách nhau giữa các chữ (giây)</label><input type="text" id="heroWordGap" name="heroWordGap" value="<%= homepage.heroWordGap %>"></div>
