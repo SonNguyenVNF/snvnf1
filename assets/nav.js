@@ -68,7 +68,11 @@
     var hero = $('.hero');
     if(hero){
       var slides = $$('.hslide', hero), texts = $$('.hero-text', hero), dotsBox = $('.hero-dots', hero), cur = 0, timer;
+      var started = false;
       function go(i){
+        // the title animation plays only on the first slide shown after the page loads
+        if(started) hero.classList.add('hero-played');
+        started = true;
         cur = (i + slides.length) % slides.length;
         slides.forEach(function(s,k){ s.classList.toggle('active', k === cur); });
         texts.forEach(function(s,k){ s.classList.toggle('active', k === cur); });

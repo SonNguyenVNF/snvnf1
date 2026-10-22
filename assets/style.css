@@ -497,3 +497,5 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .js [data-fx].fx-in:not([data-fx-kids]),.js .fx-k.fx-in{opacity:1;transform:none;filter:none}
 .js.fx-off [data-fx],.js.fx-off .fx-k{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
 .js.fx-off [data-fx-kids]{visibility:visible!important}
+
+.js .hero.hero-played .hero-text .w,.js .hero.hero-played .hero-text p,.js .hero.hero-played .hero-text .hero-cta{animation:none}
