@@ -121,6 +121,10 @@ function getFooter() {
 // ---------- homepage texts ----------
 
 const HOMEPAGE_DEFAULTS = {
+  heroWordDuration: '1',
+  heroWordGap: '0.2',
+  heroStartDelay: '0.2',
+  heroSlideSeconds: '8',
   heroBtn1: 'Khám phá hệ sinh thái',
   heroBtn2: 'Về Synetic Group',
   introTitle: 'SYNETIC GROUP',

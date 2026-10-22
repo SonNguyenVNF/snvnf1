@@ -478,9 +478,9 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 
 /* hero title: words glide in slowly one after another, then the paragraph and buttons */
 .hero-text .w{display:inline-block}
-.js .hero-text.active .w{animation:wordIn 1.5s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i) * .34s + .35s)}
-.js .hero-text.active p{animation:fadeUp 1.2s cubic-bezier(.16,1,.3,1) both;animation-delay:var(--pd,2s)}
-.js .hero-text.active .hero-cta{animation:fadeUp 1.2s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--pd,2s) + .4s)}
+.js .hero-text.active .w{animation:wordIn var(--w-dur,1s) cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i) * var(--w-gap,.2s) + var(--w-start,.2s))}
+.js .hero-text.active p{animation:fadeUp var(--w-dur,1s) cubic-bezier(.16,1,.3,1) both;animation-delay:var(--pd,1.5s)}
+.js .hero-text.active .hero-cta{animation:fadeUp var(--w-dur,1s) cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--pd,1.5s) + var(--w-gap,.2s) * 1.5)}
 @keyframes wordIn{0%{opacity:0;transform:translateY(64px) scale(.88);filter:blur(12px)}55%{opacity:1;filter:blur(2px)}100%{opacity:1;transform:none;filter:none}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
 @media (prefers-reduced-motion:reduce){.js .hero-text.active .w,.js .hero-text.active p,.js .hero-text.active .hero-cta{animation:none}}

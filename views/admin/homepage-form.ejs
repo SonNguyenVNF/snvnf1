@@ -20,7 +20,18 @@
     <form method="POST" action="/admin/noi-dung-trang-chu">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <h3 style="margin:8px 0 10px">Hai nút ở slide đầu trang</h3>
+      <h3 style="margin:8px 0 6px">Tốc độ hiệu ứng chữ ở slide đầu trang</h3>
+      <p class="hint">Đơn vị là giây, có thể gõ số lẻ (ví dụ 0.5). Số càng nhỏ thì chữ vào càng nhanh.</p>
+      <div class="admin-field row2">
+        <div><label for="heroWordDuration">Mỗi chữ bay vào mất (giây)</label><input type="text" id="heroWordDuration" name="heroWordDuration" value="<%= homepage.heroWordDuration %>"></div>
+        <div><label for="heroWordGap">Cách nhau giữa các chữ (giây)</label><input type="text" id="heroWordGap" name="heroWordGap" value="<%= homepage.heroWordGap %>"></div>
+      </div>
+      <div class="admin-field row2">
+        <div><label for="heroStartDelay">Chờ trước khi chữ đầu tiên vào (giây)</label><input type="text" id="heroStartDelay" name="heroStartDelay" value="<%= homepage.heroStartDelay %>"></div>
+        <div><label for="heroSlideSeconds">Mỗi slide hiện trong (giây)</label><input type="text" id="heroSlideSeconds" name="heroSlideSeconds" value="<%= homepage.heroSlideSeconds %>"></div>
+      </div>
+
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Hai nút ở slide đầu trang</h3>
       <div class="admin-field row2">
         <div><label for="heroBtn1">Nút vàng</label><input type="text" id="heroBtn1" name="heroBtn1" value="<%= homepage.heroBtn1 %>"></div>
         <div><label for="heroBtn2">Nút viền trắng</label><input type="text" id="heroBtn2" name="heroBtn2" value="<%= homepage.heroBtn2 %>"></div>

@@ -290,6 +290,11 @@ module.exports = function registerAdminExtra(adminRouter) {
   adminRouter.post('/noi-dung-trang-chu', auth.verifyCsrf, (req, res) => {
     const homepage = readJSON('homepage');
     homeKeys.forEach((k) => { homepage[k] = clean(req.body[k]); });
+    const num = (v, min, max, def) => { const n = parseFloat(String(v).replace(',', '.')); return String(n >= min && n <= max ? n : def); };
+    homepage.heroWordDuration = num(homepage.heroWordDuration, 0.2, 5, sd.HOMEPAGE_DEFAULTS.heroWordDuration);
+    homepage.heroWordGap = num(homepage.heroWordGap, 0, 2, sd.HOMEPAGE_DEFAULTS.heroWordGap);
+    homepage.heroStartDelay = num(homepage.heroStartDelay, 0, 5, sd.HOMEPAGE_DEFAULTS.heroStartDelay);
+    homepage.heroSlideSeconds = num(homepage.heroSlideSeconds, 3, 60, sd.HOMEPAGE_DEFAULTS.heroSlideSeconds);
     const titles = arr(req.body.partnerTitle);
     const texts = arr(req.body.partnerText);
     homepage.partnerItems = titles.map((t, i) => ({ title: one(t), text: one(texts[i]) })).filter((p) => p.title);

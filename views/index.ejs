@@ -6,11 +6,11 @@
 var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title: 'KIẾN TẠO GIÁ TRỊ **VƯỢT TRỘI**', description: homepage.introText }];
 %>
 <main id="top">
-<section class="hero">
+<section class="hero" data-interval="<%= homepage.heroSlideSeconds %>" style="--w-dur:<%= homepage.heroWordDuration %>s;--w-gap:<%= homepage.heroWordGap %>s;--w-start:<%= homepage.heroStartDelay %>s">
   <% slides.forEach(function(slide, i) { %><div class="hslide<%= i === 0 ? ' active' : '' %>" style="background-image:url('<%= root %><%= slide.image %>')"></div>
   <% }); %>
   <% slides.forEach(function(slide, i) { %>
-  <div class="hero-text<%= i === 0 ? ' active' : '' %>" style="--pd:<%= ((slide.title || '').replace(/\*\*/g, '').trim().split(/\s+/).length * 0.34 + 1.1).toFixed(2) %>s">
+  <div class="hero-text<%= i === 0 ? ' active' : '' %>" style="--pd:<%= ((slide.title || '').replace(/\*\*/g, '').trim().split(/\s+/).length * parseFloat(homepage.heroWordGap) + parseFloat(homepage.heroStartDelay) + parseFloat(homepage.heroWordDuration) * 0.7).toFixed(2) %>s">
     <h1><%- renderHeroWords(slide.title) %></h1>
     <% if (slide.description) { %><p><%- renderHeroTitle(slide.description) %></p><% } %>
     <div class="hero-cta">
