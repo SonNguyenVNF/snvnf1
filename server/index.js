@@ -184,6 +184,19 @@ function renderHeroTitle(title) {
     .replace(/\*\*(.+?)\*\*/g, '<span>$1</span>');
 }
 
+// Same **bold** markup as renderHeroTitle, but every word is wrapped so the
+// hero title can fly in word by word (see .hero-text .w in style.css).
+function renderHeroWords(title) {
+  let i = 0;
+  const words = (text) => text.split(/\s+/).filter(Boolean)
+    .map((w) => '<span class="w" style="--i:' + (i++) + '">' + w + '</span>').join(' ');
+  return (title || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .split(/(\*\*.+?\*\*)/)
+    .map((seg) => (/^\*\*.+\*\*$/.test(seg) ? '<span>' + words(seg.slice(2, -2)) + '</span>' : words(seg)))
+    .filter(Boolean).join(' ');
+}
+
 const ROOT = path.join(__dirname, '..');
 const PORT = process.env.PORT || 3000;
 
@@ -232,7 +245,7 @@ app.locals.renderRich = sd.renderRich;
 app.locals.renderInline = sd.renderInline;
 app.locals.formatDateVi = sd.formatDateVi;
 
-const publicDeps = { getMembersData, getVeSyneticPages, commonLocals, renderHeroTitle };
+const publicDeps = { getMembersData, getVeSyneticPages, commonLocals, renderHeroTitle, renderHeroWords };
 registerPublic(app, publicDeps);
 
 // ---------- Admin ----------

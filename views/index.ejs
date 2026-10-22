@@ -10,8 +10,8 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   <% slides.forEach(function(slide, i) { %><div class="hslide<%= i === 0 ? ' active' : '' %>" style="background-image:url('<%= root %><%= slide.image %>')"></div>
   <% }); %>
   <% slides.forEach(function(slide, i) { %>
-  <div class="hero-text<%= i === 0 ? ' active' : '' %>">
-    <h1><%- renderHeroTitle(slide.title) %></h1>
+  <div class="hero-text<%= i === 0 ? ' active' : '' %>" style="--pd:<%= ((slide.title || '').replace(/\*\*/g, '').trim().split(/\s+/).length * 0.14 + 0.6).toFixed(2) %>s">
+    <h1><%- renderHeroWords(slide.title) %></h1>
     <% if (slide.description) { %><p><%- renderHeroTitle(slide.description) %></p><% } %>
     <div class="hero-cta">
       <a class="btn btn-yellow" href="#thanh-vien"><%= homepage.heroBtn1 %></a>

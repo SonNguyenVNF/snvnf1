@@ -117,7 +117,7 @@ function safeBack(back) {
 }
 
 module.exports = function registerPublic(app, deps) {
-  const { getMembersData, getVeSyneticPages, commonLocals, renderHeroTitle } = deps;
+  const { getMembersData, getVeSyneticPages, commonLocals, renderHeroTitle, renderHeroWords } = deps;
 
   function publishedNewsSorted() {
     return readJSON('news').items
@@ -159,7 +159,8 @@ module.exports = function registerPublic(app, deps) {
       homepage: sd.getHomepage(),
       heroSlides: readJSON('hero-slides').items.filter((i) => i.published),
       news: publishedNewsSorted().slice(0, 9),
-      renderHeroTitle
+      renderHeroTitle,
+      renderHeroWords
     });
   });
 
