@@ -13,41 +13,43 @@
         $$('[data-fx-kids]').forEach(function(p){ p.classList.add('fx-ready'); });
         return;
       }
-      var gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-gap')) || 0.12;
-      var pending = [];
-      targets.forEach(function(el){
+      var cs = getComputedStyle(document.documentElement);
+      var gap = parseFloat(cs.getPropertyValue('--fx-gap')) || 0.12;
+      var delayAll = parseFloat(cs.getPropertyValue('--fx-delay'));
+      if(isNaN(delayAll)) delayAll = 0.2;
+      var items = targets.map(function(el){
+        var own = parseFloat(el.getAttribute('data-fx-delay'));
+        var delay = isNaN(own) ? delayAll : own;
         var sel = el.getAttribute('data-fx-kids');
-        if(sel){
-          var kids = $$(sel, el);
-          if(!kids.length){ el.removeAttribute('data-fx-kids'); }
-          else {
-            kids.forEach(function(k, i){ k.classList.add('fx-k'); k.setAttribute('data-fxe', el.getAttribute('data-fx')); k.style.transitionDelay = (i * gap) + 's'; });
-            el.classList.add('fx-ready');
-          }
+        var kids = sel ? $$(sel, el) : [];
+        if(sel && !kids.length){ el.removeAttribute('data-fx-kids'); }
+        if(kids.length){
+          kids.forEach(function(k, i){ k.classList.add('fx-k'); k.setAttribute('data-fxe', el.getAttribute('data-fx')); k.style.transitionDelay = (delay + i * gap) + 's'; });
+          el.classList.add('fx-ready');
+        } else {
+          el.style.transitionDelay = delay + 's';
         }
-        pending.push(el);
+        return { el: el, kids: kids, shown: false };
       });
-      function reveal(el){
-        if(el.hasAttribute('data-fx-kids')) $$('.fx-k', el).forEach(function(k){ k.classList.add('fx-in'); });
-        else el.classList.add('fx-in');
+      function setShown(it, on){
+        it.shown = on;
+        if(it.kids.length) it.kids.forEach(function(k){ k.classList.toggle('fx-in', on); });
+        else it.el.classList.toggle('fx-in', on);
       }
       var ticking = false;
       function check(){
         ticking = false;
-        var limit = window.innerHeight * 0.92;
-        pending = pending.filter(function(el){
-          var r = el.getBoundingClientRect();
-          if(r.top < limit){ reveal(el); return false; }
-          return true;
+        var vh = window.innerHeight;
+        items.forEach(function(it){
+          var r = it.el.getBoundingClientRect();
+          if(!it.shown && r.top < vh * 0.92 && r.bottom > 0) setShown(it, true);
+          else if(it.shown && (r.top >= vh || r.bottom <= 0)) setShown(it, false); // left the screen: replay next time
         });
-        if(!pending.length){ window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
       }
       function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(check); } }
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
       window.addEventListener('load', check);
-      // a hash link (e.g. #thanh-vien) jumps past sections: reveal everything above the viewport too
-      window.addEventListener('hashchange', check);
       setTimeout(check, 50);
     })();
 

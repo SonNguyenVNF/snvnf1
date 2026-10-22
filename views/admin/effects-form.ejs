@@ -26,6 +26,11 @@
         <div><label for="gap">Cách nhau giữa các thẻ khi xuất hiện lần lượt (giây)</label><input type="text" id="gap" name="gap" value="<%= cfg.gap %>"></div>
       </div>
       <div class="admin-field">
+        <label for="delay">Chờ bao lâu sau khi khách cuộn tới rồi mới chạy hiệu ứng (giây)</label>
+        <input type="text" id="delay" name="delay" value="<%= cfg.delay %>" style="max-width:200px">
+        <p class="hint">Áp dụng cho mọi phần. Mỗi phần bên dưới có thể đặt chờ riêng (để trống = dùng số chung này). Hiệu ứng tự chạy lại mỗi khi khách cuộn ra khỏi rồi quay lại phần đó.</p>
+      </div>
+      <div class="admin-field">
         <label><input type="checkbox" name="stagger" value="1" <%= cfg.stagger ? 'checked' : '' %> style="width:auto;margin-right:8px"> Các thẻ trong cùng một phần xuất hiện lần lượt từng cái (thành viên, 3 thẻ chiến lược, dự án, tin tức...)</label>
       </div>
 
@@ -35,6 +40,7 @@
         <% } %>
         <div class="admin-field" style="display:flex;align-items:center;gap:12px">
           <label for="fx-<%= s.key %>" style="flex:1;margin:0;font-weight:500"><%= s.label %><% if (s.kids) { %> <span style="color:var(--muted);font-weight:400">(có thẻ lần lượt)</span><% } %></label>
+          <input type="text" name="delay_<%= s.key %>" value="<%= cfg.delays[s.key] !== undefined ? cfg.delays[s.key] : '' %>" placeholder="chờ (s)" title="Số giây chờ riêng cho phần này; để trống = dùng số chung" style="width:78px;flex:none">
           <select id="fx-<%= s.key %>" name="fx_<%= s.key %>" style="width:230px;flex:none">
             <% effects.forEach(function(e) { %><option value="<%= e.key %>" <%= cfg.items[s.key] === e.key ? 'selected' : '' %>><%= e.label %></option><% }); %>
           </select>

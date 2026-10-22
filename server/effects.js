@@ -77,9 +77,16 @@ function getEffects() {
     const v = raw.items && raw.items[s.key];
     items[s.key] = VALID.has(v) ? v : s.def;
   });
+  const delays = {};
+  SECTIONS.forEach((s) => {
+    const v = raw.delays && raw.delays[s.key];
+    if (v !== undefined && v !== null && v !== '' && !isNaN(parseFloat(v))) delays[s.key] = num(v, 0, 5, 0);
+  });
   return {
     duration: num(raw.duration, 0.1, 5, 0.8),
     gap: num(raw.gap, 0, 2, 0.12),
+    delay: num(raw.delay, 0, 5, 0.2),
+    delays,
     stagger: raw.stagger === undefined ? true : Boolean(raw.stagger),
     items
   };
@@ -94,12 +101,13 @@ function fx(key) {
   if (effect === 'none') return '';
   let attr = ' data-fx="' + effect + '"';
   if (s.kids && cfg.stagger) attr += ' data-fx-kids="' + s.kids + '"';
+  if (cfg.delays[key] !== undefined) attr += ' data-fx-delay="' + cfg.delays[key] + '"';
   return attr;
 }
 
 function style() {
   const cfg = getEffects();
-  return '--fx-dur:' + cfg.duration + 's;--fx-gap:' + cfg.gap + 's';
+  return '--fx-dur:' + cfg.duration + 's;--fx-gap:' + cfg.gap + 's;--fx-delay:' + cfg.delay + 's';
 }
 
 module.exports = { EFFECTS, SECTIONS, getEffects, fx, style, num };

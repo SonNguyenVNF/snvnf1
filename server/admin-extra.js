@@ -238,14 +238,19 @@ module.exports = function registerAdminExtra(adminRouter) {
   adminRouter.post('/hieu-ung', auth.verifyCsrf, (req, res) => {
     const fxm = require('./effects');
     const items = {};
+    const delays = {};
     fxm.SECTIONS.forEach((s) => {
       const v = one(req.body['fx_' + s.key]);
       if (fxm.EFFECTS.some((e) => e.key === v)) items[s.key] = v;
+      const d = one(req.body['delay_' + s.key]).replace(',', '.');
+      if (d !== '' && !isNaN(parseFloat(d))) delays[s.key] = fxm.num(d, 0, 5, 0);
     });
     writeJSON('effects', {
       duration: fxm.num(req.body.duration, 0.1, 5, 0.8),
       gap: fxm.num(req.body.gap, 0, 2, 0.12),
+      delay: fxm.num(req.body.delay, 0, 5, 0.2),
       stagger: req.body.stagger === '1',
+      delays,
       items
     });
     res.redirect('/admin/hieu-ung?saved=1');
