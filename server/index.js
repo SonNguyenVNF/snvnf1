@@ -12,6 +12,9 @@ const auth = require('./auth');
 const { slugify } = require('./slug');
 const { createUploader, publicPathFor, deleteUploadedFile } = require('./upload');
 const { siteLockMiddleware } = require('./site-lock');
+const sd = require('./site-data');
+const registerPublic = require('./public');
+const registerAdminExtra = require('./admin-extra');
 
 const newsUpload = createUploader('news');
 const projectsUpload = createUploader('projects');
@@ -21,6 +24,26 @@ const partnersUpload = createUploader('partners');
 const siteImageUpload = createUploader('site');
 const heroUpload = createUploader('hero');
 const memberUpload = createUploader('members');
+const MEMBER_FIELDS = [{ name: 'logo', maxCount: 1 }, { name: 'factImage1', maxCount: 1 }, { name: 'factImage2', maxCount: 1 }, { name: 'factImage3', maxCount: 1 }];
+function fileOf(req, field) {
+  return (req.files && req.files[field] && req.files[field][0]) || null;
+}
+// Builds the 3 "thông tin nhanh" cards of a member page, keeping an existing
+// photo unless a new one is uploaded or "remove" is ticked for that row.
+function buildFacts(req, existing) {
+  const out = [];
+  [1, 2, 3].forEach((i) => {
+    const old = (existing || [])[i - 1] || {};
+    const label = (req.body['factLabel' + i] || '').trim();
+    const value = (req.body['factValue' + i] || '').trim();
+    let image = old.image || null;
+    const up = fileOf(req, 'factImage' + i);
+    if (up) { deleteUploadedFile(image); image = publicPathFor('members', up.filename); }
+    else if (req.body['factImageRemove' + i] === '1') { deleteUploadedFile(image); image = null; }
+    if (label || value) out.push({ label, value, image });
+  });
+  return out;
+}
 
 const EDITABLE_PAGES = [
   { key: 'doi-ngu-lanh-dao-intro', label: 'Đội ngũ lãnh đạo (đoạn giới thiệu)', hasChairmanNote: true }
@@ -62,9 +85,7 @@ function getVeSyneticPages() {
   return migrated;
 }
 
-const EDITABLE_IMAGES = [
-  { key: 'logo', label: 'Logo (hiển thị ở đầu trang và chân trang)' }
-];
+const EDITABLE_IMAGES = sd.IMAGE_SLOTS;
 
 // Default content for the 5 members that already existed as hardcoded pages,
 // used once to seed data/members.json (or to migrate the older flat-object
@@ -149,13 +170,9 @@ function getMembersData() {
 
 function commonLocals() {
   return {
-    ticker: readJSON('ticker'),
-    siteImages: readJSON('site-images'),
-    footer: readJSON('footer'),
-    coreValues: readJSON('core-values').items,
-    homepage: readJSON('homepage'),
-    members: getMembersData().items.filter((m) => m.published),
-    vePages: getVeSyneticPages().items.filter((p) => p.published)
+    siteImages: sd.getSiteImages(),
+    footer: sd.getFooter(),
+    members: getMembersData().items.filter((m) => m.published).map((m) => (m.logo === 'assets/logos/vinafeed-logo.jpg' ? Object.assign({}, m, { logo: null }) : m))
   };
 }
 
@@ -203,130 +220,20 @@ app.use(session({
   }
 }));
 
-// ---------- Public static-content pages (ticker pulled from data/ticker.json) ----------
+// ---------- Public pages ----------
 
-const PAGES = [
-  { urls: ['/thu-vien.html'], view: 'thu-vien', root: '' },
-  { urls: ['/ve-synetic/gia-tri-cot-loi.html'], view: 've-synetic/gia-tri-cot-loi', root: '../' },
-  { urls: ['/ve-synetic/mang-luoi-hoat-dong.html'], view: 've-synetic/mang-luoi-hoat-dong', root: '../' }
-];
-
-for (const page of PAGES) {
-  for (const url of page.urls) {
-    app.get(url, (req, res) => {
-      const pages = readJSON('pages');
-      res.render(page.view, { root: page.root, ...commonLocals(), pages });
-    });
-  }
-}
-
-// ---------- Về Synetic pages (thêm/xoá được, public detail page) ----------
-
-app.get('/ve-synetic/:slug.html', (req, res, next) => {
-  const vePages = getVeSyneticPages().items.filter((i) => i.published);
-  const item = vePages.find((i) => i.slug === req.params.slug);
-  if (!item) return next();
-  res.render('ve-synetic-chi-tiet', { root: '../', ...commonLocals(), item, vePages });
+app.use((req, res, next) => {
+  res.locals.contactStatus = ['ok', 'err', 'limit'].includes(req.query.gui) ? req.query.gui : '';
+  res.locals.back = req.path;
+  next();
 });
+app.locals.tagBreak = (t) => String(t || '').replace(/,\s+/, ',\n');
+app.locals.renderRich = sd.renderRich;
+app.locals.renderInline = sd.renderInline;
+app.locals.formatDateVi = sd.formatDateVi;
 
-app.get(['/', '/index.html'], (req, res) => {
-  const pages = readJSON('pages');
-  const heroSlides = readJSON('hero-slides').items.filter((i) => i.published);
-  res.render('index', {
-    root: '',
-    ...commonLocals(),
-    pages,
-    news: publishedNewsSorted().slice(0, 6),
-    heroSlides,
-    renderHeroTitle
-  });
-});
-
-// ---------- Thành viên hệ sinh thái (public detail page) ----------
-
-app.get('/thanh-vien/:slug.html', (req, res) => {
-  const members = getMembersData().items.filter((i) => i.published);
-  const item = members.find((i) => i.slug === req.params.slug);
-  if (!item) {
-    return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
-  }
-  const otherMembers = members.filter((i) => i.slug !== item.slug);
-  res.render('thanh-vien-chi-tiet', { root: '../', ...commonLocals(), item, otherMembers });
-});
-
-// ---------- Tin tức (News) ----------
-
-function publishedNewsSorted() {
-  const news = readJSON('news');
-  return news.items
-    .filter((i) => i.published)
-    .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
-}
-
-app.get('/tin-tuc.html', (req, res) => {
-  res.render('tin-tuc', { root: '', ...commonLocals(), items: publishedNewsSorted() });
-});
-
-// Turns a news article's body text + gallery images into an ordered list of
-// blocks (paragraphs and images), so an admin can place an image mid-article
-// by typing a placeholder like "[ảnh 1]" on its own line. Any gallery image
-// with no matching placeholder is appended at the end, so nothing uploaded
-// is ever silently dropped from the page.
-function renderNewsBlocks(body, images) {
-  images = Array.isArray(images) ? images : [];
-  const used = new Set();
-  const placeholderRe = /^\[\s*ảnh\s*(\d+)\s*\]$/i;
-  const blocks = [];
-  (body || '').replace(/\r\n/g, '\n').split(/\n{2,}/).forEach((raw) => {
-    const text = raw.trim();
-    if (!text) return;
-    const m = text.match(placeholderRe);
-    const idx = m ? parseInt(m[1], 10) - 1 : -1;
-    if (m && images[idx]) {
-      blocks.push({ type: 'img', src: images[idx] });
-      used.add(idx);
-    } else {
-      blocks.push({ type: 'p', text });
-    }
-  });
-  images.forEach((src, i) => {
-    if (!used.has(i)) blocks.push({ type: 'img', src });
-  });
-  return blocks;
-}
-
-app.get('/tin-tuc/:slug.html', (req, res) => {
-  const news = readJSON('news');
-  const item = news.items.find((i) => i.slug === req.params.slug && i.published);
-  if (!item) {
-    return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
-  }
-  const blocks = renderNewsBlocks(item.body, item.images);
-  res.render('tin-tuc-chi-tiet', { root: '../', ...commonLocals(), item, blocks });
-});
-
-// ---------- Dự án, Tuyển dụng, Đội ngũ, Đối tác (public) ----------
-
-app.get('/du-an.html', (req, res) => {
-  const projects = readJSON('projects');
-  res.render('du-an', { root: '', ...commonLocals(), items: projects.items.filter((i) => i.published) });
-});
-
-app.get('/tuyen-dung.html', (req, res) => {
-  const jobs = readJSON('jobs');
-  res.render('tuyen-dung', { root: '', ...commonLocals(), items: jobs.items.filter((i) => i.published) });
-});
-
-app.get('/ve-synetic/doi-ngu-lanh-dao.html', (req, res) => {
-  const team = readJSON('team');
-  const pages = readJSON('pages');
-  res.render('ve-synetic/doi-ngu-lanh-dao', { root: '../', ...commonLocals(), team, pages });
-});
-
-app.get('/ve-synetic/doi-tac-khach-hang.html', (req, res) => {
-  const partners = readJSON('partners');
-  res.render('ve-synetic/doi-tac-khach-hang', { root: '../', ...commonLocals(), partners });
-});
+const publicDeps = { getMembersData, getVeSyneticPages, commonLocals, renderHeroTitle };
+registerPublic(app, publicDeps);
 
 // ---------- Admin ----------
 
@@ -369,7 +276,7 @@ adminRouter.post('/logout', (req, res) => {
 adminRouter.use(auth.requireAdmin);
 
 adminRouter.get('/', (req, res) => {
-  res.render('admin/dashboard', {});
+  res.render('admin/dashboard', { unread: readJSON('contacts').items.filter((i) => !i.read).length });
 });
 
 adminRouter.get('/ticker', (req, res) => {
@@ -456,6 +363,7 @@ adminRouter.post('/tin-tuc/new', (req, res) => {
       image: coverFile ? publicPathFor('news', coverFile.filename) : null,
       images: galleryFiles.map((f) => publicPathFor('news', f.filename)),
       publishedAt: req.body.publishedAt || todayStr(),
+      category: req.body.category === 'thi-truong' ? 'thi-truong' : 'noi-bo',
       published: req.body.published === '1'
     });
     writeJSON('news', news);
@@ -490,6 +398,7 @@ adminRouter.post('/tin-tuc/:id/edit', (req, res) => {
     item.excerpt = (req.body.excerpt || '').trim();
     item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
     item.publishedAt = req.body.publishedAt || item.publishedAt;
+    item.category = req.body.category === 'thi-truong' ? 'thi-truong' : 'noi-bo';
     item.published = req.body.published === '1';
 
     const coverFile = req.files && req.files.image && req.files.image[0];
@@ -529,262 +438,6 @@ adminRouter.post('/tin-tuc/:id/delete', auth.verifyCsrf, (req, res) => {
     writeJSON('news', news);
   }
   res.redirect('/admin/tin-tuc');
-});
-
-// ---------- Admin: Dự án ----------
-
-adminRouter.get('/du-an', (req, res) => {
-  const projects = readJSON('projects');
-  res.render('admin/projects-list', { items: projects.items, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.get('/du-an/new', (req, res) => {
-  res.render('admin/projects-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/du-an/new', (req, res) => {
-  projectsUpload.single('image')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/projects-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const title = (req.body.title || '').trim();
-    if (!title) {
-      return res.status(400).render('admin/projects-form', { item: null, error: 'Vui lòng nhập tên dự án.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    const projects = readJSON('projects');
-    projects.items.push({
-      id: Date.now().toString(),
-      title,
-      location: (req.body.location || '').trim(),
-      excerpt: (req.body.excerpt || '').trim(),
-      image: req.file ? publicPathFor('projects', req.file.filename) : null,
-      published: req.body.published === '1'
-    });
-    writeJSON('projects', projects);
-    res.redirect('/admin/du-an');
-  });
-});
-
-adminRouter.get('/du-an/:id/edit', (req, res) => {
-  const projects = readJSON('projects');
-  const item = projects.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/du-an');
-  res.render('admin/projects-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/du-an/:id/edit', (req, res) => {
-  const projects = readJSON('projects');
-  const item = projects.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/du-an');
-
-  projectsUpload.single('image')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/projects-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const title = (req.body.title || '').trim();
-    if (!title) {
-      return res.status(400).render('admin/projects-form', { item, error: 'Vui lòng nhập tên dự án.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    item.title = title;
-    item.location = (req.body.location || '').trim();
-    item.excerpt = (req.body.excerpt || '').trim();
-    item.published = req.body.published === '1';
-    if (req.file) {
-      deleteUploadedFile(item.image);
-      item.image = publicPathFor('projects', req.file.filename);
-    }
-    writeJSON('projects', projects);
-    res.redirect('/admin/du-an');
-  });
-});
-
-adminRouter.post('/du-an/:id/delete', auth.verifyCsrf, (req, res) => {
-  const projects = readJSON('projects');
-  const item = projects.items.find((i) => i.id === req.params.id);
-  if (item) {
-    deleteUploadedFile(item.image);
-    projects.items = projects.items.filter((i) => i.id !== req.params.id);
-    writeJSON('projects', projects);
-  }
-  res.redirect('/admin/du-an');
-});
-
-// ---------- Admin: Tuyển dụng ----------
-
-adminRouter.get('/tuyen-dung', (req, res) => {
-  const jobs = readJSON('jobs');
-  res.render('admin/jobs-list', { items: jobs.items, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.get('/tuyen-dung/new', (req, res) => {
-  res.render('admin/jobs-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/tuyen-dung/new', (req, res) => {
-  jobsUpload.single('image')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/jobs-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const title = (req.body.title || '').trim();
-    if (!title) {
-      return res.status(400).render('admin/jobs-form', { item: null, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    const jobs = readJSON('jobs');
-    jobs.items.push({
-      id: Date.now().toString(),
-      title,
-      department: (req.body.department || '').trim(),
-      location: (req.body.location || '').trim(),
-      type: (req.body.type || '').trim(),
-      description: (req.body.description || '').replace(/\r\n/g, '\n').trim(),
-      deadline: (req.body.deadline || '').trim(),
-      image: req.file ? publicPathFor('jobs', req.file.filename) : null,
-      published: req.body.published === '1'
-    });
-    writeJSON('jobs', jobs);
-    res.redirect('/admin/tuyen-dung');
-  });
-});
-
-adminRouter.get('/tuyen-dung/:id/edit', (req, res) => {
-  const jobs = readJSON('jobs');
-  const item = jobs.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/tuyen-dung');
-  res.render('admin/jobs-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/tuyen-dung/:id/edit', (req, res) => {
-  const jobs = readJSON('jobs');
-  const item = jobs.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/tuyen-dung');
-
-  jobsUpload.single('image')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/jobs-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const title = (req.body.title || '').trim();
-    if (!title) {
-      return res.status(400).render('admin/jobs-form', { item, error: 'Vui lòng nhập vị trí tuyển dụng.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    item.title = title;
-    item.department = (req.body.department || '').trim();
-    item.location = (req.body.location || '').trim();
-    item.type = (req.body.type || '').trim();
-    item.description = (req.body.description || '').replace(/\r\n/g, '\n').trim();
-    item.deadline = (req.body.deadline || '').trim();
-    item.published = req.body.published === '1';
-    if (req.file) {
-      deleteUploadedFile(item.image);
-      item.image = publicPathFor('jobs', req.file.filename);
-    }
-    writeJSON('jobs', jobs);
-    res.redirect('/admin/tuyen-dung');
-  });
-});
-
-adminRouter.post('/tuyen-dung/:id/delete', auth.verifyCsrf, (req, res) => {
-  const jobs = readJSON('jobs');
-  const item = jobs.items.find((i) => i.id === req.params.id);
-  if (item) {
-    deleteUploadedFile(item.image);
-    jobs.items = jobs.items.filter((i) => i.id !== req.params.id);
-    writeJSON('jobs', jobs);
-  }
-  res.redirect('/admin/tuyen-dung');
-});
-
-// ---------- Admin: Đội ngũ lãnh đạo ----------
-
-adminRouter.get('/doi-ngu-lanh-dao', (req, res) => {
-  const team = readJSON('team');
-  res.render('admin/team-list', { items: team.items, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.get('/doi-ngu-lanh-dao/new', (req, res) => {
-  res.render('admin/team-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/doi-ngu-lanh-dao/new', (req, res) => {
-  teamUpload.single('photo')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/team-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const name = (req.body.name || '').trim();
-    if (!name) {
-      return res.status(400).render('admin/team-form', { item: null, error: 'Vui lòng nhập họ tên.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    const team = readJSON('team');
-    team.items.push({
-      id: Date.now().toString(),
-      name,
-      title: (req.body.title || '').trim(),
-      bio: (req.body.bio || '').trim(),
-      photo: req.file ? publicPathFor('team', req.file.filename) : null
-    });
-    writeJSON('team', team);
-    res.redirect('/admin/doi-ngu-lanh-dao');
-  });
-});
-
-adminRouter.get('/doi-ngu-lanh-dao/:id/edit', (req, res) => {
-  const team = readJSON('team');
-  const item = team.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/doi-ngu-lanh-dao');
-  res.render('admin/team-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/doi-ngu-lanh-dao/:id/edit', (req, res) => {
-  const team = readJSON('team');
-  const item = team.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/doi-ngu-lanh-dao');
-
-  teamUpload.single('photo')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/team-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const name = (req.body.name || '').trim();
-    if (!name) {
-      return res.status(400).render('admin/team-form', { item, error: 'Vui lòng nhập họ tên.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    item.name = name;
-    item.title = (req.body.title || '').trim();
-    item.bio = (req.body.bio || '').trim();
-    if (req.file) {
-      deleteUploadedFile(item.photo);
-      item.photo = publicPathFor('team', req.file.filename);
-    }
-    writeJSON('team', team);
-    res.redirect('/admin/doi-ngu-lanh-dao');
-  });
-});
-
-adminRouter.post('/doi-ngu-lanh-dao/:id/delete', auth.verifyCsrf, (req, res) => {
-  const team = readJSON('team');
-  const item = team.items.find((i) => i.id === req.params.id);
-  if (item) {
-    deleteUploadedFile(item.photo);
-    team.items = team.items.filter((i) => i.id !== req.params.id);
-    writeJSON('team', team);
-  }
-  res.redirect('/admin/doi-ngu-lanh-dao');
 });
 
 // ---------- Admin: Đối tác ----------
@@ -968,7 +621,6 @@ adminRouter.post('/ve-synetic/:id/edit', auth.verifyCsrf, (req, res) => {
     return res.status(400).render('admin/ve-synetic-form', { item, error: 'Vui lòng nhập tiêu đề và nội dung.', csrfToken: auth.ensureCsrfToken(req) });
   }
   item.label = label;
-  item.slug = slugify(label);
   item.hasSign = req.body.hasSign === '1';
   item.signName = (req.body.signName || '').trim();
   item.signTitle = (req.body.signTitle || '').trim();
@@ -999,73 +651,6 @@ adminRouter.post('/ve-synetic/:id/move', auth.verifyCsrf, (req, res) => {
   res.redirect('/admin/ve-synetic');
 });
 
-// ---------- Admin: Thông tin liên hệ (chân trang) ----------
-
-adminRouter.get('/lien-he', (req, res) => {
-  const footer = readJSON('footer');
-  res.render('admin/footer-form', { footer, csrfToken: auth.ensureCsrfToken(req), error: null });
-});
-
-adminRouter.post('/lien-he', (req, res) => {
-  if (!auth.csrfOk(req)) {
-    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-  }
-  const footer = {
-    companyName: (req.body.companyName || '').trim(),
-    address: (req.body.address || '').trim(),
-    taxCode: (req.body.taxCode || '').trim(),
-    phone: (req.body.phone || '').trim(),
-    email: (req.body.email || '').trim(),
-    tagline: (req.body.tagline || '').trim()
-  };
-  writeJSON('footer', footer);
-  res.redirect('/admin/lien-he');
-});
-
-// ---------- Admin: Giá trị cốt lõi (trang chủ) ----------
-
-adminRouter.get('/gia-tri', (req, res) => {
-  const coreValues = readJSON('core-values');
-  res.render('admin/core-values-form', { items: coreValues.items, csrfToken: auth.ensureCsrfToken(req), error: null });
-});
-
-adminRouter.post('/gia-tri', (req, res) => {
-  if (!auth.csrfOk(req)) {
-    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-  }
-  const titles = [].concat(req.body.title || []);
-  const descriptions = [].concat(req.body.description || []);
-  const items = titles.map((title, i) => ({
-    title: (title || '').trim(),
-    description: (descriptions[i] || '').trim()
-  }));
-  writeJSON('core-values', { items });
-  res.redirect('/admin/gia-tri');
-});
-
-// ---------- Admin: Nội dung khác trang chủ (giới thiệu, tầm nhìn, sứ mệnh) ----------
-
-adminRouter.get('/noi-dung-trang-chu', (req, res) => {
-  const homepage = readJSON('homepage');
-  res.render('admin/homepage-form', { homepage, csrfToken: auth.ensureCsrfToken(req), error: null });
-});
-
-adminRouter.post('/noi-dung-trang-chu', (req, res) => {
-  if (!auth.csrfOk(req)) {
-    return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-  }
-  const homepage = {
-    introHeading: (req.body.introHeading || '').trim(),
-    introText: (req.body.introText || '').trim(),
-    visionTitle: (req.body.visionTitle || '').trim(),
-    visionText: (req.body.visionText || '').trim(),
-    missionTitle: (req.body.missionTitle || '').trim(),
-    missionText: (req.body.missionText || '').trim()
-  };
-  writeJSON('homepage', homepage);
-  res.redirect('/admin/noi-dung-trang-chu');
-});
-
 // ---------- Admin: Thành viên hệ sinh thái ----------
 
 adminRouter.get('/thanh-vien', (req, res) => {
@@ -1078,7 +663,7 @@ adminRouter.get('/thanh-vien/new', (req, res) => {
 });
 
 adminRouter.post('/thanh-vien/new', (req, res) => {
-  memberUpload.single('logo')(req, res, (err) => {
+  memberUpload.fields(MEMBER_FIELDS)(req, res, (err) => {
     if (err) {
       return res.status(400).render('admin/members-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
     }
@@ -1089,10 +674,7 @@ adminRouter.post('/thanh-vien/new', (req, res) => {
     if (!name) {
       return res.status(400).render('admin/members-form', { item: null, error: 'Vui lòng nhập tên thành viên.', csrfToken: auth.ensureCsrfToken(req) });
     }
-    const facts = [1, 2, 3].map((i) => ({
-      label: (req.body['factLabel' + i] || '').trim(),
-      value: (req.body['factValue' + i] || '').trim()
-    })).filter((f) => f.label || f.value);
+    const facts = buildFacts(req, []);
     const members = getMembersData();
     members.items.push({
       id: Date.now().toString(),
@@ -1103,7 +685,7 @@ adminRouter.post('/thanh-vien/new', (req, res) => {
       accent: req.body.accent || 'emerald',
       tagline: (req.body.tagline || '').trim(),
       legalName: (req.body.legalName || '').trim(),
-      logo: req.file ? publicPathFor('members', req.file.filename) : null,
+      logo: fileOf(req, 'logo') ? publicPathFor('members', fileOf(req, 'logo').filename) : null,
       body: (req.body.body || '').replace(/\r\n/g, '\n').trim(),
       factsTitle: (req.body.factsTitle || '').trim(),
       facts,
@@ -1126,7 +708,7 @@ adminRouter.post('/thanh-vien/:id/edit', (req, res) => {
   const item = members.items.find((i) => i.id === req.params.id);
   if (!item) return res.redirect('/admin/thanh-vien');
 
-  memberUpload.single('logo')(req, res, (err) => {
+  memberUpload.fields(MEMBER_FIELDS)(req, res, (err) => {
     if (err) {
       return res.status(400).render('admin/members-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
     }
@@ -1138,7 +720,6 @@ adminRouter.post('/thanh-vien/:id/edit', (req, res) => {
       return res.status(400).render('admin/members-form', { item, error: 'Vui lòng nhập tên thành viên.', csrfToken: auth.ensureCsrfToken(req) });
     }
     item.name = name;
-    item.slug = slugify(name);
     item.brand = (req.body.brand || 'Synetic').trim();
     item.brandSub = (req.body.brandSub || '').trim().toUpperCase();
     item.accent = req.body.accent || 'emerald';
@@ -1146,14 +727,11 @@ adminRouter.post('/thanh-vien/:id/edit', (req, res) => {
     item.legalName = (req.body.legalName || '').trim();
     item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
     item.factsTitle = (req.body.factsTitle || '').trim();
-    item.facts = [1, 2, 3].map((i) => ({
-      label: (req.body['factLabel' + i] || '').trim(),
-      value: (req.body['factValue' + i] || '').trim()
-    })).filter((f) => f.label || f.value);
+    item.facts = buildFacts(req, item.facts);
     item.published = req.body.published === '1';
-    if (req.file) {
+    if (fileOf(req, 'logo')) {
       deleteUploadedFile(item.logo);
-      item.logo = publicPathFor('members', req.file.filename);
+      item.logo = publicPathFor('members', fileOf(req, 'logo').filename);
     }
     writeJSON('members', members);
     res.redirect('/admin/thanh-vien');
@@ -1286,11 +864,13 @@ adminRouter.post('/hero/:id/move', auth.verifyCsrf, (req, res) => {
   res.redirect('/admin/hero');
 });
 
+registerAdminExtra(adminRouter);
+
 // ---------- Admin: Ảnh cố định của website ----------
 
 adminRouter.get('/hinh-anh', (req, res) => {
   const siteImages = readJSON('site-images');
-  res.render('admin/site-images-list', { imageList: EDITABLE_IMAGES, siteImages });
+  res.render('admin/site-images-list', { imageList: EDITABLE_IMAGES, siteImages: sd.getSiteImages() });
 });
 
 adminRouter.get('/hinh-anh/:key/edit', (req, res) => {
@@ -1300,9 +880,9 @@ adminRouter.get('/hinh-anh/:key/edit', (req, res) => {
   res.render('admin/site-images-form', {
     key: def.key,
     label: def.label,
-    currentImage: siteImages[def.key] || null,
+    currentImage: sd.getSiteImages()[def.key] || null,
     logoHeight: siteImages.logoHeight || 52,
-    logoHeightMobile: siteImages.logoHeightMobile || 58,
+    logoHeightMobile: siteImages.logoHeightMobile || 44,
     error: null,
     csrfToken: auth.ensureCsrfToken(req)
   });
@@ -1320,7 +900,7 @@ adminRouter.post('/hinh-anh/:key/edit', (req, res) => {
         label: def.label,
         currentImage: siteImages[def.key] || null,
         logoHeight: siteImages.logoHeight || 52,
-        logoHeightMobile: siteImages.logoHeightMobile || 58,
+        logoHeightMobile: siteImages.logoHeightMobile || 44,
         error: err.message,
         csrfToken: auth.ensureCsrfToken(req)
       });
@@ -1334,7 +914,7 @@ adminRouter.post('/hinh-anh/:key/edit', (req, res) => {
         label: def.label,
         currentImage: null,
         logoHeight: siteImages.logoHeight || 52,
-        logoHeightMobile: siteImages.logoHeightMobile || 58,
+        logoHeightMobile: siteImages.logoHeightMobile || 44,
         error: 'Vui lòng chọn một ảnh để tải lên.',
         csrfToken: auth.ensureCsrfToken(req)
       });
@@ -1348,7 +928,7 @@ adminRouter.post('/hinh-anh/:key/edit', (req, res) => {
       const h1 = parseInt(req.body.logoHeight, 10);
       const h2 = parseInt(req.body.logoHeightMobile, 10);
       siteImages.logoHeight = (h1 >= 16 && h1 <= 200) ? h1 : 52;
-      siteImages.logoHeightMobile = (h2 >= 16 && h2 <= 200) ? h2 : 58;
+      siteImages.logoHeightMobile = (h2 >= 16 && h2 <= 200) ? h2 : 44;
     }
     writeJSON('site-images', siteImages);
     res.redirect('/admin/hinh-anh');

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thông tin liên hệ — Quản trị Synetic Group</title>
+<title>Chân trang — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -14,7 +13,8 @@
   <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
   <div class="admin-card">
     <h1>Thông tin liên hệ (chân trang)</h1>
-    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Thông tin này hiển thị ở chân trang trên tất cả các trang của website.</p>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Thông tin này hiển thị ở chân trang xanh trên tất cả các trang của website. Để trống ô mạng xã hội nào thì biểu tượng đó sẽ ẩn đi.</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu thay đổi.</div><% } %>
     <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
 
     <form method="POST" action="/admin/lien-he">
@@ -24,24 +24,29 @@
         <input type="text" id="companyName" name="companyName" value="<%= footer.companyName %>" required>
       </div>
       <div class="admin-field">
-        <label for="address">Địa chỉ</label>
+        <label for="address">Địa chỉ trụ sở</label>
         <input type="text" id="address" name="address" value="<%= footer.address %>" required>
       </div>
-      <div class="admin-field">
-        <label for="taxCode">Mã số thuế</label>
-        <input type="text" id="taxCode" name="taxCode" value="<%= footer.taxCode %>" required>
+      <div class="admin-field row2">
+        <div><label for="phone">Số điện thoại</label><input type="text" id="phone" name="phone" value="<%= footer.phone %>" required></div>
+        <div><label for="email">Email</label><input type="email" id="email" name="email" value="<%= footer.email %>" required></div>
       </div>
       <div class="admin-field">
-        <label for="phone">Số điện thoại</label>
-        <input type="text" id="phone" name="phone" value="<%= footer.phone %>" required>
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" value="<%= footer.website %>">
       </div>
-      <div class="admin-field">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" value="<%= footer.email %>" required>
+      <h3 style="margin:22px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Mạng xã hội (dán đường link)</h3>
+      <div class="admin-field row2">
+        <div><label for="facebook">Facebook</label><input type="text" id="facebook" name="facebook" value="<%= footer.facebook === '#' ? '' : footer.facebook %>" placeholder="https://facebook.com/..."></div>
+        <div><label for="tiktok">TikTok</label><input type="text" id="tiktok" name="tiktok" value="<%= footer.tiktok === '#' ? '' : footer.tiktok %>" placeholder="https://tiktok.com/@..."></div>
       </div>
-      <div class="admin-field">
-        <label for="tagline">Khẩu hiệu (slogan)</label>
-        <input type="text" id="tagline" name="tagline" value="<%= footer.tagline %>" required>
+      <div class="admin-field row2">
+        <div><label for="messenger">Messenger</label><input type="text" id="messenger" name="messenger" value="<%= footer.messenger === '#' ? '' : footer.messenger %>" placeholder="https://m.me/..."></div>
+        <div><label for="zalo">Zalo</label><input type="text" id="zalo" name="zalo" value="<%= footer.zalo === '#' ? '' : footer.zalo %>" placeholder="https://zalo.me/..."></div>
+      </div>
+      <div class="admin-field" style="padding-top:16px;border-top:1px solid #ECEAE3">
+        <label for="copyright">Dòng bản quyền (thanh vàng dưới cùng)</label>
+        <input type="text" id="copyright" name="copyright" value="<%= footer.copyright %>">
       </div>
       <button class="admin-btn" type="submit">Lưu thay đổi</button>
     </form>

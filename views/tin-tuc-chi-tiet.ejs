@@ -1,28 +1,36 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head><body>
+<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', desc: item.excerpt, root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<body class="t-blue">
+<%- include('partials/header', { root: root, active: 'tin-tuc', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: 'TIN TỨC', siteImages: siteImages }) %>
 
-<%- include('partials/header', { root: root, active: 'tin-tuc' , siteImages: siteImages, vePages: vePages }) %>
+<main class="n-main"><div class="wrap">
+  <div class="a-head"><h1><%= item.title %></h1></div>
+  <div class="a-date"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(item.publishedAt) %></div>
+  <div class="a-body">
+    <% if (item.image && !blocks.some(function(b) { return b.src === item.image; })) { %><img src="<%= root %><%= item.image %>" alt=""><% } %>
+    <% blocks.forEach(function(b) { %><% if (b.type === 'img') { %><img src="<%= root %><%= b.src %>" alt="" loading="lazy">
+    <% } else { %><p><%- renderInline(b.text) %></p>
+    <% } %><% }); %>
+  </div>
 
-<main>
-<div class="abar wrap"><a href="<%= root %>tin-tuc.html">← Tất cả tin tức</a> &nbsp;/&nbsp; Tin tức</div>
-
-<section class="ahero"><div class="wrap">
-  <p class="k"><%= item.publishedAt.split('-').reverse().join('/') %></p>
-  <h1><%= item.title %></h1>
-</div></section>
-
-<section class="abody"><div class="wrap">
-  <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt="" style="width:100%;max-width:820px;border-radius:var(--radius);margin-bottom:32px"><% } %>
-  <div class="art" style="max-width:720px">
-    <% blocks.forEach(function(b) { %>
-      <% if (b.type === 'p') { %><p><%= b.text %></p><% } %>
-      <% if (b.type === 'img') { %><img src="<%= root %><%= b.src %>" alt="" style="width:100%;border-radius:var(--radius);margin:8px 0"><% } %>
+  <% if (related.length) { %>
+  <div class="related">
+    <h2 class="h-line">BÀI VIẾT LIÊN QUAN</h2>
+    <% related.forEach(function(it) { %>
+    <article class="n-row">
+      <a class="ni" href="<%= root %>tin-tuc/<%= it.slug %>.html"><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt="" loading="lazy"><% } %></a>
+      <div class="t">
+        <h3><a href="<%= root %>tin-tuc/<%= it.slug %>.html"><%= it.title %></a></h3>
+        <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(it.publishedAt) %></span>
+        <p class="ex"><%= it.excerpt %></p>
+        <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= it.slug %>.html">Xem thêm</a>
+      </div>
+    </article>
     <% }); %>
   </div>
-</div></section>
-</main>
+  <% } %>
+</div></main>
 
-<%- include('partials/footer', { root: root, active: 'tin-tuc' , siteImages: siteImages, footer: footer, members: members }) %>
-<%- include('partials/ticker', { root: root, ticker: ticker }) %>
-<%- include('partials/fab', { root: root, footer: footer, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
 </body></html>

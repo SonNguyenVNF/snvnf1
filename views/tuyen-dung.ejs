@@ -1,38 +1,47 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Tuyển dụng — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head><body>
-
-<%- include('partials/header', { root: root, active: 'tuyen-dung' , siteImages: siteImages, vePages: vePages }) %>
+<html lang="vi"><head><%- include('partials/head', { title: 'Cơ hội việc làm — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<body class="t-blue">
+<%- include('partials/header', { root: root, active: 'tuyen-dung', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: 'CƠ HỘI VIỆC LÀM', siteImages: siteImages }) %>
 
 <main>
-<div class="abar wrap"><a href="index.html">← Về trang chủ</a> &nbsp;/&nbsp; Tuyển dụng</div>
-
-<section class="ahero"><div class="wrap">
-  <p class="k">CƠ HỘI VIỆC LÀM</p>
-  <h1>Tuyển dụng</h1>
-</div></section>
-
-<section class="vals"><div class="wrap">
-  <% if (items.length) { %>
-  <div class="vgrid">
-    <% items.forEach(function(item) { %>
-    <article class="val">
-      <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt="" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:16px"><% } %>
-      <h4><%= item.title %></h4>
-      <p style="color:var(--gd);font-weight:600;font-size:12.5px;margin-bottom:8px">
-        <%= [item.department, item.location, item.type].filter(Boolean).join(' · ') %>
-      </p>
-      <p><%= item.description %></p>
-      <% if (item.deadline) { %><p style="margin-top:10px;font-size:12px;color:var(--muted)">Hạn nộp hồ sơ: <%= item.deadline.split('-').reverse().join('/') %></p><% } %>
-    </article>
+<section class="j-hero">
+  <h2><%= recruit.heroTitle %></h2>
+  <h3><%= recruit.heroSub %></h3>
+  <% recruit.heroText.split(/\n+/).forEach(function(l) { %><p><%= l %></p><% }); %>
+  <div class="j-stats">
+    <% recruit.stats.forEach(function(s) { %><div><b><%= s.value %></b><span><%= s.text %></span></div>
     <% }); %>
   </div>
-  <% } else { %>
-  <p class="newsempty">Hiện chưa có vị trí tuyển dụng nào. Vui lòng quay lại sau.</p>
-  <% } %>
-</div></section>
+  <% recruit.heroText2.split(/\n+/).forEach(function(l) { %><p><%= l %></p><% }); %>
+</section>
+
+<div class="wrap">
+  <div class="j-main">
+    <%- include('partials/job-side', { root: root, departments: departments, locations: locations, asForm: false }) %>
+    <div data-list data-per="7" data-pager=".pager">
+      <% items.forEach(function(j) { %>
+      <div class="j-row" data-item data-dept="<%= j.department %>" data-loc="<%= j.location %>">
+        <div class="tt"><a href="<%= root %>tuyen-dung/<%= j.slug %>.html"><%= j.title %></a>
+          <% if (j.location) { %><div class="lc"><%- include('partials/icon', { name: 'pin' }) %><%= j.location %></div><% } %></div>
+        <span class="dt"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(j.postedAt) %></span>
+        <a class="btn" href="<%= root %>tuyen-dung/<%= j.slug %>.html">Ứng tuyển ngay</a>
+      </div>
+      <% }); %>
+      <p class="empty" data-empty style="<%= items.length ? 'display:none' : '' %>">Hiện chưa có vị trí tuyển dụng nào. Vui lòng quay lại sau.</p>
+      <div class="pager"></div>
+    </div>
+  </div>
+
+  <section class="why">
+    <h2><%= recruit.whyTitle %> <span><%= recruit.whyHighlight %></span></h2>
+    <div class="why-grid">
+      <% recruit.whyItems.forEach(function(w) { %><div><h3><%= w.title %></h3><p><%= w.text %></p></div>
+      <% }); %>
+    </div>
+  </section>
+</div>
 </main>
 
-<%- include('partials/footer', { root: root, active: 'tuyen-dung' , siteImages: siteImages, footer: footer, members: members }) %>
-<%- include('partials/ticker', { root: root, ticker: ticker }) %>
-<%- include('partials/fab', { root: root, footer: footer, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
 </body></html>

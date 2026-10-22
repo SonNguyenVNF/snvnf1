@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', desc: item.excerpt, root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<body class="t-blue">
+<%- include('partials/header', { root: root, active: 'du-an', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: 'DỰ ÁN', siteImages: siteImages }) %>
+
+<main>
+<section class="pd-main"><div class="wrap pd-grid">
+  <div>
+    <h1><%= item.title %></h1>
+    <% var imgs = [item.image].concat(item.images || []).filter(function(src, i, a) { return src && a.indexOf(src) === i; }); %>
+    <% if (imgs.length) { %>
+    <div class="gal car" data-car>
+      <div class="gal-v"><div class="gal-t">
+        <% imgs.forEach(function(src) { %><img src="<%= root %><%= src %>" alt="<%= item.title %>">
+        <% }); %>
+      </div></div>
+      <div class="dots" style="margin-top:14px"></div>
+    </div>
+    <% } %>
+  </div>
+  <div class="pd-text rich"><%- renderRich(item.body || item.excerpt) %></div>
+</div></section>
+
+<section class="pd-contact"><div class="wrap">
+  <h2>LIÊN HỆ VỚI CHÚNG TÔI</h2>
+  <%- include('partials/contact-form', { root: root, formClass: 'pd-form', contactStatus: contactStatus, back: back }) %>
+</div></section>
+</main>
+
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+</body></html>

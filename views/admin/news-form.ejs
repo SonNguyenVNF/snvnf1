@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><%= item ? 'Sửa tin tức' : 'Thêm tin tức' %> — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -57,6 +56,14 @@
           </div>
         <% } %>
         <input type="file" id="images" name="images" accept=".jpg,.jpeg,.png,.webp,.gif" multiple>
+      </div>
+
+      <div class="admin-field">
+        <label for="category">Mục hiển thị trên trang Tin tức</label>
+        <select id="category" name="category">
+          <option value="noi-bo" <%= (!item || item.category !== 'thi-truong') ? 'selected' : '' %>>Hoạt động nội bộ - Văn hóa công ty</option>
+          <option value="thi-truong" <%= (item && item.category === 'thi-truong') ? 'selected' : '' %>>Tin tức thị trường (khung nổi bật phía trên)</option>
+        </select>
       </div>
 
       <div class="admin-field">

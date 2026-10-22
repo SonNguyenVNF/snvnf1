@@ -1,37 +1,64 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Dự án — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head><body>
-
-<%- include('partials/header', { root: root, active: 'du-an' , siteImages: siteImages, vePages: vePages }) %>
+<html lang="vi"><head><%- include('partials/head', { title: 'Dự án — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<body class="t-blue">
+<%- include('partials/header', { root: root, active: 'du-an', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: 'DỰ ÁN', siteImages: siteImages }) %>
 
 <main>
-<div class="abar wrap"><a href="index.html">← Về trang chủ</a> &nbsp;/&nbsp; Dự án</div>
-
-<section class="ahero"><div class="wrap">
-  <p class="k">DỰ ÁN</p>
-  <h1>Dự án</h1>
-</div></section>
-
-<section class="abody"><div class="wrap">
-  <% if (items.length) { %>
-  <div class="newsgrid">
-    <% items.forEach(function(item) { %>
-    <div class="newscard">
-      <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt=""><% } %>
-      <div class="nbody">
-        <% if (item.location) { %><span class="ndate"><%= item.location %></span><% } %>
-        <h4><%= item.title %></h4>
-        <p><%= item.excerpt %></p>
-      </div>
+<% if (featured.length) { %>
+<section class="p-feature" data-pfeat><div class="wrap">
+  <% featured.forEach(function(p) { %>
+  <div class="pf-slide">
+    <div>
+      <h2>DỰ ÁN NỔI BẬT</h2>
+      <h3><%= p.status || 'ĐANG TRIỂN KHAI' %></h3>
+      <div class="rule"></div>
+      <p><strong><%= p.title %></strong><% if (p.excerpt) { %><br><%= p.excerpt %><% } %></p>
+      <a class="btn btn-gold" href="<%= root %>du-an/<%= p.slug %>.html">Tìm hiểu thêm</a>
     </div>
-    <% }); %>
+    <div class="frame"><img src="<%= root %><%= p.image || 'assets/img/trophy.jpg' %>" alt="<%= p.title %>"></div>
   </div>
+  <% }); %>
+  <div class="dots"></div>
+</div></section>
+<% } %>
+
+<section class="p-find">
+  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <div class="wrap">
+    <h2>TÌM DỰ ÁN</h2>
+    <div class="p-form">
+      <select data-filter="type" data-live="off" aria-label="Loại hình"><option value="">Chọn loại hình</option><% opts.type.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <select data-filter="name" data-live="off" aria-label="Tên dự án"><option value="">Chọn tên dự án</option><% opts.title.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <select data-filter="location" data-live="off" aria-label="Địa điểm"><option value="">Chọn địa điểm</option><% opts.location.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <select data-filter="status" data-live="off" aria-label="Tình trạng"><option value="">Chọn tình trạng</option><% opts.status.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <button class="btn" type="button" data-filter-go>Tìm kiếm</button>
+    </div>
+  </div>
+</section>
+
+<section class="p-page"><div class="wrap">
+  <% if (items.length) { %>
+  <div class="p-grid" data-list data-per="6" data-pager=".p-dots">
+    <% items.forEach(function(p, i) { %>
+    <a class="pcard" data-item data-type="<%= p.type %>" data-name="<%= p.title %>" data-location="<%= p.location %>" data-status="<%= p.status %>" href="<%= root %>du-an/<%= p.slug %>.html" style="background-image:url('<%= root %><%= p.image || 'assets/img/trophy.jpg' %>')">
+      <div class="pc">
+        <div class="pn"><b><%= String(i + 1).padStart(2, '0') %>.</b><% if (p.type) { %><i><%= p.type %></i><% } %></div>
+        <h3><%= p.title %></h3>
+        <% if (p.location) { %><span class="pl"><%- include('partials/icon', { name: 'pin' }) %><%= p.location %></span><% } %>
+        <span class="btn">Xem thêm</span>
+      </div>
+    </a>
+    <% }); %>
+    <p class="empty" data-empty style="display:none;grid-column:1/-1">Không tìm thấy dự án phù hợp.</p>
+  </div>
+  <div class="dots p-dots"></div>
   <% } else { %>
-  <p class="newsempty">Nội dung đang được cập nhật. Phần này sẽ sớm giới thiệu các dự án tiêu biểu của Synetic Group.</p>
+  <p class="empty">Nội dung đang được cập nhật. Phần này sẽ sớm giới thiệu các dự án tiêu biểu của Synetic Group.</p>
   <% } %>
 </div></section>
 </main>
 
-<%- include('partials/footer', { root: root, active: 'du-an' , siteImages: siteImages, footer: footer, members: members }) %>
-<%- include('partials/ticker', { root: root, ticker: ticker }) %>
-<%- include('partials/fab', { root: root, footer: footer, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
 </body></html>

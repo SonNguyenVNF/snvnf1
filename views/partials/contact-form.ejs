@@ -1,0 +1,19 @@
+<form class="<%= formClass %>" method="POST" action="/lien-he" autocomplete="on">
+  <input type="hidden" name="back" value="<%= back %>">
+  <input class="hp" type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <% if (contactStatus === 'ok') { %><div class="ft-msg ok full">Cảm ơn bạn! Synetic đã nhận được thông tin và sẽ liên hệ lại sớm nhất.</div>
+  <% } else if (contactStatus === 'err') { %><div class="ft-msg err full">Vui lòng nhập họ tên, số điện thoại hoặc email và nội dung liên hệ.</div>
+  <% } else if (contactStatus === 'limit') { %><div class="ft-msg err full">Bạn gửi quá nhiều lần, vui lòng thử lại sau ít phút.</div><% } %>
+  <% if (formClass === 'pd-form') { %>
+  <input type="text" name="name" maxlength="120" placeholder="Họ và tên:" required aria-label="Họ và tên">
+  <input type="tel" name="phone" maxlength="40" placeholder="Số điện thoại:" required aria-label="Số điện thoại">
+  <textarea class="full" name="message" maxlength="3000" required placeholder="Nội dung liên hệ / Dự án quan tâm (Nếu có)" aria-label="Nội dung liên hệ"></textarea>
+  <div class="sub"><button class="btn btn-navy" type="submit">Gửi thông tin</button></div>
+  <% } else { %>
+  <input class="full" type="text" name="name" maxlength="120" placeholder="Họ và tên (*):" required aria-label="Họ và tên">
+  <input type="tel" name="phone" maxlength="40" placeholder="Số điện thoại (*):" aria-label="Số điện thoại">
+  <input type="email" name="email" maxlength="120" placeholder="Email (*):" aria-label="Email">
+  <textarea class="full" name="message" maxlength="3000" required placeholder="Nội dung liên hệ (*):" aria-label="Nội dung liên hệ"></textarea>
+  <button class="btn btn-yellow" type="submit">Gửi thông tin</button>
+  <% } %>
+</form>

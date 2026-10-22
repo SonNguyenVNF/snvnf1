@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><%= item ? 'Sửa dự án' : 'Thêm dự án' %> — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -20,7 +19,14 @@
 
       <div class="admin-field">
         <label for="title">Tên dự án</label>
-        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Nhà máy chế biến thức ăn chăn nuôi Tây Ninh">
+        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Tổ hợp nhà máy dinh dưỡng vật nuôi công nghệ cao">
+      </div>
+
+      <div class="admin-field row2">
+        <div><label for="type">Loại hình</label>
+          <input type="text" id="type" name="type" value="<%= item ? (item.type || '') : '' %>" placeholder="Ví dụ: Nhà máy, Căn hộ cao cấp"></div>
+        <div><label for="status">Tình trạng</label>
+          <input type="text" id="status" name="status" value="<%= item ? (item.status || '') : '' %>" placeholder="Ví dụ: Đang triển khai"></div>
       </div>
 
       <div class="admin-field">
@@ -29,18 +35,42 @@
       </div>
 
       <div class="admin-field">
-        <label for="excerpt">Mô tả ngắn</label>
-        <textarea id="excerpt" name="excerpt" rows="4" placeholder="Mô tả ngắn gọn về dự án"><%= item ? item.excerpt : '' %></textarea>
+        <label for="excerpt">Mô tả ngắn (hiện ở khung "Dự án nổi bật")</label>
+        <textarea id="excerpt" name="excerpt" rows="3" placeholder="1-2 câu giới thiệu ngắn gọn"><%= item ? item.excerpt : '' %></textarea>
       </div>
 
       <div class="admin-field">
-        <label for="image">Hình ảnh</label>
+        <label for="body">Nội dung chi tiết (cột chữ bên phải trang dự án)</label>
+        <p class="hint">Gõ <b># Tiêu đề</b> để tạo tiêu đề nhỏ màu xanh, <b>- nội dung</b> để tạo gạch đầu dòng, <b>**chữ đậm**</b> để in đậm. Cách 1 dòng trống để tách đoạn.</p>
+        <textarea id="body" name="body" rows="12"><%= item ? (item.body || '') : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label for="image">Ảnh đại diện (hiện trên ô dự án và đầu trang dự án)</label>
         <% if (item && item.image) { %>
           <div style="margin-bottom:10px"><img src="/<%= item.image %>" alt="" style="max-width:220px;border-radius:8px;display:block"></div>
         <% } %>
         <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif">
       </div>
 
+      <div class="admin-field">
+        <label for="images">Thêm ảnh cho trang chi tiết (xem lần lượt bằng các chấm tròn, chọn được nhiều ảnh)</label>
+        <% if (item && item.images && item.images.length) { %>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+            <% item.images.forEach(function(img) { %>
+              <label style="display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:400">
+                <img src="/<%= img %>" alt="" style="width:100px;height:100px;object-fit:cover;border-radius:8px">
+                <span><input type="checkbox" name="removeImages" value="<%= img %>" style="width:auto"> Xoá</span>
+              </label>
+            <% }); %>
+          </div>
+        <% } %>
+        <input type="file" id="images" name="images" accept=".jpg,.jpeg,.png,.webp,.gif" multiple>
+      </div>
+
+      <div class="admin-field">
+        <label><input type="checkbox" name="featured" value="1" <%= (item && item.featured) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiện ở khung "Dự án nổi bật" đầu trang</label>
+      </div>
       <div class="admin-field">
         <label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label>
       </div>

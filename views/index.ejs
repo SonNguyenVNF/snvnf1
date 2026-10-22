@@ -1,126 +1,112 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Synetic Group — Kiến tạo giá trị vượt trội', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head><body>
-
-<%- include('partials/header', { root: root, active: 'home' , siteImages: siteImages, vePages: vePages }) %>
-
+<html lang="vi"><head><%- include('partials/head', { title: 'Synetic Group — Kiến tạo giá trị vượt trội', desc: homepage.introText, root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<body class="t-blue">
+<%- include('partials/header', { root: root, active: 'home', siteImages: siteImages }) %>
+<%
+var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title: 'KIẾN TẠO GIÁ TRỊ **VƯỢT TRỘI**', description: homepage.introText }];
+%>
 <main id="top">
-<% if (heroSlides.length) { %>
 <section class="hero">
-<div class="hero-bg" aria-hidden="true">
-  <% heroSlides.forEach(function(slide, i) { %>
-  <div class="hslide<%= i === 0 ? ' active' : '' %>" style="background-image:url('<%= root %><%= slide.image %>')"></div>
+  <% slides.forEach(function(slide, i) { %><div class="hslide<%= i === 0 ? ' active' : '' %>" style="background-image:url('<%= root %><%= slide.image %>')"></div>
   <% }); %>
-</div>
-<div class="hero-scrim" aria-hidden="true"></div>
-<% if (heroSlides.length > 1) { %>
-<button class="hero-arrow hero-prev" type="button" aria-label="Slide trước">‹</button>
-<button class="hero-arrow hero-next" type="button" aria-label="Slide sau">›</button>
-<% } %>
-<span class="big"><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
-  <defs><linearGradient id="gmw" x1="0.15" y1="0" x2="0.85" y2="1">
-    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
-  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round"/>
-  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#FFFFFF"/></g>
-  <g stroke="#FFFFFF" stroke-width="5" fill="#FFFFFF" stroke-linecap="round">
-    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
-    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg></span><div class="wrap">
-  <% heroSlides.forEach(function(slide, i) { %>
+  <% slides.forEach(function(slide, i) { %>
   <div class="hero-text<%= i === 0 ? ' active' : '' %>">
-    <% if (slide.eyebrow) { %><p class="eb"><%= slide.eyebrow %></p><% } %>
     <h1><%- renderHeroTitle(slide.title) %></h1>
-    <% if (slide.description) { %><p><%= slide.description %></p><% } %>
-    <div class="cta"><a class="btn btn-gd" href="#thanh-vien">Khám phá hệ sinh thái</a>
-      <a class="btn btn-gh" href="#gioi-thieu">Về Synetic Group</a></div>
+    <% if (slide.description) { %><p><%- renderHeroTitle(slide.description) %></p><% } %>
+    <div class="hero-cta">
+      <a class="btn btn-yellow" href="#thanh-vien"><%= homepage.heroBtn1 %></a>
+      <a class="btn btn-outline" href="<%= root %>ve-chung-toi.html"><%= homepage.heroBtn2 %></a>
+    </div>
   </div>
   <% }); %>
-  <% if (heroSlides.length > 1) { %><div class="hero-dots"></div><% } %>
-</div></section>
-<% } %>
+  <% if (slides.length > 1) { %>
+  <button class="hero-arrow hero-prev" type="button" aria-label="Slide trước">‹</button>
+  <button class="hero-arrow hero-next" type="button" aria-label="Slide sau">›</button>
+  <div class="hero-dots"></div>
+  <% } %>
+</section>
 
-<section id="gioi-thieu"><div class="wrap two">
-  <div><p class="lb">VỀ SYNETIC GROUP</p>
-    <h2><%= homepage.introHeading %></h2></div>
-  <div class="lead">
-    <p><%= homepage.introText %></p>
+<section class="intro" id="gioi-thieu">
+  <div class="wrap">
+    <div>
+      <h2><%= homepage.introTitle %></h2>
+      <h3><%= homepage.introSubtitle %></h3>
+      <div class="rule"></div>
+      <p><%= homepage.introText %></p>
+      <a class="btn btn-gold btn-lg" href="<%= root %>ve-chung-toi.html"><%= homepage.introButton %></a>
+    </div>
+    <div class="frame"><img src="<%= root %><%= siteImages.intro %>" alt="<%= homepage.introTitle %>"></div>
   </div>
-</div></section>
+  <img class="pent-deco" src="<%= root %>assets/img/pentagon.svg" alt="">
+</section>
 
-<% if (news.length) { %>
-<section class="news-feat" id="tin-tuc-noi-bat"><div class="wrap">
-  <p class="lb">TIN TỨC</p><h2>Tin tức nổi bật.</h2>
-  <div class="nf-slider">
-    <button class="nf-arrow nf-prev" type="button" aria-label="Tin trước">‹</button>
-    <div class="nf-track">
-      <% news.forEach(function(item, i) { %>
-      <div class="nf-slide<%= i === 0 ? ' active' : '' %><%= item.image ? '' : ' no-image' %>">
-        <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt=""><% } %>
-        <div class="nf-body">
-          <h3><%= item.title %></h3>
-          <p><%= item.excerpt %></p>
-          <a class="btn btn-gd" href="<%= root %>tin-tuc/<%= item.slug %>.html">Xem thêm →</a>
-        </div>
-      </div>
+<section class="members" id="thanh-vien">
+  <div class="wrap">
+    <h2 class="t-h"><%= homepage.membersTitle %></h2>
+    <div class="mgrid">
+      <% members.forEach(function(m) { %>
+      <a class="mcard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
+        <span class="ml"><img src="<%= root %><%= m.logo || 'assets/img/logo-white.png' %>" alt="<%= m.name %>" loading="lazy"></span>
+        <span class="mn"><%= m.brand %></span>
+        <span class="ms"><%= m.brandSub %></span>
+        <span class="mt"><%= tagBreak(m.tagline) %></span>
+        <span class="btn btn-yellow">Tìm hiểu thêm</span>
+      </a>
       <% }); %>
     </div>
-    <button class="nf-arrow nf-next" type="button" aria-label="Tin sau">›</button>
-  </div>
-  <div class="nf-dots"></div>
-</div></section>
-<% } %>
-
-<section class="vm" id="tam-nhin"><div class="wrap">
-  <p class="lb">ĐỊNH HƯỚNG</p><h2>Tầm nhìn và Sứ mệnh.</h2>
-  <div class="row">
-    <div class="bx a"><div class="k">TẦM NHÌN</div><h3><%= homepage.visionTitle %></h3>
-      <p><%= homepage.visionText %></p></div>
-    <div class="bx b"><div class="k">SỨ MỆNH</div>
-      <h3><%= homepage.missionTitle %></h3>
-      <p><%= homepage.missionText %></p></div>
-  </div>
-</div></section>
-
-<section class="vals" id="gia-tri"><div class="wrap">
-  <p class="lb">GIÁ TRỊ CỐT LÕI</p><h2>Sáu giá trị dẫn đường.</h2>
-  <div class="vgrid">
-      <% coreValues.forEach(function(v, i) { %>
-      <article class="val"><span class="n"><%= String(i + 1).padStart(2, '0') %></span><h4><%= v.title %></h4><p><%= v.description %></p></article>
-      <% }); %></div>
-</div></section>
-
-<section class="units" id="thanh-vien"><div class="wrap">
-  <p class="lb">HỆ SINH THÁI</p><h2>Thành viên trong hệ sinh thái.</h2>
-  <div class="ugrid">
-    <% members.forEach(function(m) { %>
-      <a class="ucard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
-        <div class="ulogo">
-        <% if (m.logo) { %><img class="mk" src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy"><% } else { %><svg class="mk" viewBox="0 0 210 230" aria-hidden="true">
-  <defs><linearGradient id="gm" x1="0.15" y1="0" x2="0.85" y2="1">
-    <stop offset="0" stop-color="#0F6B50"/><stop offset="0.5" stop-color="#1FA38A"/><stop offset="1" stop-color="#1F5FAF"/></linearGradient></defs>
-  <path d="M138 44 C64 44 58 112 108 126 C158 140 152 200 78 200" fill="none" stroke="url(#gm)" stroke-width="31" stroke-linecap="round"/>
-  <g transform="translate(146,30) rotate(-26) scale(0.92)"><path d="M0 0 C16 -14 40 -10 50 6 C32 20 10 16 0 0 Z" fill="#0F6B50"/></g>
-  <g stroke="#1F5FAF" stroke-width="5" fill="#1F5FAF" stroke-linecap="round">
-    <line x1="34" y1="138" x2="64" y2="164"/><line x1="64" y1="164" x2="30" y2="192"/>
-    <circle cx="34" cy="138" r="8"/><circle cx="64" cy="164" r="8"/><circle cx="30" cy="192" r="8"/></g></svg><% } %><span><b><%= m.brand %></b><i><%= m.brandSub %></i></span></div>
-        <p><%= m.tagline %></p>
-        <div class="ufoot"><%= m.legalName %></div>
-        <span class="more">XEM BÀI VIẾT →</span>
-      </a>
-    <% }); %>
-  </div>
-</div></section>
-
-<section class="cl">
-  <div class="wrap">
-    <h2>Sẵn sàng hợp tác cùng Synetic?</h2>
-    <div class="rule"></div>
-    <p>Đội ngũ của chúng tôi luôn sẵn sàng đồng hành và mang đến giải pháp tốt nhất
-       cho doanh nghiệp của bạn.</p>
-    <a class="sig" href="#lien-he">KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI</a>
   </div>
 </section>
+
+<section class="partners-band">
+  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <div class="wrap">
+    <h2><%= homepage.partnersTitle %></h2>
+    <p class="lead"><%= homepage.partnersText %></p>
+    <div class="pgrid">
+      <% var picons = ['b_farm', 'b_hub', 'b_truck', 'b_money']; homepage.partnerItems.forEach(function(p, i) { %>
+      <div class="pi"><%- include('partials/icon', { name: picons[i % 4] }) %><h3><%= p.title %></h3><p><%= p.text %></p></div>
+      <% }); %>
+    </div>
+    <p class="closing"><%= homepage.partnersClosing %></p>
+  </div>
+</section>
+
+<% if (news.length) { %>
+<section class="news-sec" id="tin-tuc-noi-bat">
+  <div class="wrap">
+    <h2><%= homepage.newsTitle %></h2>
+    <div class="car" data-car="auto">
+      <div class="car-viewport"><div class="car-track">
+        <% news.forEach(function(item) { %>
+        <div class="car-item"><article class="ncard">
+          <a class="ni" href="<%= root %>tin-tuc/<%= item.slug %>.html"><% if (item.image) { %><img src="<%= root %><%= item.image %>" alt="" loading="lazy"><% } %></a>
+          <div class="nb">
+            <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(item.publishedAt) %></span>
+            <h3><%= item.title %></h3>
+            <p><%= item.excerpt %></p>
+            <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= item.slug %>.html">Xem thêm</a>
+          </div>
+        </article></div>
+        <% }); %>
+      </div></div>
+      <div class="dots"></div>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="cta-band">
+  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
+  <div class="rule"></div>
+  <p><%= homepage.ctaText %></p>
+  <a class="btn btn-white" href="#thanh-vien"><%= homepage.ctaButton %></a>
+</section>
+
+<img class="map-img" src="<%= root %><%= siteImages.map %>" alt="Bản đồ trụ sở Synetic Group" loading="lazy">
 </main>
 
-<%- include('partials/footer', { root: root, active: 'home' , siteImages: siteImages, footer: footer, members: members }) %>
-<%- include('partials/ticker', { root: root, ticker: ticker }) %>
-<%- include('partials/fab', { root: root, footer: footer, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
 </body></html>

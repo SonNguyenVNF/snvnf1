@@ -1,32 +1,20 @@
-<header><div class="wrap nav">
-  <a class="brand" href="<%= active === 'home' ? '#top' : root + 'index.html' %>"><img class="brand-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></a>
-  <nav><ul>
-    <li><a class="nav-home<%= active === 'home' ? ' active' : '' %>" href="<%= root %>index.html"><span class="hico" aria-hidden="true">⌂</span> Trang chủ</a></li>
-    <li class="has-dropdown">
-      <button class="dropdown-toggle" type="button">Về Synetic <span class="car">▾</span></button>
-      <div class="dropdown">
-        <% vePages.forEach(function(p) { %><a href="<%= root %>ve-synetic/<%= p.slug %>.html"><%= p.label %></a><% }); %>
-        <a href="<%= root %>ve-synetic/gia-tri-cot-loi.html">Giá trị cốt lõi</a>
-        <a href="<%= root %>ve-synetic/mang-luoi-hoat-dong.html">Mạng lưới hoạt động</a>
-        <a href="<%= root %>ve-synetic/doi-ngu-lanh-dao.html">Đội ngũ lãnh đạo</a>
-        <a href="<%= root %>ve-synetic/doi-tac-khach-hang.html">Đối tác và khách hàng</a>
-      </div>
-    </li>
-    <li><a href="<%= active === 'home' ? '#thanh-vien' : root + 'index.html#thanh-vien' %>">Hệ sinh thái</a></li>
-    <li><a class="<%= active === 'du-an' ? 'active' : '' %>" href="<%= root %>du-an.html">Dự án</a></li>
-    <li><a class="<%= active === 'tin-tuc' ? 'active' : '' %>" href="<%= root %>tin-tuc.html">Tin tức</a></li>
-    <li><a class="<%= active === 'doi-tac' ? 'active' : '' %>" href="<%= root %>ve-synetic/doi-tac-khach-hang.html">Đối tác</a></li>
-    <li><a class="<%= active === 'tuyen-dung' ? 'active' : '' %>" href="<%= root %>tuyen-dung.html">Cơ hội việc làm</a></li>
+<%
+var nav = [
+  ['home', 'Trang chủ', 'index.html'],
+  ['about', 'Về chúng tôi', 've-chung-toi.html'],
+  ['eco', 'Hệ sinh thái', 'index.html#thanh-vien'],
+  ['du-an', 'Dự án', 'du-an.html'],
+  ['tin-tuc', 'Tin tức', 'tin-tuc.html'],
+  ['doi-tac', 'Đối tác', 'doi-tac.html'],
+  ['tuyen-dung', 'Cơ hội việc làm', 'tuyen-dung.html']
+];
+%>
+<header class="hd"><div class="wrap hd-in">
+  <a class="brand" href="<%= root %>index.html"><img class="brand-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></a>
+  <nav class="mainnav" aria-label="Menu chính"><ul>
+    <% nav.forEach(function(n) { %><li><a class="<%= active === n[0] ? 'active' : '' %>" href="<%= root %><%= n[2] %>"><%= n[1] %></a></li>
+    <% }); %>
   </ul></nav>
-  <a class="btn" href="<%= active === 'home' ? '#lien-he' : root + 'index.html#lien-he' %>">Liên hệ ngay</a>
-  <div class="nav-icons">
-    <div class="has-dropdown lang-switch">
-      <button class="dropdown-toggle" type="button" aria-label="Chọn ngôn ngữ">VI</button>
-      <div class="dropdown lang-dropdown">
-        <span class="lang-item current">🇻🇳 Tiếng Việt</span>
-        <span class="lang-item disabled">🇬🇧 English <i>(sắp ra mắt)</i></span>
-      </div>
-    </div>
-  </div>
+  <span class="flag" title="Tiếng Việt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.4 7 .7-5.2 4.7 1.5 6.9L12 17.5 5.8 21.2l1.5-6.9L2.1 9.6l7-.7z"/></svg></span>
   <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div></header>

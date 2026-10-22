@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi"><head><%- include('partials/head', { title: 'Về chúng tôi — Synetic Group', desc: 'Thông điệp, lịch sử, tầm nhìn chiến lược, giá trị cốt lõi và đội ngũ lãnh đạo của Synetic Group.', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<body class="t-blue">
+<%- include('partials/header', { root: root, active: 'about', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: 'VỀ CHÚNG TÔI', siteImages: siteImages }) %>
+
+<main>
+<% if (about.chair) { %>
+<section class="ab-chair" id="<%= about.chair.slug %>">
+  <div class="wrap">
+    <div class="ab-card">
+      <div class="tt"><% if (about.chair.t1) { %><%= about.chair.t1 %><% } %><b><%= about.chair.t2 %></b></div>
+      <% about.chair.paras.forEach(function(p) { %><p><%= p %></p>
+      <% }); %>
+      <% if (about.chair.sign) { %><div class="sg"><%= about.chair.sign.name %><% if (about.chair.sign.title) { %><span><%= about.chair.sign.title %></span><% } %></div><% } %>
+    </div>
+    <div class="ab-photo"><img src="<%= root %><%= siteImages.chairman %>" alt="<%= about.chair.sign ? about.chair.sign.name : about.chair.t2 %>"></div>
+  </div>
+</section>
+<% } %>
+
+<% about.extras.filter(function(ex) { return /^thong-diep/.test(ex.slug); }).forEach(function(ex) { %>
+<section class="ab-block" id="<%= ex.slug %>"><div class="wrap" style="max-width:900px">
+  <h2 class="h-line"><%= ex.heading %></h2>
+  <div style="margin-top:22px" class="rich">
+    <% ex.paras.forEach(function(p) { %><p><%= p %></p>
+    <% }); %>
+    <% if (ex.sign) { %><p><strong><%= ex.sign.name %></strong><% if (ex.sign.title) { %><br><%= ex.sign.title %><% } %></p><% } %>
+  </div>
+</div></section>
+<% }); %>
+
+<% if (about.history) { %>
+<section class="ab-block" id="<%= about.history.slug %>"><div class="wrap ab-split">
+  <div>
+    <h2><%= about.history.heading %></h2>
+    <% about.history.paras.forEach(function(p) { %><p><%= p %></p>
+    <% }); %>
+  </div>
+  <div class="img"><img src="<%= root %><%= siteImages.history %>" alt="<%= about.history.heading %>" loading="lazy"></div>
+</div></section>
+<% } %>
+
+<% if (about.strategy) { %>
+<section class="ab-strategy" id="<%= about.strategy.slug %>"><div class="wrap">
+  <h2><%= about.strategy.heading %></h2>
+  <% if (about.strategy.intro) { %><p class="sub"><%= about.strategy.intro %></p><% } %>
+  <% if (about.strategy.pillars.length) { %>
+  <div class="pillars">
+    <% var picons = ['network', 'chip', 'leaf']; about.strategy.pillars.forEach(function(p, i) { %>
+    <article class="pillar"><span class="pn"><%= String(i + 1).padStart(2, '0') %></span><%- include('partials/icon', { name: picons[i % 3] }) %><h3><%= p.title %></h3><p><%= p.text %></p></article>
+    <% }); %>
+  </div>
+  <% } %>
+  <% about.strategy.rest.forEach(function(p) { %><p class="sub" style="margin-top:20px"><%= p %></p><% }); %>
+</div></section>
+<% if (about.strategy.vision) { %>
+<section class="ab-vision"><div class="wrap">
+  <h2><%= about.strategy.vision.title %></h2>
+  <p><%= about.strategy.vision.text %></p>
+</div></section>
+<% } %>
+<% } %>
+
+<% if (coreValues.items.length) { %>
+<section class="ab-values" id="gia-tri-cot-loi"><div class="wrap">
+  <%
+  var vicons = ['target', 'rocket', 'gear', 'heart', 'users', 'scale'];
+  var vcolors = ['#1b4fb5', '#1d8a47', '#cb9029'];
+  var left = [], right = [];
+  coreValues.items.slice(0, 6).forEach(function(v, i) { (i % 2 === 0 ? left : right).push({ v: v, i: i }); });
+  %>
+  <div class="vwheel">
+    <div class="vcol">
+      <% left.forEach(function(o, k) { %>
+      <div class="vitem" style="--vc:<%= vcolors[k % 3] %>"><span class="vi"><%- include('partials/icon', { name: vicons[o.i] }) %></span><div><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div></div>
+      <% }); %>
+    </div>
+    <div class="vcenter">GIÁ TRỊ<br>CỐT LÕI</div>
+    <div class="vcol right">
+      <% right.forEach(function(o, k) { %>
+      <div class="vitem" style="--vc:<%= vcolors[k % 3] %>"><span class="vi"><%- include('partials/icon', { name: vicons[o.i] }) %></span><div><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div></div>
+      <% }); %>
+    </div>
+  </div>
+</div>
+<div class="vnote"><p><%= coreValues.note %></p></div>
+</section>
+<% } %>
+
+<% if (about.csr) { %>
+<section class="ab-block ab-csr" id="<%= about.csr.slug %>"><div class="wrap ab-split rev">
+  <div class="img"><img src="<%= root %><%= siteImages.csr %>" alt="<%= about.csr.heading %>" loading="lazy"></div>
+  <div>
+    <h2><%= about.csr.heading %></h2>
+    <% about.csr.plain.forEach(function(p) { %><p><%= p %></p>
+    <% }); %>
+    <% about.csr.items.forEach(function(it) { %><div class="csr-item"><h3><%= it.title %></h3><p><%= it.text %></p></div>
+    <% }); %>
+  </div>
+</div></section>
+<% } %>
+
+<% if (about.awards) { %>
+<section class="ab-block" id="<%= about.awards.slug %>"><div class="wrap ab-split">
+  <div>
+    <h2><%= about.awards.heading %></h2>
+    <% about.awards.paras.forEach(function(p) { %><p><%= p %></p>
+    <% }); %>
+  </div>
+  <div class="frame"><img src="<%= root %><%= siteImages.award %>" alt="<%= about.awards.heading %>" loading="lazy"></div>
+</div></section>
+<% } %>
+
+<% if (network.items.length) { %>
+<section class="ab-net" id="mang-luoi-hoat-dong"><div class="wrap">
+  <%
+  var nicons = ['swap', 'cap', 'bulb', 'megaphone', 'gear', 'badge', 'users', 'building'];
+  var half = Math.ceil(network.items.length / 2);
+  var nl = network.items.slice(0, half), nr = network.items.slice(half);
+  %>
+  <div class="net">
+    <div class="net-col">
+      <% nl.forEach(function(it, i) { %><div class="net-item"><%- include('partials/icon', { name: nicons[i % 8] }) %><div><h4><%= it.title %></h4><p><%= it.description %></p></div></div>
+      <% }); %>
+    </div>
+    <div class="net-center"><div><b><%= network.title %></b><p><%= network.centerText %></p></div></div>
+    <div class="net-col">
+      <% nr.forEach(function(it, i) { %><div class="net-item"><%- include('partials/icon', { name: nicons[(i + half) % 8] }) %><div><h4><%= it.title %></h4><p><%= it.description %></p></div></div>
+      <% }); %>
+    </div>
+  </div>
+</div></section>
+<% } %>
+
+<% about.extras.filter(function(ex) { return !/^thong-diep/.test(ex.slug); }).forEach(function(ex) { %>
+<section class="ab-block" id="<%= ex.slug %>"><div class="wrap" style="max-width:900px">
+  <h2 class="h-line"><%= ex.heading %></h2>
+  <div style="margin-top:22px" class="rich">
+    <% ex.paras.forEach(function(p) { %><p><%= p %></p>
+    <% }); %>
+    <% if (ex.sign) { %><p><strong><%= ex.sign.name %></strong><% if (ex.sign.title) { %><br><%= ex.sign.title %><% } %></p><% } %>
+  </div>
+</div></section>
+<% }); %>
+
+<section class="ab-team" id="doi-ngu-lanh-dao"><div class="wrap">
+  <h2>ĐỘI NGŨ LÃNH ĐẠO</h2>
+  <% if (teamIntro.body || teamIntro.chairmanNote) { %>
+  <div class="intro-t">
+    <% (teamIntro.body || '').replace(/\r\n/g, '\n').split(/\n{2,}/).forEach(function(p) { %><% if (p.trim()) { %><p style="margin-bottom:10px"><%= p.trim() %></p><% } %><% }); %>
+    <% if (teamIntro.chairmanNote) { %><p><strong>Chủ tịch Hội đồng Quản trị:</strong> <%= teamIntro.chairmanNote %>.</p><% } %>
+  </div>
+  <% } %>
+  <% if (team.length) { %>
+  <div class="t-grid">
+    <% team.forEach(function(m, i) { %>
+    <article class="tcard<%= i < 2 ? ' big' : '' %>">
+      <div class="ph"><% if (m.photo) { %><img src="<%= root %><%= m.photo %>" alt="<%= m.name %>" loading="lazy"><% } else { %><%- include('partials/icon', { name: 'user' }) %><% } %></div>
+      <div>
+        <div class="tag"><%= m.title %></div>
+        <h3><%= m.name %></h3>
+        <% if (m.subtitle) { %><div class="st"><%= m.subtitle %></div><% } %>
+        <% if (m.bio) { %><p><%= m.bio %></p><% } %>
+        <div class="ct">
+          <% if (m.phone) { %><span><%- include('partials/icon', { name: 'phone' }) %><%= m.phone %></span><% } %>
+          <% if (m.email) { %><span><%- include('partials/icon', { name: 'mail' }) %><%= m.email %></span><% } %>
+        </div>
+      </div>
+    </article>
+    <% }); %>
+  </div>
+  <% } else { %>
+  <p class="intro-t" style="text-align:center">Thông tin chi tiết về từng thành viên Ban lãnh đạo sẽ được cập nhật đầy đủ trong thời gian tới.</p>
+  <% } %>
+</div></section>
+</main>
+
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+</body></html>

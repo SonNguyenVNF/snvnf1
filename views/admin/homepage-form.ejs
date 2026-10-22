@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nội dung trang chủ — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -13,41 +12,80 @@
 <div class="admin-wrap">
   <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
   <div class="admin-card">
-    <h1>Nội dung khác trên trang chủ</h1>
-    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Phần "Về Synetic Group" và "Tầm nhìn và Sứ mệnh" ở giữa trang chủ.</p>
+    <h1>Chữ trên trang chủ</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Toàn bộ chữ của trang chủ (trừ slide đầu trang, thành viên hệ sinh thái và tin tức — các mục đó có phần quản lý riêng).</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu thay đổi.</div><% } %>
     <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
 
     <form method="POST" action="/admin/noi-dung-trang-chu">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <h3 style="margin:20px 0 10px">Về Synetic Group</h3>
-      <div class="admin-field">
-        <label for="introHeading">Tiêu đề</label>
-        <input type="text" id="introHeading" name="introHeading" value="<%= homepage.introHeading %>" required>
+      <h3 style="margin:8px 0 10px">Hai nút ở slide đầu trang</h3>
+      <div class="admin-field row2">
+        <div><label for="heroBtn1">Nút vàng</label><input type="text" id="heroBtn1" name="heroBtn1" value="<%= homepage.heroBtn1 %>"></div>
+        <div><label for="heroBtn2">Nút viền trắng</label><input type="text" id="heroBtn2" name="heroBtn2" value="<%= homepage.heroBtn2 %>"></div>
+      </div>
+
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Giới thiệu Synetic Group</h3>
+      <div class="admin-field row2">
+        <div><label for="introTitle">Tiêu đề lớn (xanh)</label><input type="text" id="introTitle" name="introTitle" value="<%= homepage.introTitle %>"></div>
+        <div><label for="introSubtitle">Dòng chữ vàng bên dưới</label><input type="text" id="introSubtitle" name="introSubtitle" value="<%= homepage.introSubtitle %>"></div>
       </div>
       <div class="admin-field">
         <label for="introText">Đoạn mô tả</label>
         <textarea id="introText" name="introText" rows="4"><%= homepage.introText %></textarea>
       </div>
-
-      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Tầm nhìn</h3>
       <div class="admin-field">
-        <label for="visionTitle">Tiêu đề</label>
-        <input type="text" id="visionTitle" name="visionTitle" value="<%= homepage.visionTitle %>" required>
-      </div>
-      <div class="admin-field">
-        <label for="visionText">Nội dung</label>
-        <textarea id="visionText" name="visionText" rows="4"><%= homepage.visionText %></textarea>
+        <label for="introButton">Chữ trên nút</label>
+        <input type="text" id="introButton" name="introButton" value="<%= homepage.introButton %>">
       </div>
 
-      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Sứ mệnh</h3>
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Dải xanh "Thành viên trong hệ sinh thái"</h3>
       <div class="admin-field">
-        <label for="missionTitle">Tiêu đề</label>
-        <input type="text" id="missionTitle" name="missionTitle" value="<%= homepage.missionTitle %>" required>
+        <label for="membersTitle">Tiêu đề</label>
+        <input type="text" id="membersTitle" name="membersTitle" value="<%= homepage.membersTitle %>">
+      </div>
+
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Dải vàng "Đối tác và khách hàng" (cũng hiện ở trang Đối tác)</h3>
+      <div class="admin-field">
+        <label for="partnersTitle">Tiêu đề</label>
+        <input type="text" id="partnersTitle" name="partnersTitle" value="<%= homepage.partnersTitle %>">
       </div>
       <div class="admin-field">
-        <label for="missionText">Nội dung</label>
-        <textarea id="missionText" name="missionText" rows="4"><%= homepage.missionText %></textarea>
+        <label for="partnersText">Dòng giới thiệu</label>
+        <textarea id="partnersText" name="partnersText" rows="2"><%= homepage.partnersText %></textarea>
+      </div>
+      <% for (var i = 0; i < 4; i++) { var p = homepage.partnerItems[i] || { title: '', text: '' }; %>
+      <div class="admin-field" style="background:#F7F5EF;padding:12px;border-radius:8px">
+        <label>Nhóm <%= i + 1 %> — Tên</label>
+        <input type="text" name="partnerTitle" value="<%= p.title %>">
+        <label style="margin-top:10px">Nhóm <%= i + 1 %> — Mô tả</label>
+        <textarea name="partnerText" rows="2"><%= p.text %></textarea>
+      </div>
+      <% } %>
+      <div class="admin-field">
+        <label for="partnersClosing">Dòng kết (dưới 4 nhóm)</label>
+        <textarea id="partnersClosing" name="partnersClosing" rows="2"><%= homepage.partnersClosing %></textarea>
+      </div>
+
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Tin tức nổi bật</h3>
+      <div class="admin-field">
+        <label for="newsTitle">Tiêu đề</label>
+        <input type="text" id="newsTitle" name="newsTitle" value="<%= homepage.newsTitle %>">
+      </div>
+
+      <h3 style="margin:24px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Dải vàng "Sẵn sàng hợp tác" (cũng hiện cuối trang thành viên)</h3>
+      <div class="admin-field row2">
+        <div><label for="ctaTitle">Tiêu đề</label><input type="text" id="ctaTitle" name="ctaTitle" value="<%= homepage.ctaTitle %>"></div>
+        <div><label for="ctaHighlight">Từ nhấn màu</label><input type="text" id="ctaHighlight" name="ctaHighlight" value="<%= homepage.ctaHighlight %>"></div>
+      </div>
+      <div class="admin-field">
+        <label for="ctaText">Đoạn chữ</label>
+        <textarea id="ctaText" name="ctaText" rows="2"><%= homepage.ctaText %></textarea>
+      </div>
+      <div class="admin-field">
+        <label for="ctaButton">Chữ trên nút trắng</label>
+        <input type="text" id="ctaButton" name="ctaButton" value="<%= homepage.ctaButton %>">
       </div>
 
       <button class="admin-btn" type="submit" style="margin-top:16px">Lưu thay đổi</button>

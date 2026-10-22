@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Đội ngũ lãnh đạo — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -14,18 +13,26 @@
   <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
   <div class="admin-card">
     <h1>Đội ngũ lãnh đạo</h1>
-    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Hiển thị ở trang "Về Synetic → Đội ngũ lãnh đạo".</p>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Hiển thị ở mục "Đội ngũ lãnh đạo" trên trang "Về chúng tôi". Hai người đầu danh sách hiện thẻ lớn có ảnh; dùng mũi tên ↑↓ để đổi thứ tự.</p>
 
     <a class="admin-btn" href="/admin/doi-ngu-lanh-dao/new" style="margin-bottom:20px;display:inline-block">+ Thêm thành viên</a>
 
     <ul class="admin-list">
-      <% items.forEach(function(item) { %>
+      <% items.forEach(function(item, idx) { %>
       <li>
         <div>
           <div class="txt"><%= item.name %></div>
           <div class="url"><%= item.title %></div>
         </div>
         <span class="actions">
+          <form method="POST" action="/admin/doi-ngu-lanh-dao/<%= item.id %>/move" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>"><input type="hidden" name="direction" value="up">
+            <button class="admin-btn admin-btn-ghost" type="submit" <%= idx === 0 ? 'disabled' : '' %>>↑</button>
+          </form>
+          <form method="POST" action="/admin/doi-ngu-lanh-dao/<%= item.id %>/move" style="display:inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>"><input type="hidden" name="direction" value="down">
+            <button class="admin-btn admin-btn-ghost" type="submit" <%= idx === items.length - 1 ? 'disabled' : '' %>>↓</button>
+          </form>
           <a class="admin-btn admin-btn-ghost" href="/admin/doi-ngu-lanh-dao/<%= item.id %>/edit">Sửa</a>
           <form method="POST" action="/admin/doi-ngu-lanh-dao/<%= item.id %>/delete" onsubmit="return confirm('Xoá thành viên này?')">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">

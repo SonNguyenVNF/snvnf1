@@ -1,7 +1,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><%= title %></title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<% if (typeof desc !== 'undefined' && desc) { %><meta name="description" content="<%= desc %>">
+<% } %><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <link href="<%= root %>assets/style.css?v=<%= assetVersion %>" rel="stylesheet">
-<style>:root{--logo-h:<%= siteImages.logoHeight || 52 %>px;--logo-h-mobile:<%= siteImages.logoHeightMobile || 58 %>px}</style>
+<style>:root{--logo-h:<%= siteImages.logoHeight || 52 %>px}@media(max-width:860px){:root{--logo-h:<%= siteImages.logoHeightMobile || 44 %>px}}</style>

@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><%= item ? 'Sửa tin tuyển dụng' : 'Thêm tin tuyển dụng' %> — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -15,45 +14,33 @@
   <div class="admin-card">
     <h1><%= item ? 'Sửa tin tuyển dụng' : 'Thêm tin tuyển dụng' %></h1>
     <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
-    <form method="POST" action="<%= item ? '/admin/tuyen-dung/' + item.id + '/edit' : '/admin/tuyen-dung/new' %>" enctype="multipart/form-data">
+    <form method="POST" action="<%= item ? '/admin/tuyen-dung/' + item.id + '/edit' : '/admin/tuyen-dung/new' %>">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
       <div class="admin-field">
         <label for="title">Vị trí tuyển dụng</label>
-        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Nhân viên Kinh doanh">
+        <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Chuyên viên Marketing tổng hợp">
       </div>
 
       <div class="admin-field">
-        <label for="department">Phòng ban</label>
-        <input type="text" id="department" name="department" value="<%= item ? (item.department || '') : '' %>" placeholder="Ví dụ: Synetic Dinh Dưỡng">
+        <label for="department">Phòng ban (dùng cho bộ lọc "Các phòng ban")</label>
+        <input type="text" id="department" name="department" value="<%= item ? (item.department || '') : '' %>" placeholder="Ví dụ: Pr - Marketing">
       </div>
 
       <div class="admin-field">
-        <label for="location">Địa điểm làm việc</label>
-        <input type="text" id="location" name="location" value="<%= item ? (item.location || '') : '' %>" placeholder="Ví dụ: Hà Nội">
+        <label for="location">Địa điểm làm việc (hiện dưới tên vị trí, dùng cho bộ lọc)</label>
+        <input type="text" id="location" name="location" value="<%= item ? (item.location || '') : '' %>" placeholder="Ví dụ: Tầng 17, Tòa nhà Charmvit Tower, 117 Trần Duy Hưng, Hà Nội">
       </div>
 
       <div class="admin-field">
-        <label for="type">Hình thức</label>
-        <input type="text" id="type" name="type" value="<%= item ? (item.type || '') : '' %>" placeholder="Ví dụ: Toàn thời gian">
+        <label for="postedAt">Ngày đăng</label>
+        <input type="date" id="postedAt" name="postedAt" value="<%= item ? (item.postedAt || today) : today %>">
       </div>
 
       <div class="admin-field">
-        <label for="description">Mô tả công việc</label>
-        <textarea id="description" name="description" rows="6" placeholder="Mô tả công việc, yêu cầu, quyền lợi..."><%= item ? item.description : '' %></textarea>
-      </div>
-
-      <div class="admin-field">
-        <label for="image">Hình ảnh</label>
-        <% if (item && item.image) { %>
-          <div style="margin-bottom:10px"><img src="/<%= item.image %>" alt="" style="max-width:220px;border-radius:8px;display:block"></div>
-        <% } %>
-        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png,.webp,.gif">
-      </div>
-
-      <div class="admin-field">
-        <label for="deadline">Hạn nộp hồ sơ (để trống nếu chưa có)</label>
-        <input type="date" id="deadline" name="deadline" value="<%= item ? (item.deadline || '') : '' %>">
+        <label for="body">Nội dung tuyển dụng</label>
+        <p class="hint">Gõ <b># MÔ TẢ CÔNG VIỆC</b> để tạo tiêu đề mục, <b>- nội dung</b> để tạo gạch đầu dòng, <b>**chữ đậm**</b> để in đậm. Cách 1 dòng trống để tách đoạn.</p>
+        <textarea id="body" name="body" rows="16" placeholder="# MÔ TẢ CÔNG VIỆC&#10;1. ...&#10;&#10;# YÊU CẦU ỨNG VIÊN&#10;1. ...&#10;&#10;# QUYỀN LỢI&#10;- ..."><%= item ? (item.body || '') : '' %></textarea>
       </div>
 
       <div class="admin-field">

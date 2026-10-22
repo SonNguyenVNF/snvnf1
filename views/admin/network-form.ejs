@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mạng lưới hoạt động — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Mạng lưới hoạt động</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Sơ đồ "Mạng lưới hoạt động" trên trang "Về chúng tôi": nửa đầu danh sách nằm bên trái, nửa sau nằm bên phải. Để trống tên để xoá một ô; có sẵn ô trống ở cuối để thêm mới.</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu thay đổi.</div><% } %>
+
+    <form method="POST" action="/admin/mang-luoi">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field"><label for="title">Chữ trong vòng tròn giữa</label><input type="text" id="title" name="title" value="<%= n.title %>"></div>
+      <div class="admin-field"><label for="centerText">Đoạn mô tả nhỏ trong vòng tròn</label><textarea id="centerText" name="centerText" rows="4"><%= n.centerText %></textarea></div>
+
+      <% for (var i = 0; i < n.items.length + 2; i++) { var it = n.items[i] || { title: '', description: '' }; %>
+      <div class="admin-field" style="background:#F7F5EF;padding:12px;border-radius:8px">
+        <label>Ô <%= i + 1 %> — Tên</label><input type="text" name="itemTitle" value="<%= it.title %>">
+        <label style="margin-top:10px">Mô tả</label><textarea name="itemText" rows="2"><%= it.description %></textarea>
+      </div>
+      <% } %>
+
+      <button class="admin-btn" type="submit" style="margin-top:16px">Lưu thay đổi</button>
+    </form>
+  </div>
+</div>
+</body></html>

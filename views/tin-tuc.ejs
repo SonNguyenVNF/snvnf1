@@ -1,38 +1,61 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Tin tức — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head><body>
+<html lang="vi"><head><%- include('partials/head', { title: 'Tin tức — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<body class="t-blue">
+<%- include('partials/header', { root: root, active: 'tin-tuc', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: 'TIN TỨC', siteImages: siteImages }) %>
 
-<%- include('partials/header', { root: root, active: 'tin-tuc' , siteImages: siteImages, vePages: vePages }) %>
-
-<main>
-<div class="abar wrap"><a href="index.html">← Về trang chủ</a> &nbsp;/&nbsp; Tin tức</div>
-
-<section class="ahero"><div class="wrap">
-  <p class="k">TIN TỨC</p>
-  <h1>Tin tức</h1>
-</div></section>
-
-<section class="abody"><div class="wrap">
-  <% if (items.length) { %>
-  <div class="newsgrid">
-    <% items.forEach(function(item) { %>
-    <a class="newscard" href="<%= root %>tin-tuc/<%= item.slug %>.html">
-      <% if (item.image) { %><img src="<%= root %><%= item.image %>" alt=""><% } %>
-      <div class="nbody">
-        <span class="ndate"><%= item.publishedAt.split('-').reverse().join('/') %></span>
-        <h4><%= item.title %></h4>
-        <p><%= item.excerpt %></p>
-        <span class="more">ĐỌC THÊM →</span>
-      </div>
-    </a>
-    <% }); %>
+<main class="n-main"><div class="wrap">
+  <% if (groups.length) { %>
+  <h2 class="h-line">TIN TỨC THỊ TRƯỜNG</h2>
+  <div class="car" data-car>
+    <div class="car-viewport"><div class="car-track">
+      <% groups.forEach(function(g) { %>
+      <div class="car-item" style="--per:1;padding:6px 4px 12px"><div class="n-feature">
+        <% var big = g[0]; %>
+        <article class="n-big">
+          <a class="ni" href="<%= root %>tin-tuc/<%= big.slug %>.html"><% if (big.image) { %><img src="<%= root %><%= big.image %>" alt=""><% } %></a>
+          <h3><a href="<%= root %>tin-tuc/<%= big.slug %>.html"><%= big.title %></a></h3>
+          <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(big.publishedAt) %></span>
+          <p><%= big.excerpt %></p>
+          <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= big.slug %>.html">Xem thêm</a>
+        </article>
+        <div class="n-stack">
+          <% g.slice(1).forEach(function(it) { %>
+          <article class="n-sm">
+            <a class="ni" href="<%= root %>tin-tuc/<%= it.slug %>.html"><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt=""><% } %></a>
+            <div class="t">
+              <h3><a href="<%= root %>tin-tuc/<%= it.slug %>.html"><%= it.title %></a></h3>
+              <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(it.publishedAt) %></span>
+              <p><%= it.excerpt %></p>
+              <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= it.slug %>.html">Xem thêm</a>
+            </div>
+          </article>
+          <% }); %>
+        </div>
+      </div></div>
+      <% }); %>
+    </div></div>
+    <div class="dots"></div>
   </div>
-  <% } else { %>
-  <p class="newsempty">Chưa có tin tức nào. Nội dung sẽ sớm được cập nhật.</p>
   <% } %>
-</div></section>
-</main>
 
-<%- include('partials/footer', { root: root, active: 'tin-tuc' , siteImages: siteImages, footer: footer, members: members }) %>
-<%- include('partials/ticker', { root: root, ticker: ticker }) %>
-<%- include('partials/fab', { root: root, footer: footer, assetVersion: assetVersion }) %>
+  <% if (internal.length) { %>
+  <h2 class="h-line<%= groups.length ? ' sec-gap' : '' %>">HOẠT ĐỘNG NỘI BỘ - VĂN HÓA CÔNG TY</h2>
+  <% internal.forEach(function(it) { %>
+  <article class="n-row">
+    <a class="ni" href="<%= root %>tin-tuc/<%= it.slug %>.html"><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt="" loading="lazy"><% } %></a>
+    <div class="t">
+      <h3><a href="<%= root %>tin-tuc/<%= it.slug %>.html"><%= it.title %></a></h3>
+      <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(it.publishedAt) %></span>
+      <p class="ex"><%= it.excerpt %></p>
+      <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= it.slug %>.html">Xem thêm</a>
+    </div>
+  </article>
+  <% }); %>
+  <% } %>
+
+  <% if (!groups.length && !internal.length) { %><p class="empty">Nội dung đang được cập nhật. Tin tức của Synetic Group sẽ sớm xuất hiện tại đây.</p><% } %>
+</div></main>
+
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
 </body></html>

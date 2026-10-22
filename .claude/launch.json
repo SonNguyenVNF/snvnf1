@@ -12,6 +12,12 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["app.js"],
       "port": 3000
+    },
+    {
+      "name": "shopee-ads-ui-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/Admin/AppData/Local/Temp/claude/C--Users-Admin-Desktop-snvnf1/088b1f7d-6dfb-4803-84e4-a38876f22cd6/scratchpad/ui-server.js"],
+      "port": 5178
     }
   ]
 }

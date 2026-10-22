@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trang quản trị — Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -14,33 +13,59 @@
   <div class="admin-card">
     <h1>Xin chào</h1>
     <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Chọn mục bạn muốn cập nhật.</p>
+
+    <h2>Khách liên hệ</h2>
     <ul class="admin-list">
-      <li><span class="txt">Tin chạy (news ticker) — hiển thị trên mọi trang</span>
-        <span class="actions"><a class="admin-btn" href="/admin/ticker">Quản lý</a></span></li>
+      <li><span class="txt">Tin nhắn khách gửi từ biểu mẫu "Gửi thông tin"<% if (unread) { %><span class="admin-badge"><%= unread %> mới</span><% } %></span>
+        <span class="actions"><a class="admin-btn" href="/admin/tin-nhan">Xem</a></span></li>
+    </ul>
+
+    <h2>Trang chủ</h2>
+    <ul class="admin-list">
+      <li><span class="txt">Slide đầu trang (ảnh nền + tiêu đề + mô tả)</span>
+        <span class="actions"><a class="admin-btn" href="/admin/hero">Quản lý</a></span></li>
+      <li><span class="txt">Chữ trên trang chủ (giới thiệu, đối tác, lời kêu gọi...)</span>
+        <span class="actions"><a class="admin-btn" href="/admin/noi-dung-trang-chu">Quản lý</a></span></li>
+      <li><span class="txt">Thành viên hệ sinh thái (thêm/xoá/sửa công ty thành viên)</span>
+        <span class="actions"><a class="admin-btn" href="/admin/thanh-vien">Quản lý</a></span></li>
+    </ul>
+
+    <h2>Về chúng tôi</h2>
+    <ul class="admin-list">
+      <li><span class="txt">Thông điệp, lịch sử, tầm nhìn, trách nhiệm xã hội, giải thưởng (thêm/xoá được)</span>
+        <span class="actions"><a class="admin-btn" href="/admin/ve-synetic">Quản lý</a></span></li>
+      <li><span class="txt">Giá trị cốt lõi (6 ô trong sơ đồ)</span>
+        <span class="actions"><a class="admin-btn" href="/admin/gia-tri">Quản lý</a></span></li>
+      <li><span class="txt">Mạng lưới hoạt động (sơ đồ 8 ô)</span>
+        <span class="actions"><a class="admin-btn" href="/admin/mang-luoi">Quản lý</a></span></li>
+      <li><span class="txt">Đội ngũ lãnh đạo (thẻ người + đoạn giới thiệu)</span>
+        <span class="actions"><a class="admin-btn" href="/admin/doi-ngu-lanh-dao">Quản lý</a></span></li>
+      <li><span class="txt">Đoạn giới thiệu phía trên thẻ đội ngũ lãnh đạo</span>
+        <span class="actions"><a class="admin-btn" href="/admin/noi-dung/doi-ngu-lanh-dao-intro/edit">Sửa</a></span></li>
+    </ul>
+
+    <h2>Các trang khác</h2>
+    <ul class="admin-list">
       <li><span class="txt">Tin tức</span>
         <span class="actions"><a class="admin-btn" href="/admin/tin-tuc">Quản lý</a></span></li>
       <li><span class="txt">Dự án</span>
         <span class="actions"><a class="admin-btn" href="/admin/du-an">Quản lý</a></span></li>
-      <li><span class="txt">Tuyển dụng</span>
+      <li><span class="txt">Tuyển dụng — danh sách vị trí</span>
         <span class="actions"><a class="admin-btn" href="/admin/tuyen-dung">Quản lý</a></span></li>
-      <li><span class="txt">Đội ngũ lãnh đạo</span>
-        <span class="actions"><a class="admin-btn" href="/admin/doi-ngu-lanh-dao">Quản lý</a></span></li>
-      <li><span class="txt">Đối tác</span>
+      <li><span class="txt">Tuyển dụng — chữ đầu trang, 3 con số, "Vì sao chọn Synetic"</span>
+        <span class="actions"><a class="admin-btn" href="/admin/trang-tuyen-dung">Quản lý</a></span></li>
+      <li><span class="txt">Đối tác (logo đối tác)</span>
         <span class="actions"><a class="admin-btn" href="/admin/doi-tac-khach-hang">Quản lý</a></span></li>
-      <li><span class="txt">Nội dung trang Về Synetic (thông điệp, lịch sử... thêm/xoá được)</span>
-        <span class="actions"><a class="admin-btn" href="/admin/ve-synetic">Quản lý</a></span></li>
-      <li><span class="txt">Slide trang chủ (ảnh nền + tiêu đề đầu trang)</span>
-        <span class="actions"><a class="admin-btn" href="/admin/hero">Quản lý</a></span></li>
-      <li><span class="txt">Giá trị cốt lõi (6 ô trên trang chủ)</span>
-        <span class="actions"><a class="admin-btn" href="/admin/gia-tri">Quản lý</a></span></li>
-      <li><span class="txt">Nội dung khác trang chủ (giới thiệu, tầm nhìn, sứ mệnh)</span>
-        <span class="actions"><a class="admin-btn" href="/admin/noi-dung-trang-chu">Quản lý</a></span></li>
-      <li><span class="txt">Thành viên hệ sinh thái (thêm/xoá/sửa công ty thành viên)</span>
-        <span class="actions"><a class="admin-btn" href="/admin/thanh-vien">Quản lý</a></span></li>
-      <li><span class="txt">Ảnh cố định của website (logo công ty)</span>
+    </ul>
+
+    <h2>Toàn website</h2>
+    <ul class="admin-list">
+      <li><span class="txt">Ảnh cố định (logo, ảnh nền thanh tiêu đề, bản đồ, ảnh giới thiệu...)</span>
         <span class="actions"><a class="admin-btn" href="/admin/hinh-anh">Quản lý</a></span></li>
-      <li><span class="txt">Thông tin liên hệ (địa chỉ, SĐT, email ở chân trang)</span>
+      <li><span class="txt">Thông tin chân trang (địa chỉ, SĐT, email, mạng xã hội)</span>
         <span class="actions"><a class="admin-btn" href="/admin/lien-he">Quản lý</a></span></li>
+      <li><span class="txt">Tin chạy (không còn hiện trên giao diện mới)</span>
+        <span class="actions"><a class="admin-btn admin-btn-ghost" href="/admin/ticker">Xem</a></span></li>
     </ul>
   </div>
 </div>

@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><%= item ? 'Sửa thành viên' : 'Thêm thành viên' %> — Quản trị Synetic Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/style.css" rel="stylesheet">
 <link href="/assets/admin.css" rel="stylesheet">
 </head><body>
 <div class="admin-topbar">
@@ -20,17 +19,29 @@
 
       <div class="admin-field">
         <label for="name">Họ tên</label>
-        <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: Nguyễn Văn A">
+        <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: ÔNG BÙI NHẬT PHONG">
       </div>
 
       <div class="admin-field">
-        <label for="title">Chức danh</label>
-        <input type="text" id="title" name="title" value="<%= item ? item.title : '' %>" placeholder="Ví dụ: Chủ tịch Hội đồng Quản trị">
+        <label for="title">Chức vụ (dòng chữ nhỏ phía trên tên)</label>
+        <input type="text" id="title" name="title" value="<%= item ? item.title : '' %>" placeholder="Ví dụ: CHỦ TỊCH HỘI ĐỒNG QUẢN TRỊ">
       </div>
 
       <div class="admin-field">
-        <label for="bio">Giới thiệu ngắn</label>
-        <textarea id="bio" name="bio" rows="4" placeholder="1-2 câu giới thiệu ngắn gọn"><%= item ? item.bio : '' %></textarea>
+        <label for="subtitle">Học vị / kinh nghiệm (dòng dưới tên)</label>
+        <input type="text" id="subtitle" name="subtitle" value="<%= item ? (item.subtitle || '') : '' %>" placeholder="Ví dụ: Tiến sĩ Quản trị Kinh doanh – CEO">
+      </div>
+
+      <div class="admin-field">
+        <label for="bio">Câu nói / giới thiệu ngắn</label>
+        <textarea id="bio" name="bio" rows="4" placeholder="1-2 câu"><%= item ? item.bio : '' %></textarea>
+      </div>
+
+      <div class="admin-field row2">
+        <div><label for="phone">Số điện thoại</label>
+          <input type="text" id="phone" name="phone" value="<%= item ? (item.phone || '') : '' %>"></div>
+        <div><label for="email">Email</label>
+          <input type="text" id="email" name="email" value="<%= item ? (item.email || '') : '' %>"></div>
       </div>
 
       <div class="admin-field">

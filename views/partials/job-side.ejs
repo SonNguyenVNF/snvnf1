@@ -1,0 +1,17 @@
+<aside class="j-side">
+  <a class="btn-find" href="<%= root %>tuyen-dung.html">Tìm việc làm</a>
+  <% if (asForm) { %><form method="get" action="<%= root %>tuyen-dung.html"><% } %>
+  <div class="grp">
+    <h4>Các phòng ban</h4>
+    <div class="sb"><input type="text" data-optsearch aria-label="Tìm phòng ban"><%- include('icon', { name: 'search' }) %></div>
+    <% departments.forEach(function(d) { %><label><input type="checkbox" <%- asForm ? 'name="dept" onchange="this.form.submit()"' : 'data-filter="dept"' %> value="<%= d %>"><%= d %></label>
+    <% }); %>
+  </div>
+  <div class="grp">
+    <h4>Địa điểm làm việc</h4>
+    <div class="sb"><input type="text" data-optsearch aria-label="Tìm địa điểm"><%- include('icon', { name: 'search' }) %></div>
+    <% locations.forEach(function(l) { %><label><input type="checkbox" <%- asForm ? 'name="loc" onchange="this.form.submit()"' : 'data-filter="loc"' %> value="<%= l %>"><%= l %></label>
+    <% }); %>
+  </div>
+  <% if (asForm) { %></form><% } %>
+</aside>

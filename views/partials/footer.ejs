@@ -1,17 +1,30 @@
-<footer id="lien-he"><div class="wrap">
-  <div class="fg">
-    <div>
-      <div class="fb"><img class="footer-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></div>
-      <p><%= footer.companyName %><br><%= footer.address %><br>MST: <%= footer.taxCode %></p>
-      <p style="margin-top:12px">T <%= footer.phone %> · <a href="mailto:<%= footer.email %>"><%= footer.email %></a></p>
+<footer class="ft" id="lien-he"<% if (siteImages.footerBg) { %> style="background-image:url('<%= root %><%= siteImages.footerBg %>')"<% } %>>
+<div class="wrap">
+  <div>
+    <a class="ft-logo" href="<%= root %>index.html"><img src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></a>
+    <h3><%= footer.companyName %></h3>
+    <ul class="ft-contact">
+      <li><%- include('icon', { name: 'pin' }) %><span><small>Địa chỉ trụ sở</small><%= footer.address %></span></li>
+      <li><%- include('icon', { name: 'mail' }) %><span><%= footer.email %></span></li>
+      <li><%- include('icon', { name: 'phone' }) %><span><%= footer.phone %></span></li>
+      <% if (footer.website) { %><li><%- include('icon', { name: 'globe' }) %><span><%= footer.website %></span></li><% } %>
+    </ul>
+    <div class="ft-social">
+      <% if (footer.facebook) { %><a href="<%= footer.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><%- include('icon', { name: 'fb' }) %></a><% } %>
+      <% if (footer.tiktok) { %><a href="<%= footer.tiktok %>" target="_blank" rel="noopener" aria-label="TikTok"><%- include('icon', { name: 'tiktok' }) %></a><% } %>
+      <% if (footer.messenger) { %><a href="<%= footer.messenger %>" target="_blank" rel="noopener" aria-label="Messenger"><%- include('icon', { name: 'messenger' }) %></a><% } %>
+      <% if (footer.zalo) { %><a href="<%= footer.zalo %>" target="_blank" rel="noopener" aria-label="Zalo"><span class="zl">Zalo</span></a><% } %>
     </div>
-    <div><h5>THÀNH VIÊN</h5><ul><% members.forEach(function(m) { %><li><a href="<%= root %>thanh-vien/<%= m.slug %>.html"><%= m.name %></a></li><% }); %></ul></div>
-    <div><h5>HỖ TRỢ</h5><ul>
-      <li><a href="<%= active === 'home' ? '#lien-he' : root + 'index.html#lien-he' %>">Câu hỏi thường gặp</a></li>
-      <li><a href="<%= active === 'home' ? '#lien-he' : root + 'index.html#lien-he' %>">Chính sách bảo mật</a></li>
-      <li><a href="<%= active === 'home' ? '#lien-he' : root + 'index.html#lien-he' %>">Điều khoản sử dụng</a></li>
-      <li><a href="<%= root %>tuyen-dung.html">Tuyển dụng</a></li></ul></div>
   </div>
-  <div class="fbot"><span class="fsl"><%= footer.tagline %></span>
-    <span>© <%= new Date().getFullYear() %> <%= footer.companyName %>. Bảo lưu mọi quyền.</span></div>
-</div></footer>
+  <div>
+    <div class="ft-links">
+      <ul><li><a href="<%= root %>index.html">Trang chủ</a></li><li><a href="<%= root %>ve-chung-toi.html">Về chúng tôi</a></li></ul>
+      <ul><li><a href="<%= root %>index.html#thanh-vien">Hệ sinh thái</a></li><li><a href="<%= root %>tin-tuc.html">Tin tức</a></li></ul>
+      <ul><li><a href="<%= root %>tuyen-dung.html">Tuyển dụng</a></li><li><a href="#lien-he">Liên hệ</a></li></ul>
+    </div>
+    <%- include('contact-form', { root: root, formClass: 'ft-form', contactStatus: contactStatus, back: back, labels: true }) %>
+  </div>
+</div>
+</footer>
+<div class="copy"><%= footer.copyright %></div>
+<script src="<%= root %>assets/nav.js?v=<%= assetVersion %>" defer></script>
