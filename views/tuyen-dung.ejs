@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Cơ hội việc làm — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: 'Cơ hội việc làm — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'tuyen-dung', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: 'CƠ HỘI VIỆC LÀM', siteImages: siteImages }) %>
 
 <main>
-<section class="j-hero">
+<section class="j-hero"<%- fx('job-hero') %>>
   <h2><%= recruit.heroTitle %></h2>
   <h3><%= recruit.heroSub %></h3>
   <% recruit.heroText.split(/\n+/).forEach(function(l) { %><p><%= l %></p><% }); %>
@@ -17,7 +17,7 @@
 </section>
 
 <div class="wrap">
-  <div class="j-main">
+  <div class="j-main"<%- fx('job-list') %>>
     <%- include('partials/job-side', { root: root, departments: departments, locations: locations, asForm: false }) %>
     <div data-list data-per="7" data-pager=".pager">
       <% items.forEach(function(j) { %>
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <section class="why">
+  <section class="why"<%- fx('job-why') %>>
     <h2><%= recruit.whyTitle %> <span><%= recruit.whyHighlight %></span></h2>
     <div class="why-grid">
       <% recruit.whyItems.forEach(function(w) { %><div><h3><%= w.title %></h3><p><%= w.text %></p></div>
@@ -43,5 +43,5 @@
 </div>
 </main>
 
-<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>

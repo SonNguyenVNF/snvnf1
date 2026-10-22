@@ -4,6 +4,53 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.addEventListener('DOMContentLoaded', function(){
+    /* ---- entrance effects (chosen per section in admin) ---- */
+    (function(){
+      var targets = $$('[data-fx]');
+      if(!targets.length) return;
+      if(reduce){
+        document.documentElement.classList.add('fx-off');
+        $$('[data-fx-kids]').forEach(function(p){ p.classList.add('fx-ready'); });
+        return;
+      }
+      var gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-gap')) || 0.12;
+      var pending = [];
+      targets.forEach(function(el){
+        var sel = el.getAttribute('data-fx-kids');
+        if(sel){
+          var kids = $$(sel, el);
+          if(!kids.length){ el.removeAttribute('data-fx-kids'); }
+          else {
+            kids.forEach(function(k, i){ k.classList.add('fx-k'); k.setAttribute('data-fxe', el.getAttribute('data-fx')); k.style.transitionDelay = (i * gap) + 's'; });
+            el.classList.add('fx-ready');
+          }
+        }
+        pending.push(el);
+      });
+      function reveal(el){
+        if(el.hasAttribute('data-fx-kids')) $$('.fx-k', el).forEach(function(k){ k.classList.add('fx-in'); });
+        else el.classList.add('fx-in');
+      }
+      var ticking = false;
+      function check(){
+        ticking = false;
+        var limit = window.innerHeight * 0.92;
+        pending = pending.filter(function(el){
+          var r = el.getBoundingClientRect();
+          if(r.top < limit){ reveal(el); return false; }
+          return true;
+        });
+        if(!pending.length){ window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }
+      }
+      function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(check); } }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      window.addEventListener('load', check);
+      // a hash link (e.g. #thanh-vien) jumps past sections: reveal everything above the viewport too
+      window.addEventListener('hashchange', check);
+      setTimeout(check, 50);
+    })();
+
     /* ---- mobile menu ---- */
     var hd = $('.hd'), toggle = $('.menu-toggle');
     if(hd && toggle){

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Đối tác — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: 'Đối tác — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'doi-tac', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: 'ĐỐI TÁC', siteImages: siteImages }) %>
 
 <main><div class="wrap">
   <p class="center" style="padding-top:clamp(28px,3vw,44px);color:var(--navy);font-weight:500"><%= homepage.partnersText %></p>
-  <div class="pt-cats">
+  <div class="pt-cats"<%- fx('partners-cats') %>>
     <% var picons = ['b_farm', 'b_hub', 'b_truck', 'b_money']; homepage.partnerItems.forEach(function(p, i) { %>
     <div class="pt-cat"><%- include('partials/icon', { name: picons[i % 4] }) %><h3><%= p.title %></h3><p><%= p.text %></p></div>
     <% }); %>
   </div>
   <p class="center" style="color:#555;font-size:14px;padding-bottom:30px"><%= homepage.partnersClosing %></p>
   <% if (partners.length) { %>
-  <div class="pt-logos">
+  <div class="pt-logos"<%- fx('partners-logos') %>>
     <% partners.forEach(function(p) { %>
     <% if (p.url) { %><a class="pt-logo" href="<%= p.url %>" target="_blank" rel="noopener"><% } else { %><div class="pt-logo"><% } %>
       <% if (p.logo) { %><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>" loading="lazy"><% } else { %><span><%= p.name %></span><% } %>
@@ -23,5 +23,5 @@
   <% } %>
 </div></main>
 
-<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>

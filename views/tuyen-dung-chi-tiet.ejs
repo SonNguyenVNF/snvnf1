@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'tuyen-dung', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: 'CƠ HỘI VIỆC LÀM', siteImages: siteImages }) %>
 
-<main><div class="wrap jd-grid">
+<main><div class="wrap jd-grid"<%- fx('job-detail') %>>
   <div>
     <h1><%= item.title %></h1>
     <% if (item.location) { %><p class="jd-addr"><%= item.location %></p><% } %>
@@ -13,5 +13,5 @@
   <%- include('partials/job-side', { root: root, departments: departments, locations: locations, asForm: true }) %>
 </div></main>
 
-<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>

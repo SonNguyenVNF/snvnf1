@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Tin tức — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: 'Tin tức — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'tin-tuc', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: 'TIN TỨC', siteImages: siteImages }) %>
@@ -7,7 +7,7 @@
 <main class="n-main"><div class="wrap">
   <% if (groups.length) { %>
   <h2 class="h-line">TIN TỨC THỊ TRƯỜNG</h2>
-  <div class="car" data-car>
+  <div class="car" data-car<%- fx('news-market') %>>
     <div class="car-viewport"><div class="car-track">
       <% groups.forEach(function(g) { %>
       <div class="car-item" style="--per:1;padding:6px 4px 12px"><div class="n-feature">
@@ -40,6 +40,7 @@
   <% } %>
 
   <% if (internal.length) { %>
+  <div<%- fx('news-internal') %>>
   <h2 class="h-line<%= groups.length ? ' sec-gap' : '' %>">HOẠT ĐỘNG NỘI BỘ - VĂN HÓA CÔNG TY</h2>
   <% internal.forEach(function(it) { %>
   <article class="n-row">
@@ -52,10 +53,11 @@
     </div>
   </article>
   <% }); %>
+  </div>
   <% } %>
 
   <% if (!groups.length && !internal.length) { %><p class="empty">Nội dung đang được cập nhật. Tin tức của Synetic Group sẽ sớm xuất hiện tại đây.</p><% } %>
 </div></main>
 
-<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>

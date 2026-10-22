@@ -1,4 +1,4 @@
-<footer class="ft" id="lien-he"<% if (siteImages.footerBg) { %> style="background-image:url('<%= root %><%= siteImages.footerBg %>')"<% } %>>
+<footer class="ft" id="lien-he"<%- typeof fx === 'function' ? fx('footer') : '' %><% if (siteImages.footerBg) { %> style="background-image:url('<%= root %><%= siteImages.footerBg %>')"<% } %>>
 <div class="wrap">
   <div>
     <a class="ft-logo" href="<%= root %>index.html"><img src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></a>

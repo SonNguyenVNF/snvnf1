@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Dự án — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: 'Dự án — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'du-an', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: 'DỰ ÁN', siteImages: siteImages }) %>
 
 <main>
 <% if (featured.length) { %>
-<section class="p-feature" data-pfeat><div class="wrap">
+<section class="p-feature" data-pfeat<%- fx('proj-featured') %>><div class="wrap">
   <% featured.forEach(function(p) { %>
   <div class="pf-slide">
     <div>
@@ -23,7 +23,7 @@
 </div></section>
 <% } %>
 
-<section class="p-find">
+<section class="p-find"<%- fx('proj-find') %>>
   <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <div class="wrap">
@@ -40,7 +40,7 @@
 
 <section class="p-page"><div class="wrap">
   <% if (items.length) { %>
-  <div class="p-grid" data-list data-per="6" data-pager=".p-dots">
+  <div class="p-grid" data-list data-per="6" data-pager=".p-dots"<%- fx('proj-grid') %>>
     <% items.forEach(function(p, i) { %>
     <a class="pcard" data-item data-type="<%= p.type %>" data-name="<%= p.title %>" data-location="<%= p.location %>" data-status="<%= p.status %>" href="<%= root %>du-an/<%= p.slug %>.html" style="background-image:url('<%= root %><%= p.image || 'assets/img/trophy.jpg' %>')">
       <div class="pc">
@@ -60,5 +60,5 @@
 </div></section>
 </main>
 
-<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>

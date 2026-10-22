@@ -484,3 +484,16 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 @keyframes wordIn{0%{opacity:0;transform:translateY(64px) scale(.88);filter:blur(12px)}55%{opacity:1;filter:blur(2px)}100%{opacity:1;transform:none;filter:none}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
 @media (prefers-reduced-motion:reduce){.js .hero-text.active .w,.js .hero-text.active p,.js .hero-text.active .hero-cta{animation:none}}
+
+/* entrance effects picked per section in /admin/hieu-ung */
+.js [data-fx]:not([data-fx-kids]),.js .fx-k{opacity:0;transition:opacity var(--fx-dur,.8s) ease,transform var(--fx-dur,.8s) cubic-bezier(.16,1,.3,1),filter var(--fx-dur,.8s) ease}
+.js [data-fx-kids]:not(.fx-ready){visibility:hidden}
+.js [data-fx=up]:not([data-fx-kids]),.js .fx-k[data-fxe=up]{transform:translateY(42px)}
+.js [data-fx=down]:not([data-fx-kids]),.js .fx-k[data-fxe=down]{transform:translateY(-42px)}
+.js [data-fx=left]:not([data-fx-kids]),.js .fx-k[data-fxe=left]{transform:translateX(-70px)}
+.js [data-fx=right]:not([data-fx-kids]),.js .fx-k[data-fxe=right]{transform:translateX(70px)}
+.js [data-fx=zoom]:not([data-fx-kids]),.js .fx-k[data-fxe=zoom]{transform:scale(.9)}
+.js [data-fx=blur]:not([data-fx-kids]),.js .fx-k[data-fxe=blur]{filter:blur(12px)}
+.js [data-fx].fx-in:not([data-fx-kids]),.js .fx-k.fx-in{opacity:1;transform:none;filter:none}
+.js.fx-off [data-fx],.js.fx-off .fx-k{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+.js.fx-off [data-fx-kids]{visibility:visible!important}

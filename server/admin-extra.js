@@ -230,6 +230,27 @@ module.exports = function registerAdminExtra(adminRouter) {
     res.redirect('/admin/doi-ngu-lanh-dao');
   });
 
+  // ---------- Hiệu ứng xuất hiện ----------
+  adminRouter.get('/hieu-ung', (req, res) => {
+    const fxm = require('./effects');
+    res.render('admin/effects-form', { cfg: fxm.getEffects(), sections: fxm.SECTIONS, effects: fxm.EFFECTS, csrfToken: csrf(req), saved: req.query.saved === '1' });
+  });
+  adminRouter.post('/hieu-ung', auth.verifyCsrf, (req, res) => {
+    const fxm = require('./effects');
+    const items = {};
+    fxm.SECTIONS.forEach((s) => {
+      const v = one(req.body['fx_' + s.key]);
+      if (fxm.EFFECTS.some((e) => e.key === v)) items[s.key] = v;
+    });
+    writeJSON('effects', {
+      duration: fxm.num(req.body.duration, 0.1, 5, 0.8),
+      gap: fxm.num(req.body.gap, 0, 2, 0.12),
+      stagger: req.body.stagger === '1',
+      items
+    });
+    res.redirect('/admin/hieu-ung?saved=1');
+  });
+
   // ---------- Nhập nội dung mẫu theo thiết kế ----------
   adminRouter.get('/nhap-mau', (req, res) => {
     res.render('admin/demo-import', { csrfToken: csrf(req), done: req.query.done === '1', counts: { news: req.query.news || 0, projects: req.query.projects || 0, jobs: req.query.jobs || 0 } });

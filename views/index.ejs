@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Synetic Group — Kiến tạo giá trị vượt trội', desc: homepage.introText, root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: 'Synetic Group — Kiến tạo giá trị vượt trội', desc: homepage.introText, root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'home', siteImages: siteImages }) %>
 <%
@@ -27,7 +27,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   <% } %>
 </section>
 
-<section class="intro" id="gioi-thieu">
+<section class="intro" id="gioi-thieu"<%- fx('home-intro') %>>
   <div class="wrap">
     <div>
       <h2><%= homepage.introTitle %></h2>
@@ -41,7 +41,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   <img class="pent-deco" src="<%= root %>assets/img/pentagon.svg" alt="">
 </section>
 
-<section class="members" id="thanh-vien">
+<section class="members" id="thanh-vien"<%- fx('home-members') %>>
   <div class="wrap">
     <h2 class="t-h"><%= homepage.membersTitle %></h2>
     <div class="mgrid">
@@ -58,7 +58,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   </div>
 </section>
 
-<section class="partners-band">
+<section class="partners-band"<%- fx('home-partners') %>>
   <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <div class="wrap">
@@ -74,7 +74,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
 </section>
 
 <% if (news.length) { %>
-<section class="news-sec" id="tin-tuc-noi-bat">
+<section class="news-sec" id="tin-tuc-noi-bat"<%- fx('home-news') %>>
   <div class="wrap">
     <h2><%= homepage.newsTitle %></h2>
     <div class="car" data-car="auto">
@@ -97,7 +97,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
 </section>
 <% } %>
 
-<section class="cta-band">
+<section class="cta-band"<%- fx('home-cta') %>>
   <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
@@ -106,8 +106,8 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   <a class="btn btn-white" href="#thanh-vien"><%= homepage.ctaButton %></a>
 </section>
 
-<img class="map-img" src="<%= root %><%= siteImages.map %>" alt="Bản đồ trụ sở Synetic Group" loading="lazy">
+<img class="map-img"<%- fx('home-map') %> src="<%= root %><%= siteImages.map %>" alt="Bản đồ trụ sở Synetic Group" loading="lazy">
 </main>
 
-<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hiệu ứng xuất hiện — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Hiệu ứng xuất hiện</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Chọn hiệu ứng cho từng phần của website khi khách cuộn trang tới. Lưu xong là áp dụng ngay, tải lại trang để xem. Chữ lớn đầu trang chủ chỉnh riêng ở mục "Chữ trên trang chủ".</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu thay đổi.</div><% } %>
+
+    <form method="POST" action="/admin/hieu-ung">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <h3 style="margin:8px 0 6px">Tốc độ chung</h3>
+      <p class="hint">Đơn vị là giây, gõ số lẻ được (ví dụ 0.5). Số càng nhỏ càng nhanh.</p>
+      <div class="admin-field row2">
+        <div><label for="duration">Mỗi hiệu ứng chạy trong (giây)</label><input type="text" id="duration" name="duration" value="<%= cfg.duration %>"></div>
+        <div><label for="gap">Cách nhau giữa các thẻ khi xuất hiện lần lượt (giây)</label><input type="text" id="gap" name="gap" value="<%= cfg.gap %>"></div>
+      </div>
+      <div class="admin-field">
+        <label><input type="checkbox" name="stagger" value="1" <%= cfg.stagger ? 'checked' : '' %> style="width:auto;margin-right:8px"> Các thẻ trong cùng một phần xuất hiện lần lượt từng cái (thành viên, 3 thẻ chiến lược, dự án, tin tức...)</label>
+      </div>
+
+      <% var lastGroup = ''; sections.forEach(function(s) { %>
+        <% if (s.group !== lastGroup) { lastGroup = s.group; %>
+        <h3 style="margin:26px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3"><%= s.group %></h3>
+        <% } %>
+        <div class="admin-field" style="display:flex;align-items:center;gap:12px">
+          <label for="fx-<%= s.key %>" style="flex:1;margin:0;font-weight:500"><%= s.label %><% if (s.kids) { %> <span style="color:var(--muted);font-weight:400">(có thẻ lần lượt)</span><% } %></label>
+          <select id="fx-<%= s.key %>" name="fx_<%= s.key %>" style="width:230px;flex:none">
+            <% effects.forEach(function(e) { %><option value="<%= e.key %>" <%= cfg.items[s.key] === e.key ? 'selected' : '' %>><%= e.label %></option><% }); %>
+          </select>
+        </div>
+      <% }); %>
+
+      <button class="admin-btn" type="submit" style="margin-top:20px">Lưu thay đổi</button>
+    </form>
+  </div>
+</div>
+</body></html>

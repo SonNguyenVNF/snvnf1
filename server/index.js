@@ -13,6 +13,7 @@ const { slugify } = require('./slug');
 const { createUploader, publicPathFor, deleteUploadedFile } = require('./upload');
 const { siteLockMiddleware } = require('./site-lock');
 const sd = require('./site-data');
+const effects = require('./effects');
 const registerPublic = require('./public');
 const registerAdminExtra = require('./admin-extra');
 
@@ -238,6 +239,8 @@ app.use(session({
 app.use((req, res, next) => {
   res.locals.contactStatus = ['ok', 'err', 'limit'].includes(req.query.gui) ? req.query.gui : '';
   res.locals.back = req.path;
+  res.locals.fx = effects.fx;
+  res.locals.fxStyle = effects.style();
   next();
 });
 app.locals.tagBreak = (t) => String(t || '').replace(/,\s+/, ',\n');

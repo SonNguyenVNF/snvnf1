@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: item.name + ' — Synetic Group', desc: item.name + ' — ' + item.tagline + '. Thành viên hệ sinh thái Synetic Group.', root: root, assetVersion: assetVersion, siteImages: siteImages }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: item.name + ' — Synetic Group', desc: item.name + ' — ' + item.tagline + '. Thành viên hệ sinh thái Synetic Group.', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle }) %></head>
 <body class="t-<%= theme %>">
 <%- include('partials/header', { root: root, active: 'eco', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: '', siteImages: siteImages }) %>
 
 <main>
-<section class="m-main"><div class="wrap m-grid">
+<section class="m-main"<%- fx('member-main') %>><div class="wrap m-grid">
   <div>
     <h1><%= item.name %></h1>
     <p class="slogan"><%= item.tagline %></p>
@@ -28,7 +28,7 @@
 </div></section>
 
 <% if (otherMembers.length) { %>
-<section class="m-band">
+<section class="m-band"<%- fx('member-others') %>>
   <div class="wrap">
     <h2 class="t-h">CÁC THÀNH VIÊN KHÁC TRONG HỆ SINH THÁI</h2>
     <div class="mgrid" style="--n:<%= Math.min(otherMembers.length, 5) %>">
@@ -46,7 +46,7 @@
 </section>
 <% } %>
 
-<section class="cta-band<%= theme === 'gold' ? ' green' : '' %>">
+<section class="cta-band<%= theme === 'gold' ? ' green' : '' %>"<%- fx('member-cta') %>>
   <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
@@ -56,5 +56,5 @@
 </section>
 </main>
 
-<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion }) %>
+<%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>
