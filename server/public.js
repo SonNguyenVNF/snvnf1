@@ -122,7 +122,7 @@ module.exports = function registerPublic(app, deps) {
   function publishedNewsSorted() {
     return readJSON('news').items
       .filter((i) => i.published)
-      .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+      .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0));
   }
   deps.publishedNewsSorted = publishedNewsSorted;
 
@@ -224,13 +224,13 @@ module.exports = function registerPublic(app, deps) {
 
   // ----- jobs -----
   function jobFilters(items) {
-    const uniq = (key) => Array.from(new Set(items.map((i) => i[key]).filter(Boolean)));
-    return { departments: uniq('department'), locations: uniq('location') };
+    const uniq = (fn) => Array.from(new Set(items.map(fn).filter(Boolean)));
+    return { departments: uniq((i) => i.department), locations: uniq((i) => i.area || i.location) };
   }
 
   app.get('/tuyen-dung.html', (req, res) => {
     const items = sd.getJobs().items.filter((i) => i.published)
-      .sort((a, b) => (a.postedAt < b.postedAt ? 1 : -1));
+      .sort((a, b) => (a.postedAt < b.postedAt ? 1 : a.postedAt > b.postedAt ? -1 : 0));
     res.render('tuyen-dung', { root: '', ...commonLocals(), items, ...jobFilters(items), recruit: sd.getRecruit() });
   });
 

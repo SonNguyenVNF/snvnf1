@@ -21,7 +21,7 @@
     <%- include('partials/job-side', { root: root, departments: departments, locations: locations, asForm: false }) %>
     <div data-list data-per="7" data-pager=".pager">
       <% items.forEach(function(j) { %>
-      <div class="j-row" data-item data-dept="<%= j.department %>" data-loc="<%= j.location %>">
+      <div class="j-row" data-item data-dept="<%= j.department %>" data-loc="<%= j.area || j.location %>">
         <div class="tt"><a href="<%= root %>tuyen-dung/<%= j.slug %>.html"><%= j.title %></a>
           <% if (j.location) { %><div class="lc"><%- include('partials/icon', { name: 'pin' }) %><%= j.location %></div><% } %></div>
         <span class="dt"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(j.postedAt) %></span>

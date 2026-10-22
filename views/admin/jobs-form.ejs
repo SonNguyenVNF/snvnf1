@@ -33,6 +33,11 @@
       </div>
 
       <div class="admin-field">
+        <label for="area">Khu vực (dùng cho bộ lọc "Địa điểm làm việc" bên trái; để trống thì dùng địa điểm ở trên)</label>
+        <input type="text" id="area" name="area" value="<%= item ? (item.area || '') : '' %>" placeholder="Ví dụ: Văn phòng Thành phố Hà Nội">
+      </div>
+
+      <div class="admin-field">
         <label for="postedAt">Ngày đăng</label>
         <input type="date" id="postedAt" name="postedAt" value="<%= item ? (item.postedAt || today) : today %>">
       </div>

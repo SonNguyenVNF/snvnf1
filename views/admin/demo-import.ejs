@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nhập nội dung mẫu — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Nhập nội dung mẫu theo thiết kế</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Bấm nút bên dưới để thêm sẵn nội dung giống hệt các trang thiết kế: 7 bài Tin tức, 7 Dự án và 8 vị trí Tuyển dụng (có ảnh minh hoạ). Sau đó bạn vào từng mục để sửa hoặc xoá tuỳ ý. Nội dung của bạn đang có sẽ không bị đụng tới; bấm nhiều lần cũng không bị trùng.</p>
+    <% if (done) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã thêm: <%= counts.news %> tin tức, <%= counts.projects %> dự án, <%= counts.jobs %> vị trí tuyển dụng.</div><% } %>
+    <form method="POST" action="/admin/nhap-mau">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button class="admin-btn" type="submit">Nhập nội dung mẫu</button>
+    </form>
+  </div>
+</div>
+</body></html>

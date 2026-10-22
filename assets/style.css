@@ -474,3 +474,4 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
   .p-form select{min-width:0;flex:1 1 40%}
 }
 .hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0;border:0!important;padding:0!important;overflow:hidden}
+.p-form select{width:clamp(150px,17vw,215px);text-overflow:ellipsis}

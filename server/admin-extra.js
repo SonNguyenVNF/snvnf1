@@ -130,6 +130,7 @@ module.exports = function registerAdminExtra(adminRouter) {
       title,
       department: one(req.body.department),
       location: one(req.body.location),
+      area: one(req.body.area),
       postedAt: one(req.body.postedAt) || new Date().toISOString().slice(0, 10),
       body: clean(req.body.body),
       published: req.body.published === '1'
@@ -151,6 +152,7 @@ module.exports = function registerAdminExtra(adminRouter) {
     item.title = title;
     item.department = one(req.body.department);
     item.location = one(req.body.location);
+    item.area = one(req.body.area);
     item.postedAt = one(req.body.postedAt) || item.postedAt;
     item.body = clean(req.body.body);
     item.published = req.body.published === '1';
@@ -226,6 +228,15 @@ module.exports = function registerAdminExtra(adminRouter) {
     const team = readJSON('team');
     if (moveItem(team.items, req.params.id, req.body.direction)) writeJSON('team', team);
     res.redirect('/admin/doi-ngu-lanh-dao');
+  });
+
+  // ---------- Nhập nội dung mẫu theo thiết kế ----------
+  adminRouter.get('/nhap-mau', (req, res) => {
+    res.render('admin/demo-import', { csrfToken: csrf(req), done: req.query.done === '1', counts: { news: req.query.news || 0, projects: req.query.projects || 0, jobs: req.query.jobs || 0 } });
+  });
+  adminRouter.post('/nhap-mau', auth.verifyCsrf, (req, res) => {
+    const c = require('./demo-content').importDemo();
+    res.redirect('/admin/nhap-mau?done=1&news=' + c.news + '&projects=' + c.projects + '&jobs=' + c.jobs);
   });
 
   // ---------- Tin nhắn liên hệ (form chân trang) ----------
