@@ -25,7 +25,7 @@
         texts.forEach(function(s,k){ s.classList.toggle('active', k === cur); });
         if(dotsBox) $$('button', dotsBox).forEach(function(b,k){ b.classList.toggle('on', k === cur); });
       }
-      function play(){ if(reduce || slides.length < 2) return; clearInterval(timer); timer = setInterval(function(){ go(cur + 1); }, 6500); }
+      function play(){ if(reduce || slides.length < 2) return; clearInterval(timer); timer = setInterval(function(){ go(cur + 1); }, 9000); }
       if(slides.length > 1){
         if(dotsBox){ slides.forEach(function(_,k){ var b = document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Slide ' + (k+1)); b.addEventListener('click', function(){ go(k); play(); }); dotsBox.appendChild(b); }); }
         var pv = $('.hero-prev', hero), nx = $('.hero-next', hero);
