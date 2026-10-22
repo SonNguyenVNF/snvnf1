@@ -90,23 +90,68 @@
 
     /* ---- carousels (news cards, project gallery) ---- */
     $$('[data-car]').forEach(function(car){
-      var viewport = $('.car-viewport, .gal-v', car), track = $('.car-track, .gal-t', car), dots = $('.dots', car), items = $$('.car-item, .gal-t > img', car), page = 0, pages = 1;
+      var viewport = $('.car-viewport, .gal-v', car), track = $('.car-track, .gal-t', car), dots = $('.dots', car), items = $$('.car-item, .gal-t > img', car);
+      var page = 0, pages = 1, per = 1, w = 1, timer = null;
       if(!viewport || !track || !items.length) return;
+      var auto = car.getAttribute('data-car') === 'auto';
+      function offsetFor(p){ return -(Math.min(p * per, Math.max(0, items.length - per)) * w); }
       function build(){
-        var w = items[0].getBoundingClientRect().width || 1;
-        var per = Math.max(1, Math.round(viewport.getBoundingClientRect().width / w));
+        w = items[0].getBoundingClientRect().width || 1;
+        per = Math.max(1, Math.round(viewport.getBoundingClientRect().width / w));
         pages = Math.max(1, Math.ceil(items.length / per));
         if(page >= pages) page = pages - 1;
-        track.style.transform = 'translateX(' + (-(Math.min(page * per, items.length - per) * w)) + 'px)';
+        track.style.transform = 'translateX(' + offsetFor(page) + 'px)';
         if(dots){
           dots.innerHTML = '';
-          if(pages > 1){ for(var i = 0; i < pages; i++){ (function(i){ var b = document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Trang ' + (i+1)); if(i === page) b.className = 'on'; b.addEventListener('click', function(){ page = i; build(); }); dots.appendChild(b); })(i); } }
+          if(pages > 1){ for(var i = 0; i < pages; i++){ (function(i){ var b = document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Trang ' + (i+1)); if(i === page) b.className = 'on'; b.addEventListener('click', function(){ page = i; build(); play(); }); dots.appendChild(b); })(i); } }
         }
+      }
+      function play(){
+        if(!auto || reduce) return;
+        clearInterval(timer);
+        timer = setInterval(function(){ if(pages > 1){ page = (page + 1) % pages; build(); } }, 6000);
       }
       build();
       window.addEventListener('resize', build);
-      var auto = car.getAttribute('data-car') === 'auto';
-      if(auto && !reduce){ setInterval(function(){ if(pages > 1){ page = (page + 1) % pages; build(); } }, 6000); }
+      play();
+
+      /* swipe with a finger or drag with the mouse; the cards follow the pointer */
+      var startX = 0, dx = 0, down = false, moved = false, justDragged = false;
+      viewport.addEventListener('pointerdown', function(e){
+        if(pages < 2 || (e.pointerType === 'mouse' && e.button !== 0)) return;
+        down = true; moved = false; startX = e.clientX; dx = 0;
+      });
+      viewport.addEventListener('pointermove', function(e){
+        if(!down) return;
+        dx = e.clientX - startX;
+        if(!moved && Math.abs(dx) > 6){
+          moved = true;
+          track.style.transition = 'none';
+          clearInterval(timer);
+          try { viewport.setPointerCapture(e.pointerId); } catch(err) {}
+        }
+        if(moved){
+          var edge = (page === 0 && dx > 0) || (page === pages - 1 && dx < 0);
+          track.style.transform = 'translateX(' + (offsetFor(page) + dx * (edge ? 0.3 : 1)) + 'px)';
+        }
+      });
+      function end(){
+        if(!down) return;
+        down = false;
+        track.style.transition = '';
+        if(moved){
+          var limit = Math.min(80, viewport.getBoundingClientRect().width * 0.15);
+          if(dx < -limit && page < pages - 1) page++;
+          else if(dx > limit && page > 0) page--;
+          build(); play();
+          justDragged = true;
+          setTimeout(function(){ justDragged = false; }, 60);
+        }
+      }
+      viewport.addEventListener('pointerup', end);
+      viewport.addEventListener('pointercancel', end);
+      viewport.addEventListener('click', function(e){ if(justDragged){ e.preventDefault(); e.stopPropagation(); } }, true);
+      viewport.addEventListener('dragstart', function(e){ e.preventDefault(); });
     });
 
     /* ---- featured project slider ---- */
