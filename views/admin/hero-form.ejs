@@ -32,12 +32,13 @@
 
       <div class="admin-field">
         <label for="title">Tiêu đề lớn</label>
-        <p style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Đặt 2 dấu <b>**</b> quanh phần chữ muốn tô màu vàng, ví dụ: Kiến tạo **giá trị vượt trội**</p>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Tiêu đề luôn hiện màu trắng, to, in hoa (đúng thiết kế). Muốn tô vàng chữ nào thì làm ở ô "Mô tả" bên dưới.</p>
         <input type="text" id="title" name="title" required value="<%= item ? item.title : '' %>" placeholder="Kiến tạo **giá trị vượt trội**">
       </div>
 
       <div class="admin-field">
         <label for="description">Mô tả</label>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:8px">Đặt 2 dấu <b>**</b> quanh phần chữ muốn tô vàng đậm, ví dụ: ... thông qua **đổi mới, kết nối và phát triển bền vững**, hướng tới ...</p>
         <textarea id="description" name="description" rows="4"><%= item ? (item.description || '') : '' %></textarea>
       </div>
 

@@ -3,6 +3,7 @@
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'home', siteImages: siteImages }) %>
 <%
+function highlightDesc(d) { d = d || ''; return d.indexOf('**') === -1 ? d.replace('đổi mới, kết nối và phát triển bền vững', '**đổi mới, kết nối và phát triển bền vững**') : d; }
 var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title: 'KIẾN TẠO GIÁ TRỊ **VƯỢT TRỘI**', description: homepage.introText }];
 %>
 <main id="top">
@@ -12,7 +13,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   <% slides.forEach(function(slide, i) { %>
   <div class="hero-text<%= i === 0 ? ' active' : '' %>" style="--pd:<%= ((slide.title || '').replace(/\*\*/g, '').trim().split(/\s+/).length * parseFloat(homepage.heroWordGap) + parseFloat(homepage.heroStartDelay) + parseFloat(homepage.heroWordDuration) * 0.7).toFixed(2) %>s">
     <h1><%- renderHeroWords(slide.title) %></h1>
-    <% if (slide.description) { %><p><%- renderHeroTitle(slide.description) %></p><% } %>
+    <% if (slide.description) { %><p><%- renderHeroTitle(highlightDesc(slide.description)) %></p><% } %>
     <div class="hero-cta">
       <a class="btn btn-yellow" href="#thanh-vien"><%= homepage.heroBtn1 %></a>
       <a class="btn btn-outline" href="<%= root %>ve-chung-toi.html"><%= homepage.heroBtn2 %></a>

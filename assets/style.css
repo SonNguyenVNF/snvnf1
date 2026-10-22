@@ -67,7 +67,7 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 .hero-text{position:absolute;inset:0;z-index:2;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
 .hero-text.active{display:flex}
 .hero-text h1{font-size:clamp(28px,4.7vw,78px);font-weight:700;letter-spacing:1px;text-transform:uppercase;line-height:1.08;text-shadow:0 3px 14px rgba(0,0,0,.45);margin-top:-6%}
-.hero-text h1 span,.hero-text p span{color:var(--gold-l)}
+.hero-text p span{color:var(--gold-l)}
 .hero-text p{max-width:900px;font-size:clamp(14px,1.3vw,21px);margin:clamp(22px,4vw,64px) auto clamp(20px,2.6vw,40px);text-shadow:0 1px 8px rgba(0,0,0,.5);line-height:1.6}
 .hero-text p span{font-weight:700}
 .hero-cta{display:flex;gap:clamp(12px,1.6vw,26px);justify-content:center;flex-wrap:wrap}
