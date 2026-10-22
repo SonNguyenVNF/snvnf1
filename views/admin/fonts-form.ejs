@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phông chữ — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+<style><%- fontCss %></style>
+<style>.fpreview{margin-top:8px;padding:10px 12px;background:#F7F5EF;border-radius:8px;font-size:20px;line-height:1.4;color:#123f9b}.fcard{border:1px solid #ECEAE3;border-radius:10px;padding:14px 16px;margin-bottom:12px}.fcard h3{font-size:15px;margin-bottom:2px}.fcard small{color:var(--muted);font-size:12.5px}</style>
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Phông chữ</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Chọn phông chữ cho từng vị trí trên website. Lưu xong là áp dụng ngay, tải lại trang để xem. Ô xem thử bên dưới mỗi lựa chọn hiện đúng kiểu chữ đã chọn.</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu thay đổi.</div><% } %>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/admin/phong-chu">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <h2>Chọn phông cho từng vị trí</h2>
+      <% roles.forEach(function(r) { %>
+        <div class="admin-field" style="border-top:1px solid #ECEAE3;padding-top:14px;margin-top:14px">
+          <label for="role-<%= r.key %>"><%= r.label %></label>
+          <select id="role-<%= r.key %>" name="role_<%= r.key %>" data-preview="prev-<%= r.key %>">
+            <% families.forEach(function(f) { %><option value="<%= f.key %>" data-css="<%= f.css %>" <%= current[r.key] === f.key ? 'selected' : '' %>><%= f.name %></option><% }); %>
+          </select>
+          <div class="fpreview" id="prev-<%= r.key %>" style="font-family:'<%= families.filter(function(f){return f.key===current[r.key]})[0].css %>','Roboto',Arial,sans-serif">Kiến tạo giá trị vượt trội 0123456789</div>
+        </div>
+      <% }); %>
+      <button class="admin-btn" type="submit" style="margin-top:20px">Lưu thay đổi</button>
+    </form>
+
+    <h2 style="margin-top:34px;padding-top:20px;border-top:1px solid #ECEAE3">Các phông đang có</h2>
+    <% families.forEach(function(f) { %>
+      <div class="fcard">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+          <div><h3><%= f.name %></h3><small><%= f.kind %><% if (f.note) { %> — <%= f.note %><% } %></small></div>
+          <% if (f.custom) { %>
+          <form method="POST" action="/admin/phong-chu/<%= f.id %>/delete" onsubmit="return confirm('Xoá phông này? Các vị trí đang dùng sẽ quay về Roboto.')" style="margin:0">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="admin-btn admin-btn-danger" type="submit">Xoá</button>
+          </form>
+          <% } else { %><span style="color:var(--muted);font-size:12px;flex:none">Có sẵn</span><% } %>
+        </div>
+        <div class="fpreview" style="font-family:'<%= f.css %>','Roboto',Arial,sans-serif">Kiến tạo giá trị vượt trội — Synetic Group 0123456789</div>
+      </div>
+    <% }); %>
+
+    <h2 style="margin-top:34px;padding-top:20px;border-top:1px solid #ECEAE3">Thêm phông mới</h2>
+    <p class="hint">Chọn file phông .ttf, .otf, .woff hoặc .woff2 (tối đa 8 MB). Phông cần có đủ chữ tiếng Việt có dấu, nếu thiếu chữ nào thì chữ đó sẽ hiện bằng Roboto.</p>
+    <form method="POST" action="/admin/phong-chu/upload" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field"><label for="fname">Tên phông (để dễ nhận biết)</label><input type="text" id="fname" name="name" required placeholder="Ví dụ: Be Vietnam Pro"></div>
+      <div class="admin-field row2">
+        <div><label for="fweight">Độ đậm</label>
+          <select id="fweight" name="weight"><option value="400">Thường (400)</option><option value="500">Vừa (500)</option><option value="700">Đậm (700)</option><option value="800">Rất đậm (800)</option><option value="900">Cực đậm (900)</option><option value="300">Mảnh (300)</option></select></div>
+        <div><label for="fstyle">Kiểu</label>
+          <select id="fstyle" name="style"><option value="normal">Đứng</option><option value="italic">Nghiêng</option></select></div>
+      </div>
+      <div class="admin-field"><label for="ffile">File phông</label><input type="file" id="ffile" name="font" accept=".ttf,.otf,.woff,.woff2" required></div>
+      <button class="admin-btn" type="submit">Tải phông lên</button>
+    </form>
+  </div>
+</div>
+<script>
+document.querySelectorAll('select[data-preview]').forEach(function(s){
+  s.addEventListener('change', function(){
+    var css = s.options[s.selectedIndex].getAttribute('data-css');
+    document.getElementById(s.getAttribute('data-preview')).style.fontFamily = "'" + css + "','Roboto',Arial,sans-serif";
+  });
+});
+</script>
+</body></html>

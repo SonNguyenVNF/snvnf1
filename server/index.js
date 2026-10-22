@@ -14,6 +14,7 @@ const { createUploader, publicPathFor, deleteUploadedFile } = require('./upload'
 const { siteLockMiddleware } = require('./site-lock');
 const sd = require('./site-data');
 const effects = require('./effects');
+const fonts = require('./fonts');
 const registerPublic = require('./public');
 const registerAdminExtra = require('./admin-extra');
 
@@ -241,6 +242,7 @@ app.use((req, res, next) => {
   res.locals.back = req.path;
   res.locals.fx = effects.fx;
   res.locals.fxStyle = effects.style();
+  res.locals.fontCss = fonts.buildCss();
   next();
 });
 app.locals.tagBreak = (t) => String(t || '').replace(/,\s+/, ',\n');

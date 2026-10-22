@@ -230,6 +230,71 @@ module.exports = function registerAdminExtra(adminRouter) {
     res.redirect('/admin/doi-ngu-lanh-dao');
   });
 
+  // ---------- Phông chữ ----------
+  const fontsMod = require('./fonts');
+  const multer = require('multer');
+  const path = require('path');
+  const fs = require('fs');
+  const crypto = require('crypto');
+  const FONT_DIR = path.join(__dirname, '..', 'assets', 'uploads', 'fonts');
+  const fontUpload = multer({
+    storage: multer.diskStorage({
+      destination(req, file, cb) { fs.mkdirSync(FONT_DIR, { recursive: true }); cb(null, FONT_DIR); },
+      filename(req, file, cb) { cb(null, Date.now() + '-' + crypto.randomBytes(5).toString('hex') + path.extname(file.originalname).toLowerCase()); }
+    }),
+    limits: { fileSize: 8 * 1024 * 1024 },
+    fileFilter(req, file, cb) {
+      if (!/\.(ttf|otf|woff2?)$/i.test(file.originalname)) return cb(new Error('Chỉ nhận file phông .ttf, .otf, .woff hoặc .woff2.'));
+      cb(null, true);
+    }
+  });
+  const renderFonts = (res, req, error, status) => {
+    const s = fontsMod.getSettings();
+    res.status(status || 200).render('admin/fonts-form', {
+      roles: fontsMod.ROLES, families: s.families, current: s.roles, fontCss: fontsMod.buildCss(),
+      csrfToken: csrf(req), saved: req.query.saved === '1', error: error || null
+    });
+  };
+  adminRouter.get('/phong-chu', (req, res) => renderFonts(res, req, null));
+  adminRouter.post('/phong-chu', auth.verifyCsrf, (req, res) => {
+    const valid = new Set(fontsMod.families().map((f) => f.key));
+    const roles = {};
+    fontsMod.ROLES.forEach((r) => { const v = one(req.body['role_' + r.key]); if (valid.has(v)) roles[r.key] = v; });
+    const cur = fontsMod.read();
+    writeJSON('typography', { roles, custom: cur.custom });
+    res.redirect('/admin/phong-chu?saved=1');
+  });
+  adminRouter.post('/phong-chu/upload', (req, res) => {
+    fontUpload.single('font')(req, res, (err) => {
+      if (err) return renderFonts(res, req, err.message, 400);
+      if (!auth.csrfOk(req)) return expired(res);
+      const name = fontsMod.safeName(req.body.name);
+      if (!req.file || !name) return renderFonts(res, req, 'Vui lòng nhập tên và chọn file phông.', 400);
+      const cur = fontsMod.read();
+      const w = parseInt(req.body.weight, 10);
+      cur.custom.push({
+        id: Date.now().toString(36),
+        name,
+        file: 'assets/uploads/fonts/' + req.file.filename,
+        weight: [300, 400, 500, 700, 800, 900].includes(w) ? w : 400,
+        style: req.body.style === 'italic' ? 'italic' : 'normal'
+      });
+      writeJSON('typography', { roles: cur.roles, custom: cur.custom });
+      res.redirect('/admin/phong-chu?saved=1');
+    });
+  });
+  adminRouter.post('/phong-chu/:id/delete', auth.verifyCsrf, (req, res) => {
+    const cur = fontsMod.read();
+    const item = cur.custom.find((c) => c.id === req.params.id);
+    if (item) {
+      deleteUploadedFile(item.file);
+      cur.custom = cur.custom.filter((c) => c.id !== req.params.id);
+      Object.keys(cur.roles).forEach((k) => { if (cur.roles[k] === 'c-' + item.id) delete cur.roles[k]; });
+      writeJSON('typography', { roles: cur.roles, custom: cur.custom });
+    }
+    res.redirect('/admin/phong-chu');
+  });
+
   // ---------- Hiệu ứng xuất hiện ----------
   adminRouter.get('/hieu-ung', (req, res) => {
     const fxm = require('./effects');
