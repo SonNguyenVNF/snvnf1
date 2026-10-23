@@ -566,7 +566,7 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
 
 /* core values wheel */
 .ab-values{padding:clamp(40px,5vw,72px) 0 0}
-.vwheel{display:grid;grid-template-columns:1fr clamp(230px,24vw,300px) 1fr;align-items:center;max-width:1180px;margin:0 auto}
+.vwheel{display:grid;grid-template-columns:minmax(0,1fr) clamp(230px,24vw,300px) minmax(0,1fr);align-items:center;max-width:1180px;margin:0 auto}
 .vcol{display:grid;gap:clamp(16px,2.2vw,32px)}
 .vp{position:relative;display:flex;align-items:stretch;background:#fff;border:3px solid var(--vc);border-radius:80px;overflow:hidden;min-height:clamp(88px,8.6vw,126px)}
 .vp .vt{flex:1;padding:clamp(10px,1.2vw,18px) clamp(18px,2vw,30px);display:flex;flex-direction:column;justify-content:center;min-width:0}
@@ -687,3 +687,4 @@ button,input,textarea,select{font-family:inherit;font-size:inherit}
   .t-grid{grid-template-columns:1fr}.tcard,.tcard.big{grid-column:auto}
 }
 @media (max-width:860px){.net .vline{display:none!important}.ab-hist::before{opacity:.35}}
+.vcenter{justify-self:center;width:100%;max-width:300px}
