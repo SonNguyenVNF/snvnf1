@@ -1053,3 +1053,13 @@ body.modal-open{overflow:hidden}
   .vcol .vp,.vcol.l .vp:nth-child(2),.vcol.r .vp:nth-child(2){margin:0}
   .vp h3{font-size:16px}.vp p{font-size:12px}
 }
+
+/* ---- Các giải thưởng: orange frame behind the lower half, optional slider with dots ---- */
+.ab-awards .frame{padding:0 9px 16px}
+.ab-awards .frame::before{left:0;right:0;top:46%;bottom:0;width:auto;height:auto;background:var(--gold)}
+.ab-awards .frame>img{aspect-ratio:auto;height:auto}
+.ab-awards .gal-v{border-radius:0;box-shadow:none;position:relative;z-index:1}
+.ab-awards .gal-t img{aspect-ratio:3/2;object-fit:cover}
+.ab-awards .gal .dots{margin-top:14px}
+.ab-awards .gal .dots button{background:#8aa0cf}
+.ab-awards .gal .dots button.on{background:var(--blue);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--blue)}

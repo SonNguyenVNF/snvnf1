@@ -139,7 +139,14 @@
     <% about.awards.paras.forEach(function(p) { %><p><%= p %></p>
     <% }); %>
   </div>
-  <div class="frame rev"><img src="<%= root %><%= siteImages.award %>" alt="<%= about.awards.heading %>" loading="lazy"></div>
+  <% var awImgs = [siteImages.award, siteImages.award2, siteImages.award3, siteImages.award4, siteImages.award5].filter(Boolean); %>
+  <div class="aw-wrap">
+    <% if (awImgs.length > 1) { %><div class="gal car" data-car="auto">
+      <div class="frame rev"><div class="gal-v"><div class="gal-t"><% awImgs.forEach(function(s) { %><img src="<%= root %><%= s %>" alt="<%= about.awards.heading %>" loading="lazy"><% }); %></div></div></div>
+      <div class="dots"></div>
+    </div>
+    <% } else { %><div class="frame rev"><img src="<%= root %><%= awImgs[0] %>" alt="<%= about.awards.heading %>" loading="lazy"></div><% } %>
+  </div>
 </div></section>
 <% } %>
 
