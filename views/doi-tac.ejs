@@ -16,7 +16,7 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
 
   <% if (featured) { %>
   <section class="pt-feature"<%- fx('partners-feature') %>>
-    <div class="pt-fimg"><% var fi = (featured.images && featured.images[0]) || featured.logo; %><% if (fi) { %><img src="<%= root %><%= fi %>" alt="<%= featured.name %>"><% } %><% if (featured.modalTitle || featured.name) { %><span class="cap"><%= (featured.images && featured.images.length) ? (featured.imageCaption || '') : '' %></span><% } %></div>
+    <div class="pt-fimg"><% var fi = (featured.images && featured.images[0]) || featured.logo; %><% if (fi) { %><img src="<%= root %><%= fi %>" alt="<%= featured.name %>"><% } %><% if (featured.modalTitle || featured.name) { %><span class="cap"><%= featured.imageCaption || '' %></span><% } %></div>
     <div class="pt-fcard">
       <h3><%= featured.modalTitle || featured.name %></h3>
       <p><%= featured.summary %></p>
@@ -62,7 +62,7 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
     <div class="pm-grid">
       <div class="pm-gal" data-gal>
         <% if (imgs.length) { %>
-        <div class="pm-big"><img src="<%= root %><%= imgs[0] %>" alt="<%= p.name %>"></div>
+        <div class="pm-big"><img src="<%= root %><%= imgs[0] %>" alt="<%= p.name %>"><% if (p.imageCaption) { %><span class="cap"><%= p.imageCaption %></span><% } %></div>
         <% if (imgs.length > 1) { %><div class="pm-thumbs"><div class="pm-tt"><% imgs.slice(1).forEach(function(s) { %><button type="button" class="pm-th"><img src="<%= root %><%= s %>" alt=""></button><% }); %></div></div><% } %>
         <% } else if (p.logo) { %><div class="pm-big logo"><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>"></div><% } %>
       </div>
@@ -74,8 +74,8 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
         <% if (lines(p.bullets).length) { %><h4>2.Nội dung hợp tác trọng tâm</h4>
         <ul class="chk"><% lines(p.bullets).forEach(function(b) { %><li><%= b %></li><% }); %></ul><% } %>
         <% if (p.quote) { %><blockquote><span class="qm">“</span><%= p.quote %><% if (p.quoteBy) { %><cite>- <%= p.quoteBy %></cite><% } %></blockquote><% } %>
-        <% if (p.website) { %><a class="btn btn-gold btn-block btn-lg" href="<%= p.website %>" target="_blank" rel="noopener">Truy cập Website Đối tác</a><% } %>
-        <% if (p.fanpage) { %><a class="btn btn-ghost btn-block btn-lg" href="<%= p.fanpage %>" target="_blank" rel="noopener">Xem bài viết trên Fanpage</a><% } %>
+        <a class="btn btn-gold btn-block btn-lg" href="<%= p.website || '#' %>"<% if (p.website) { %> target="_blank" rel="noopener"<% } %>>Truy cập Website Đối tác</a>
+        <a class="btn btn-ghost btn-block btn-lg" href="<%= p.fanpage || '#' %>"<% if (p.fanpage) { %> target="_blank" rel="noopener"<% } %>>Xem bài viết trên Fanpage</a>
       </div>
     </div>
   </div>

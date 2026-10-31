@@ -29,6 +29,8 @@
         <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif"></div>
 
       <h3 style="margin:22px 0 8px;padding-top:16px;border-top:1px solid #ECEAE3">Cửa sổ chi tiết (hiện khi khách bấm "Xem chi tiết")</h3>
+      <div class="admin-field"><label for="imageCaption">Chú thích hiện trên ảnh lớn (chữ trắng ở đáy ảnh; trống = không hiện)</label>
+        <input type="text" id="imageCaption" name="imageCaption" value="<%= item ? (item.imageCaption || '') : '' %>" placeholder="Ví dụ: Lễ ký kết & củng cố hợp tác chiến lược giữa Synetic Group và Công ty Hà Lan"></div>
       <div class="admin-field"><label for="modalTitle">Tiêu đề (chữ xanh lớn)</label>
         <input type="text" id="modalTitle" name="modalTitle" value="<%= item ? (item.modalTitle || '') : '' %>" placeholder="Ví dụ: DẤU ẤN HỢP TÁC CHIẾN LƯỢC SYNETIC & HÀ LAN"></div>
       <div class="admin-field"><label for="intro">Giới thiệu đối tác</label>
@@ -41,8 +43,8 @@
         <div><label for="quoteBy">Người nói</label><input type="text" id="quoteBy" name="quoteBy" value="<%= item ? (item.quoteBy || '') : '' %>" placeholder="Đại diện ban lãnh đạo."></div>
       </div>
       <div class="admin-field row2">
-        <div><label for="website">Website đối tác (nút cam "Truy cập Website Đối tác"; trống = ẩn nút)</label><input type="text" id="website" name="website" value="<%= item ? (item.website || '') : '' %>" placeholder="https://..."></div>
-        <div><label for="fanpage">Bài viết trên Fanpage (nút "Xem bài viết trên Fanpage"; trống = ẩn nút)</label><input type="text" id="fanpage" name="fanpage" value="<%= item ? (item.fanpage || '') : '' %>" placeholder="https://facebook.com/..."></div>
+        <div><label for="website">Website đối tác (nút cam "Truy cập Website Đối tác"; để trống thì nút vẫn hiện nhưng chưa dẫn đi đâu)</label><input type="text" id="website" name="website" value="<%= item ? (item.website || '') : '' %>" placeholder="https://..."></div>
+        <div><label for="fanpage">Bài viết trên Fanpage (nút "Xem bài viết trên Fanpage"; để trống thì nút vẫn hiện nhưng chưa dẫn đi đâu)</label><input type="text" id="fanpage" name="fanpage" value="<%= item ? (item.fanpage || '') : '' %>" placeholder="https://facebook.com/..."></div>
       </div>
       <div class="admin-field">
         <label for="images">Ảnh trong cửa sổ chi tiết (ảnh đầu tiên là ảnh lớn; chọn được nhiều ảnh cùng lúc)</label>

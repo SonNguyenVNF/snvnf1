@@ -302,8 +302,19 @@
           tt.appendChild(b);
         });
       }
+      var dotsBox = document.createElement('div'); dotsBox.className = 'dots pm-dots'; g.appendChild(dotsBox);
+      function drawDots(){
+        dotsBox.innerHTML = '';
+        imgs.forEach(function(_, i){
+          var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Ảnh ' + (i + 1));
+          if(i === cur) b.className = 'on';
+          b.addEventListener('click', function(){ go(i); });
+          dotsBox.appendChild(b);
+        });
+      }
       function go(i){
         cur = (i + imgs.length) % imgs.length;
+        drawDots();
         big.style.opacity = '0';
         setTimeout(function(){ big.setAttribute('src', imgs[cur]); big.style.opacity = ''; }, 120);
         drawThumbs();
@@ -332,7 +343,7 @@
         window.addEventListener('pointermove', function(e){ if(!pd) return; var d = e.clientX - px; if(Math.abs(d) > 4) strip.setAttribute('data-moved', '1'); strip.scrollLeft = sl - d; });
         window.addEventListener('pointerup', function(){ if(!pd) return; pd = false; setTimeout(function(){ strip.setAttribute('data-moved', '0'); }, 0); });
       }
-      drawThumbs();
+      drawThumbs(); drawDots();
     });
 
     /* ---- partners: category chips, paging, detail pop-up ---- */

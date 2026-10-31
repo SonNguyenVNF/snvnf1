@@ -39,6 +39,7 @@ module.exports = function registerAdminExtra(adminRouter) {
     category: one(req.body.category),
     summary: one(req.body.summary),
     modalTitle: one(req.body.modalTitle),
+    imageCaption: one(req.body.imageCaption),
     intro: clean(req.body.intro),
     bullets: clean(req.body.bullets),
     quote: one(req.body.quote),
