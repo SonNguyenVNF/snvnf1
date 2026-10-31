@@ -1063,3 +1063,35 @@ body.modal-open{overflow:hidden}
 .ab-awards .gal .dots{margin-top:14px}
 .ab-awards .gal .dots button{background:#8aa0cf}
 .ab-awards .gal .dots button.on{background:var(--blue);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--blue)}
+
+/* ---- gallery: swipe / arrows, scrollable thumbnails ---- */
+.pm-big{touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
+.pm-big img{transition:opacity .15s ease;-webkit-user-drag:none}
+.pm-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.82);color:#222;font-size:26px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.pm-nav:hover{background:#fff}.pm-nav.prev{left:12px}.pm-nav.next{right:12px}
+.pm-thumbs{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:thin;-webkit-overflow-scrolling:touch;cursor:grab}
+.pm-thumbs{container-type:inline-size}
+.pm-tt{transform:none!important;width:max-content}
+.pm-th{scroll-snap-align:start;flex:0 0 calc((100cqw - 24px) / 3)}
+
+/* ---- Mạng lưới hoạt động: proportions of the design (wheel 1222px wide), everything scales with the wheel ---- */
+.net-wrap{max-width:1222px;margin:0 auto;container-type:inline-size}
+@media (min-width:861px){
+  .net{max-width:none;grid-template-columns:minmax(0,1fr) 32cqw minmax(0,1fr);row-gap:2cqw;--cw:32cqw;--ov:9.9cqw;--pg:4cqw;--hg:calc((var(--cw) - 2 * var(--ov)) / 2)}
+  .np{min-height:12.2cqw;border-width:2px;border-radius:3cqw;padding:1.2cqw 1.8cqw;grid-template-columns:1fr 6px 6.4cqw;gap:1cqw}
+  .np.r{grid-template-columns:6.4cqw 6px 1fr}
+  .np.l{margin-right:var(--pg)}.np.r{margin-left:var(--pg)}
+  .np .nt h4{font-size:max(9.5px,1.03cqw);margin-bottom:.6cqw;letter-spacing:0}
+  .np .nt p{font-size:max(8.5px,.9cqw);line-height:1.5}
+  .np .ndots{width:4px;margin:.5cqw auto;background-image:radial-gradient(circle,#111 1.7px,transparent 2px);background-size:4px 9px}
+  .np .nico img{max-height:6.6cqw;max-width:100%}
+  .np .cn,.np.edge::before{width:1.5cqw;height:1.5cqw;min-width:14px;min-height:14px;background:#ffc800;border:3px solid #111}
+  .net-center{width:var(--cw);border-width:max(5px,.65cqw)}
+  .net-center b{font-size:3.1cqw;font-weight:800;line-height:1.12}
+  .net-center p{font-size:max(8px,.8cqw);line-height:1.55;padding:0 1.5cqw}
+  .ncl{width:62%;margin:1.1cqw 0}
+}
+@media (max-width:860px){
+  .np .nt h4{font-size:14px}.np .nt p{font-size:12px}
+  .net-center b{font-size:28px}.net-center p{font-size:12px}
+}

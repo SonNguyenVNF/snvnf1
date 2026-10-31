@@ -86,14 +86,14 @@ const IMAGE_SLOTS = [
   { key: 'val4', label: "Icon giá trị số 4", def: 'assets/img/ab/val4.png' },
   { key: 'val5', label: "Icon giá trị số 5", def: 'assets/img/ab/val5.png' },
   { key: 'val6', label: "Icon giá trị số 6", def: 'assets/img/ab/val6.png' },
-  { key: 'net1', label: "Icon mạng lưới số 1", def: 'assets/img/ab/net1.png', group: "Icon Về chúng tôi — Mạng lưới hoạt động" },
-  { key: 'net2', label: "Icon mạng lưới số 2", def: 'assets/img/ab/net2.png' },
-  { key: 'net3', label: "Icon mạng lưới số 3", def: 'assets/img/ab/net3.png' },
-  { key: 'net4', label: "Icon mạng lưới số 4", def: 'assets/img/ab/net4.png' },
-  { key: 'net5', label: "Icon mạng lưới số 5", def: 'assets/img/ab/net5.png' },
-  { key: 'net6', label: "Icon mạng lưới số 6", def: 'assets/img/ab/net6.png' },
-  { key: 'net7', label: "Icon mạng lưới số 7", def: 'assets/img/ab/net7.png' },
-  { key: 'net8', label: "Icon mạng lưới số 8", def: 'assets/img/ab/net8.png' }
+  { key: 'net1', label: "Icon mạng lưới — Thương mại – Hỗ trợ", def: 'assets/img/ab/net1.png', group: "Icon Về chúng tôi — Mạng lưới hoạt động" },
+  { key: 'net2', label: "Icon mạng lưới — Đào tạo", def: 'assets/img/ab/net3.png' },
+  { key: 'net3', label: "Icon mạng lưới — Đổi mới sáng tạo", def: 'assets/img/ab/net5.png' },
+  { key: 'net4', label: "Icon mạng lưới — Thị trường – Truyền thông", def: 'assets/img/ab/net7.png' },
+  { key: 'net5', label: "Icon mạng lưới — Quản trị – Điều hành", def: 'assets/img/ab/net2.png' },
+  { key: 'net6', label: "Icon mạng lưới — Thương hiệu – Sở hữu trí tuệ", def: 'assets/img/ab/net4.png' },
+  { key: 'net7', label: "Icon mạng lưới — Dịch vụ dùng chung", def: 'assets/img/ab/net6.png' },
+  { key: 'net8', label: "Icon mạng lưới — Bất động sản – Hạ tầng", def: 'assets/img/ab/net8.png' }
 ];
 
 function getSiteImages() {

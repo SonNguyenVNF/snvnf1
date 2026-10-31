@@ -260,16 +260,55 @@
       new IntersectionObserver(function(es, ob){ es.forEach(function(e){ if(e.isIntersecting){ type(); ob.disconnect(); } }); }, { threshold: 0.3 }).observe(box);
     });
 
-    /* ---- image gallery: click a thumbnail to swap it with the big picture ---- */
+    /* ---- image gallery: swipe / arrows on the big picture, thumbnails strip scrolls and picks ---- */
     $$('[data-gal]').forEach(function(g){
-      var big = $('.pm-big img', g);
-      if(!big) return;
-      $$('.pm-th', g).forEach(function(b){
-        b.addEventListener('click', function(){
-          var t = $('img', b), a = big.getAttribute('src');
-          big.setAttribute('src', t.getAttribute('src')); t.setAttribute('src', a);
+      var box = $('.pm-big', g), big = $('img', box || g);
+      if(!box || !big) return;
+      var imgs = [big.getAttribute('src')].concat($$('.pm-th img', g).map(function(i){ return i.getAttribute('src'); }));
+      if(imgs.length < 2) return;
+      var cur = 0, tt = $('.pm-tt', g), strip = $('.pm-thumbs', g);
+      function drawThumbs(){
+        if(!tt) return;
+        tt.innerHTML = '';
+        imgs.forEach(function(s, i){
+          if(i === cur) return;
+          var b = document.createElement('button'); b.type = 'button'; b.className = 'pm-th'; b.setAttribute('aria-label', 'Ảnh ' + (i + 1));
+          var im = document.createElement('img'); im.src = s; im.alt = ''; im.draggable = false; b.appendChild(im);
+          b.addEventListener('click', function(){ if(strip && strip.getAttribute('data-moved') === '1') return; go(i); });
+          tt.appendChild(b);
         });
+      }
+      function go(i){
+        cur = (i + imgs.length) % imgs.length;
+        big.style.opacity = '0';
+        setTimeout(function(){ big.setAttribute('src', imgs[cur]); big.style.opacity = ''; }, 120);
+        drawThumbs();
+        if(strip) strip.scrollLeft = 0;
+      }
+      ['prev', 'next'].forEach(function(d){
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'pm-nav ' + d; b.setAttribute('aria-label', d === 'prev' ? 'Ảnh trước' : 'Ảnh sau');
+        b.textContent = d === 'prev' ? '‹' : '›';
+        b.addEventListener('click', function(e){ e.stopPropagation(); go(cur + (d === 'prev' ? -1 : 1)); });
+        box.appendChild(b);
       });
+      // swipe or drag the big picture
+      var sx = 0, sy = 0, down = false;
+      box.addEventListener('pointerdown', function(e){ if(e.target.closest('.pm-nav')) return; down = true; sx = e.clientX; sy = e.clientY; });
+      box.addEventListener('pointerup', function(e){
+        if(!down) return; down = false;
+        var dx = e.clientX - sx, dy = e.clientY - sy;
+        if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1));
+      });
+      box.addEventListener('pointercancel', function(){ down = false; });
+      box.addEventListener('dragstart', function(e){ e.preventDefault(); });
+      // drag the thumbnails strip with the mouse (touch scrolls natively)
+      if(strip){
+        var px = 0, sl = 0, pd = false;
+        strip.addEventListener('pointerdown', function(e){ if(e.pointerType !== 'mouse') return; pd = true; px = e.clientX; sl = strip.scrollLeft; strip.setAttribute('data-moved', '0'); });
+        window.addEventListener('pointermove', function(e){ if(!pd) return; var d = e.clientX - px; if(Math.abs(d) > 4) strip.setAttribute('data-moved', '1'); strip.scrollLeft = sl - d; });
+        window.addEventListener('pointerup', function(){ if(!pd) return; pd = false; setTimeout(function(){ strip.setAttribute('data-moved', '0'); }, 0); });
+      }
+      drawThumbs();
     });
 
     /* ---- partners: category chips, paging, detail pop-up ---- */

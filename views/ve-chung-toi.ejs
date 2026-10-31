@@ -167,6 +167,7 @@
   }
   function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   %>
+  <div class="net-wrap">
   <div class="net" style="--rows:<%= rows %>">
     <% nl.forEach(function(it, i) { %><%- npill(it, i, i, 'l').replace('__ICON' + i + '__', '<img src="' + root + siteImages[nicons[i % 8]] + '" alt="">') %>
     <% }); %>
@@ -178,6 +179,7 @@
     <% nr.forEach(function(it, i) { %><%- npill(it, half + i, i, 'r').replace('__ICON' + (half + i) + '__', '<img src="' + root + siteImages[nicons[(half + i) % 8]] + '" alt="">') %>
     <% }); %>
     <i class="vline top"></i><i class="vline bot"></i><i class="hline top"></i><i class="hline bot"></i>
+  </div>
   </div>
 </div></section>
 <% } %>
