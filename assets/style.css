@@ -1017,3 +1017,16 @@ body.modal-open{overflow:hidden}
 .ab-hist::before{opacity:.3}
 .ncard .ni{position:relative;overflow:hidden;display:block}
 .ncard .ni img{position:absolute;inset:0}
+
+/* ---- Tầm nhìn chiến lược: green band, square cards ---- */
+.ab-strategy .sub{color:#fff}
+.pillar{aspect-ratio:1/1;min-height:0;border-radius:24px;display:flex;flex-direction:column;justify-content:flex-start}
+.pillar h3{margin-top:clamp(56px,5.6vw,92px);color:#444}
+.pillar.c0 .pn{color:#02a02b}.pillar.c1 .pn{color:#0702c6}.pillar.c2 .pn{color:#ffb345}
+@media (max-width:860px){.pillar{aspect-ratio:auto}}
+.pillar h3{font-size:clamp(14px,1.25vw,24px);margin-bottom:clamp(14px,1.4vw,26px)}
+.pillar p{font-size:clamp(11px,.82vw,16px);line-height:1.7}
+.pillar .pn{font-size:clamp(46px,4.4vw,84px)}
+.pillar .pic{height:clamp(40px,3.6vw,68px)}
+.ab-vision{margin-top:clamp(-90px,-4.6vw,-40px);padding-top:clamp(100px,9.6vw,180px)}
+.ab-strategy{background:transparent}
