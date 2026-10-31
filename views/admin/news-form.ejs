@@ -71,6 +71,16 @@
       </div>
 
       <div class="admin-field">
+        <label for="sourceUrl">Đường dẫn bài báo gốc (chỉ dùng cho "Tin tức thị trường": bấm "Xem thêm" sẽ mở bài báo này; để trống thì mở bài viết trên web của bạn)</label>
+        <input type="text" id="sourceUrl" name="sourceUrl" value="<%= item ? (item.sourceUrl || '') : '' %>" placeholder="https://...">
+      </div>
+
+      <div class="admin-field">
+        <label for="galleryCaption">Dòng chú thích hiện đè lên ảnh lớn của dải ảnh trong bài (để trống nếu không cần)</label>
+        <input type="text" id="galleryCaption" name="galleryCaption" value="<%= item ? (item.galleryCaption || '') : '' %>">
+      </div>
+
+      <div class="admin-field">
         <label for="publishedAt">Ngày đăng</label>
         <input type="date" id="publishedAt" name="publishedAt" value="<%= item ? item.publishedAt : today %>">
       </div>

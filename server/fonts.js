@@ -3,7 +3,16 @@ const { readJSON } = require('./data-store');
 
 // Fonts shipped with the site (assets/fonts). Admin can add more by uploading.
 const BUILTIN = [
-  { key: 'roboto', name: 'Roboto', css: 'Roboto', kind: 'Chữ không chân (mặc định của thiết kế)', faces: [
+  { key: 'montserrat', name: 'Montserrat', css: 'Montserrat', kind: 'Chữ của thiết kế mới (mặc định)', faces: [
+    { file: 'Montserrat-Regular.ttf', weight: 400, style: 'normal' },
+    { file: 'Montserrat-Medium.ttf', weight: 500, style: 'normal' },
+    { file: 'Montserrat-SemiBold.ttf', weight: 600, style: 'normal' },
+    { file: 'Montserrat-Bold.ttf', weight: 700, style: 'normal' },
+    { file: 'Montserrat-ExtraBold.ttf', weight: 800, style: 'normal' },
+    { file: 'Montserrat-Black.ttf', weight: 900, style: 'normal' },
+    { file: 'Montserrat-MediumItalic.ttf', weight: 500, style: 'italic' }
+  ], note: 'Có 7 kiểu: Regular, Medium, SemiBold, Bold, ExtraBold, Black, Medium Italic' },
+  { key: 'roboto', name: 'Roboto', css: 'Roboto', kind: 'Chữ không chân (thiết kế cũ)', faces: [
     { file: 'Roboto-Regular.ttf', weight: 400, style: 'normal' },
     { file: 'Roboto-Medium.ttf', weight: 500, style: 'normal' },
     { file: 'Roboto-Bold.ttf', weight: 700, style: 'normal' },
@@ -13,7 +22,6 @@ const BUILTIN = [
   ], note: 'Có 6 kiểu: Regular, Medium, Bold, Black, Italic, Medium Italic' },
   { key: 'arial', name: 'Arial', css: 'Arial', kind: 'Chữ không chân, quen thuộc', faces: [{ file: 'Arial-Regular.ttf', weight: 400, style: 'normal' }], note: 'Chỉ có kiểu Regular (chữ đậm sẽ được trình duyệt làm đậm giả)' },
   { key: 'manrope', name: 'Manrope', css: 'Manrope', kind: 'Chữ hiện đại, tròn trịa', faces: [{ file: 'Manrope-Regular.ttf', weight: 400, style: 'normal' }], note: 'Chỉ có kiểu Regular' },
-  { key: 'montserrat', name: 'Montserrat ExtraBold', css: 'Montserrat', kind: 'Chữ rất đậm, hợp tiêu đề', faces: [{ file: 'Montserrat-ExtraBold.ttf', weight: 800, style: 'normal' }], note: 'Chỉ có kiểu ExtraBold: dùng cho nội dung dài sẽ rất đậm, nên dùng cho tiêu đề' },
   { key: 'fz-photograph', name: 'Fz Photograph', css: 'Fz Photograph', kind: 'Chữ viết tay (trang trí)', faces: [{ file: 'Fz-Photograph.ttf', weight: 400, style: 'normal' }], note: 'Chữ viết tay, chỉ nên dùng cho vài từ trang trí' }
 ];
 
@@ -24,18 +32,18 @@ const ROLES = [
   { key: 'banner', label: 'Tiêu đề trên thanh banner hoàng hôn (TIN TỨC, DỰ ÁN...)', css: '.pbanner h1' },
   { key: 'hero-title', label: 'Chữ lớn ở slide đầu trang chủ', css: '.hero-text h1' },
   { key: 'hero-text', label: 'Mô tả và nút ở slide đầu trang chủ', css: '.hero-text p,.hero-cta .btn' },
-  { key: 'heading', label: 'Tiêu đề các mục (SYNETIC GROUP, THÀNH VIÊN..., TIN TỨC NỔI BẬT...)', css: '.intro h2,.intro h3,.members .t-h,.partners-band h2,.news-sec h2,.cta-band h2,.m-band .t-h,.h-line,.a-head h1,.pd-contact h2,.pd-grid h1,.j-hero h2,.j-hero h3,.why h2,.ab-split h2,.ab-strategy h2,.ab-vision h2,.ab-team h2,.pf-slide h2,.pf-slide h3,.p-find h2,.m-grid h1,.m-info h2,.jd-grid h1,.ab-card .tt b' },
-  { key: 'subheading', label: 'Tiêu đề nhỏ trên thẻ (tên tin, dự án, thành viên, giá trị cốt lõi...)', css: '.ncard h3,.n-big h3,.n-sm h3,.n-row h3,.pcard h3,.icard h4,.pillar h3,.vitem h3,.net-item h4,.net-center b,.tcard h3,.csr-item h3,.why-grid h3,.pgrid h3,.pt-cat h3,.j-row .tt a,.mcard .mn,.mcard .ms,.vcenter,.j-side h4,.rich h3' },
-  { key: 'button', label: 'Chữ trên các nút bấm (XEM THÊM, TÌM HIỂU THÊM...)', css: '.btn,.btn-find' },
-  { key: 'number', label: 'Con số lớn (100+, 01. 02. 03...)', css: '.j-stats b,.pillar .pn,.pcard .pn b' },
+  { key: 'heading', label: 'Tiêu đề các mục (SYNETIC GROUP, THÀNH VIÊN..., TIN TỨC NỔI BẬT...)', css: '.intro h2,.intro h3,.members .t-h,.partners-band h2,.news-sec h2,.cta-band h2,.m-band .t-h,.h-line,.a-head h1,.pd-contact h2,.pd-grid h1,.j-hero h2,.j-hero h3,.why h2,.ab-split h2,.ab-strategy h2,.ab-vision h2,.ab-team h2,.pf-slide h2,.pf-slide h3,.p-find h2,.m-grid h1,.m-info h2,.jd-grid h1,.ab-card .tt b,.pt-head h2,.pt-head h3,.pt-list>h2,.pm-info h2,.pt-fcard h3' },
+  { key: 'subheading', label: 'Tiêu đề nhỏ trên thẻ (tên tin, dự án, thành viên, giá trị cốt lõi...)', css: '.ncard h3,.n-big h3,.n-sm h3,.n-row h3,.pcard h3,.icard h4,.pillar h3,.vitem h3,.net-item h4,.net-center b,.tcard h3,.csr-item h3,.why-grid h3,.pgrid h3,.pt-cat h3,.j-row .tt a,.mcard .mn,.mcard .ms,.vcenter,.j-side h4,.rich h3,.pt-card h3,.pm-info h4' },
+  { key: 'button', label: 'Chữ trên các nút bấm (XEM THÊM, TÌM HIỂU THÊM...)', css: '.btn,.btn-find,.chip' },
+  { key: 'number', label: 'Con số lớn (100+, 01. 02. 03...)', css: '.j-stats b,.pillar .pn,.pcard .pn b,.pt-stats b' },
   { key: 'script', label: 'Chữ trang trí (chữ "Thông điệp" ở phần Chủ tịch)', css: '.ab-card .t1', def: 'fz-photograph' },
-  { key: 'article', label: 'Nội dung bài viết, dự án, tuyển dụng, giới thiệu', css: '.a-body p,.pd-text,.jd-body,.m-grid .body p,.ab-split p,.ab-card p,.rich' },
+  { key: 'article', label: 'Nội dung bài viết, dự án, tuyển dụng, giới thiệu', css: '.a-body p,.pd-text,.jd-body,.m-grid .body p,.ab-split p,.ab-card p,.rich,.pt-fcard p,.pm-info p,.pt-card p' },
   { key: 'footer', label: 'Chân trang (tên công ty, địa chỉ, form, bản quyền)', css: '.ft,.ft h3,.copy,.ft-form input,.ft-form textarea' }
 ];
 
 // ---------- per-text styles set with the on-page editor ----------
 const SEL_OK = /^[A-Za-z0-9_\-#.\s>:()+~]+$/;
-const WEIGHTS = ['300', '400', '500', '700', '800', '900'];
+const WEIGHTS = ['300', '400', '500', '600', '700', '800', '900'];
 
 function readStyles() {
   let raw = {};
@@ -104,8 +112,8 @@ function families() {
 }
 
 function stackFor(fam) {
-  if (!fam || fam.key === 'roboto') return '"Roboto",Arial,sans-serif';
-  return '"' + fam.css + '","Roboto",Arial,sans-serif';
+  if (!fam || fam.key === 'montserrat') return '"Montserrat",Arial,sans-serif';
+  return '"' + fam.css + '","Montserrat",Arial,sans-serif';
 }
 
 function getSettings() {
@@ -114,7 +122,7 @@ function getSettings() {
   const byKey = {};
   fams.forEach((f) => { byKey[f.key] = f; });
   const out = {};
-  ROLES.forEach((r) => { out[r.key] = byKey[roles[r.key]] ? roles[r.key] : (byKey[r.def] ? r.def : 'roboto'); });
+  ROLES.forEach((r) => { out[r.key] = byKey[roles[r.key]] ? roles[r.key] : (byKey[r.def] ? r.def : 'montserrat'); });
   return { roles: out, families: fams, byKey };
 }
 

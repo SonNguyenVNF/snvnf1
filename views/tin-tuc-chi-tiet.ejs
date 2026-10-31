@@ -7,12 +7,23 @@
 <main class="n-main"><div class="wrap">
   <div class="a-head"><h1><%= item.title %></h1></div>
   <div class="a-date"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(item.publishedAt) %></div>
+  <%
+  var lastP = -1; blocks.forEach(function(b, i) { if (b.type === 'p') lastP = i; });
+  var gal = []; blocks.forEach(function(b, i) { if (b.type === 'img' && i > lastP) gal.push(b.src); });
+  var inlineBlocks = blocks.filter(function(b, i) { return !(b.type === 'img' && i > lastP); });
+  if (item.image && gal.indexOf(item.image) === -1 && !blocks.some(function(b) { return b.src === item.image; })) gal.unshift(item.image);
+  %>
   <div class="a-body"<%- fx('news-detail') %>>
-    <% if (item.image && !blocks.some(function(b) { return b.src === item.image; })) { %><img src="<%= root %><%= item.image %>" alt=""><% } %>
-    <% blocks.forEach(function(b) { %><% if (b.type === 'img') { %><img src="<%= root %><%= b.src %>" alt="" loading="lazy">
+    <% inlineBlocks.forEach(function(b) { %><% if (b.type === 'img') { %><img src="<%= root %><%= b.src %>" alt="" loading="lazy">
     <% } else { %><p><%- renderInline(b.text) %></p>
     <% } %><% }); %>
   </div>
+  <% if (gal.length) { %>
+  <div class="a-gal" data-gal>
+    <div class="pm-big"><img src="<%= root %><%= gal[0] %>" alt=""><% if (item.galleryCaption) { %><span class="cap"><%= item.galleryCaption %></span><% } %></div>
+    <% if (gal.length > 1) { %><div class="pm-thumbs"><div class="pm-tt"><% gal.slice(1).forEach(function(s) { %><button type="button" class="pm-th"><img src="<%= root %><%= s %>" alt=""></button><% }); %></div></div><% } %>
+  </div>
+  <% } %>
 
   <% if (related.length) { %>
   <div class="related"<%- fx('news-related') %>>

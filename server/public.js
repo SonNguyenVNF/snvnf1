@@ -19,6 +19,19 @@ const FACT_IMAGES = {
   capital: ['assets/img/info-warehouse.jpg', 'assets/img/info-box.jpg', 'assets/img/info-clock.jpg']
 };
 
+// brand colour logos of the five founding members (cut from the design)
+const MEMBER_LOGOS = {
+  nutrition: 'assets/img/logo-m-nutrition.png',
+  vet: 'assets/img/logo-m-vet.png',
+  logistics: 'assets/img/logo-m-logistics.png',
+  farm: 'assets/img/logo-m-farm.png',
+  capital: 'assets/img/logo-m-capital.png'
+};
+const withLogo = (m) => {
+  const own = m.logo && m.logo !== 'assets/logos/vinafeed-logo.jpg' ? m.logo : null;
+  return Object.assign({}, m, { logo: own || MEMBER_LOGOS[m.slug] || 'assets/img/logo.png' });
+};
+
 function headingFor(p) {
   const d = DEFAULT_HEADINGS[p.slug];
   if (d && p.label === d.label) return d.heading;
@@ -171,8 +184,7 @@ module.exports = function registerPublic(app, deps) {
 
   // ----- ecosystem members -----
   app.get('/thanh-vien/:slug.html', (req, res) => {
-    const members = getMembersData().items.filter((i) => i.published)
-      .map((m) => (m.logo === 'assets/logos/vinafeed-logo.jpg' ? Object.assign({}, m, { logo: null }) : m));
+    const members = getMembersData().items.filter((i) => i.published).map(withLogo);
     const item = members.find((i) => i.slug === req.params.slug);
     if (!item) return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
     const defaults = FACT_IMAGES[item.slug] || [];
@@ -244,7 +256,7 @@ module.exports = function registerPublic(app, deps) {
     const all = sd.getJobs().items.filter((i) => i.published);
     const item = all.find((i) => i.slug === req.params.slug);
     if (!item) return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
-    res.render('tuyen-dung-chi-tiet', { root: '../', ...commonLocals(), item, ...jobFilters(all) });
+    res.render('tuyen-dung-chi-tiet', { root: '../', ...commonLocals(), item, recruit: sd.getRecruit(), ...jobFilters(all) });
   });
 
   // ----- about (all "Về Synetic" sections on one page) -----
@@ -264,7 +276,16 @@ module.exports = function registerPublic(app, deps) {
 
   // ----- partners / gallery -----
   app.get('/doi-tac.html', (req, res) => {
-    res.render('doi-tac', { root: '', ...commonLocals(), homepage: sd.getHomepage(), partners: readJSON('partners').items });
+    const partners = sd.getPartners().items.filter((p) => p.published);
+    const page = sd.getPartnersPage();
+    res.render('doi-tac', {
+      root: '',
+      ...commonLocals(),
+      page,
+      partners,
+      featured: partners.find((p) => p.featured) || partners[0] || null,
+      cats: page.categories.split(/\n+/).map((s) => s.trim()).filter(Boolean)
+    });
   });
 
   app.get('/thu-vien.html', (req, res) => {

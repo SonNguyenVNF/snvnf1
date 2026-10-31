@@ -217,6 +217,107 @@
       readFilters(); render();
     });
 
+    /* ---- back to top ---- */
+    var fab = $('#fabTop');
+    if(fab) fab.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+
+    /* ---- count-up numbers (counts again each time they scroll into view) ---- */
+    $$('[data-count]').forEach(function(el){
+      var raw = el.getAttribute('data-count') || el.textContent;
+      var m = /^(\D*)([\d.,]+)(.*)$/.exec(raw);
+      if(!m) return;
+      var pre = m[1], num = parseFloat(m[2].replace(/,/g, '')), post = m[3], thousands = m[2].indexOf(',') !== -1;
+      if(isNaN(num)) return;
+      function fmt(n){ n = Math.round(n); return pre + (thousands ? n.toLocaleString('en-US') : n) + post; }
+      var running = false;
+      function run(){
+        if(running) return; running = true;
+        if(reduce){ el.textContent = raw; return; }
+        var t0 = null, dur = 1600;
+        function step(t){ if(t0 === null) t0 = t; var p = Math.min(1, (t - t0) / dur); el.textContent = fmt(num * (1 - Math.pow(1 - p, 3))); if(p < 1) requestAnimationFrame(step); else el.textContent = raw; }
+        requestAnimationFrame(step);
+      }
+      if('IntersectionObserver' in window){
+        new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) run(); else { running = false; } }); }, { threshold: 0.4 }).observe(el);
+      } else { el.textContent = raw; }
+    });
+
+    /* ---- typewriter (chairman message) ---- */
+    $$('[data-typing]').forEach(function(box){
+      if(reduce || !('IntersectionObserver' in window)) return;
+      var nodes = $$('p', box), full = nodes.map(function(p){ return p.textContent; }), done = false;
+      function type(){
+        if(done) return; done = true;
+        nodes.forEach(function(p){ p.textContent = ''; });
+        var i = 0, pos = 0;
+        (function tick(){
+          if(i >= nodes.length) return;
+          pos += 3; nodes[i].textContent = full[i].slice(0, pos);
+          if(pos >= full[i].length){ nodes[i].textContent = full[i]; i++; pos = 0; setTimeout(tick, 120); } else setTimeout(tick, 18);
+        })();
+      }
+      nodes.forEach(function(p){ p.style.minHeight = p.offsetHeight + 'px'; });
+      new IntersectionObserver(function(es, ob){ es.forEach(function(e){ if(e.isIntersecting){ type(); ob.disconnect(); } }); }, { threshold: 0.3 }).observe(box);
+    });
+
+    /* ---- image gallery: click a thumbnail to swap it with the big picture ---- */
+    $$('[data-gal]').forEach(function(g){
+      var big = $('.pm-big img', g);
+      if(!big) return;
+      $$('.pm-th', g).forEach(function(b){
+        b.addEventListener('click', function(){
+          var t = $('img', b), a = big.getAttribute('src');
+          big.setAttribute('src', t.getAttribute('src')); t.setAttribute('src', a);
+        });
+      });
+    });
+
+    /* ---- partners: category chips, paging, detail pop-up ---- */
+    $$('[data-ptlist]').forEach(function(box){
+      var per = parseInt(box.getAttribute('data-per'), 10) || 8, cat = '', page = 0;
+      var cards = $$('[data-item]', box), pager = $('.pt-pager', box), empty = $('[data-empty]', box);
+      function render(){
+        var shown = cards.filter(function(c){ return !cat || c.getAttribute('data-cat') === cat; });
+        var pages = Math.max(1, Math.ceil(shown.length / per));
+        if(page >= pages) page = 0;
+        cards.forEach(function(c){ c.style.display = 'none'; });
+        shown.forEach(function(c, i){ if(i >= page * per && i < (page + 1) * per) c.style.display = ''; });
+        if(empty) empty.style.display = shown.length ? 'none' : '';
+        if(pager){
+          pager.innerHTML = '';
+          if(pages > 1) for(var i = 0; i < pages; i++){ (function(i){ var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Trang ' + (i + 1)); if(i === page) b.className = 'on'; b.addEventListener('click', function(){ page = i; render(); }); pager.appendChild(b); })(i); }
+        }
+      }
+      var chips = $$('.chip', box);
+      chips.forEach(function(c){ c.addEventListener('click', function(){ chips.forEach(function(x){ x.classList.toggle('on', x === c); }); cat = c.getAttribute('data-chip') || ''; page = 0; render(); }); });
+      render();
+    });
+    function closeModal(m){ m.hidden = true; document.body.classList.remove('modal-open'); }
+    $$('[data-pmodal]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var m = document.getElementById('pm-' + b.getAttribute('data-pmodal'));
+        if(!m) return;
+        m.hidden = false; document.body.classList.add('modal-open');
+      });
+    });
+    $$('.pmodal').forEach(function(m){
+      m.addEventListener('click', function(e){ if(e.target === m || e.target.classList.contains('pm-x')) closeModal(m); });
+    });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') $$('.pmodal').forEach(function(m){ if(!m.hidden) closeModal(m); }); });
+
+    /* ---- recruitment video: poster turns into the player when clicked ---- */
+    $$('.jvideo').forEach(function(box){
+      var btn = $('.jbtn', box);
+      if(!btn) return;
+      btn.addEventListener('click', function(){
+        var src = box.getAttribute('data-video'), yt = box.getAttribute('data-yt') === '1', el;
+        if(yt){ el = document.createElement('iframe'); el.src = src; el.allow = 'autoplay; encrypted-media; fullscreen'; el.allowFullscreen = true; }
+        else { el = document.createElement('video'); el.src = src; el.controls = true; el.autoplay = true; el.playsInline = true; }
+        var img = $('img', box); box.style.aspectRatio = img ? (img.naturalWidth + '/' + img.naturalHeight) : '16/9';
+        box.innerHTML = ''; box.appendChild(el); box.style.cursor = 'default';
+      });
+    });
+
     /* ---- sidebar option search (jobs) ---- */
     $$('[data-optsearch]').forEach(function(inp){
       inp.addEventListener('input', function(){

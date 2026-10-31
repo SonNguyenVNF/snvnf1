@@ -60,6 +60,7 @@ const IMAGE_SLOTS = [
   { key: 'map', label: 'Trang chủ — ảnh bản đồ phía trên chân trang', def: 'assets/img/map.jpg' },
   { key: 'footerBg', label: 'Chân trang — ảnh nền (phủ màu xanh)', def: 'assets/img/footer-bg.jpg' },
   { key: 'jobsBg', label: 'Trang Tuyển dụng — ảnh nền dải xanh đầu trang', def: 'assets/img/jobs-bg.jpg' },
+  { key: 'jobVideoPoster', label: 'Tuyển dụng — ảnh bìa clip tuyển dụng (cột phải trang chi tiết)', def: 'assets/img/job-video.jpg' },
   { key: 'chairBg', label: 'Về chúng tôi — ảnh nền phần Chủ tịch (phủ màu xanh)', def: 'assets/img/jobs-bg.jpg' },
   { key: 'strategyBg', label: 'Về chúng tôi — ảnh nền phần Tầm nhìn chiến lược (bên phải)', def: 'assets/img/strategy-bg.jpg' },
   { key: 'chairman', label: 'Về chúng tôi — ảnh Chủ tịch HĐQT', def: 'assets/img/chairman.png' },
@@ -129,6 +130,7 @@ const HOMEPAGE_DEFAULTS = {
   heroWordGap: '0.2',
   heroStartDelay: '0.2',
   heroSlideSeconds: '8',
+  mapQuery: '',
   heroBtn1: 'Khám phá hệ sinh thái',
   heroBtn2: 'Về Synetic Group',
   introTitle: 'SYNETIC GROUP',
@@ -170,23 +172,63 @@ function getHomepage() {
 const RECRUIT_DEFAULTS = {
   heroTitle: 'XÂY DỰNG THƯƠNG HIỆU BẰNG KẾT QUẢ',
   heroSub: 'KHẲNG ĐỊNH GIÁ TRỊ BẰNG CON NGƯỜI',
-  heroText: 'Synetic không ngừng khẳng định vị thế bằng những thành tựu rõ ràng và khác biệt.\nTự hào đồng hành cùng người chăn nuôi, đối tác và nhà đầu tư với hệ sinh thái giải pháp trọn vẹn từ dinh dưỡng, thú y, logistics đến tài chính.',
+  heroText: 'Synetic không ngừng khẳng định vị thế bằng những thành tựu rõ ràng và khác biệt.\nTự hào mang tới quý khách hàng, quý nhà đầu tư đa dạng lựa chọn về các sản phẩm, phù hợp với nhu cầu thực tế và mục tiêu tài chính của quý khách với thành công tuyệt đối.',
   stats: [
-    { value: '100+', text: 'Dự án, điểm phân phối triển khai thành công trên toàn quốc' },
-    { value: '30+', text: 'Đối tác, nhà đầu tư uy tín lựa chọn đồng hành chiến lược' },
-    { value: '250+', text: 'Nhân sự chuyên nghiệp hoạt động theo hệ thống bài bản, hiệu quả và bền vững' }
+    { value: '100+', text: 'Dự án đã phân phối thành công tại các thị trường trọng điểm trên toàn quốc.' },
+    { value: '30+', text: 'Chủ đầu tư uy tín lựa chọn đồng hành phân phối chiến lược' },
+    { value: '250+', text: 'Nhân sự chuyên nghiệp hoạt động theo hệ thống bài bản hiệu quả và bền vững' }
   ],
-  heroText2: 'Không chỉ sở hữu quy mô nhân sự lớn, Synetic còn tiên phong xây dựng đội ngũ chuyên gia am hiểu thị trường.\nMỗi chuyên viên không đơn thuần là người tư vấn, mà là người đồng hành tin cậy, với kiến thức chuyên môn sâu và khả năng xây dựng lòng tin bền vững từ khách hàng.',
+  heroText2: 'Không chỉ sở hữu quy mô nhân sự lớn, Synetic còn tiên phong trong chiến lược phát triển đội ngũ theo hướng KOC - KOLs hóa.\nMỗi chuyên viên không đơn thuần là người tư vấn, mà là một người dẫn dắt thị trường, một gương mặt có sức ảnh hưởng thực sự trong lĩnh vực với khả năng am hiểu sâu thị trường, truyền thông mạnh mẽ và xây dựng lòng tin vững chắc từ khách hàng.',
+  videoUrl: '',
   whyTitle: 'VÌ SAO BẠN NÊN LỰA CHỌN',
   whyHighlight: 'SYNETIC GROUP',
   whyItems: [
-    { title: 'Danh tiếng công ty', text: 'Tầm vóc và danh tiếng của một hệ sinh thái doanh nghiệp đa lĩnh vực, góp phần xây dựng giá trị lâu dài cho từng cá nhân.' },
-    { title: 'Lãnh đạo khai mở', text: 'Đội ngũ lãnh đạo là những người dẫn dắt bằng tầm nhìn, đào tạo và phát triển con người bằng sự tận tâm.' },
-    { title: 'Chế độ đãi ngộ', text: 'Chính sách lương, thưởng, phúc lợi hấp dẫn, giữ chân hiền tài, đánh giá và ghi nhận xứng đáng với năng lực và kết quả đóng góp.' },
-    { title: 'Văn hóa môi trường', text: 'Xây dựng môi trường làm việc chuyên nghiệp, đề cao Giá trị cốt lõi của Synetic để gắn kết và thúc đẩy kinh doanh.' },
-    { title: 'Cơ hội phát triển', text: 'Lộ trình thăng tiến rõ ràng, được đào tạo bài bản qua Học viện Synetic và tham gia các dự án quy mô lớn của Tập đoàn.' }
+    { title: 'Danh tiếng công ty', text: 'Tầm vóc và danh tiếng doanh nghiệp được lan tỏa không chỉ ở nội bộ mà còn ghi dấu trên cả thị trường lao động và thị trường kinh doanh, đóng góp lâu dài cho cộng đồng ...' },
+    { title: 'Lãnh đạo khai mở', text: 'Đội ngũ lãnh đạo và quản lý tại SYNETIC là những người dẫn đầu tâm gương mẫu, đào tạo và phát triển con người Trung Thực Land nhờ Tín, Tâm, Nhân, Trí, Kiên ...' },
+    { title: 'Chế độ đãi ngộ', text: 'Hoạt động và chính sách Lương, Thưởng, Phúc Lợi của Synetic Group hướng tới thu hút và giữ chân Hiền tài, đánh giá và ghi nhận xứng đáng với năng lực và kết quả đóng góp ...' },
+    { title: 'Văn hóa môi trường', text: 'Công tác xây dựng tư tưởng và bồi dưỡng văn hóa, kiên định với Triết lý và các Giá trị của SYNETIC để giữ chân hiền tài, thúc đẩy kinh doanh và liên kết tổ chức.' },
+    { title: 'Cơ hội phát triển', text: 'Hoạt động và chính sách Lương, Thưởng, Phúc Lợi của Synetic Group hướng tới thu hút và giữ chân Hiền tài, đánh giá và ghi nhận xứng đáng với năng lực và kết quả đóng góp ...' }
   ]
 };
+
+// ---------- partners page ----------
+
+const PARTNERS_PAGE_DEFAULTS = {
+  title: 'ĐỐI TÁC CHIẾN LƯỢC',
+  sub: 'Mạng lưới đối tác toàn cầu',
+  headline: 'ĐỒNG HÀNH KIẾN TẠO GIÁ TRỊ BỀN VỮNG',
+  listTitle: 'DANH SÁCH ĐỐI TÁC',
+  categories: 'Sản xuất & Thương mại\nCông nghệ\nTài chính\nXây dựng',
+  stats: [
+    { value: '100+', text: 'Đối tác tin cậy' },
+    { value: '15+', text: 'Quốc gia' },
+    { value: '500+', text: 'Dự án thành công' }
+  ]
+};
+
+function getPartnersPage() {
+  let raw = {};
+  try { raw = readJSON('partners-page'); } catch (e) { raw = {}; }
+  const out = Object.assign({}, PARTNERS_PAGE_DEFAULTS);
+  ['title', 'sub', 'headline', 'listTitle', 'categories'].forEach((k) => { if (typeof raw[k] === 'string' && raw[k].trim()) out[k] = raw[k]; });
+  if (Array.isArray(raw.stats) && raw.stats.length) out.stats = raw.stats;
+  return out;
+}
+
+// partners saved by an older version only have name / logo / url
+function getPartners() {
+  const data = readJSON('partners');
+  let dirty = false;
+  data.items.forEach((p) => {
+    if (typeof p.category !== 'string') { p.category = ''; dirty = true; }
+    ['summary', 'intro', 'bullets', 'quote', 'quoteBy', 'website', 'fanpage', 'modalTitle'].forEach((k) => { if (typeof p[k] !== 'string') { p[k] = k === 'website' ? (p.url || '') : ''; dirty = true; } });
+    if (!Array.isArray(p.images)) { p.images = []; dirty = true; }
+    if (typeof p.featured !== 'boolean') { p.featured = false; dirty = true; }
+    if (typeof p.published !== 'boolean') { p.published = true; dirty = true; }
+  });
+  if (dirty) writeJSON('partners', data);
+  return data;
+}
 
 function getRecruit() {
   const raw = readJSON('recruit');
@@ -282,6 +324,7 @@ module.exports = {
   esc, renderInline, renderRich, formatDateVi, paragraphs,
   IMAGE_SLOTS, getSiteImages, getFooter, FOOTER_DEFAULTS,
   HOMEPAGE_DEFAULTS, getHomepage, RECRUIT_DEFAULTS, getRecruit,
+  PARTNERS_PAGE_DEFAULTS, getPartnersPage, getPartners,
   NETWORK_DEFAULTS, getNetwork, getCoreValues, VALUES_NOTE_DEFAULT,
   getProjects, getJobs
 };

@@ -174,7 +174,10 @@ function commonLocals() {
   return {
     siteImages: sd.getSiteImages(),
     footer: sd.getFooter(),
-    members: getMembersData().items.filter((m) => m.published).map((m) => (m.logo === 'assets/logos/vinafeed-logo.jpg' ? Object.assign({}, m, { logo: null }) : m))
+    members: getMembersData().items.filter((m) => m.published).map((m) => {
+      const own = m.logo && m.logo !== 'assets/logos/vinafeed-logo.jpg' ? m.logo : null;
+      return Object.assign({}, m, { logo: own || ('assets/img/logo-m-' + m.slug + '.png') });
+    })
   };
 }
 
@@ -424,6 +427,8 @@ adminRouter.post('/tin-tuc/new', (req, res) => {
       publishedAt: req.body.publishedAt || todayStr(),
       category: req.body.category === 'thi-truong' ? 'thi-truong' : 'noi-bo',
       featured: req.body.featured === '1',
+      sourceUrl: (req.body.sourceUrl || '').trim(),
+      galleryCaption: (req.body.galleryCaption || '').trim(),
       published: req.body.published === '1'
     });
     writeJSON('news', news);
@@ -460,6 +465,8 @@ adminRouter.post('/tin-tuc/:id/edit', (req, res) => {
     item.publishedAt = req.body.publishedAt || item.publishedAt;
     item.category = req.body.category === 'thi-truong' ? 'thi-truong' : 'noi-bo';
     item.featured = req.body.featured === '1';
+    item.sourceUrl = (req.body.sourceUrl || '').trim();
+    item.galleryCaption = (req.body.galleryCaption || '').trim();
     item.published = req.body.published === '1';
 
     const coverFile = req.files && req.files.image && req.files.image[0];
@@ -499,86 +506,6 @@ adminRouter.post('/tin-tuc/:id/delete', auth.verifyCsrf, (req, res) => {
     writeJSON('news', news);
   }
   res.redirect('/admin/tin-tuc');
-});
-
-// ---------- Admin: Đối tác ----------
-
-adminRouter.get('/doi-tac-khach-hang', (req, res) => {
-  const partners = readJSON('partners');
-  res.render('admin/partners-list', { items: partners.items, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.get('/doi-tac-khach-hang/new', (req, res) => {
-  res.render('admin/partners-form', { item: null, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/doi-tac-khach-hang/new', (req, res) => {
-  partnersUpload.single('logo')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/partners-form', { item: null, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const name = (req.body.name || '').trim();
-    if (!name) {
-      return res.status(400).render('admin/partners-form', { item: null, error: 'Vui lòng nhập tên đối tác.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    const partners = readJSON('partners');
-    partners.items.push({
-      id: Date.now().toString(),
-      name,
-      url: (req.body.url || '').trim(),
-      logo: req.file ? publicPathFor('partners', req.file.filename) : null
-    });
-    writeJSON('partners', partners);
-    res.redirect('/admin/doi-tac-khach-hang');
-  });
-});
-
-adminRouter.get('/doi-tac-khach-hang/:id/edit', (req, res) => {
-  const partners = readJSON('partners');
-  const item = partners.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/doi-tac-khach-hang');
-  res.render('admin/partners-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
-});
-
-adminRouter.post('/doi-tac-khach-hang/:id/edit', (req, res) => {
-  const partners = readJSON('partners');
-  const item = partners.items.find((i) => i.id === req.params.id);
-  if (!item) return res.redirect('/admin/doi-tac-khach-hang');
-
-  partnersUpload.single('logo')(req, res, (err) => {
-    if (err) {
-      return res.status(400).render('admin/partners-form', { item, error: err.message, csrfToken: auth.ensureCsrfToken(req) });
-    }
-    if (!auth.csrfOk(req)) {
-      return res.status(403).send('Phiên làm việc đã hết hạn, vui lòng tải lại trang và thử lại.');
-    }
-    const name = (req.body.name || '').trim();
-    if (!name) {
-      return res.status(400).render('admin/partners-form', { item, error: 'Vui lòng nhập tên đối tác.', csrfToken: auth.ensureCsrfToken(req) });
-    }
-    item.name = name;
-    item.url = (req.body.url || '').trim();
-    if (req.file) {
-      deleteUploadedFile(item.logo);
-      item.logo = publicPathFor('partners', req.file.filename);
-    }
-    writeJSON('partners', partners);
-    res.redirect('/admin/doi-tac-khach-hang');
-  });
-});
-
-adminRouter.post('/doi-tac-khach-hang/:id/delete', auth.verifyCsrf, (req, res) => {
-  const partners = readJSON('partners');
-  const item = partners.items.find((i) => i.id === req.params.id);
-  if (item) {
-    deleteUploadedFile(item.logo);
-    partners.items = partners.items.filter((i) => i.id !== req.params.id);
-    writeJSON('partners', partners);
-  }
-  res.redirect('/admin/doi-tac-khach-hang');
 });
 
 // ---------- Admin: Nội dung trang Về Synetic ----------

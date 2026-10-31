@@ -31,6 +31,7 @@
       </div>
       <% } %>
 
+      <div class="admin-field"><label for="videoUrl">Clip tuyển dụng (cột phải trang chi tiết vị trí): dán link YouTube hoặc file .mp4. Ảnh bìa đổi ở "Ảnh cố định". Để trống = ẩn khung clip.</label><input type="text" id="videoUrl" name="videoUrl" value="<%= r.videoUrl || '' %>" placeholder="https://www.youtube.com/watch?v=..."></div>
       <div class="admin-field"><label for="heroText2">Đoạn chữ phía dưới khung số (mỗi dòng là 1 đoạn)</label><textarea id="heroText2" name="heroText2" rows="4"><%= r.heroText2 %></textarea></div>
 
       <h3 style="margin:22px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Mục "Vì sao bạn nên lựa chọn"</h3>

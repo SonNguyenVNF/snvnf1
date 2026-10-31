@@ -10,7 +10,7 @@
   <h3><%= recruit.heroSub %></h3>
   <% recruit.heroText.split(/\n+/).forEach(function(l) { %><p><%= l %></p><% }); %>
   <div class="j-stats">
-    <% recruit.stats.forEach(function(s) { %><div><b><%= s.value %></b><span><%= s.text %></span></div>
+    <% recruit.stats.forEach(function(s) { %><div><b data-count="<%= s.value %>"><%= s.value %></b><span><%= s.text %></span></div>
     <% }); %>
   </div>
   <% recruit.heroText2.split(/\n+/).forEach(function(l) { %><p><%= l %></p><% }); %>

@@ -10,7 +10,19 @@
     <% if (item.location) { %><p class="jd-addr"><%= item.location %></p><% } %>
     <div class="jd-body rich"><%- renderRich(item.body) %></div>
   </div>
-  <%- include('partials/job-side', { root: root, departments: departments, locations: locations, asForm: true }) %>
+  <div>
+    <%- include('partials/job-side', { root: root, departments: departments, locations: locations, asForm: true }) %>
+    <% if (recruit.videoUrl) {
+      var yt = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/.exec(recruit.videoUrl);
+      var src = yt ? 'https://www.youtube.com/embed/' + yt[1] + '?autoplay=1&rel=0' : recruit.videoUrl;
+      var custom = siteImages.jobVideoPoster !== 'assets/img/job-video.jpg'; %>
+    <div class="jvideo" data-video="<%= src %>" data-yt="<%= yt ? '1' : '0' %>">
+      <img src="<%= root %><%= siteImages.jobVideoPoster %>" alt="Clip tuyển dụng Synetic" loading="lazy">
+      <% if (custom) { %><span class="jplay" aria-hidden="true"></span><% } %>
+      <button type="button" class="jbtn" aria-label="Phát clip tuyển dụng"></button>
+    </div>
+    <% } %>
+  </div>
 </div></main>
 
 <%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>

@@ -29,6 +29,99 @@ module.exports = function registerAdminExtra(adminRouter) {
     return false;
   }
 
+  // ---------- Đối tác ----------
+  const partnersUpload = createUploader('partners');
+  const partnerFields = [{ name: 'logo', maxCount: 1 }, { name: 'images', maxCount: 12 }];
+  const renderPartnerForm = (res, req, item, error, status) =>
+    res.status(status || 200).render('admin/partners-form', { item, error, csrfToken: csrf(req) });
+  const partnerPayload = (req) => ({
+    name: one(req.body.name),
+    category: one(req.body.category),
+    summary: one(req.body.summary),
+    modalTitle: one(req.body.modalTitle),
+    intro: clean(req.body.intro),
+    bullets: clean(req.body.bullets),
+    quote: one(req.body.quote),
+    quoteBy: one(req.body.quoteBy),
+    website: one(req.body.website),
+    fanpage: one(req.body.fanpage),
+    featured: req.body.featured === '1',
+    published: req.body.published === '1'
+  });
+  adminRouter.get('/doi-tac-khach-hang', (req, res) => {
+    res.render('admin/partners-list', { items: sd.getPartners().items, csrfToken: csrf(req) });
+  });
+  adminRouter.get('/doi-tac-khach-hang/new', (req, res) => renderPartnerForm(res, req, null, null));
+  adminRouter.post('/doi-tac-khach-hang/new', (req, res) => {
+    partnersUpload.fields(partnerFields)(req, res, (err) => {
+      if (err) return renderPartnerForm(res, req, null, err.message, 400);
+      if (!auth.csrfOk(req)) return expired(res);
+      const p = partnerPayload(req);
+      if (!p.name) return renderPartnerForm(res, req, null, 'Vui lòng nhập tên đối tác.', 400);
+      const data = sd.getPartners();
+      if (p.featured) data.items.forEach((i) => { i.featured = false; });
+      const logo = fileOf(req, 'logo');
+      data.items.push(Object.assign({ id: Date.now().toString(), logo: logo ? publicPathFor('partners', logo.filename) : null, images: filesOf(req, 'images').map((f) => publicPathFor('partners', f.filename)) }, p));
+      writeJSON('partners', data);
+      res.redirect('/admin/doi-tac-khach-hang');
+    });
+  });
+  adminRouter.get('/doi-tac-khach-hang/:id/edit', (req, res) => {
+    const item = sd.getPartners().items.find((i) => i.id === req.params.id);
+    if (!item) return res.redirect('/admin/doi-tac-khach-hang');
+    renderPartnerForm(res, req, item, null);
+  });
+  adminRouter.post('/doi-tac-khach-hang/:id/edit', (req, res) => {
+    const data = sd.getPartners();
+    const item = data.items.find((i) => i.id === req.params.id);
+    if (!item) return res.redirect('/admin/doi-tac-khach-hang');
+    partnersUpload.fields(partnerFields)(req, res, (err) => {
+      if (err) return renderPartnerForm(res, req, item, err.message, 400);
+      if (!auth.csrfOk(req)) return expired(res);
+      const p = partnerPayload(req);
+      if (!p.name) return renderPartnerForm(res, req, item, 'Vui lòng nhập tên đối tác.', 400);
+      if (p.featured) data.items.forEach((i) => { i.featured = false; });
+      Object.assign(item, p);
+      const logo = fileOf(req, 'logo');
+      if (logo) { deleteUploadedFile(item.logo); item.logo = publicPathFor('partners', logo.filename); }
+      const remove = new Set(arr(req.body.removeImages));
+      item.images = (item.images || []).filter((x) => { if (remove.has(x)) { deleteUploadedFile(x); return false; } return true; });
+      filesOf(req, 'images').forEach((f) => item.images.push(publicPathFor('partners', f.filename)));
+      writeJSON('partners', data);
+      res.redirect('/admin/doi-tac-khach-hang');
+    });
+  });
+  adminRouter.post('/doi-tac-khach-hang/:id/delete', auth.verifyCsrf, (req, res) => {
+    const data = sd.getPartners();
+    const item = data.items.find((i) => i.id === req.params.id);
+    if (item) {
+      deleteUploadedFile(item.logo);
+      (item.images || []).forEach(deleteUploadedFile);
+      data.items = data.items.filter((i) => i.id !== req.params.id);
+      writeJSON('partners', data);
+    }
+    res.redirect('/admin/doi-tac-khach-hang');
+  });
+  adminRouter.post('/doi-tac-khach-hang/:id/move', auth.verifyCsrf, (req, res) => {
+    const data = sd.getPartners();
+    if (moveItem(data.items, req.params.id, req.body.direction)) writeJSON('partners', data);
+    res.redirect('/admin/doi-tac-khach-hang');
+  });
+
+  // ---------- Chữ trang Đối tác ----------
+  adminRouter.get('/trang-doi-tac', (req, res) => {
+    res.render('admin/partners-page-form', { p: sd.getPartnersPage(), csrfToken: csrf(req), saved: req.query.saved === '1' });
+  });
+  adminRouter.post('/trang-doi-tac', auth.verifyCsrf, (req, res) => {
+    const vals = arr(req.body.statValue), txts = arr(req.body.statText);
+    writeJSON('partners-page', {
+      title: one(req.body.title), sub: one(req.body.sub), headline: one(req.body.headline), listTitle: one(req.body.listTitle),
+      categories: clean(req.body.categories),
+      stats: vals.map((v, i) => ({ value: one(v), text: one(txts[i]) })).filter((s) => s.value)
+    });
+    res.redirect('/admin/trang-doi-tac?saved=1');
+  });
+
   // ---------- Dự án ----------
   const projectFields = [{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 12 }];
   const renderProjectForm = (res, req, item, error, status) =>
@@ -372,11 +465,11 @@ module.exports = function registerAdminExtra(adminRouter) {
 
   // ---------- Nhập nội dung mẫu theo thiết kế ----------
   adminRouter.get('/nhap-mau', (req, res) => {
-    res.render('admin/demo-import', { csrfToken: csrf(req), done: req.query.done === '1', counts: { news: req.query.news || 0, projects: req.query.projects || 0, jobs: req.query.jobs || 0, hero: req.query.hero || 0 } });
+    res.render('admin/demo-import', { csrfToken: csrf(req), done: req.query.done === '1', counts: { news: req.query.news || 0, projects: req.query.projects || 0, jobs: req.query.jobs || 0, hero: req.query.hero || 0, partners: req.query.partners || 0 } });
   });
   adminRouter.post('/nhap-mau', auth.verifyCsrf, (req, res) => {
     const c = require('./demo-content').importDemo();
-    res.redirect('/admin/nhap-mau?done=1&news=' + c.news + '&projects=' + c.projects + '&jobs=' + c.jobs + '&hero=' + c.hero);
+    res.redirect('/admin/nhap-mau?done=1&news=' + c.news + '&projects=' + c.projects + '&jobs=' + c.jobs + '&hero=' + c.hero + '&partners=' + c.partners);
   });
 
   // ---------- Tin nhắn liên hệ (form chân trang) ----------
@@ -429,6 +522,7 @@ module.exports = function registerAdminExtra(adminRouter) {
   });
   adminRouter.post('/noi-dung-trang-chu', auth.verifyCsrf, (req, res) => {
     const homepage = readJSON('homepage');
+    homepage.mapQuery = one(req.body.mapQuery);
     homeKeys.forEach((k) => { homepage[k] = clean(req.body[k]); });
     const num = (v, min, max, def) => { const n = parseFloat(String(v).replace(',', '.')); return String(n >= min && n <= max ? n : def); };
     homepage.heroAnimEvery = req.body.heroAnimEvery === '1' ? '1' : '0';
@@ -454,6 +548,7 @@ module.exports = function registerAdminExtra(adminRouter) {
       heroSub: one(req.body.heroSub),
       heroText: clean(req.body.heroText),
       heroText2: clean(req.body.heroText2),
+      videoUrl: one(req.body.videoUrl),
       whyTitle: one(req.body.whyTitle),
       whyHighlight: one(req.body.whyHighlight),
       stats: pairs('statValue', 'statText', 'value', 'text'),

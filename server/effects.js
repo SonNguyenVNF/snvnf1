@@ -54,8 +54,9 @@ const SECTIONS = [
   { key: 'job-why', label: 'Vì sao bạn nên lựa chọn Synetic', group: 'Tuyển dụng', kids: '.why-grid > div', def: 'up' },
   { key: 'job-detail', label: 'Trang chi tiết tuyển dụng', group: 'Tuyển dụng', def: 'up' },
 
-  { key: 'partners-cats', label: '4 nhóm đối tác', group: 'Đối tác', kids: '.pt-cat', def: 'up' },
-  { key: 'partners-logos', label: 'Logo đối tác', group: 'Đối tác', kids: '.pt-logo', def: 'up' },
+  { key: 'partners-feature', label: 'Khung đối tác tiêu biểu (ảnh + chữ)', group: 'Đối tác', def: 'up' },
+  { key: 'partners-stats', label: 'Khung 3 con số', group: 'Đối tác', def: 'up' },
+  { key: 'partners-logos', label: 'Danh sách thẻ đối tác', group: 'Đối tác', kids: '.pt-card', def: 'up' },
 
   { key: 'footer', label: 'Chân trang (form liên hệ)', group: 'Toàn website', def: 'none' }
 ];

@@ -1,27 +1,86 @@
 <!DOCTYPE html>
 <html lang="vi"><head><%- include('partials/head', { title: 'Đối tác — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
-<body class="t-blue">
+<body class="t-green">
 <%- include('partials/header', { root: root, active: 'doi-tac', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: 'ĐỐI TÁC', siteImages: siteImages }) %>
+<%
+function lines(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n+/).map(function(x) { return x.trim(); }).filter(Boolean); }
+function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/).map(function(x) { return x.trim(); }).filter(Boolean); }
+%>
+<main class="pt-main"><div class="wrap">
+  <header class="pt-head">
+    <h2><%= page.title %></h2>
+    <p><%= page.sub %></p>
+    <h3><%= page.headline %></h3>
+  </header>
 
-<main><div class="wrap">
-  <p class="center" style="padding-top:clamp(28px,3vw,44px);color:var(--navy);font-weight:500"><%= homepage.partnersText %></p>
-  <div class="pt-cats"<%- fx('partners-cats') %>>
-    <% var picons = ['ico-farm', 'ico-hub', 'ico-truck', 'ico-money']; homepage.partnerItems.forEach(function(p, i) { %>
-    <div class="pt-cat"><img class="pico" src="<%= root %>assets/img/<%= picons[i % 4] %>.png" alt="" loading="lazy"><h3><%= p.title %></h3><p><%= p.text %></p></div>
-    <% }); %>
-  </div>
-  <p class="center" style="color:#555;font-size:14px;padding-bottom:30px"><%= homepage.partnersClosing %></p>
-  <% if (partners.length) { %>
-  <div class="pt-logos"<%- fx('partners-logos') %>>
-    <% partners.forEach(function(p) { %>
-    <% if (p.url) { %><a class="pt-logo" href="<%= p.url %>" target="_blank" rel="noopener"><% } else { %><div class="pt-logo"><% } %>
-      <% if (p.logo) { %><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>" loading="lazy"><% } else { %><span><%= p.name %></span><% } %>
-    <% if (p.url) { %></a><% } else { %></div><% } %>
-    <% }); %>
-  </div>
+  <% if (featured) { %>
+  <section class="pt-feature"<%- fx('partners-feature') %>>
+    <div class="pt-fimg"><% var fi = (featured.images && featured.images[0]) || featured.logo; %><% if (fi) { %><img src="<%= root %><%= fi %>" alt="<%= featured.name %>"><% } %><% if (featured.modalTitle || featured.name) { %><span class="cap"><%= (featured.images && featured.images.length) ? (featured.imageCaption || '') : '' %></span><% } %></div>
+    <div class="pt-fcard">
+      <h3><%= featured.modalTitle || featured.name %></h3>
+      <p><%= featured.summary %></p>
+      <% if (lines(featured.bullets).length) { %><p class="lead">Các hạng mục hợp tác trọng tâm:</p>
+      <ul class="chk"><% lines(featured.bullets).forEach(function(b) { %><li><%= b %></li><% }); %></ul><% } %>
+      <button class="btn btn-gold btn-lg" type="button" data-pmodal="<%= featured.id %>">Xem chi tiết <span aria-hidden="true">↗</span></button>
+    </div>
+  </section>
   <% } %>
+
+  <section class="pt-stats"<%- fx('partners-stats') %>>
+    <% page.stats.forEach(function(s) { %><div><b data-count="<%= s.value %>"><%= s.value %></b><span><%= s.text %></span></div>
+    <% }); %>
+  </section>
+
+  <section class="pt-list" data-ptlist data-per="8">
+    <h2><%= page.listTitle %></h2>
+    <div class="pt-chips" role="tablist">
+      <button class="chip on" type="button" data-chip="">Tất cả</button>
+      <% cats.forEach(function(c) { %><button class="chip" type="button" data-chip="<%= c %>"><%= c %></button>
+      <% }); %>
+    </div>
+    <div class="pt-grid"<%- fx('partners-logos') %>>
+      <% partners.forEach(function(p) { %>
+      <article class="pt-card" data-item data-cat="<%= p.category %>">
+        <div class="pt-logo"><% if (p.logo) { %><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>" loading="lazy"><% } else { %><span><%= p.name %></span><% } %></div>
+        <h3><%= p.name %></h3>
+        <% if (p.category) { %><span class="pill"><%= p.category %></span><% } %>
+        <p><%= p.summary %></p>
+        <button class="btn btn-gold btn-block" type="button" data-pmodal="<%= p.id %>">Xem chi tiết</button>
+      </article>
+      <% }); %>
+      <p class="empty" data-empty style="display:none;grid-column:1/-1">Chưa có đối tác trong nhóm này.</p>
+    </div>
+    <div class="dots pt-pager"></div>
+  </section>
 </div></main>
+
+<% partners.forEach(function(p) { var imgs = (p.images || []).filter(Boolean); %>
+<div class="pmodal" id="pm-<%= p.id %>" role="dialog" aria-modal="true" aria-label="<%= p.name %>" hidden>
+  <div class="pm-box">
+    <button class="pm-x" type="button" aria-label="Đóng">×</button>
+    <div class="pm-grid">
+      <div class="pm-gal" data-gal>
+        <% if (imgs.length) { %>
+        <div class="pm-big"><img src="<%= root %><%= imgs[0] %>" alt="<%= p.name %>"></div>
+        <% if (imgs.length > 1) { %><div class="pm-thumbs"><div class="pm-tt"><% imgs.slice(1).forEach(function(s) { %><button type="button" class="pm-th"><img src="<%= root %><%= s %>" alt=""></button><% }); %></div></div><% } %>
+        <% } else if (p.logo) { %><div class="pm-big logo"><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>"></div><% } %>
+      </div>
+      <div class="pm-info">
+        <h2><%= p.modalTitle || p.name %></h2>
+        <% if (intro(p.intro).length) { %><h4>1.Giới thiệu Đối tác</h4>
+        <% intro(p.intro).forEach(function(par, i) { var ls = par.split('\n'); %><p><% if (i === 0 && ls.length > 1) { %><strong><%= ls[0] %></strong><br><%= ls.slice(1).join(' ') %><% } else { %><%= par %><% } %></p>
+        <% }); %><% } %>
+        <% if (lines(p.bullets).length) { %><h4>2.Nội dung hợp tác trọng tâm</h4>
+        <ul class="chk"><% lines(p.bullets).forEach(function(b) { %><li><%= b %></li><% }); %></ul><% } %>
+        <% if (p.quote) { %><blockquote><span class="qm">“</span><%= p.quote %><% if (p.quoteBy) { %><cite>- <%= p.quoteBy %></cite><% } %></blockquote><% } %>
+        <% if (p.website) { %><a class="btn btn-gold btn-block btn-lg" href="<%= p.website %>" target="_blank" rel="noopener">Truy cập Website Đối tác</a><% } %>
+        <% if (p.fanpage) { %><a class="btn btn-ghost btn-block btn-lg" href="<%= p.fanpage %>" target="_blank" rel="noopener">Xem bài viết trên Fanpage</a><% } %>
+      </div>
+    </div>
+  </div>
+</div>
+<% }); %>
 
 <%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>
 </body></html>

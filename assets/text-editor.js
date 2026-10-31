@@ -106,7 +106,7 @@
   function famCss(key){ for(var i = 0; i < cfg.families.length; i++) if(cfg.families[i].key === key) return cfg.families[i].css; return null; }
   function decl(r){
     var d = '';
-    var f = famCss(r.font); if(f) d += 'font-family:"' + f + '","Roboto",Arial,sans-serif!important;';
+    var f = famCss(r.font); if(f) d += 'font-family:"' + f + '","Montserrat",Arial,sans-serif!important;';
     if(r.size) d += 'font-size:' + r.size + 'px!important;';
     if(r.weight) d += 'font-weight:' + r.weight + '!important;';
     if(r.color) d += 'color:' + r.color + '!important;-webkit-text-fill-color:' + r.color + '!important;background:none!important;';

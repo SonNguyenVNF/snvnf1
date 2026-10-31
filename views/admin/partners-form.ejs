@@ -17,23 +17,50 @@
     <form method="POST" action="<%= item ? '/admin/doi-tac-khach-hang/' + item.id + '/edit' : '/admin/doi-tac-khach-hang/new' %>" enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-      <div class="admin-field">
-        <label for="name">Tên đối tác</label>
-        <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: Công ty TNHH ABC">
-      </div>
+      <div class="admin-field"><label for="name">Tên đối tác (chữ xanh trên thẻ)</label>
+        <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: VIETINBANK"></div>
+      <div class="admin-field"><label for="category">Nhóm (nhãn xám trên thẻ; trùng tên nhóm ở "Chữ trang Đối tác" thì lọc được)</label>
+        <input type="text" id="category" name="category" value="<%= item ? (item.category || '') : '' %>" placeholder="Ví dụ: Tài chính"></div>
+      <div class="admin-field"><label for="summary">Mô tả ngắn trên thẻ</label>
+        <textarea id="summary" name="summary" rows="3"><%= item ? (item.summary || '') : '' %></textarea></div>
 
-      <div class="admin-field">
-        <label for="url">Đường dẫn website đối tác (để trống nếu không có)</label>
-        <input type="text" id="url" name="url" value="<%= item ? (item.url || '') : '' %>" placeholder="https://...">
-      </div>
+      <div class="admin-field"><label for="logo">Logo</label>
+        <% if (item && item.logo) { %><div style="margin-bottom:10px"><img src="/<%= item.logo %>" alt="" style="max-width:200px;border-radius:8px;display:block;background:#f4f4f4"></div><% } %>
+        <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif"></div>
 
+      <h3 style="margin:22px 0 8px;padding-top:16px;border-top:1px solid #ECEAE3">Cửa sổ chi tiết (hiện khi khách bấm "Xem chi tiết")</h3>
+      <div class="admin-field"><label for="modalTitle">Tiêu đề (chữ xanh lớn)</label>
+        <input type="text" id="modalTitle" name="modalTitle" value="<%= item ? (item.modalTitle || '') : '' %>" placeholder="Ví dụ: DẤU ẤN HỢP TÁC CHIẾN LƯỢC SYNETIC & HÀ LAN"></div>
+      <div class="admin-field"><label for="intro">Giới thiệu đối tác</label>
+        <p class="hint">Dòng đầu là tên công ty (in đậm). Cách 1 dòng trống để tách đoạn.</p>
+        <textarea id="intro" name="intro" rows="5"><%= item ? (item.intro || '') : '' %></textarea></div>
+      <div class="admin-field"><label for="bullets">Nội dung hợp tác trọng tâm (mỗi dòng 1 ý, hiện dấu tích xanh)</label>
+        <textarea id="bullets" name="bullets" rows="4"><%= item ? (item.bullets || '') : '' %></textarea></div>
+      <div class="admin-field row2">
+        <div><label for="quote">Câu trích dẫn (khung xanh nhạt)</label><input type="text" id="quote" name="quote" value="<%= item ? (item.quote || '') : '' %>"></div>
+        <div><label for="quoteBy">Người nói</label><input type="text" id="quoteBy" name="quoteBy" value="<%= item ? (item.quoteBy || '') : '' %>" placeholder="Đại diện ban lãnh đạo."></div>
+      </div>
+      <div class="admin-field row2">
+        <div><label for="website">Website đối tác (nút cam "Truy cập Website Đối tác"; trống = ẩn nút)</label><input type="text" id="website" name="website" value="<%= item ? (item.website || '') : '' %>" placeholder="https://..."></div>
+        <div><label for="fanpage">Bài viết trên Fanpage (nút "Xem bài viết trên Fanpage"; trống = ẩn nút)</label><input type="text" id="fanpage" name="fanpage" value="<%= item ? (item.fanpage || '') : '' %>" placeholder="https://facebook.com/..."></div>
+      </div>
       <div class="admin-field">
-        <label for="logo">Logo</label>
-        <% if (item && item.logo) { %>
-          <div style="margin-bottom:10px"><img src="/<%= item.logo %>" alt="" style="max-width:160px;border-radius:8px;display:block"></div>
+        <label for="images">Ảnh trong cửa sổ chi tiết (ảnh đầu tiên là ảnh lớn; chọn được nhiều ảnh cùng lúc)</label>
+        <% if (item && item.images && item.images.length) { %>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+            <% item.images.forEach(function(img) { %>
+              <label style="display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:400">
+                <img src="/<%= img %>" alt="" style="width:100px;height:70px;object-fit:cover;border-radius:8px">
+                <span><input type="checkbox" name="removeImages" value="<%= img %>" style="width:auto"> Xoá</span>
+              </label>
+            <% }); %>
+          </div>
         <% } %>
-        <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif">
+        <input type="file" id="images" name="images" accept=".jpg,.jpeg,.png,.webp,.gif" multiple>
       </div>
+
+      <div class="admin-field"><label><input type="checkbox" name="featured" value="1" <%= (item && item.featured) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Là đối tác tiêu biểu (hiện ở khung lớn đầu trang Đối tác; chỉ 1 đối tác được chọn)</label></div>
+      <div class="admin-field"><label><input type="checkbox" name="published" value="1" <%= (!item || item.published) ? 'checked' : '' %> style="width:auto;margin-right:8px"> Hiển thị trên website</label></div>
 
       <button class="admin-btn" type="submit"><%= item ? 'Lưu thay đổi' : 'Thêm đối tác' %></button>
       <a class="admin-btn admin-btn-ghost" href="/admin/doi-tac-khach-hang" style="margin-left:8px">Huỷ</a>

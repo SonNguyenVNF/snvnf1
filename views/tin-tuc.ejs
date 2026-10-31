@@ -4,6 +4,10 @@
 <%- include('partials/header', { root: root, active: 'tin-tuc', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: 'TIN TỨC', siteImages: siteImages }) %>
 
+<%
+function lk(it) { return (it.category === 'thi-truong' && it.sourceUrl) ? it.sourceUrl : root + 'tin-tuc/' + it.slug + '.html'; }
+function tg(it) { return (it.category === 'thi-truong' && it.sourceUrl) ? ' target="_blank" rel="noopener"' : ''; }
+%>
 <main class="n-main"><div class="wrap">
   <% if (groups.length) { %>
   <h2 class="h-line">TIN TỨC THỊ TRƯỜNG</h2>
@@ -13,21 +17,21 @@
       <div class="car-item" style="--per:1;padding:6px 4px 12px"><div class="n-feature">
         <% var big = g[0]; %>
         <article class="n-big">
-          <a class="ni" href="<%= root %>tin-tuc/<%= big.slug %>.html"><% if (big.image) { %><img src="<%= root %><%= big.image %>" alt=""><% } %></a>
-          <h3><a href="<%= root %>tin-tuc/<%= big.slug %>.html"><%= big.title %></a></h3>
+          <a class="ni" href="<%= lk(big) %>"<%- tg(big) %>><% if (big.image) { %><img src="<%= root %><%= big.image %>" alt=""><% } %></a>
+          <h3><a href="<%= lk(big) %>"<%- tg(big) %>><%= big.title %></a></h3>
           <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(big.publishedAt) %></span>
           <p><%= big.excerpt %></p>
-          <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= big.slug %>.html">Xem thêm</a>
+          <a class="btn btn-gold" href="<%= lk(big) %>"<%- tg(big) %>>Xem thêm</a>
         </article>
         <div class="n-stack">
           <% g.slice(1).forEach(function(it) { %>
           <article class="n-sm">
-            <a class="ni" href="<%= root %>tin-tuc/<%= it.slug %>.html"><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt=""><% } %></a>
+            <a class="ni" href="<%= lk(it) %>"<%- tg(it) %>><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt=""><% } %></a>
             <div class="t">
-              <h3><a href="<%= root %>tin-tuc/<%= it.slug %>.html"><%= it.title %></a></h3>
+              <h3><a href="<%= lk(it) %>"<%- tg(it) %>><%= it.title %></a></h3>
               <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(it.publishedAt) %></span>
               <p><%= it.excerpt %></p>
-              <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= it.slug %>.html">Xem thêm</a>
+              <a class="btn btn-gold" href="<%= lk(it) %>"<%- tg(it) %>>Xem thêm</a>
             </div>
           </article>
           <% }); %>
@@ -44,12 +48,12 @@
   <h2 class="h-line<%= groups.length ? ' sec-gap' : '' %>">HOẠT ĐỘNG NỘI BỘ - VĂN HÓA CÔNG TY</h2>
   <% internal.forEach(function(it) { %>
   <article class="n-row">
-    <a class="ni" href="<%= root %>tin-tuc/<%= it.slug %>.html"><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt="" loading="lazy"><% } %></a>
+    <a class="ni" href="<%= lk(it) %>"<%- tg(it) %>><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt="" loading="lazy"><% } %></a>
     <div class="t">
-      <h3><a href="<%= root %>tin-tuc/<%= it.slug %>.html"><%= it.title %></a></h3>
+      <h3><a href="<%= lk(it) %>"<%- tg(it) %>><%= it.title %></a></h3>
       <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(it.publishedAt) %></span>
       <p class="ex"><%= it.excerpt %></p>
-      <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= it.slug %>.html">Xem thêm</a>
+      <a class="btn btn-gold" href="<%= lk(it) %>"<%- tg(it) %>>Xem thêm</a>
     </div>
   </article>
   <% }); %>

@@ -33,7 +33,7 @@
       <select data-filter="name" data-live="off" aria-label="Tên dự án"><option value="">Chọn tên dự án</option><% opts.title.forEach(function(v) { %><option><%= v %></option><% }); %></select>
       <select data-filter="location" data-live="off" aria-label="Địa điểm"><option value="">Chọn địa điểm</option><% opts.location.forEach(function(v) { %><option><%= v %></option><% }); %></select>
       <select data-filter="status" data-live="off" aria-label="Tình trạng"><option value="">Chọn tình trạng</option><% opts.status.forEach(function(v) { %><option><%= v %></option><% }); %></select>
-      <button class="btn" type="button" data-filter-go>Tìm kiếm</button>
+      <button class="btn" type="button" data-filter-go>Tìm kiếm <%- include('partials/icon', { name: 'search' }) %></button>
     </div>
   </div>
 </section>

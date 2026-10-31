@@ -29,16 +29,16 @@
 
 <% if (otherMembers.length) { %>
 <section class="m-band"<%- fx('member-others') %>>
+  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm l s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm r s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <div class="wrap">
     <h2 class="t-h">CÁC THÀNH VIÊN KHÁC TRONG HỆ SINH THÁI</h2>
     <div class="mgrid" style="--n:<%= Math.min(otherMembers.length, 5) %>">
       <% otherMembers.forEach(function(m) { %>
       <a class="mcard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
-        <span class="ml"><img src="<%= root %><%= m.logo || 'assets/img/logo-white.png' %>" alt="<%= m.name %>" loading="lazy"></span>
-        <span class="mn"><%= m.brand %></span>
-        <span class="ms"><%= m.brandSub %></span>
+        <span class="ml"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo.png'"></span>
         <span class="mt"><%= tagBreak(m.tagline) %></span>
-        <span class="btn btn-yellow">Tìm hiểu thêm</span>
+        <span class="btn btn-blue">Tìm hiểu thêm</span>
       </a>
       <% }); %>
     </div>
@@ -46,13 +46,13 @@
 </section>
 <% } %>
 
-<section class="cta-band<%= theme === 'gold' ? ' green' : '' %>"<%- fx('member-cta') %>>
-  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
-  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+<section class="cta-band"<%- fx('member-cta') %>>
+  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm l s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm r s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
   <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
   <div class="rule"></div>
   <p><%= homepage.ctaText %></p>
-  <a class="btn btn-white" href="<%= root %>ve-chung-toi.html">Tìm hiểu thêm</a>
+  <a class="btn btn-yellow btn-lg" href="<%= root %>index.html#thanh-vien">Khám phá hệ sinh thái</a>
 </section>
 </main>
 

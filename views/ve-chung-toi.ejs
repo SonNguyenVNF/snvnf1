@@ -8,7 +8,7 @@
 <% if (about.chair) { %>
 <section class="ab-chair" id="<%= about.chair.slug %>"<%- fx('about-chair') %> style="--chair-bg:url('<%= root %><%= siteImages.chairBg %>')">
   <div class="wrap">
-    <div class="ab-card">
+    <div class="ab-card" data-typing>
       <div class="tt"><% if (about.chair.t1) { %><span class="t1"><%= about.chair.t1 %></span><% } %><b><%= about.chair.t2 %></b></div>
       <% about.chair.paras.forEach(function(p) { %><p><%= p %></p>
       <% }); %>
@@ -56,8 +56,8 @@
   <% if (about.strategy.pillars.length) { %>
   <div class="wrap pillars-wrap">
     <div class="pillars">
-      <% var picons = ['p_net', 'p_chip', 'p_shield']; about.strategy.pillars.forEach(function(p, i) { %>
-      <article class="pillar c<%= i % 3 %>"><span class="pn"><%= String(i + 1).padStart(2, '0') %></span><%- include('partials/icon-big', { name: picons[i % 3] }) %><h3><%= p.title %></h3><p><%= p.text %></p></article>
+      <% var picons = ['pillar1', 'pillar2', 'pillar3']; about.strategy.pillars.forEach(function(p, i) { %>
+      <article class="pillar c<%= i % 3 %>"><span class="pn"><%= String(i + 1).padStart(2, '0') %></span><img class="pic" src="<%= root %>assets/img/ab/<%= picons[i % 3] %>.png" alt=""><h3><%= p.title %></h3><p><%= p.text %></p></article>
       <% }); %>
     </div>
   </div>
@@ -80,15 +80,15 @@
 <section class="ab-values" id="gia-tri-cot-loi"<%- fx('about-values') %>>
   <div class="wrap">
   <%
-  var vicons = ['v_chart', 'v_gavel', 'v_gears', 'v_chat', 'v_team', 'v_scale'];
-  var vcolors = ['#1b4fb5', '#1d8a47', '#fdba45'];
+  var vicons = ['val1', 'val2', 'val3', 'val4', 'val5', 'val6'];
+  var vcolors = ['#0702c6', '#02a02b', '#ffb345'];
   var left = [], right = [];
   coreValues.items.slice(0, 6).forEach(function(v, i) { (i % 2 === 0 ? left : right).push({ v: v, i: i }); });
   %>
   <div class="vwheel">
     <div class="vcol l">
       <% left.forEach(function(o, k) { %>
-      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div><span class="vblob"><%- include('partials/icon-big', { name: vicons[o.i] }) %></span></div>
+      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div><span class="vblob"><img src="<%= root %>assets/img/ab/<%= vicons[o.i] %>.png" alt=""></span></div>
       <% }); %>
     </div>
     <div class="vcenter">
@@ -105,7 +105,7 @@
     </div>
     <div class="vcol r">
       <% right.forEach(function(o, k) { %>
-      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><span class="vblob"><%- include('partials/icon-big', { name: vicons[o.i] }) %></span><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div></div>
+      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><span class="vblob"><img src="<%= root %>assets/img/ab/<%= vicons[o.i] %>.png" alt=""></span><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div></div>
       <% }); %>
     </div>
   </div>
@@ -146,8 +146,8 @@
 <% if (network.items.length) { %>
 <section class="ab-net" id="mang-luoi-hoat-dong"<%- fx('about-network') %>><div class="wrap">
   <%
-  var nicons = ['globe', 'bars', 'bulb', 'share', 'calendar', 'trio', 'gears', 'coins'];
-  var ncols = ['b', 'g', 'y', 'b'];
+  var nicons = ['net1', 'net2', 'net3', 'net4', 'net5', 'net6', 'net7', 'net8'];
+  var ncols = ['g', 'b', 'y', 'g'];
   var half = Math.ceil(network.items.length / 2);
   var nl = network.items.slice(0, half), nr = network.items.slice(half);
   var rows = Math.max(nl.length, nr.length);
@@ -161,14 +161,14 @@
   function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   %>
   <div class="net" style="--rows:<%= rows %>">
-    <% nl.forEach(function(it, i) { %><%- npill(it, i, i, 'l').replace('__ICON' + i + '__', include('partials/icon-big', { name: nicons[i % 8] })) %>
+    <% nl.forEach(function(it, i) { %><%- npill(it, i, i, 'l').replace('__ICON' + i + '__', '<img src="' + root + 'assets/img/ab/' + nicons[i % 8] + '.png" alt="">') %>
     <% }); %>
     <div class="net-center">
       <b><%= network.title %></b>
       <span class="ncl"><i></i><i></i><i></i></span>
       <p><%= network.centerText %></p>
     </div>
-    <% nr.forEach(function(it, i) { %><%- npill(it, half + i, i, 'r').replace('__ICON' + (half + i) + '__', include('partials/icon-big', { name: nicons[(half + i) % 8] })) %>
+    <% nr.forEach(function(it, i) { %><%- npill(it, half + i, i, 'r').replace('__ICON' + (half + i) + '__', '<img src="' + root + 'assets/img/ab/' + nicons[(half + i) % 8] + '.png" alt="">') %>
     <% }); %>
     <i class="vline top"></i><i class="vline bot"></i><i class="hline top"></i><i class="hline bot"></i>
   </div>

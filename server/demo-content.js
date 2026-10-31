@@ -53,11 +53,11 @@ const PROJECT_EXCERPT = 'Synetic Group hoạt động trong các lĩnh vực c�
 
 const PROJECTS = [
   { slug: 'hi-lifeshop-picity-highpark', title: 'HI-LIFESHOP PICITY HIGHPARK', type: 'Dự án thuộc chữa PARVO', location: 'Thạnh Xuân 13 - Phường Thới An (Quận 12 cũ) - TP Hồ Chí Minh', status: 'Đang triển khai', featured: true, images: [img('proj-picity.jpg'), img('proj-picity-2.jpg'), img('proj-picity-3.jpg'), img('proj-picity-4.jpg')] },
-  { slug: 'ak-tower', title: 'A&K TOWER', type: 'CĂN HỘ CAO CẤP', location: 'TP Hồ Chí Minh', status: 'Đang triển khai' },
-  { slug: 'the-felix', title: 'THE FELIX', type: 'CĂN HỘ CAO CẤP', location: 'Bình Dương', status: 'Đang triển khai' },
-  { slug: 'setia-edenia', title: 'SETIA EDENIA', type: 'CĂN HỘ CAO CẤP', location: 'Bình Dương', status: 'Đang triển khai' },
-  { slug: 'sunshine-legend-city', title: 'SUNSHINE LEGEND CITY', type: 'CĂN HỘ CAO CẤP', location: 'Hà Nội', status: 'Đang triển khai' },
-  { slug: 'homie-city', title: 'HOMIE CITY', type: 'CĂN HỘ CAO CẤP', location: 'Hà Nội', status: 'Đang triển khai' }
+  { slug: 'ak-tower', image: img('news-building-2.jpg'), title: 'A&K TOWER', type: 'CĂN HỘ CAO CẤP', location: 'TP Hồ Chí Minh', status: 'Đang triển khai' },
+  { slug: 'the-felix', image: img('proj-felix.jpg'), title: 'THE FELIX', type: 'CĂN HỘ CAO CẤP', location: 'Bình Dương', status: 'Đang triển khai' },
+  { slug: 'setia-edenia', image: img('proj-picity-2.jpg'), title: 'SETIA EDENIA', type: 'CĂN HỘ CAO CẤP', location: 'Bình Dương', status: 'Đang triển khai' },
+  { slug: 'sunshine-legend-city', image: img('proj-picity-3.jpg'), title: 'SUNSHINE LEGEND CITY', type: 'CĂN HỘ CAO CẤP', location: 'Hà Nội', status: 'Đang triển khai' },
+  { slug: 'homie-city', image: img('proj-picity-4.jpg'), title: 'HOMIE CITY', type: 'CĂN HỘ CAO CẤP', location: 'Hà Nội', status: 'Đang triển khai' }
 ].map((p) => Object.assign({ excerpt: PROJECT_EXCERPT, body: '', image: 'assets/img/trophy.jpg', images: [], featured: false }, p));
 
 const FACTORY = {
@@ -84,15 +84,33 @@ const JOBS = [
 
 const SALE_ADMIN_BODY = '# MÔ TẢ CÔNG VIỆC\n\n1. Hỗ trợ bộ phận kinh doanh, đối tác lock căn, lập biên nhận cọc, giữ chỗ, và các chứng từ liên quan\n\n2. Soạn thảo hợp đồng, chính sách, các văn bản của bộ phận kinh doanh\n\n3. Cập nhật tình trạng sản phẩm, giỏ hàng, giải quyết những vấn đề liên quan đến sản phẩm.\n\n4. Theo dõi, kiểm tra, báo cáo kết quả kinh doanh hàng tháng.\n\n5. Quản lý, lưu trữ dữ liệu/ tài liệu.\n\n6. Tham gia các sự kiện do công ty và CĐT tổ chức.\n\n7. Một số công việc phát sinh khác theo sự phân công của quản lý trực tiếp.\n\n8. Có trách nhiệm bảo mật số liệu, dữ liệu theo quy định của công ty.\n\n9. Các công việc khác theo sự phân công của Trưởng bộ phận và Ban Lãnh đạo.\n\n# YÊU CẦU ỨNG VIÊN\n\n1. Trình độ: Tốt nghiệp Đại học, Cao đẳng.\n\n2. Kinh nghiệm: ít nhất 1 năm ở vị trí sale admin cho mảng bất động sản\n\n3. Năng động, sáng tạo, chịu khó không ngại việc\n\n# THU NHẬP\n\n- Thu nhập khi đạt 100% KPI: Thoả thuận\n- Thu nhập tính theo tỷ lệ đạt KPI\n- Lương cứng: 12 – 14 triệu VND\n- Lương cứng không phụ thuộc doanh số\n\n# QUYỀN LỢI ỨNG VIÊN\n\n1. Lương cứng: 12.000.000 – 14.000.000 đồng + Hoa hồng + Thưởng.\n\n2. Môi trường làm việc trẻ trung, năng động, tăng trưởng nhanh, sáng tạo, chuyên nghiệp, được đào tạo bài bản phát huy tối đa năng lực bản thân.\n\n3. Được hưởng đầy đủ các chế độ : BHXH, BHYT, lễ tết, sinh nhật, cưới hỏi,....\n\n4. Được tham gia các chương trình gắn kết, teambuilding, du lịch hàng năm.\n\n# ĐỊA ĐIỂM VÀ THỜI GIAN\n\nĐịa điểm làm việc\n- Hà Nội: Tầng 2, Toà nhà Housinco Premium, số 288 Nguyễn Xiển,, Phường Thanh Liệt (huyện Thanh Trì cũ)\nThời gian làm việc\n- Thứ 2 – Thứ 7 (từ 08:30 đến 17:30)\n- Từ T2 đến sáng T7';
 
+const PARTNERS = [
+  { slug: 'halan', name: 'PT HALAN', category: 'Sản xuất & Thương mại', featured: true, logo: img('pt-halan.png'),
+    images: ['pt-halan-1.jpg', 'pt-halan-2.jpg', 'pt-halan-3.jpg', 'pt-halan-4.jpg'].map(img),
+    modalTitle: 'PT HALAN - ĐỐI TÁC CHIẾN LƯỢC CHUỖI CUNG ỨNG NÔNG NGHIỆP',
+    summary: 'Đối tác chiến lược trong lĩnh vực sản xuất và thương mại nông sản, đồng hành cùng Synetic Group trong việc xây dựng chuỗi cung ứng minh bạch và bền vững.',
+    intro: 'PT HALAN\nĐơn vị hoạt động trong lĩnh vực sản xuất và thương mại nông sản, sở hữu mạng lưới nhà máy và kênh phân phối rộng khắp. Hai bên hợp tác nhằm nâng cao chất lượng sản phẩm, tối ưu chi phí logistics và mở rộng thị trường.',
+    bullets: 'Liên kết sản xuất và cung ứng nguyên liệu\nChuyển giao công nghệ và quy trình kiểm soát chất lượng\nPhát triển kênh phân phối trong nước và quốc tế',
+    quote: 'Sự hợp tác với Synetic Group giúp chúng tôi rút ngắn chuỗi cung ứng và tiếp cận thị trường mới nhanh hơn.', quoteBy: 'Đại diện PT HALAN',
+    website: '', fanpage: '' },
+  { slug: 'vietcombank', name: 'VIETCOMBANK', category: 'Tài chính', logo: img('pt-vietcombank.png'), summary: 'Đối tác tài chính, cung cấp giải pháp thanh toán và tín dụng cho hệ sinh thái Synetic.' },
+  { slug: 'vietinbank', name: 'VIETINBANK', category: 'Tài chính', logo: img('pt-vietinbank.png'), summary: 'Đồng hành tài trợ vốn lưu động và dịch vụ ngân hàng cho các công ty thành viên.' },
+  { slug: 'sacombank', name: 'SACOMBANK', category: 'Tài chính', logo: img('pt-sacombank.png'), summary: 'Giải pháp tài chính linh hoạt cho khách hàng và nhà phân phối của Synetic.' },
+  { slug: 'vib', name: 'VIB', category: 'Tài chính', logo: img('pt-vib.png'), summary: 'Hợp tác về dịch vụ ngân hàng số và quản lý dòng tiền doanh nghiệp.' },
+  { slug: 'techno', name: 'TECHNO', category: 'Công nghệ', logo: img('pt-techno.png'), summary: 'Đối tác công nghệ triển khai hệ thống quản trị và truy xuất nguồn gốc.' },
+  { slug: 'nexus', name: 'NEXUS', category: 'Công nghệ', logo: img('pt-nexus.png'), summary: 'Giải pháp dữ liệu và tự động hóa cho chuỗi cung ứng nông nghiệp.' },
+  { slug: 'kinvest', name: 'K INVEST', category: 'Xây dựng', logo: img('pt-kinvest.png'), summary: 'Đối tác đầu tư và phát triển hạ tầng, nhà xưởng, kho bãi.' }
+];
+
 function importDemo() {
-  const counts = { news: 0, projects: 0, jobs: 0, hero: 0 };
+  const counts = { news: 0, projects: 0, jobs: 0, hero: 0, partners: 0 };
   let n = 0;
   const nextId = () => (Date.now() + (n++)).toString();
 
   const news = readJSON('news');
   NEWS.concat(HOME_NEWS).forEach((d) => {
     if (news.items.some((i) => i.slug === d.slug)) return;
-    news.items.push(Object.assign({ id: nextId(), images: [], body: d.excerpt, published: true }, d));
+    news.items.push(Object.assign({ id: nextId(), images: [], body: d.excerpt, published: true, sourceUrl: '', galleryCaption: '' }, d));
     counts.news++;
   });
   writeJSON('news', news);
@@ -129,6 +147,14 @@ function importDemo() {
     counts.jobs++;
   });
   writeJSON('jobs', jobs);
+
+  const pdata = sd.getPartners();
+  PARTNERS.forEach((d) => {
+    if (pdata.items.some((i) => i.name === d.name)) return;
+    pdata.items.push(Object.assign({ id: nextId(), published: true, featured: false, images: [], intro: '', bullets: '', quote: '', quoteBy: '', website: '', fanpage: '', modalTitle: '' }, d));
+    counts.partners++;
+  });
+  writeJSON('partners', pdata);
 
   return counts;
 }

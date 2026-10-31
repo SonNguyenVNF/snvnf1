@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chữ trang Đối tác — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Chữ trang Đối tác</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Tiêu đề, 3 con số (tự chạy tăng dần khi khách cuộn tới) và các nhóm lọc ở trang Đối tác. Thẻ từng đối tác thêm ở mục "Đối tác".</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu thay đổi.</div><% } %>
+    <form method="POST" action="/admin/trang-doi-tac">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field"><label for="title">Tiêu đề lớn (xanh)</label><input type="text" id="title" name="title" value="<%= p.title %>"></div>
+      <div class="admin-field"><label for="sub">Dòng phụ (xám)</label><input type="text" id="sub" name="sub" value="<%= p.sub %>"></div>
+      <div class="admin-field"><label for="headline">Dòng xanh lớn bên dưới</label><input type="text" id="headline" name="headline" value="<%= p.headline %>"></div>
+      <div class="admin-field"><label for="listTitle">Tiêu đề phần danh sách</label><input type="text" id="listTitle" name="listTitle" value="<%= p.listTitle %>"></div>
+      <div class="admin-field"><label for="categories">Các nhóm lọc (mỗi dòng 1 nhóm; nút "Tất cả" tự có)</label><textarea id="categories" name="categories" rows="5"><%= p.categories %></textarea></div>
+      <h3 style="margin:22px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">3 con số</h3>
+      <% for (var i = 0; i < 3; i++) { var s = p.stats[i] || { value: '', text: '' }; %>
+      <div class="admin-field row2">
+        <div><label>Con số <%= i + 1 %> (ví dụ 100+)</label><input type="text" name="statValue" value="<%= s.value %>"></div>
+        <div><label>Chú thích</label><input type="text" name="statText" value="<%= s.text %>"></div>
+      </div>
+      <% } %>
+      <button class="admin-btn" type="submit">Lưu thay đổi</button>
+    </form>
+  </div>
+</div>
+</body></html>
