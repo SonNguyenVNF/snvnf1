@@ -19,18 +19,7 @@ const FACT_IMAGES = {
   capital: ['assets/img/info-warehouse.jpg', 'assets/img/info-box.jpg', 'assets/img/info-clock.jpg']
 };
 
-// brand colour logos of the five founding members (cut from the design)
-const MEMBER_LOGOS = {
-  nutrition: 'assets/img/logo-m-nutrition.png',
-  vet: 'assets/img/logo-m-vet.png',
-  logistics: 'assets/img/logo-m-logistics.png',
-  farm: 'assets/img/logo-m-farm.png',
-  capital: 'assets/img/logo-m-capital.png'
-};
-const withLogo = (m) => {
-  const own = m.logo && m.logo.indexOf('assets/uploads/members/') === 0 ? m.logo : null;
-  return Object.assign({}, m, { logo: own || MEMBER_LOGOS[m.slug] || 'assets/img/logo.png' });
-};
+const withLogo = (m) => Object.assign({}, m, { logo: sd.memberLogoFor(m) });
 
 function headingFor(p) {
   const d = DEFAULT_HEADINGS[p.slug];

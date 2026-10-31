@@ -36,7 +36,7 @@
     <div class="mgrid" style="--n:<%= Math.min(otherMembers.length, 5) %>">
       <% otherMembers.forEach(function(m) { %>
       <a class="mcard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
-        <span class="ml"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo.png'"></span>
+        <span class="ml"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo-m-<%= m.slug %>.png'"></span>
         <span class="mt"><%= tagBreak(m.tagline) %></span>
         <span class="btn btn-blue">Tìm hiểu thêm</span>
       </a>

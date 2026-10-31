@@ -1,6 +1,8 @@
 'use strict';
 const { readJSON, writeJSON } = require('./data-store');
 const { slugify } = require('./slug');
+const fs = require('fs');
+const path = require('path');
 
 // ---------- text helpers ----------
 
@@ -347,7 +349,17 @@ function getJobs() {
   return data;
 }
 
+// Logo shown on a member card: the one uploaded in admin (if its file still exists), else the colour brand logo
+function memberLogoFor(m) {
+  const root = path.join(__dirname, '..');
+  const exists = (rel) => { try { return fs.existsSync(path.join(root, rel)); } catch (e) { return false; } };
+  if (m.logo && m.logo.indexOf('assets/uploads/members/') === 0 && exists(m.logo)) return m.logo;
+  const brand = 'assets/img/logo-m-' + m.slug + '.png';
+  return exists(brand) ? brand : 'assets/img/logo.png';
+}
+
 module.exports = {
+  memberLogoFor,
   esc, renderInline, renderRich, formatDateVi, paragraphs,
   IMAGE_SLOTS, getSiteImages, getFooter, FOOTER_DEFAULTS,
   HOMEPAGE_DEFAULTS, getHomepage, RECRUIT_DEFAULTS, getRecruit,

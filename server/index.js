@@ -82,7 +82,7 @@ function getVeSyneticPages() {
     body: p.body,
     published: true
   }));
-  const migrated = { items, logoReset31: true };
+  const migrated = { items };
   writeJSON('ve-synetic-pages', migrated);
   return migrated;
 }
@@ -173,7 +173,7 @@ function getMembersData() {
     facts: m.facts,
     published: true
   }));
-  const migrated = { items };
+  const migrated = { items, logoReset31: true };
   writeJSON('members', migrated);
   return migrated;
 }
@@ -183,9 +183,7 @@ function commonLocals() {
     siteImages: sd.getSiteImages(),
     footer: sd.getFooter(),
     members: getMembersData().items.filter((m) => m.published).map((m) => {
-      // only a logo uploaded in admin overrides the brand logo; old placeholder logos are ignored
-      const own = m.logo && m.logo.indexOf('assets/uploads/members/') === 0 ? m.logo : null;
-      return Object.assign({}, m, { logo: own || ('assets/img/logo-m-' + m.slug + '.png') });
+      return Object.assign({}, m, { logo: sd.memberLogoFor(m) });
     })
   };
 }
