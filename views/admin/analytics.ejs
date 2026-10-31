@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google Analytics — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Google Analytics</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:18px">Dán mã đo lường của Google Analytics 4 vào đây, website sẽ tự gửi số liệu về Google. Xem số người đang online, trang được xem nhiều, nguồn truy cập... ngay trên trang của Google.</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu. <%= id ? 'Website đang gửi số liệu về Google Analytics.' : 'Đã tắt Google Analytics.' %></div><% } %>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="/admin/analytics">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field">
+        <label for="measurementId">Mã đo lường (Measurement ID)</label>
+        <input type="text" id="measurementId" name="measurementId" value="<%= id %>" placeholder="G-XXXXXXXXXX" style="max-width:320px">
+        <p class="hint">Để trống rồi Lưu nếu muốn tắt. Khi bạn đang đăng nhập admin, lượt xem của bạn không bị tính.</p>
+      </div>
+      <button class="admin-btn" type="submit">Lưu</button>
+    </form>
+
+    <h2 style="margin-top:30px;padding-top:18px;border-top:1px solid #ECEAE3">Cách lấy mã (làm 1 lần)</h2>
+    <ol style="margin:0 0 0 20px;line-height:1.9;font-size:14px">
+      <li>Đăng nhập Gmail của bạn, mở <a href="https://analytics.google.com" target="_blank" rel="noopener" style="color:#0b47c9;font-weight:700">analytics.google.com</a> và bấm <b>Bắt đầu đo lường</b>. Tạo tài khoản (đặt tên Synetic) rồi tạo <b>tài sản (property)</b>.</li>
+      <li>Ở bước "Bắt đầu thu thập dữ liệu", chọn <b>Web</b>. Nhập địa chỉ <b>https://synetic.vn</b>, đặt tên luồng, bấm Tạo.</li>
+      <li>Google hiện <b>Mã đo lường</b> dạng <b>G-XXXXXXXXXX</b> (góc trên bên phải). Sao chép và dán vào ô ở trên, bấm Lưu.</li>
+    </ol>
+
+    <h2 style="margin-top:28px;padding-top:18px;border-top:1px solid #ECEAE3">Xem số liệu thời gian thực</h2>
+    <p style="font-size:14px;line-height:1.8">Vào analytics.google.com, chọn tài sản Synetic, mở <b>Báo cáo → Thời gian thực</b>. Tại đó thấy số người đang xem web ngay lúc này, họ đang ở trang nào, từ nước/thành phố nào. Số liệu đầy đủ (theo ngày, theo nguồn) có sau vài giờ.</p>
+
+    <h2 style="margin-top:28px;padding-top:18px;border-top:1px solid #ECEAE3">Chia sẻ cho email khác xem</h2>
+    <ol style="margin:0 0 0 20px;line-height:1.9;font-size:14px">
+      <li>Trong analytics.google.com, bấm biểu tượng bánh răng <b>Quản trị</b> (dưới cùng bên trái).</li>
+      <li>Ở cột <b>Tài sản</b>, chọn <b>Quản lý quyền truy cập vào tài sản</b> (Property access management).</li>
+      <li>Bấm dấu <b>+</b> → <b>Thêm người dùng</b>, nhập email cần chia sẻ.</li>
+      <li>Chọn vai trò: <b>Người xem (Viewer)</b> nếu chỉ cho xem số liệu; <b>Nhà phân tích</b> nếu cho tạo báo cáo; <b>Quản trị viên</b> nếu cho toàn quyền. Bấm Thêm.</li>
+    </ol>
+    <p class="hint" style="margin-top:10px">Người được chia sẻ phải dùng đúng email đó (Gmail hoặc email đã đăng ký tài khoản Google) để đăng nhập. Muốn nhận báo cáo qua email định kỳ: trong báo cáo bấm <b>Chia sẻ → Gửi email báo cáo này</b>.</p>
+  </div>
+</div>
+</body></html>

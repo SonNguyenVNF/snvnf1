@@ -264,6 +264,21 @@ module.exports = function registerAdminExtra(adminRouter) {
     res.redirect('/admin/chinh-chu');
   });
 
+  // ---------- Google Analytics ----------
+  adminRouter.get('/analytics', (req, res) => {
+    let id = '';
+    try { id = String(readJSON('analytics').measurementId || ''); } catch (e) { id = ''; }
+    res.render('admin/analytics', { id, csrfToken: csrf(req), saved: req.query.saved === '1', error: null });
+  });
+  adminRouter.post('/analytics', auth.verifyCsrf, (req, res) => {
+    const id = one(req.body.measurementId).toUpperCase().replace(/\s+/g, '');
+    if (id && !/^G-[A-Z0-9]{6,14}$/.test(id)) {
+      return res.status(400).render('admin/analytics', { id, csrfToken: csrf(req), saved: false, error: 'Mã không đúng dạng. Mã đo lường của Google Analytics 4 bắt đầu bằng "G-", ví dụ G-AB12CD34EF.' });
+    }
+    writeJSON('analytics', { measurementId: id });
+    res.redirect('/admin/analytics?saved=1');
+  });
+
   // ---------- Phông chữ ----------
   const fontsMod = require('./fonts');
   const multer = require('multer');

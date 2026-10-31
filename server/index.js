@@ -235,6 +235,27 @@ app.use(session({
   }
 }));
 
+// Google Analytics 4: the Measurement ID is set in /admin/analytics. The tag is added to
+// every public page for visitors, but never for a signed-in admin (so your own clicks don't count).
+app.use((req, res, next) => {
+  if (req.method !== 'GET' || req.path.startsWith('/admin') || req.path.startsWith('/assets')) return next();
+  if (req.session && req.session.isAdmin) return next();
+  const send = res.send;
+  res.send = function (body) {
+    if (typeof body === 'string' && body.includes('</head>')) {
+      let id = '';
+      try { id = String(readJSON('analytics').measurementId || ''); } catch (e) { id = ''; }
+      if (/^G-[A-Z0-9]{6,14}$/.test(id)) {
+        const tag = '<script async src="https://www.googletagmanager.com/gtag/js?id=' + id + '"></script>' +
+          '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","' + id + '");</script>';
+        body = body.replace('</head>', tag + '</head>');
+      }
+    }
+    return send.call(this, body);
+  };
+  next();
+});
+
 // Signed-in admins get the on-page text editor injected before </body> of public pages
 app.use((req, res, next) => {
   if (!req.session || !req.session.isAdmin || req.path.startsWith('/admin') || req.method !== 'GET') return next();
