@@ -28,7 +28,7 @@ const MEMBER_LOGOS = {
   capital: 'assets/img/logo-m-capital.png'
 };
 const withLogo = (m) => {
-  const own = m.logo && m.logo !== 'assets/logos/vinafeed-logo.jpg' ? m.logo : null;
+  const own = m.logo && m.logo.indexOf('assets/uploads/members/') === 0 ? m.logo : null;
   return Object.assign({}, m, { logo: own || MEMBER_LOGOS[m.slug] || 'assets/img/logo.png' });
 };
 

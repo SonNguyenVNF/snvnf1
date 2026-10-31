@@ -1008,3 +1008,9 @@ body.modal-open{overflow:hidden}
 .pgrid .pi{justify-content:flex-start}
 .ncard .ni{flex:none}
 .a-gal .pm-big:only-child img{aspect-ratio:auto;height:auto}
+
+/* ---- member cards: tight, no empty space around the logo ---- */
+.mcard{padding:clamp(12px,1.1vw,18px) 14px clamp(12px,1vw,16px)}
+.mcard .ml{margin:0 0 2px}
+.mcard .ml img{width:min(100%,clamp(150px,12.5vw,230px))}
+.mcard .mt{margin:8px 0 clamp(10px,1vw,16px)}

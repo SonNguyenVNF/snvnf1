@@ -175,7 +175,8 @@ function commonLocals() {
     siteImages: sd.getSiteImages(),
     footer: sd.getFooter(),
     members: getMembersData().items.filter((m) => m.published).map((m) => {
-      const own = m.logo && m.logo !== 'assets/logos/vinafeed-logo.jpg' ? m.logo : null;
+      // only a logo uploaded in admin overrides the brand logo; old placeholder logos are ignored
+      const own = m.logo && m.logo.indexOf('assets/uploads/members/') === 0 ? m.logo : null;
       return Object.assign({}, m, { logo: own || ('assets/img/logo-m-' + m.slug + '.png') });
     })
   };
