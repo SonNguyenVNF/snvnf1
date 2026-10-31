@@ -3,6 +3,28 @@
   function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* swipe a finger (or drag the mouse) left / right over an element: cb(1) = next, cb(-1) = previous */
+  function swipe(el, cb){
+    var sx = 0, sy = 0, down = false, done = false;
+    el.style.touchAction = 'pan-y';
+    el.style.userSelect = 'none';
+    el.addEventListener('pointerdown', function(e){
+      if(e.pointerType === 'mouse' && e.button !== 0) return;
+      down = true; done = false; sx = e.clientX; sy = e.clientY;
+    });
+    el.addEventListener('pointermove', function(e){
+      if(!down || done) return;
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3){ done = true; cb(dx < 0 ? 1 : -1); }
+    });
+    function end(){ down = false; }
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+    el.addEventListener('pointerleave', end);
+    el.addEventListener('click', function(e){ if(done){ e.preventDefault(); e.stopPropagation(); done = false; } }, true);
+    el.addEventListener('dragstart', function(e){ e.preventDefault(); });
+  }
+
   document.addEventListener('DOMContentLoaded', function(){
     /* ---- entrance effects (chosen per section in admin) ---- */
     (function(){
@@ -85,6 +107,7 @@
         if(pv) pv.addEventListener('click', function(){ go(cur - 1); play(); });
         if(nx) nx.addEventListener('click', function(){ go(cur + 1); play(); });
         go(0); play();
+        swipe(hero, function(dir){ go(cur + dir); play(); });
       }
     }
 
@@ -163,6 +186,7 @@
       if(dots && slides.length > 1){ slides.forEach(function(_,k){ var b = document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Dự án ' + (k+1)); b.addEventListener('click', function(){ go(k); }); dots.appendChild(b); }); }
       go(0);
       if(slides.length > 1 && !reduce){ setInterval(function(){ go((cur + 1) % slides.length); }, 7000); }
+      if(slides.length > 1) swipe(box, function(dir){ go((cur + dir + slides.length) % slides.length); });
     });
 
     /* ---- filter + pagination (projects grid, job list) ---- */
