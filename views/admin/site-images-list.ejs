@@ -13,10 +13,11 @@
   <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
   <div class="admin-card">
     <h1>Ảnh cố định của website</h1>
-    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Logo, ảnh nền thanh tiêu đề, ảnh bản đồ và các ảnh cố định khác của website. Thay ảnh ở đây sẽ cập nhật ngay trên toàn bộ website.</p>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:24px">Mọi logo, ảnh nền, icon và hình trang trí cố định của website đều thay được ở đây. Ảnh thành viên, đối tác, tin tức, dự án và slide đầu trang thay trong mục riêng của chúng. Thay ảnh ở đây sẽ cập nhật ngay trên toàn bộ website.</p>
 
     <ul class="admin-list">
       <% imageList.forEach(function(img) { %>
+      <% if (img.group) { %><li style="background:var(--iv);font-weight:700;padding:10px 14px;margin-top:10px"><%= img.group %></li><% } %>
       <li>
         <div style="display:flex;align-items:center;gap:14px">
           <% if (siteImages[img.key]) { %>

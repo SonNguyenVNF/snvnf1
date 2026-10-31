@@ -29,8 +29,8 @@
 
 <% if (otherMembers.length) { %>
 <section class="m-band"<%- fx('member-others') %>>
-  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm l s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
-  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm r s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
+  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
   <div class="wrap">
     <h2 class="t-h">CÁC THÀNH VIÊN KHÁC TRONG HỆ SINH THÁI</h2>
     <div class="mgrid" style="--n:<%= Math.min(otherMembers.length, 5) %>">
@@ -47,8 +47,8 @@
 <% } %>
 
 <section class="cta-band"<%- fx('member-cta') %>>
-  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm l s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
-  <img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm r s" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
+  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
   <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
   <div class="rule"></div>
   <p><%= homepage.ctaText %></p>

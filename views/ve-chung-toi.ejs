@@ -40,8 +40,8 @@
     </div>
     <div class="frame"><img src="<%= root %><%= siteImages.history %>" alt="<%= about.history.heading %>" loading="lazy"></div>
   </div>
-  <img class="pent-deco" src="<%= root %>assets/img/pentagon.svg" alt="">
-  <img class="pent-deco2" src="<%= root %>assets/img/pentagon.svg" alt="">
+  <img class="pent-deco" src="<%= root %><%= siteImages.pentagon %>" alt="">
+  <img class="pent-deco2" src="<%= root %><%= siteImages.pentagon %>" alt="">
 </section>
 <% } %>
 
@@ -57,7 +57,7 @@
   <div class="wrap pillars-wrap">
     <div class="pillars">
       <% var picons = ['pillar1', 'pillar2', 'pillar3']; about.strategy.pillars.forEach(function(p, i) { %>
-      <article class="pillar c<%= i % 3 %>"><span class="pn"><%= String(i + 1).padStart(2, '0') %></span><img class="pic" src="<%= root %>assets/img/ab/<%= picons[i % 3] %>.png" alt=""><h3><%= p.title %></h3><p><%= p.text %></p></article>
+      <article class="pillar c<%= i % 3 %>"><span class="pn"><%= String(i + 1).padStart(2, '0') %></span><img class="pic" src="<%= root %><%= siteImages[picons[i % 3]] %>" alt=""><h3><%= p.title %></h3><p><%= p.text %></p></article>
       <% }); %>
     </div>
   </div>
@@ -66,7 +66,7 @@
 </section>
 <% if (about.strategy.vision) { %>
 <section class="ab-vision"<%- fx('about-vision') %>>
-  <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">
   <div class="wrap">
     <h2><%= about.strategy.vision.title %></h2>
     <div class="rule"></div>
@@ -88,7 +88,7 @@
   <div class="vwheel">
     <div class="vcol l">
       <% left.forEach(function(o, k) { %>
-      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div><span class="vblob"><img src="<%= root %>assets/img/ab/<%= vicons[o.i] %>.png" alt=""></span></div>
+      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div><span class="vblob"><img src="<%= root %><%= siteImages[vicons[o.i]] %>" alt=""></span></div>
       <% }); %>
     </div>
     <div class="vcenter">
@@ -105,13 +105,13 @@
     </div>
     <div class="vcol r">
       <% right.forEach(function(o, k) { %>
-      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><span class="vblob"><img src="<%= root %>assets/img/ab/<%= vicons[o.i] %>.png" alt=""></span><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div></div>
+      <div class="vp" style="--vc:<%= vcolors[k % 3] %>"><span class="vblob"><img src="<%= root %><%= siteImages[vicons[o.i]] %>" alt=""></span><div class="vt"><h3><%= o.v.title %></h3><p><%= o.v.description %></p></div></div>
       <% }); %>
     </div>
   </div>
   </div>
   <div class="vnote">
-    <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+    <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">
     <p><%= coreValues.note %></p>
   </div>
 </section>
@@ -161,14 +161,14 @@
   function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   %>
   <div class="net" style="--rows:<%= rows %>">
-    <% nl.forEach(function(it, i) { %><%- npill(it, i, i, 'l').replace('__ICON' + i + '__', '<img src="' + root + 'assets/img/ab/' + nicons[i % 8] + '.png" alt="">') %>
+    <% nl.forEach(function(it, i) { %><%- npill(it, i, i, 'l').replace('__ICON' + i + '__', '<img src="' + root + siteImages[nicons[i % 8]] + '" alt="">') %>
     <% }); %>
     <div class="net-center">
       <b><%= network.title %></b>
       <span class="ncl"><i></i><i></i><i></i></span>
       <p><%= network.centerText %></p>
     </div>
-    <% nr.forEach(function(it, i) { %><%- npill(it, half + i, i, 'r').replace('__ICON' + (half + i) + '__', '<img src="' + root + 'assets/img/ab/' + nicons[(half + i) % 8] + '.png" alt="">') %>
+    <% nr.forEach(function(it, i) { %><%- npill(it, half + i, i, 'r').replace('__ICON' + (half + i) + '__', '<img src="' + root + siteImages[nicons[(half + i) % 8]] + '" alt="">') %>
     <% }); %>
     <i class="vline top"></i><i class="vline bot"></i><i class="hline top"></i><i class="hline bot"></i>
   </div>
@@ -188,7 +188,7 @@
 
 <section class="ab-team" id="doi-ngu-lanh-dao"<%- fx('about-team') %>>
   <div class="tm-band">
-    <img class="wm l" src="<%= root %>assets/img/pentagon-wm.svg" alt=""><img class="wm r" src="<%= root %>assets/img/pentagon-wm.svg" alt="">
+    <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">
     <h2>ĐỘI NGŨ LÃNH ĐẠO</h2>
   </div>
   <div class="wrap">
