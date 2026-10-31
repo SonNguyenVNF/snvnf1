@@ -153,7 +153,7 @@ const HOMEPAGE_DEFAULTS = {
   heroWordGap: '0.2',
   heroStartDelay: '0.2',
   heroSlideSeconds: '8',
-  mapQuery: '',
+  mapQuery: 'Charmvit Tower, 117 Trần Duy Hưng, Cầu Giấy, Hà Nội',
   heroBtn1: 'Khám phá hệ sinh thái',
   heroBtn2: 'Về Synetic Group',
   introTitle: 'SYNETIC GROUP',

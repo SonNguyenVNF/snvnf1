@@ -9,11 +9,10 @@
       <li><span class="ci"><%- include('icon', { name: 'phone' }) %></span><span><%= footer.phone %></span></li>
       <% if (footer.website) { %><li><span class="ci"><%- include('icon', { name: 'globe' }) %></span><span><%= footer.website %></span></li><% } %>
     </ul>
+    <% var soc = [['facebook', 'Facebook', 'fb'], ['tiktok', 'TikTok', 'tiktok'], ['messenger', 'Messenger', 'messenger'], ['zalo', 'Zalo', '']]; %>
     <div class="ft-social">
-      <% if (footer.facebook) { %><a href="<%= footer.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><%- include('icon', { name: 'fb' }) %></a><% } %>
-      <% if (footer.tiktok) { %><a href="<%= footer.tiktok %>" target="_blank" rel="noopener" aria-label="TikTok"><%- include('icon', { name: 'tiktok' }) %></a><% } %>
-      <% if (footer.messenger) { %><a href="<%= footer.messenger %>" target="_blank" rel="noopener" aria-label="Messenger"><%- include('icon', { name: 'messenger' }) %></a><% } %>
-      <% if (footer.zalo) { %><a href="<%= footer.zalo %>" target="_blank" rel="noopener" aria-label="Zalo"><span class="zl">Zalo</span></a><% } %>
+      <% soc.forEach(function(s) { var u = footer[s[0]] || '#'; %><a href="<%= u %>"<% if (u !== '#') { %> target="_blank" rel="noopener"<% } %> aria-label="<%= s[1] %>"><% if (s[2]) { %><%- include('icon', { name: s[2] }) %><% } else { %><span class="zl">Zalo</span><% } %></a>
+      <% }); %>
     </div>
   </div>
   <div>
