@@ -1117,3 +1117,21 @@ body.modal-open{overflow:hidden}
 .m-band .mcard{padding:8% 6% 13%}
 .m-band .mcard .mt{margin-top:12%;font-size:clamp(12px,1.1vw,21px)}
 @media (max-width:860px){.m-band .mcard{padding:16px 12px}.m-band .mcard .mt{margin:10px 0 14px;font-size:13px}}
+
+/* ---- Mạng lưới: connector lines + yellow nodes placed like the design ---- */
+@media (min-width:861px){
+  .np.mid.l::after{right:calc(-1 * var(--pg) - 2px);width:calc(var(--pg) + 2px)}
+  .np.mid.r::after{left:calc(-1 * var(--pg) - 2px);width:calc(var(--pg) + 2px)}
+  .np.mid.l .cn{right:calc(-1.8cqw - .75cqw)}
+  .np.mid.r .cn{left:calc(-1.8cqw - .75cqw)}
+  .np.edge.l::before{left:calc(100% + 1.8cqw - .75cqw)}
+  .np.edge.r::before{right:calc(100% + 1.8cqw - .75cqw)}
+  .np.edge.l .cn{right:calc(-1 * var(--hg) - .75cqw)}
+}
+@media (min-width:861px){
+  .np .nt h4{font-size:max(10px,1.08cqw)}
+  .np .nt p{font-size:max(9px,.98cqw)}
+  .np .nico img{max-height:5.4cqw}
+  .np .cn,.np.edge::before{width:1.7cqw;height:1.7cqw}
+}
+@media (min-width:861px){.net .vline.top{height:calc(50% + 2cqw);margin-bottom:-2cqw}}
