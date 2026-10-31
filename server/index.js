@@ -82,7 +82,7 @@ function getVeSyneticPages() {
     body: p.body,
     published: true
   }));
-  const migrated = { items };
+  const migrated = { items, logoReset31: true };
   writeJSON('ve-synetic-pages', migrated);
   return migrated;
 }
@@ -147,7 +147,15 @@ const MEMBER_SEED = [
 // on first use, or migrating it if it's still in the older flat-object shape.
 function getMembersData() {
   const current = readJSON('members');
-  if (Array.isArray(current.items)) return current;
+  if (Array.isArray(current.items)) {
+    // one-time: the supplied colour logos replace any logo saved before them; logos uploaded in admin after this are kept
+    if (!current.logoReset31) {
+      current.items.forEach((m) => { m.logo = null; });
+      current.logoReset31 = true;
+      writeJSON('members', current);
+    }
+    return current;
+  }
 
   const siteImages = readJSON('site-images');
   const items = MEMBER_SEED.map((m, i) => ({
@@ -159,7 +167,7 @@ function getMembersData() {
     accent: m.accent,
     tagline: (current[m.slug] && current[m.slug].tagline) || m.tagline,
     legalName: (current[m.slug] && current[m.slug].legalName) || m.legalName,
-    logo: siteImages[m.siteImageKey] || null,
+    logo: null,
     body: m.body,
     factsTitle: m.factsTitle,
     facts: m.facts,
