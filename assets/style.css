@@ -1,8 +1,8 @@
-/* Synetic Group — public site. Font: Roboto. Palette taken from the approved design. */
+/* Synetic Group — public site. Font: Montserrat. Palette taken from the approved design. */
 :root{
   --blue:#0b47c9;--blue-d:#06197d;--navy:#123f9b;--gold:#cb9029;--gold-l:#ffbd45;
   --green:#1d8a47;--green-l:#27b560;--ink:#3a3d45;--muted:#6f737c;--line:#e3e5ea;
-  --font:"Roboto",Arial,sans-serif;
+  --font:"Montserrat",Arial,sans-serif;
   --maxw:1200px;
 }
 *{box-sizing:border-box;margin:0;padding:0}

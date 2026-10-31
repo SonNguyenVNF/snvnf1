@@ -403,7 +403,7 @@ module.exports = function registerAdminExtra(adminRouter) {
     const roles = {};
     fontsMod.ROLES.forEach((r) => { const v = one(req.body['role_' + r.key]); if (valid.has(v)) roles[r.key] = v; });
     const cur = fontsMod.read();
-    writeJSON('typography', { roles, custom: cur.custom });
+    writeJSON('typography', { v: 2, roles, custom: cur.custom });
     res.redirect('/admin/phong-chu?saved=1');
   });
   adminRouter.post('/phong-chu/upload', (req, res) => {
@@ -421,7 +421,7 @@ module.exports = function registerAdminExtra(adminRouter) {
         weight: [300, 400, 500, 700, 800, 900].includes(w) ? w : 400,
         style: req.body.style === 'italic' ? 'italic' : 'normal'
       });
-      writeJSON('typography', { roles: cur.roles, custom: cur.custom });
+      writeJSON('typography', { v: 2, roles: cur.roles, custom: cur.custom });
       res.redirect('/admin/phong-chu?saved=1');
     });
   });
@@ -432,7 +432,7 @@ module.exports = function registerAdminExtra(adminRouter) {
       deleteUploadedFile(item.file);
       cur.custom = cur.custom.filter((c) => c.id !== req.params.id);
       Object.keys(cur.roles).forEach((k) => { if (cur.roles[k] === 'c-' + item.id) delete cur.roles[k]; });
-      writeJSON('typography', { roles: cur.roles, custom: cur.custom });
+      writeJSON('typography', { v: 2, roles: cur.roles, custom: cur.custom });
     }
     res.redirect('/admin/phong-chu');
   });

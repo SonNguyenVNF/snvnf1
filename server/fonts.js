@@ -1,5 +1,5 @@
 'use strict';
-const { readJSON } = require('./data-store');
+const { readJSON, writeJSON } = require('./data-store');
 
 // Fonts shipped with the site (assets/fonts). Admin can add more by uploading.
 const BUILTIN = [
@@ -82,7 +82,7 @@ function cleanRule(b) {
 function ruleCss(r, byKey) {
   let d = '';
   const fam = byKey[r.font];
-  if (fam) d += 'font-family:' + stackFor(fam) + '!important;';
+  if (fam && fam.key !== 'roboto') d += 'font-family:' + stackFor(fam) + '!important;';
   if (r.size) d += 'font-size:' + r.size + 'px!important;';
   if (r.weight) d += 'font-weight:' + r.weight + '!important;';
   if (r.color) d += 'color:' + r.color + '!important;-webkit-text-fill-color:' + r.color + '!important;background:none!important;';
@@ -96,7 +96,13 @@ function ruleCss(r, byKey) {
 function read() {
   let raw = {};
   try { raw = readJSON('typography'); } catch (e) { raw = {}; }
-  return { roles: raw.roles || {}, custom: Array.isArray(raw.custom) ? raw.custom : [] };
+  const custom = Array.isArray(raw.custom) ? raw.custom : [];
+  // the 31-10 design uses Montserrat everywhere (except the script title): drop font choices saved by the old design once
+  if (raw.v !== 2) {
+    try { writeJSON('typography', { v: 2, roles: {}, custom }); } catch (e) {}
+    return { roles: {}, custom };
+  }
+  return { roles: raw.roles || {}, custom };
 }
 
 function safeName(s) { return String(s || '').replace(/["'\\<>{};]/g, '').trim().slice(0, 60); }
