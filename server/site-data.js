@@ -67,7 +67,7 @@ const IMAGE_SLOTS = [
   { key: 'jobVideoPoster', label: "Tuyển dụng — ảnh bìa clip tuyển dụng (cột phải trang chi tiết)", def: 'assets/img/job-video.jpg' },
   { key: 'chairman', label: "Về chúng tôi — ảnh Chủ tịch HĐQT", def: 'assets/img/chairman.png' },
   { key: 'history', label: "Về chúng tôi — ảnh Lịch sử hình thành", def: 'assets/img/history.jpg' },
-  { key: 'csr', label: "Về chúng tôi — ảnh Trách nhiệm xã hội", def: 'assets/img/csr.jpg' },
+  { key: 'csr', label: "Về chúng tôi — ảnh Trách nhiệm xã hội", def: 'assets/img/csr.png' },
   { key: 'award', label: "Về chúng tôi — ảnh Các giải thưởng", def: 'assets/img/trophy.jpg' },
   { key: 'partnerIcon1', label: "Icon Nhóm 1 (Người chăn nuôi & trang trại)", def: 'assets/img/ico-farm.png', group: "Icon Trang chủ — Đối tác và khách hàng" },
   { key: 'partnerIcon2', label: "Icon Nhóm 2 (Đại lý & nhà phân phối)", def: 'assets/img/ico-hub.png' },
