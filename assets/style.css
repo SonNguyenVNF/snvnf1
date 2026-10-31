@@ -1100,3 +1100,20 @@ body.modal-open{overflow:hidden}
 .pm-dots{margin-top:16px;display:flex;justify-content:center;gap:16px}
 .pm-dots button{width:11px;height:11px;border-radius:50%;border:0;padding:0;background:#8aa0cf;cursor:pointer}
 .pm-dots button.on{background:var(--blue);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--blue)}
+
+/* ---- "Các thành viên khác" cards on member pages: taller cards (259 : 310) like the design ---- */
+.m-band .mgrid{gap:clamp(10px,1.7%,24px)}
+.m-band .mcard{aspect-ratio:259/310;padding:8% 6% 7%;justify-content:flex-start;border-radius:6px}
+.m-band .mcard .ml{width:100%;display:flex;justify-content:center;margin:0}
+.m-band .mcard .ml img{width:72%;max-width:none}
+.m-band .mcard .mt{color:#555;font-size:clamp(12px,1.05vw,19px);line-height:1.65;margin:8% 0 0;flex:none}
+.m-band .mcard .btn{margin-top:auto;font-size:clamp(9px,.65vw,12px);padding:clamp(7px,.65vw,11px) clamp(14px,1.4vw,26px);border-radius:6px}
+@media (max-width:860px){
+  .m-band .mcard{aspect-ratio:auto;padding:16px 12px}
+  .m-band .mcard .ml img{width:78%}
+  .m-band .mcard .mt{margin:10px 0 14px;font-size:13px}
+  .m-band .mcard .btn{margin-top:0}
+}
+.m-band .mcard{padding:8% 6% 13%}
+.m-band .mcard .mt{margin-top:12%;font-size:clamp(12px,1.1vw,21px)}
+@media (max-width:860px){.m-band .mcard{padding:16px 12px}.m-band .mcard .mt{margin:10px 0 14px;font-size:13px}}
