@@ -1014,3 +1014,6 @@ body.modal-open{overflow:hidden}
 .mcard .ml{margin:0 0 2px}
 .mcard .ml img{width:min(100%,clamp(150px,12.5vw,230px))}
 .mcard .mt{margin:8px 0 clamp(10px,1vw,16px)}
+.ab-hist::before{opacity:.3}
+.ncard .ni{position:relative;overflow:hidden;display:block}
+.ncard .ni img{position:absolute;inset:0}
