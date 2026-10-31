@@ -1030,3 +1030,26 @@ body.modal-open{overflow:hidden}
 .pillar .pic{height:clamp(40px,3.6vw,68px)}
 .ab-vision{margin-top:clamp(-90px,-4.6vw,-40px);padding-top:clamp(100px,9.6vw,180px)}
 .ab-strategy{background:transparent}
+
+/* ---- Giá trị cốt lõi: matches the design (pill height 140px / title 24px / text 12.5px at 1180px wide) ---- */
+.vwheel{max-width:1180px;display:grid;grid-template-columns:minmax(0,1fr) 24% minmax(0,1fr);align-items:center;gap:0}
+.vcenter{border:0;box-shadow:none;border-radius:0;background:none;width:100%;max-width:none;display:block;position:relative;aspect-ratio:1;z-index:2;font-size:inherit}
+.vctext{color:var(--blue);font-size:clamp(22px,2.6vw,40px)}
+.vcol{gap:clamp(16px,3.9%,46px)}
+.vp{border-color:var(--vc);min-height:clamp(96px,10.8vw,140px)}
+.vp .vt{padding:clamp(10px,1.2vw,16px) clamp(16px,2.2vw,30px);align-items:stretch}
+.vp h3{text-align:center;font-size:clamp(15px,1.85vw,24px);letter-spacing:.06em;margin-bottom:clamp(4px,.5vw,8px);line-height:1.2}
+.vp p{font-size:clamp(10.5px,.96vw,12.5px);line-height:1.55}
+.vp .vblob{width:clamp(90px,11.5vw,150px)}
+.vcol.r .vt,.vcol.r h3{text-align:inherit}
+.vcol.r .vp h3{text-align:center}
+.vcol.r .vp p{text-align:justify}
+.vcol.l .vp{margin-right:-5%}.vcol.r .vp{margin-left:-5%}
+.vcol.l .vp:nth-child(2){margin-left:-12%;margin-right:7%}
+.vcol.r .vp:nth-child(2){margin-right:-12%;margin-left:7%}
+@media (max-width:860px){
+  .vwheel{grid-template-columns:1fr}
+  .vcenter{width:230px;margin:0 auto;order:-1}
+  .vcol .vp,.vcol.l .vp:nth-child(2),.vcol.r .vp:nth-child(2){margin:0}
+  .vp h3{font-size:16px}.vp p{font-size:12px}
+}
