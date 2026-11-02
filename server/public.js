@@ -302,6 +302,8 @@ module.exports = function registerPublic(app, deps) {
     });
     data.items = data.items.slice(0, 2000);
     writeJSON('contacts', data);
+    // email it to the company mailbox without making the visitor wait
+    require('./mailer').notifyContact(data.items[0]).catch(() => {});
     to('ok');
   });
 };

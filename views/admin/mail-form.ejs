@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gửi thông tin khách về email — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Nhận thông tin khách qua email</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:18px">Khi khách bấm "Gửi thông tin" ở chân trang hoặc trang dự án, website sẽ gửi ngay một email về hộp thư doanh nghiệp. Tin vẫn được lưu trong mục "Tin nhắn liên hệ" như trước.</p>
+    <% if (notice) { %><div class="admin-error" style="background:<%= notice.ok ? '#E7F6EC' : '#FBE9E7' %>;color:<%= notice.ok ? '#14602F' : '#A12B1B' %>"><%= notice.message %></div><% } %>
+    <% if (error) { %><div class="admin-error"><%= error %></div><% } %>
+    <form method="POST" action="/admin/gui-email">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="admin-field">
+        <label><input type="checkbox" name="enabled" value="1" <%= cfg.enabled ? 'checked' : '' %> style="width:auto;margin-right:8px"> Bật gửi email khi có khách gửi thông tin</label>
+      </div>
+      <div class="admin-field">
+        <label for="to">Email nhận thông tin khách (nhiều email thì cách nhau bằng dấu phẩy)</label>
+        <input type="text" id="to" name="to" value="<%= cfg.to %>" placeholder="<%= defaultTo %>">
+        <p class="hint">Để trống thì dùng email ở mục "Thông tin chân trang" (<%= defaultTo %>).</p>
+      </div>
+      <h3 style="margin:22px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">Hộp thư dùng để gửi đi</h3>
+      <p class="hint" style="margin-bottom:12px">Website cần đăng nhập một hộp thư để gửi thư thay mặt bạn. Nên dùng hộp thư riêng của doanh nghiệp (ví dụ <b>info@synetic.vn</b>), thông tin lấy ở nơi bạn quản lý email tên miền.</p>
+      <div class="admin-field row2">
+        <div><label for="host">Máy chủ gửi thư (SMTP)</label><input type="text" id="host" name="host" value="<%= cfg.host %>" placeholder="mail.synetic.vn"></div>
+        <div><label for="port">Cổng</label><input type="text" id="port" name="port" value="<%= cfg.port %>" placeholder="465"></div>
+      </div>
+      <div class="admin-field row2">
+        <div><label for="user">Email đăng nhập</label><input type="text" id="user" name="user" value="<%= cfg.user %>" placeholder="info@synetic.vn" autocomplete="off"></div>
+        <div><label for="pass">Mật khẩu hộp thư</label><input type="password" id="pass" name="pass" value="" placeholder="<%= hasPass ? 'Đã lưu — để trống nếu không đổi' : 'Nhập mật khẩu' %>" autocomplete="new-password"></div>
+      </div>
+      <div class="admin-field">
+        <label for="fromName">Tên người gửi hiện trong email</label>
+        <input type="text" id="fromName" name="fromName" value="<%= cfg.fromName %>" style="max-width:380px">
+      </div>
+      <p class="hint" style="margin-bottom:16px">Mật khẩu được lưu trên máy chủ website, không hiện lại trên màn hình và không đưa lên GitHub. Với Gmail, dùng "Mật khẩu ứng dụng" (smtp.gmail.com, cổng 465), không dùng mật khẩu đăng nhập thường.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="admin-btn" type="submit" name="action" value="save">Lưu</button>
+        <button class="admin-btn admin-btn-ghost" type="submit" name="action" value="test">Lưu và gửi thử 1 email</button>
+      </div>
+    </form>
+  </div>
+</div>
+</body></html>

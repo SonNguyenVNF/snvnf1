@@ -13,13 +13,14 @@
   <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
   <div class="admin-card">
     <h1>Tin nhắn liên hệ</h1>
-    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Thông tin khách để lại qua biểu mẫu "Gửi thông tin" ở chân trang và trang dự án. Chấm đỏ là tin chưa đọc.</p>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Thông tin khách để lại qua biểu mẫu "Gửi thông tin" ở chân trang và trang dự án. Chấm đỏ là tin chưa đọc. Muốn mỗi tin gửi thêm về email, vào <a href="/admin/gui-email">cài đặt email</a>.</p>
 
     <% items.forEach(function(m) { %>
     <div class="msg-item<%= m.read ? '' : ' unread' %>">
       <div class="who"><%= m.name %></div>
       <div class="meta"><%= m.phone || '' %><% if (m.phone && m.email) { %> · <% } %><%= m.email || '' %> · <%= new Date(m.createdAt).toLocaleString('vi-VN') %> · từ trang <%= m.page %></div>
       <div class="body"><%= m.message %></div>
+      <% if (m.mail) { %><div class="meta" style="margin-top:6px">✉ <%= m.mail %></div><% } %>
       <div style="margin-top:10px;display:flex;gap:8px">
         <form method="POST" action="/admin/tin-nhan/<%= m.id %>/read" style="margin:0"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="admin-btn admin-btn-ghost" type="submit"><%= m.read ? 'Đánh dấu chưa đọc' : 'Đánh dấu đã đọc' %></button></form>
         <form method="POST" action="/admin/tin-nhan/<%= m.id %>/delete" style="margin:0" onsubmit="return confirm('Xoá tin nhắn này?')"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="admin-btn admin-btn-danger" type="submit">Xoá</button></form>

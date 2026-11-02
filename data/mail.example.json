@@ -1,0 +1,9 @@
+{
+  "enabled": false,
+  "host": "",
+  "port": 465,
+  "user": "",
+  "pass": "",
+  "fromName": "Website Synetic",
+  "to": ""
+}

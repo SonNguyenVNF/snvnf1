@@ -474,6 +474,34 @@ module.exports = function registerAdminExtra(adminRouter) {
   });
 
   // ---------- Tin nhắn liên hệ (form chân trang) ----------
+  // ---------- Gửi thông tin khách về email ----------
+  const mailer = require('./mailer');
+  function renderMail(res, req, extra) {
+    const cfg = mailer.getMail();
+    res.render('admin/mail-form', Object.assign({
+      cfg: Object.assign({}, cfg, { pass: '' }), hasPass: !!cfg.pass, defaultTo: sd.getFooter().email,
+      csrfToken: csrf(req), notice: null, error: null
+    }, extra || {}));
+  }
+  adminRouter.get('/gui-email', (req, res) => renderMail(res, req, req.query.saved === '1' ? { notice: { ok: true, message: 'Đã lưu cài đặt email.' } } : {}));
+  adminRouter.post('/gui-email', auth.verifyCsrf, async (req, res) => {
+    const old = mailer.getMail();
+    const port = parseInt(one(req.body.port), 10);
+    const cfg = {
+      enabled: req.body.enabled === '1',
+      host: mailer.clean(req.body.host),
+      port: port > 0 && port < 65536 ? port : 465,
+      user: mailer.clean(req.body.user),
+      pass: req.body.pass ? String(req.body.pass) : old.pass,
+      fromName: mailer.clean(req.body.fromName, 80) || 'Website Synetic',
+      to: mailer.clean(req.body.to, 300) || sd.getFooter().email
+    };
+    mailer.saveMail(cfg);
+    if (req.body.action !== 'test') return res.redirect('/admin/gui-email?saved=1');
+    const r = await mailer.sendTest(cfg);
+    renderMail(res, req, { notice: r });
+  });
+
   adminRouter.get('/tin-nhan', (req, res) => {
     const data = readJSON('contacts');
     res.render('admin/contacts-list', { items: data.items, csrfToken: csrf(req) });
