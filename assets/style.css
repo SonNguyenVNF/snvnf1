@@ -1204,3 +1204,4 @@ body.modal-open{overflow:hidden}
   .ab-csr .img{position:relative;min-height:340px}
   .ab-csr .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center}
 }
+@media (min-width:861px){.ab-photo{transform:translateX(clamp(30px,5.5vw,110px))}}
