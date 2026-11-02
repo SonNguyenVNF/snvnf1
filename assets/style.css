@@ -1191,3 +1191,9 @@ body.modal-open{overflow:hidden}
   .np.mid.r .cn{left:calc(-1.1cqw - 2px)}
 }
 .ab-hist::before{opacity:.2}
+/* the vertical axis line stops at the edge of the centre dots instead of running through them */
+@media (min-width:861px){
+  .net .vline.top{height:calc(50% + 2cqw - max(.85cqw, 7px))}
+  .net .vline.bot{height:calc(50% - max(.85cqw, 7px))}
+}
+.np.edge.l{z-index:3}
