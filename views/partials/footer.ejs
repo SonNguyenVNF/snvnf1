@@ -11,7 +11,7 @@
     </ul>
     <% var soc = [['facebook', 'Facebook', 'fb'], ['tiktok', 'TikTok', 'tiktok'], ['messenger', 'Messenger', 'messenger'], ['zalo', 'Zalo', '']]; %>
     <div class="ft-social">
-      <% soc.forEach(function(s) { var u = footer[s[0]] || '#'; %><a href="<%= u %>"<% if (u !== '#') { %> target="_blank" rel="noopener"<% } %> aria-label="<%= s[1] %>"><% if (s[2]) { %><%- include('icon', { name: s[2] }) %><% } else { %><span class="zl">Zalo</span><% } %></a>
+      <% soc.forEach(function(s) { var u = footer[s[0]] || '#'; %><a <% if (u !== '#') { %>href="<%= u %>" target="_blank" rel="noopener"<% } else { %>class="no-link" role="presentation" tabindex="-1" onclick="return false"<% } %> aria-label="<%= s[1] %>"><% if (s[2]) { %><%- include('icon', { name: s[2] }) %><% } else { %><span class="zl">Zalo</span><% } %></a>
       <% }); %>
     </div>
   </div>

@@ -1145,3 +1145,11 @@ body.modal-open{overflow:hidden}
 @media (max-width:860px){.ft-social a{width:60px;height:60px}.ft-social{gap:16px}.ft-social .zl{font-size:17px}}
 .ft-social a{color:#fff}
 .ft-social svg,.ft-social svg *{fill:#fff!important;stroke:none!important}
+
+/* ---- footer social buttons: half of the previous size; no link yet = no reaction ---- */
+.ft-social a{width:clamp(33px,2.25vw,42px);height:clamp(33px,2.25vw,42px);border-width:1.5px}
+.ft-social{gap:clamp(12px,.9vw,16px)}
+.ft-social .zl{font-size:clamp(10px,.7vw,13px)}
+.ft-social a.no-link{cursor:default}
+.ft-social a.no-link:hover{transform:none;filter:none}
+@media (max-width:860px){.ft-social a{width:36px;height:36px}.ft-social{gap:12px}.ft-social .zl{font-size:11px}}
