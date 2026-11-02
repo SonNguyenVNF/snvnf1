@@ -6,7 +6,7 @@
 
 <main>
 <% if (about.chair) { %>
-<section class="ab-chair" id="<%= about.chair.slug %>"<%- fx('about-chair') %> style="--chair-bg:url('<%= root %><%= siteImages.chairBg %>')">
+<section class="ab-chair" id="<%= about.chair.slug %>"<%- fx('about-chair') %> style="background-image:linear-gradient(100deg,rgba(5,35,185,.82) 0%,rgba(6,40,195,.72) 50%,rgba(6,30,160,.6) 100%),url('<%= root %><%= siteImages.chairBg %>')">
   <div class="wrap">
     <div class="ab-card" data-typing>
       <div class="tt"><% if (about.chair.t1) { %><span class="t1"><%= about.chair.t1 %></span><% } %><b><%= about.chair.t2 %></b></div>
