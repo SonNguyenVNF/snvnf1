@@ -24,6 +24,7 @@
     '#te-foot button{flex:1;border:0;border-radius:8px;padding:10px 8px;font:700 13px Arial,sans-serif;cursor:pointer}' +
     '#te-save{background:#1d8a47;color:#fff}#te-reset{background:#eee;color:#333}' +
     '#te-msg{font-size:12.5px;padding:0 14px 10px;color:#1d8a47;min-height:16px}' +
+    '.te-ghost{display:revert!important;opacity:.35!important;outline:2px dashed #b3261e!important}' +
     '.te-hover{outline:2px dashed #cb9029!important;outline-offset:2px;cursor:pointer!important}' +
     '.te-sel{outline:2px solid #0b47c9!important;outline-offset:2px}' +
     '.te-drag{cursor:move!important;user-select:none!important}' +
@@ -43,6 +44,7 @@
         '<div id="te-sample"></div>' +
         '<label>Áp dụng cho</label>' +
         '<select id="te-scope"><option value="kind">Mọi chữ cùng loại (khuyên dùng)</option><option value="one">Chỉ chữ này</option></select>' +
+        '<label style="display:flex;gap:8px;align-items:center;background:#fdecea;border:1px solid #f3b9b2;border-radius:8px;padding:9px 10px;color:#a12b1b;cursor:pointer"><input type="checkbox" id="te-hide" style="width:auto"> Xoá chữ này khỏi trang (ẩn đi)</label>' +
         '<label>Phông chữ</label><select id="te-font">' + famOpts + '</select>' +
         '<label>Cỡ chữ máy tính: <b id="te-sz-v"></b></label><input type="range" id="te-size" min="10" max="120" step="1">' +
         '<div class="row"><input type="number" id="te-size-n" min="8" max="200" style="width:90px"><button type="button" id="te-size-x" style="border:0;background:#eee;border-radius:7px;padding:8px 10px;cursor:pointer;font-size:12.5px">Giữ cỡ gốc</button></div>' +
@@ -106,6 +108,7 @@
   function famCss(key){ for(var i = 0; i < cfg.families.length; i++) if(cfg.families[i].key === key) return cfg.families[i].css; return null; }
   function decl(r){
     var d = '';
+    if(r.hidden) d += on ? 'display:revert!important;opacity:.3!important;outline:2px dashed #b3261e!important;' : 'display:none!important;';
     var f = famCss(r.font); if(f) d += 'font-family:"' + f + '","Montserrat",Arial,sans-serif!important;';
     if(r.size) d += 'font-size:' + r.size + 'px!important;';
     if(r.weight) d += 'font-weight:' + r.weight + '!important;';
@@ -135,7 +138,7 @@
       selector: cur.selector, font: $('te-font').value, size: size ? Math.round(size) : 0, sizeMobile: m ? Math.round(m) : 0,
       weight: $('te-weight').value, color: $('te-color-t').value.trim() ? $('te-color-t').value.trim() : '',
       x: Math.round(parseFloat($('te-x').value) || 0), y: Math.round(parseFloat($('te-y').value) || 0),
-      moveMobile: $('te-mm').checked, inline: current && getComputedStyle(current).display === 'inline'
+      moveMobile: $('te-mm').checked, inline: current && getComputedStyle(current).display === 'inline', hidden: $('te-hide').checked
     };
   }
   var sizeSet = false, colorSet = false;
@@ -151,6 +154,7 @@
     $('te-size-m').value = r && r.sizeMobile ? r.sizeMobile : '';
     $('te-x').value = r && r.x ? r.x : 0; $('te-y').value = r && r.y ? r.y : 0; $('te-mm').checked = !!(r && r.moveMobile);
     $('te-weight').value = r ? (r.weight || '') : '';
+    $('te-hide').checked = !!(r && r.hidden);
     colorSet = !!(r && r.color);
     var hex = r && r.color ? r.color : rgb2hex(cs.color);
     $('te-color').value = hex; $('te-color-t').value = colorSet ? hex : '';
@@ -173,6 +177,7 @@
   }
   function setOn(v){
     on = v; btn.classList.toggle('on', v); btn.textContent = v ? 'Thoát chỉnh chữ' : 'Chỉnh chữ';
+    renderLive(null);
     if(v){ panel.style.display = 'flex'; $('te-hint').style.display = 'block'; $('te-form').style.display = 'none'; $('te-foot').style.display = 'none'; }
     else { panel.style.display = 'none'; if(current) current.classList.remove('te-sel'); current = null; renderLive(null); document.querySelectorAll('.te-hover').forEach(function(x){ x.classList.remove('te-hover'); }); }
   }
@@ -187,6 +192,13 @@
 
   $('te-scope').addEventListener('change', function(){ updateSelector(); preview(); });
   $('te-font').addEventListener('change', preview);
+  $('te-hide').addEventListener('change', function(){
+    // hiding applies to this one piece of text only, never to every text of the same kind
+    if(this.checked){ $('te-scope').value = 'one'; updateSelectorKeepScope(); $('te-hide').checked = true; }
+    preview();
+    $('te-msg').style.color = '#b3261e';
+    $('te-msg').textContent = this.checked ? 'Chữ sẽ biến mất sau khi bấm Lưu. Muốn lấy lại: vào Admin → Chỉnh chữ → Xoá chỉnh sửa này.' : '';
+  });
   $('te-weight').addEventListener('change', preview);
   $('te-size').addEventListener('input', function(){ sizeSet = true; $('te-size-n').value = this.value; $('te-sz-v').textContent = this.value + 'px'; preview(); });
   $('te-size-n').addEventListener('input', function(){ sizeSet = true; $('te-size').value = this.value; $('te-sz-v').textContent = this.value + 'px'; preview(); });
@@ -237,7 +249,7 @@
     var r = readForm(); if(!sizeSet) r.size = 0;
     if(!/^#[0-9a-fA-F]{6}$/.test(r.color)) r.color = '';
     r.label = (current.textContent || '').trim().slice(0, 40);
-    r.moveMobile = r.moveMobile ? '1' : ''; r.inline = r.inline ? '1' : '';
+    r.moveMobile = r.moveMobile ? '1' : ''; r.inline = r.inline ? '1' : ''; r.hidden = r.hidden ? '1' : '';
     post('/admin/chinh-chu/save', r).then(function(res){
       if(res && res.ok){
         rules = res.rules; renderLive(null);

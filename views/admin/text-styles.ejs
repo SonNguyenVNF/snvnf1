@@ -31,6 +31,7 @@
         <div style="font-size:13.5px;min-width:0">
           <div style="font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">“<%= r.label || r.selector %>”</div>
           <div style="color:var(--muted);margin-top:3px">
+            <% if (r.hidden) { %><b style="color:#a12b1b">Đã ẩn khỏi trang</b> · <% } %>
             <% if (r.font && families[r.font]) { %>Phông: <%= families[r.font].name %> · <% } %>
             <% if (r.size) { %>Cỡ: <%= r.size %>px · <% } %>
             <% if (r.sizeMobile) { %>Điện thoại: <%= r.sizeMobile %>px · <% } %>

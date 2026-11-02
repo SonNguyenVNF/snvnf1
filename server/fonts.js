@@ -73,14 +73,16 @@ function cleanRule(b) {
     x: clampPx(b.x),
     y: clampPx(b.y),
     moveMobile: b.moveMobile === '1' || b.moveMobile === true,
-    inline: b.inline === '1' || b.inline === true
+    inline: b.inline === '1' || b.inline === true,
+    hidden: b.hidden === '1' || b.hidden === true
   };
-  if (!rule.font && !rule.size && !rule.sizeMobile && !rule.weight && !rule.color && !rule.x && !rule.y) return null;
+  if (!rule.hidden && !rule.font && !rule.size && !rule.sizeMobile && !rule.weight && !rule.color && !rule.x && !rule.y) return null;
   return rule;
 }
 
 function ruleCss(r, byKey) {
   let d = '';
+  if (r.hidden) d += 'display:none!important;';
   const fam = byKey[r.font];
   if (fam && fam.key !== 'roboto') d += 'font-family:' + stackFor(fam) + '!important;';
   if (r.size) d += 'font-size:' + r.size + 'px!important;';
