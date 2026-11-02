@@ -860,6 +860,7 @@ adminRouter.post('/hero/:id/move', auth.verifyCsrf, (req, res) => {
 });
 
 registerAdminExtra(adminRouter);
+require('./admin-search')(adminRouter);
 
 // ---------- Admin: Ảnh cố định của website ----------
 
