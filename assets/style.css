@@ -1157,3 +1157,17 @@ body.modal-open{overflow:hidden}
 
 /* project cards: the underline of the type label sits on the same line as the dot after the number */
 .pcard .pn i{position:relative;top:-.23em;line-height:1;padding-bottom:0;border-bottom-width:1px}
+
+/* ---- core values: perfectly round centre, equal pills ---- */
+@media (min-width:861px){
+  .vcenter{align-self:center;height:auto;width:100%;max-width:none;aspect-ratio:1/1}
+  .vcenter svg{width:100%;height:100%}
+}
+@media (min-width:861px){
+  .vwheel{grid-template-columns:minmax(0,1fr) 30% minmax(0,1fr);max-width:1260px}
+  .vcol.l .vp{margin-right:-9%}.vcol.r .vp{margin-left:-9%}
+  .vcol.l .vp:nth-child(2){margin-left:-12%;margin-right:-1%}
+  .vcol.r .vp:nth-child(2){margin-right:-12%;margin-left:-1%}
+  .vctext{font-size:clamp(22px,2.9vw,46px)}
+}
+@media (min-width:861px){.vp{min-height:clamp(100px,10.4vw,176px)}.vcol{gap:clamp(14px,1.9vw,34px)}}

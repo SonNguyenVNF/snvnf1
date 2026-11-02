@@ -92,13 +92,17 @@
       <% }); %>
     </div>
     <div class="vcenter">
-      <svg viewBox="12 12 276 276" aria-hidden="true">
-        <circle cx="150" cy="150" r="128" fill="#fff" stroke="#d6d6da" stroke-width="9"/>
-        <g fill="none" stroke-width="13" stroke-linecap="butt">
-          <path d="M 63 70 A 128 128 0 0 1 112 33" stroke="#0702c6"/><path d="M 188 33 A 128 128 0 0 1 237 70" stroke="#0702c6"/>
-          <path d="M 24 125 A 128 128 0 0 1 36 90" stroke="#02a02b"/><path d="M 264 90 A 128 128 0 0 1 276 125" stroke="#02a02b"/>
-          <path d="M 36 210 A 128 128 0 0 0 80 256" stroke="#ffb345"/><path d="M 264 210 A 128 128 0 0 1 220 256" stroke="#ffb345"/>
-          <path d="M 24 175 A 128 128 0 0 0 36 210" stroke="#02a02b"/><path d="M 264 210 A 128 128 0 0 0 276 175" stroke="#02a02b"/>
+      <%
+      // coloured arcs round the white disc (angles in degrees, clockwise from the top), exactly on one circle
+      var ringArcs = [[304, 340, '#0702c6'], [20, 56, '#0702c6'], [256, 293, '#02a02b'], [67, 104, '#02a02b'], [202, 247, '#ffb345'], [113, 158, '#ffb345']];
+      function ringPt(deg) { var rad = (deg - 90) * Math.PI / 180; return (150 + 133 * Math.cos(rad)).toFixed(2) + ' ' + (150 + 133 * Math.sin(rad)).toFixed(2); }
+      %>
+      <svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <circle cx="150" cy="154" r="121" fill="#c4c4c8"/>
+        <circle cx="150" cy="150" r="121" fill="#fff"/>
+        <g fill="none" stroke-width="15" stroke-linecap="butt">
+          <% ringArcs.forEach(function(r) { %><path d="M <%= ringPt(r[0]) %> A 133 133 0 0 1 <%= ringPt(r[1]) %>" stroke="<%= r[2] %>"/>
+          <% }); %>
         </g>
       </svg>
       <div class="vctext">GIÁ TRỊ<br>CỐT LÕI</div>
