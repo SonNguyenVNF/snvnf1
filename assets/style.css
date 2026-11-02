@@ -1135,3 +1135,13 @@ body.modal-open{overflow:hidden}
   .np .cn,.np.edge::before{width:1.7cqw;height:1.7cqw}
 }
 @media (min-width:861px){.net .vline.top{height:calc(50% + 2cqw);margin-bottom:-2cqw}}
+
+/* ---- footer social buttons: 3x larger ---- */
+.ft-social{gap:clamp(18px,1.4vw,26px);margin-top:clamp(20px,1.6vw,30px);padding-left:0}
+.ft-social a{width:clamp(66px,4.5vw,84px);height:clamp(66px,4.5vw,84px);border:2px solid rgba(255,255,255,.9);box-sizing:border-box;transition:transform .2s,filter .2s}
+.ft-social a:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.ft-social svg{width:50%;height:50%}
+.ft-social .zl{font-size:clamp(18px,1.25vw,23px);font-weight:700}
+@media (max-width:860px){.ft-social a{width:60px;height:60px}.ft-social{gap:16px}.ft-social .zl{font-size:17px}}
+.ft-social a{color:#fff}
+.ft-social svg,.ft-social svg *{fill:#fff!important;stroke:none!important}
