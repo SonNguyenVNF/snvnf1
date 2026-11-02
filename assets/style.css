@@ -1190,3 +1190,4 @@ body.modal-open{overflow:hidden}
   .np.mid.l .cn{right:calc(-1.1cqw - 2px)}
   .np.mid.r .cn{left:calc(-1.1cqw - 2px)}
 }
+.ab-hist::before{opacity:.2}

@@ -6,5 +6,5 @@
 <% if (typeof fxStyle !== 'undefined') { %><style>:root{<%- fxStyle %>}</style>
 <% } %><link href="<%= root %>assets/style.css?v=<%= assetVersion %>" rel="stylesheet">
 <% if (typeof fontCss !== 'undefined') { %><style><%- fontCss %></style>
-<% } %><style>.news-sec,.p-feature{background-image:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.5)),url("<%= root %><%= siteImages.skyline %>")}.ab-hist::before{background-image:url("<%= root %><%= siteImages.skyline %>")}</style>
+<% } %><style>.news-sec,.p-feature{background-image:linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),url("<%= root %><%= siteImages.skyline %>")}.ab-hist::before{background-image:url("<%= root %><%= siteImages.skyline %>")}</style>
 <style>:root{--logo-h:<%= siteImages.logoHeight || 52 %>px}@media(max-width:860px){:root{--logo-h:<%= siteImages.logoHeightMobile || 44 %>px}}</style>
