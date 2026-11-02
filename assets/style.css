@@ -1205,3 +1205,11 @@ body.modal-open{overflow:hidden}
   .ab-csr .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center}
 }
 @media (min-width:861px){.ab-photo{transform:translateX(clamp(30px,5.5vw,110px))}}
+
+/* decorative logos bottom-left (home intro + history): one large, one small, cut by the section edge */
+.pent-deco{left:-30px;bottom:-30px;width:clamp(120px,12.3vw,200px);z-index:0}
+.ab-hist .pent-deco{left:-30px;bottom:-30px}
+.pent-deco2{left:clamp(110px,11.4vw,185px);bottom:-12px;width:clamp(44px,5.8vw,92px);z-index:0}
+.intro::before{content:"";position:absolute;inset:0;background:center bottom/cover no-repeat;opacity:.5;pointer-events:none}
+.intro .wrap{position:relative;z-index:1}
+@media (max-width:860px){.intro::before{opacity:.3}}
