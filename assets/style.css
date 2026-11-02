@@ -1154,3 +1154,6 @@ body.modal-open{overflow:hidden}
 .ft-social a.no-link:hover{transform:none;filter:none}
 @media (max-width:860px){.ft-social a{width:36px;height:36px}.ft-social{gap:12px}.ft-social .zl{font-size:11px}}
 .ab-chair{background-color:#06197d;background-size:cover;background-position:center;background-repeat:no-repeat}
+
+/* project cards: the underline of the type label sits on the same line as the dot after the number */
+.pcard .pn i{position:relative;top:-.23em;line-height:1;padding-bottom:0;border-bottom-width:1px}
