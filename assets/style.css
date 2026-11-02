@@ -1171,3 +1171,22 @@ body.modal-open{overflow:hidden}
   .vctext{font-size:clamp(22px,2.9vw,46px)}
 }
 @media (min-width:861px){.vp{min-height:clamp(100px,10.4vw,176px)}.vcol{gap:clamp(14px,1.9vw,34px)}}
+
+/* ---- Mạng lưới: dots exactly centred, side lines run into the circle, dot next to the pill ---- */
+@media (min-width:861px){
+  .net-center{position:relative;z-index:3}
+  .np.edge.l .cn{display:block;right:calc(-1 * var(--hg));transform:translate(50%,-50%)}
+  .np.edge.l::before{left:calc(100% + var(--hg) / 2);transform:translate(-50%,-50%)}
+  .np.edge.r::before{right:calc(100% + var(--hg) / 2);left:auto;transform:translate(50%,-50%)}
+  .np.mid.l::after{right:calc(-1 * (var(--pg) + 7cqw));width:calc(var(--pg) + 7cqw)}
+  .np.mid.r::after{left:calc(-1 * (var(--pg) + 7cqw));width:calc(var(--pg) + 7cqw)}
+  .np.mid.l .cn{right:-1.1cqw;transform:translate(50%,-50%)}
+  .np.mid.r .cn{left:-1.1cqw;transform:translate(-50%,-50%)}
+}
+@media (min-width:861px){
+  .np.edge.l .cn{right:calc(-1 * var(--hg) - 2px)}
+  .np.edge.l::before{left:calc(100% + var(--hg) / 2 + 2px)}
+  .np.edge.r::before{right:calc(100% + var(--hg) / 2 + 2px)}
+  .np.mid.l .cn{right:calc(-1.1cqw - 2px)}
+  .np.mid.r .cn{left:calc(-1.1cqw - 2px)}
+}
