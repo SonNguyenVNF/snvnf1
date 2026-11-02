@@ -1197,3 +1197,10 @@ body.modal-open{overflow:hidden}
   .net .vline.bot{height:calc(50% - max(.85cqw, 7px))}
 }
 .np.edge.l{z-index:3}
+
+/* ---- Trách nhiệm xã hội: picture is as tall as the text column (top and bottom line up with the text) ---- */
+@media (min-width:861px){
+  .ab-csr .ab-split{align-items:stretch}
+  .ab-csr .img{position:relative;min-height:340px}
+  .ab-csr .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center}
+}
