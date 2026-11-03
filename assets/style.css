@@ -1286,3 +1286,9 @@ body.modal-open{overflow:hidden}
 @media (min-width:861px){.mainnav .dd a{display:block;text-align:left}}
 .mainnav .dd{align-items:stretch}
 .mainnav .dd li{width:100%}
+
+/* leadership cards: every row is centred, so one person sits in the middle and extra people balance themselves */
+.t-grid{display:flex;flex-wrap:wrap;justify-content:center;--tg:clamp(14px,2vw,28px);gap:var(--tg)}
+.t-grid .tcard{grid-column:auto;flex:none;width:calc((100% - 2 * var(--tg)) / 3)}
+.t-grid .tcard.big{width:calc((100% - var(--tg)) / 2)}
+@media (max-width:860px){.t-grid .tcard,.t-grid .tcard.big{width:100%}}
