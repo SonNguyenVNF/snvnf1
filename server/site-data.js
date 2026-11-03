@@ -392,16 +392,25 @@ function getJobs() {
 }
 
 // Logo shown on a member card: the one uploaded in admin (if its file still exists), else the colour brand logo
+// The 5 original members keep their key (nutrition, vet, logistics, farm, capital) even when an admin-created
+// slug differs (e.g. synetic-dinh-duong-ab12cd): recognised by slug first, then by the small text under the logo.
+const MEMBER_KEYS = { NUTRITION: 'nutrition', VET: 'vet', LOGISTICS: 'logistics', LOGISTIC: 'logistics', FARM: 'farm', CAPITAL: 'capital', FINANCE: 'capital' };
+function memberKey(m) {
+  const s = String(m.slug || '');
+  if (['nutrition', 'vet', 'logistics', 'farm', 'capital'].indexOf(s) !== -1) return s;
+  return MEMBER_KEYS[String(m.brandSub || '').trim().toUpperCase()] || s;
+}
+
 function memberLogoFor(m) {
   const root = path.join(__dirname, '..');
   const exists = (rel) => { try { return fs.existsSync(path.join(root, rel)); } catch (e) { return false; } };
   if (m.logo && m.logo.indexOf('assets/uploads/members/') === 0 && exists(m.logo)) return m.logo;
-  const brand = 'assets/img/logo-m-' + m.slug + '.png';
+  const brand = 'assets/img/logo-m-' + memberKey(m) + '.png';
   return exists(brand) ? brand : 'assets/img/logo.png';
 }
 
 module.exports = {
-  memberLogoFor,
+  memberLogoFor, memberKey,
   esc, renderInline, renderRich, formatDateVi, paragraphs,
   IMAGE_SLOTS, getSiteImages, getFooter, FOOTER_DEFAULTS,
   HOMEPAGE_DEFAULTS, getHomepage, RECRUIT_DEFAULTS, getRecruit,

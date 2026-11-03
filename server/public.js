@@ -177,7 +177,7 @@ module.exports = function registerPublic(app, deps) {
     const members = getMembersData().items.filter((i) => i.published).map(withLogo);
     const item = members.find((i) => i.slug === req.params.slug);
     if (!item) return res.status(404).type('text/plain; charset=utf-8').send('404 Not Found');
-    const defaults = FACT_IMAGES[item.slug] || [];
+    const defaults = FACT_IMAGES[sd.memberKey(item)] || [];
     const facts = (item.facts || []).map((f, i) => Object.assign({}, f, { image: f.image || defaults[i] || null }));
     res.render('thanh-vien-chi-tiet', {
       root: '../',

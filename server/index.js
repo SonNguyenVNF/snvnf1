@@ -186,16 +186,17 @@ function getMembersData() {
       current.logoReset31 = true;
       writeJSON('members', current);
     }
-    if (!current.units41) {
+    if (!current.units42) {
       current.items.forEach((m) => {
-        const s = MEMBER_41[m.slug];
+        const key = sd.memberKey(m);
+        const s = MEMBER_41[key];
         if (!s) return;
         if (m.pageTitle === undefined) m.pageTitle = s.pageTitle;
         if (m.unitsTitle === undefined) m.unitsTitle = s.unitsTitle;
         if (!Array.isArray(m.units)) m.units = s.units.map((u) => Object.assign({}, u));
-        if (m.slug === 'farm' && m.tagline === 'Nuôi bằng tâm, lớn bằng chuẩn') m.tagline = 'Nuôi bằng tâm, dưỡng bằng chuẩn';
+        if (key === 'farm' && m.tagline === 'Nuôi bằng tâm, lớn bằng chuẩn') m.tagline = 'Nuôi bằng tâm, dưỡng bằng chuẩn';
       });
-      current.units41 = true;
+      current.units42 = true;
       writeJSON('members', current);
     }
     return current;
@@ -222,7 +223,7 @@ function getMembersData() {
     const s = MEMBER_41[m.slug];
     if (s) { m.pageTitle = s.pageTitle; m.unitsTitle = s.unitsTitle; m.units = s.units.map((u) => Object.assign({}, u)); }
   });
-  migrated.units41 = true;
+  migrated.units42 = true;
   writeJSON('members', migrated);
   return migrated;
 }
