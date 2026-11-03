@@ -65,7 +65,7 @@ const IMAGE_SLOTS = [
   { key: 'strategyBg', label: "Về chúng tôi — ảnh nền phần Sứ mệnh và Chiến lược phát triển (bên phải)", def: 'assets/img/strategy-bg.jpg' },
   { key: 'skyline', label: "Ảnh nền hình nhà máy – thành phố nét mảnh (Tin tức nổi bật, Lịch sử, Dự án nổi bật)", def: 'assets/img/skyline.jpg' },
   { key: 'watermark', label: "Hình ngũ giác mờ trang trí ở các dải màu (xanh, cam, xanh dương)", def: 'assets/img/pentagon-wm.svg' },
-  { key: 'pentagon', label: "Hình ngũ giác màu trang trí (Trang chủ)", def: 'assets/img/pentagon.svg' },
+  { key: 'pentagon', label: "Hình ngũ giác màu trang trí góc dưới trái phần giới thiệu Trang chủ (cả cặp lớn + nhỏ trong 1 ảnh)", def: 'assets/img/pentagon-about.png' },
   { key: 'pentagonAbout', label: "Hình ngũ giác màu trang trí góc dưới trái phần Lịch sử hình thành (cả cặp lớn + nhỏ trong 1 ảnh)", def: 'assets/img/pentagon-about.png' },
   { key: 'intro', label: "Trang chủ — ảnh giới thiệu Synetic Group", def: 'assets/img/trophy.jpg', group: "Ảnh nội dung các trang" },
   { key: 'jobVideoPoster', label: "Tuyển dụng — ảnh bìa clip tuyển dụng (cột phải trang chi tiết)", def: 'assets/img/job-video.jpg' },

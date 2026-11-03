@@ -1232,7 +1232,7 @@ body.modal-open{overflow:hidden}
 @media (min-width:861px){.m-units .t-h{white-space:nowrap}}
 
 /* 3.11 about: history logos, Tầm nhìn band, 5 goals, Sứ mệnh */
-.ab-hist .pent-about{position:absolute;left:0;bottom:0;width:clamp(150px,16.6vw,320px);height:auto;pointer-events:none;z-index:0}
+.pent-about{position:absolute;left:0;bottom:0;width:clamp(150px,16.6vw,320px);height:auto;pointer-events:none;z-index:0}
 .ab-vision2{position:relative;overflow:hidden;background:#ffb345;color:#fff;text-align:center;padding:clamp(40px,4.2vw,81px) 0 clamp(38px,4.1vw,79px)}
 .ab-vision2 .wm{opacity:.12}
 .ab-vision2 .wrap{position:relative;z-index:1;max-width:min(1380px,92vw)}
@@ -1264,7 +1264,7 @@ body.modal-open{overflow:hidden}
   .gc svg{transform:translateX(-36.5%) scale(.9)}
   .ms-top p{max-width:none}
   .ms-cards{grid-template-columns:1fr;width:90vw;gap:14px}
-  .ab-hist .pent-about{width:150px}
+  .pent-about{width:150px}
 }
 .gt span{padding:clamp(10px,1.1vw,20px) clamp(14px,2.2vw,42px)}
 .ms-top p{max-width:min(83%,1100px)}
