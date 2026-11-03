@@ -1292,3 +1292,4 @@ body.modal-open{overflow:hidden}
 .t-grid .tcard{grid-column:auto;flex:none;width:calc((100% - 2 * var(--tg)) / 3)}
 .t-grid .tcard.big{width:calc((100% - var(--tg)) / 2)}
 @media (max-width:860px){.t-grid .tcard,.t-grid .tcard.big{width:100%}}
+.gc img{width:calc(var(--d) * .56);max-height:calc(var(--d) * .6)}
