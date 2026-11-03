@@ -17,6 +17,7 @@ const effects = require('./effects');
 const fonts = require('./fonts');
 const registerPublic = require('./public');
 const registerAdminExtra = require('./admin-extra');
+const uiTexts = require('./ui-texts');
 
 const newsUpload = createUploader('news');
 const projectsUpload = createUploader('projects');
@@ -352,6 +353,8 @@ app.locals.cardQuote = (t) => {
   if (!s) return '';
   return '“' + app.locals.tagBreak(/[.!?…]$/.test(s) ? s : s + '.') + '”';
 };
+app.locals.t = uiTexts.t;
+app.locals.clientTexts = uiTexts.clientTexts;
 app.locals.tagBreak = (t) => String(t || '').replace(/,\s+/, ',\n');
 app.locals.renderRich = sd.renderRich;
 app.locals.renderInline = sd.renderInline;

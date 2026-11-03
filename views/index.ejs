@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Synetic Group — Kiến tạo giá trị vượt trội', desc: homepage.introText, root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: t('title.home'), desc: homepage.introText, root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'home', siteImages: siteImages }) %>
 <%
@@ -22,8 +22,8 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   </div>
   <% }); %>
   <% if (slides.length > 1) { %>
-  <button class="hero-arrow hero-prev" type="button" aria-label="Slide trước">‹</button>
-  <button class="hero-arrow hero-next" type="button" aria-label="Slide sau">›</button>
+  <button class="hero-arrow hero-prev" type="button" aria-label="<%= t('aria.slideprev') %>">‹</button>
+  <button class="hero-arrow hero-next" type="button" aria-label="<%= t('aria.slidenext') %>">›</button>
   <div class="hero-dots"></div>
   <% } %>
 </section>
@@ -52,7 +52,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
       <a class="mcard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
         <span class="ml"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo-m-<%= m.slug %>.png'"></span>
         <span class="mt"><%= cardQuote(m.tagline) %></span>
-        <span class="btn btn-blue">Tìm hiểu thêm</span>
+        <span class="btn btn-blue"><%= t('btn.learn') %></span>
       </a>
       <% }); %>
     </div>
@@ -88,7 +88,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
             <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(item.publishedAt) %></span>
             <h3><%= item.title %></h3>
             <p><%= item.excerpt %></p>
-            <a class="btn btn-gold" href="<%= nl %>"<%- ext ? ' target="_blank" rel="noopener"' : '' %>>Xem thêm</a>
+            <a class="btn btn-gold" href="<%= nl %>"<%- ext ? ' target="_blank" rel="noopener"' : '' %>><%= t('btn.more') %></a>
           </div>
         </article></div>
         <% }); %>
@@ -114,7 +114,7 @@ var mIf = /src=["']([^"']+)["']/.exec(mq);
 var mapOk = function(u) { return u.indexOf('https://www.google.com/maps/embed') === 0; };
 var mapSrc = (mIf && mapOk(mIf[1])) ? mIf[1] : (mapOk(mq) ? mq : (mq.indexOf('<') === -1 ? ('https://www.google.com/maps?q=' + encodeURIComponent(mq || footer.address) + '&t=m&z=17&hl=vi&output=embed') : 'https://www.google.com/maps?q=' + encodeURIComponent(footer.address) + '&t=m&z=17&hl=vi&output=embed'));
 %>
-<div class="map-wrap"<%- fx('home-map') %>><iframe title="Bản đồ trụ sở Synetic Group" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen src="<%= mapSrc %>"></iframe></div>
+<div class="map-wrap"<%- fx('home-map') %>><iframe title="<%= t('home.map') %>" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen src="<%= mapSrc %>"></iframe></div>
 </main>
 
 <%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>

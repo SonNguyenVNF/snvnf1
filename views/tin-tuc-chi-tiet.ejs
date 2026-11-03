@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', desc: item.excerpt, root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: item.title + t('title.suffix'), desc: item.excerpt, root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'tin-tuc', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'TIN TỨC', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.news'), siteImages: siteImages }) %>
 
 <main class="n-main"><div class="wrap">
   <div class="a-head"><h1><%= item.title %></h1></div>
@@ -27,7 +27,7 @@
 
   <% if (related.length) { %>
   <div class="related"<%- fx('news-related') %>>
-    <h2 class="h-line">BÀI VIẾT LIÊN QUAN</h2>
+    <h2 class="h-line"><%= t('news.related') %></h2>
     <% related.forEach(function(it) { %>
     <article class="n-row">
       <a class="ni" href="<%= root %>tin-tuc/<%= it.slug %>.html"><% if (it.image) { %><img src="<%= root %><%= it.image %>" alt="" loading="lazy"><% } %></a>
@@ -35,7 +35,7 @@
         <h3><a href="<%= root %>tin-tuc/<%= it.slug %>.html"><%= it.title %></a></h3>
         <span class="nd"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(it.publishedAt) %></span>
         <p class="ex"><%= it.excerpt %></p>
-        <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= it.slug %>.html">Xem thêm</a>
+        <a class="btn btn-gold" href="<%= root %>tin-tuc/<%= it.slug %>.html"><%= t('btn.more') %></a>
       </div>
     </article>
     <% }); %>

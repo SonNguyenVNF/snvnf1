@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: item.name + ' — Synetic Group', desc: item.name + ' — ' + item.tagline + '. Thành viên hệ sinh thái Synetic Group.', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: item.name + t('title.suffix'), desc: item.name + ' — ' + item.tagline + '. ' + t('desc.member'), root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-<%= theme %>">
 <%- include('partials/header', { root: root, active: 'eco', siteImages: siteImages }) %>
 <%- include('partials/banner', { root: root, title: '', siteImages: siteImages }) %>
@@ -16,7 +16,7 @@
   </div>
   <% if (facts.length) { %>
   <div class="m-info">
-    <h2><%= item.factsTitle || 'THÔNG TIN NHANH' %></h2>
+    <h2><%= item.factsTitle || t('member.facts') %></h2>
     <% facts.forEach(function(f) { %>
     <div class="icard">
       <% if (f.image) { %><div class="ii"><img src="<%= root %><%= f.image %>" alt="" loading="lazy"></div><% } %>
@@ -39,7 +39,7 @@
       <div class="ucard">
         <span class="ul"><% if (u.logo) { %><img src="<%= root %><%= u.logo %>" alt="<%= u.name %>" loading="lazy"><% } %></span>
         <span class="un"><%= u.name %></span>
-        <% if (u.url) { %><a class="btn btn-blue" href="<%= u.url %>">Tìm hiểu thêm</a><% } else { %><span class="btn btn-blue no-link">Tìm hiểu thêm</span><% } %>
+        <% if (u.url) { %><a class="btn btn-blue" href="<%= u.url %>"><%= t('btn.learn') %></a><% } else { %><span class="btn btn-blue no-link"><%= t('btn.learn') %></span><% } %>
       </div>
       <% }); %>
     </div>
@@ -56,7 +56,7 @@
       <a class="mcard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
         <span class="ml"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo-m-<%= m.slug %>.png'"></span>
         <span class="mt"><%= cardQuote(m.tagline) %></span>
-        <span class="btn btn-blue">Tìm hiểu thêm</span>
+        <span class="btn btn-blue"><%= t('btn.learn') %></span>
       </a>
       <% }); %>
     </div>
@@ -70,7 +70,7 @@
   <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
   <div class="rule"></div>
   <p><%= homepage.ctaText %></p>
-  <a class="btn btn-yellow btn-lg" href="<%= root %>index.html#thanh-vien">Khám phá hệ sinh thái</a>
+  <a class="btn btn-yellow btn-lg" href="<%= root %>index.html#thanh-vien"><%= t('btn.explore') %></a>
 </section>
 </main>
 

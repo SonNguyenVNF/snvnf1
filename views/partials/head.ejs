@@ -1,6 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><%= title %></title>
+<% if (typeof siteImages !== 'undefined' && siteImages.favicon) { %><link rel="icon" href="<%= root %><%= siteImages.favicon %>">
+<% } %><title><%= title %></title>
 <% if (typeof desc !== 'undefined' && desc) { %><meta name="description" content="<%= desc %>">
 <% } %><script>document.documentElement.className+=" js"</script>
 <% if (typeof fxStyle !== 'undefined') { %><style>:root{<%- fxStyle %>}</style>

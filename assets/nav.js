@@ -1,4 +1,6 @@
 (function(){
+  // labels edited in admin (Chữ cố định) arrive in window.SYN_T; these are only the fallbacks
+  function T(k){ var d = { project: 'Dự án ', photo: 'Ảnh ', prev: 'Ảnh trước', next: 'Ảnh sau' }; return (window.SYN_T && window.SYN_T[k]) || d[k]; }
   function $(s,c){return (c||document).querySelector(s);}
   function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -183,7 +185,7 @@
     $$('[data-pfeat]').forEach(function(box){
       var slides = $$('.pf-slide', box), dots = $('.dots', box), cur = 0;
       function go(i){ cur = i; slides.forEach(function(s,k){ s.classList.toggle('active', k === i); }); if(dots) $$('button', dots).forEach(function(b,k){ b.classList.toggle('on', k === i); }); }
-      if(dots && slides.length > 1){ slides.forEach(function(_,k){ var b = document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Dự án ' + (k+1)); b.addEventListener('click', function(){ go(k); }); dots.appendChild(b); }); }
+      if(dots && slides.length > 1){ slides.forEach(function(_,k){ var b = document.createElement('button'); b.type='button'; b.setAttribute('aria-label',T('project') + (k+1)); b.addEventListener('click', function(){ go(k); }); dots.appendChild(b); }); }
       go(0);
       if(slides.length > 1 && !reduce){ setInterval(function(){ go((cur + 1) % slides.length); }, 7000); }
       if(slides.length > 1) swipe(box, function(dir){ go((cur + dir + slides.length) % slides.length); });
@@ -296,7 +298,7 @@
         tt.innerHTML = '';
         imgs.forEach(function(s, i){
           if(i === cur) return;
-          var b = document.createElement('button'); b.type = 'button'; b.className = 'pm-th'; b.setAttribute('aria-label', 'Ảnh ' + (i + 1));
+          var b = document.createElement('button'); b.type = 'button'; b.className = 'pm-th'; b.setAttribute('aria-label', T('photo') + (i + 1));
           var im = document.createElement('img'); im.src = s; im.alt = ''; im.draggable = false; b.appendChild(im);
           b.addEventListener('click', function(){ if(strip && strip.getAttribute('data-moved') === '1') return; go(i); });
           tt.appendChild(b);
@@ -306,7 +308,7 @@
       function drawDots(){
         dotsBox.innerHTML = '';
         imgs.forEach(function(_, i){
-          var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Ảnh ' + (i + 1));
+          var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', T('photo') + (i + 1));
           if(i === cur) b.className = 'on';
           b.addEventListener('click', function(){ go(i); });
           dotsBox.appendChild(b);
@@ -321,7 +323,7 @@
         if(strip) strip.scrollLeft = 0;
       }
       ['prev', 'next'].forEach(function(d){
-        var b = document.createElement('button'); b.type = 'button'; b.className = 'pm-nav ' + d; b.setAttribute('aria-label', d === 'prev' ? 'Ảnh trước' : 'Ảnh sau');
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'pm-nav ' + d; b.setAttribute('aria-label', d === 'prev' ? T('prev') : T('next'));
         b.textContent = d === 'prev' ? '‹' : '›';
         b.addEventListener('click', function(e){ e.stopPropagation(); go(cur + (d === 'prev' ? -1 : 1)); });
         box.appendChild(b);

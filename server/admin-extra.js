@@ -544,6 +544,18 @@ module.exports = function registerAdminExtra(adminRouter) {
     res.redirect('/admin/gia-tri?saved=1');
   });
 
+  // ---------- Chữ cố định trên website ----------
+  const uiTexts = require('./ui-texts');
+  adminRouter.get('/chu-co-dinh', (req, res) => {
+    res.render('admin/ui-texts', { groups: uiTexts.groups(), csrfToken: csrf(req), saved: req.query.saved === '1' });
+  });
+  adminRouter.post('/chu-co-dinh', auth.verifyCsrf, (req, res) => {
+    const values = {};
+    uiTexts.REGISTRY.forEach((r) => { if (req.body['v_' + r[1]] !== undefined) values[r[1]] = req.body['v_' + r[1]]; });
+    uiTexts.save(values);
+    res.redirect('/admin/chu-co-dinh?saved=1');
+  });
+
   // ---------- Tầm nhìn – Sứ mệnh ----------
   adminRouter.get('/tam-nhin-su-menh', (req, res) => {
     res.render('admin/vision-form', { v: sd.getVision(), csrfToken: csrf(req), saved: req.query.saved === '1' });

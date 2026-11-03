@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Thư viện — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: t('title.library'), root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: '', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'THƯ VIỆN', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.library'), siteImages: siteImages }) %>
 
 <main class="pg-page"><div class="wrap">
-  <p class="empty center">Nội dung đang được cập nhật. Phần này sẽ sớm lưu trữ hình ảnh, video và tài liệu của Synetic Group.</p>
+  <p class="empty center"><%= t('lib.none') %></p>
 </div></main>
 
 <%- include('partials/footer', { root: root, siteImages: siteImages, footer: footer, contactStatus: contactStatus, back: back, assetVersion: assetVersion, fx: fx }) %>

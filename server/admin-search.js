@@ -27,10 +27,12 @@ const SCREENS = [
   ['Phông chữ', '/admin/phong-chu', 'font'],
   ['Hiệu ứng xuất hiện', '/admin/hieu-ung', 'trượt hiện dần phóng to'],
   ['Nhập nội dung mẫu', '/admin/nhap-mau', 'demo'],
+  ['Chữ cố định (menu, nút bấm, tiêu đề, thông báo...)', '/admin/chu-co-dinh', 'chữ menu nút bấm tiêu đề placeholder thông báo tab trình duyệt'],
   ['Ảnh cố định (logo, ảnh nền, bản đồ...)', '/admin/hinh-anh', 'hình ảnh'],
   ['Thông tin chân trang', '/admin/lien-he', 'địa chỉ số điện thoại email mạng xã hội facebook zalo youtube bản đồ map footer']
 ];
 
+const uiTexts = require('./ui-texts');
 const clip = (v, n) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, n);
 const items = (name) => { try { return (readJSON(name).items || []); } catch (e) { return []; } };
 
@@ -59,6 +61,7 @@ function build() {
   items('hero-slides').forEach((h) => out.push({ t: clip((h.title || '').replace(/\*/g, ''), 90), s: 'Slide trang chủ', u: '/admin/hero/' + h.id + '/edit', k: clip(h.description, 300) }));
   items('ve-synetic-pages').forEach((p) => out.push({ t: clip(p.label, 90), s: 'Về chúng tôi', u: '/admin/ve-synetic/' + p.id + '/edit', k: clip(p.body, 400) }));
 
+  uiTexts.REGISTRY.forEach((r) => out.push({ t: clip(r[3], 90), s: 'Chữ cố định — ' + r[0], u: '/admin/chu-co-dinh', k: r[2] + ' ' + r[3] }));
   sd.IMAGE_SLOTS.forEach((s) => out.push({ t: clip(s.label, 110), s: 'Ảnh cố định', u: '/admin/hinh-anh/' + s.key + '/edit', k: 'ảnh hình logo ' + s.key }));
 
   // texts that live in single forms: finding a sentence leads straight to the form that holds it

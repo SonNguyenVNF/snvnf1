@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Cơ hội việc làm — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: t('title.jobs'), root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'tuyen-dung', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'CƠ HỘI VIỆC LÀM', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.jobs'), siteImages: siteImages }) %>
 
 <main>
 <section class="j-hero"<%- fx('job-hero') %> style="background-image:url('<%= root %><%= siteImages.jobsBg %>')">
@@ -25,10 +25,10 @@
         <div class="tt"><a href="<%= root %>tuyen-dung/<%= j.slug %>.html"><%= j.title %></a>
           <% if (j.location) { %><div class="lc"><%- include('partials/icon', { name: 'pin' }) %><%= j.location %></div><% } %></div>
         <span class="dt"><%- include('partials/icon', { name: 'calendar' }) %><%= formatDateVi(j.postedAt) %></span>
-        <a class="btn" href="<%= root %>tuyen-dung/<%= j.slug %>.html">Ứng tuyển ngay</a>
+        <a class="btn" href="<%= root %>tuyen-dung/<%= j.slug %>.html"><%= t('btn.apply') %></a>
       </div>
       <% }); %>
-      <p class="empty" data-empty style="<%= items.length ? 'display:none' : '' %>">Hiện chưa có vị trí tuyển dụng nào. Vui lòng quay lại sau.</p>
+      <p class="empty" data-empty style="<%= items.length ? 'display:none' : '' %>"><%= t('job.none') %></p>
       <div class="pager"></div>
     </div>
   </div>

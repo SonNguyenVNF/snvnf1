@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Về chúng tôi — Synetic Group', desc: 'Thông điệp, lịch sử, tầm nhìn chiến lược, giá trị cốt lõi và đội ngũ lãnh đạo của Synetic Group.', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: t('title.about'), desc: t('desc.about'), root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'about', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'VỀ CHÚNG TÔI', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.about'), siteImages: siteImages }) %>
 
 <main>
 <% if (about.chair) { %>
@@ -111,7 +111,7 @@
           <% }); %>
         </g>
       </svg>
-      <div class="vctext">GIÁ TRỊ<br>CỐT LÕI</div>
+      <div class="vctext"><%= t('ab.values1') %><br><%= t('ab.values2') %></div>
     </div>
     <div class="vcol r">
       <% right.forEach(function(o, k) { %>
@@ -229,13 +229,13 @@
 <section class="ab-team" id="doi-ngu-lanh-dao"<%- fx('about-team') %>>
   <div class="tm-band">
     <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">
-    <h2>ĐỘI NGŨ LÃNH ĐẠO</h2>
+    <h2><%= t('ab.team') %></h2>
   </div>
   <div class="wrap">
   <% if (teamIntro.body || teamIntro.chairmanNote) { %>
   <div class="intro-t">
     <% (teamIntro.body || '').replace(/\r\n/g, '\n').split(/\n{2,}/).forEach(function(p) { %><% if (p.trim()) { %><p><%= p.trim() %></p><% } %><% }); %>
-    <% if (teamIntro.chairmanNote) { %><p><strong>Chủ tịch Hội đồng Quản trị:</strong> <%= teamIntro.chairmanNote %>.</p><% } %>
+    <% if (teamIntro.chairmanNote) { %><p><strong><%= t('ab.chairnote') %></strong> <%= teamIntro.chairmanNote %>.</p><% } %>
   </div>
   <% } %>
   <% if (team.length) { %>
@@ -258,7 +258,7 @@
     <% }); %>
   </div>
   <% } else { %>
-  <p class="intro-t" style="text-align:center">Thông tin chi tiết về từng thành viên Ban lãnh đạo sẽ được cập nhật đầy đủ trong thời gian tới.</p>
+  <p class="intro-t" style="text-align:center"><%= t('ab.teamsoon') %></p>
   <% } %>
   </div>
 </section>

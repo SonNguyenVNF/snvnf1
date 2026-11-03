@@ -1,25 +1,25 @@
 <%
 var nav = [
-  ['home', 'Trang chủ', 'index.html'],
-  ['about', 'Về chúng tôi', 've-chung-toi.html'],
-  ['eco', 'Hệ sinh thái', 'index.html#thanh-vien'],
-  ['du-an', 'Dự án', 'du-an.html'],
-  ['tin-tuc', 'Tin tức', 'tin-tuc.html'],
-  ['doi-tac', 'Đối tác', 'doi-tac.html'],
-  ['tuyen-dung', 'Cơ hội việc làm', 'tuyen-dung.html']
+  ['home', t('nav.home'), 'index.html'],
+  ['about', t('nav.about'), 've-chung-toi.html'],
+  ['eco', t('nav.eco'), 'index.html#thanh-vien'],
+  ['du-an', t('nav.projects'), 'du-an.html'],
+  ['tin-tuc', t('nav.news'), 'tin-tuc.html'],
+  ['doi-tac', t('nav.partners'), 'doi-tac.html'],
+  ['tuyen-dung', t('nav.jobs'), 'tuyen-dung.html']
 ];
 var aboutSub = [
-  ['Lịch sử hình thành', 'lich-su'], ['Tầm nhìn', 'tam-nhin'], ['Sứ mệnh', 'su-menh'], ['Giá trị cốt lõi', 'gia-tri-cot-loi'], ['Chiến lược phát triển', 'tam-nhin-chien-luoc'],
-  ['Trách nhiệm xã hội', 'trach-nhiem-xa-hoi'], ['Các giải thưởng', 'giai-thuong'], ['Mạng lưới hoạt động', 'mang-luoi-hoat-dong'], ['Đội ngũ lãnh đạo', 'doi-ngu-lanh-dao']
+  [t('sub.history'), 'lich-su'], [t('sub.vision'), 'tam-nhin'], [t('sub.mission'), 'su-menh'], [t('sub.values'), 'gia-tri-cot-loi'], [t('sub.strategy'), 'tam-nhin-chien-luoc'],
+  [t('sub.csr'), 'trach-nhiem-xa-hoi'], [t('sub.awards'), 'giai-thuong'], [t('sub.network'), 'mang-luoi-hoat-dong'], [t('sub.team'), 'doi-ngu-lanh-dao']
 ];
 %>
 <header class="hd"><div class="wrap hd-in">
-  <a class="brand" href="<%= root %>index.html"><img class="brand-logo" src="<%= root %><%= siteImages.logo %>" alt="Synetic Group"></a>
-  <nav class="mainnav" aria-label="Menu chính"><ul>
+  <a class="brand" href="<%= root %>index.html"><img class="brand-logo" src="<%= root %><%= siteImages.logo %>" alt="<%= t('logo.alt') %>"></a>
+  <nav class="mainnav" aria-label="<%= t('aria.menu') %>"><ul>
     <% nav.forEach(function(n) { %><li<%- n[0] === 'about' ? ' class="has-dd"' : '' %>><a class="<%= active === n[0] ? 'active' : '' %>" href="<%= root %><%= n[2] %>"><%= n[1] %></a>
       <% if (n[0] === 'about') { %><ul class="dd"><% aboutSub.forEach(function(s) { %><li><a href="<%= root %>ve-chung-toi.html#<%= s[1] %>"><%= s[0] %></a></li><% }); %></ul><% } %></li>
     <% }); %>
   </ul></nav>
-  <span class="flag" title="Tiếng Việt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.4 7 .7-5.2 4.7 1.5 6.9L12 17.5 5.8 21.2l1.5-6.9L2.1 9.6l7-.7z"/></svg></span>
-  <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <span class="flag" title="<%= t('flag.title') %>"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.4 7 .7-5.2 4.7 1.5 6.9L12 17.5 5.8 21.2l1.5-6.9L2.1 9.6l7-.7z"/></svg></span>
+  <button class="menu-toggle" type="button" aria-label="<%= t('aria.openmenu') %>" aria-expanded="false"><span></span><span></span><span></span></button>
 </div></header>

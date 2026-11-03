@@ -57,6 +57,7 @@ const OLD_DEFAULT_LOGO = 'assets/logos/synetic-logo.jpg';
 
 const IMAGE_SLOTS = [
   { key: 'logo', label: "Logo công ty (đầu trang và chân trang)", def: 'assets/img/logo.png', group: "Logo và ảnh nền các trang" },
+  { key: 'favicon', label: "Biểu tượng nhỏ trên tab trình duyệt (favicon — nên dùng ảnh vuông)", def: 'assets/img/pentagon.svg' },
   { key: 'banner', label: "Ảnh nền thanh tiêu đề các trang trong (hoàng hôn)", def: 'assets/img/banner.jpg' },
   { key: 'footerBg', label: "Chân trang — ảnh nền (phủ màu sáng)", def: 'assets/img/footer-bg.jpg' },
   { key: 'jobsBg', label: "Trang Tuyển dụng — ảnh nền dải xanh đầu trang", def: 'assets/img/jobs-bg.jpg' },

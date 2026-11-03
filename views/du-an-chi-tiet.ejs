@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', desc: item.excerpt, root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: item.title + t('title.suffix'), desc: item.excerpt, root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'du-an', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'DỰ ÁN', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.projects'), siteImages: siteImages }) %>
 
 <main>
 <section class="pd-main"<%- fx('proj-detail') %>><div class="wrap pd-grid">
@@ -23,7 +23,7 @@
 </div></section>
 
 <section class="pd-contact"<%- fx('proj-contact') %>><div class="wrap">
-  <h2>LIÊN HỆ VỚI CHÚNG TÔI</h2>
+  <h2><%= t('proj.contact') %></h2>
   <%- include('partials/contact-form', { root: root, formClass: 'pd-form', contactStatus: contactStatus, back: back }) %>
 </div></section>
 </main>

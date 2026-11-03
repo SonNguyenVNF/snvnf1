@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Dự án — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: t('title.projects'), root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'du-an', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'DỰ ÁN', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.projects'), siteImages: siteImages }) %>
 
 <main>
 <% if (featured.length) { %>
@@ -10,11 +10,11 @@
   <% featured.forEach(function(p) { %>
   <div class="pf-slide">
     <div>
-      <h2>DỰ ÁN NỔI BẬT</h2>
-      <h3><%= p.status || 'ĐANG TRIỂN KHAI' %></h3>
+      <h2><%= t('proj.featured') %></h2>
+      <h3><%= p.status || t('proj.status') %></h3>
       <div class="rule"></div>
       <p><strong><%= p.title %></strong><% if (p.excerpt) { %><br><%= p.excerpt %><% } %></p>
-      <a class="btn btn-gold" href="<%= root %>du-an/<%= p.slug %>.html">Tìm hiểu thêm</a>
+      <a class="btn btn-gold" href="<%= root %>du-an/<%= p.slug %>.html"><%= t('btn.learn') %></a>
     </div>
     <div class="frame"><img src="<%= root %><%= p.image || 'assets/img/trophy.jpg' %>" alt="<%= p.title %>"></div>
   </div>
@@ -27,13 +27,13 @@
   <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt="">
   <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">
   <div class="wrap">
-    <h2>TÌM DỰ ÁN</h2>
+    <h2><%= t('proj.find') %></h2>
     <div class="p-form">
-      <select data-filter="type" data-live="off" aria-label="Loại hình"><option value="">Chọn loại hình</option><% opts.type.forEach(function(v) { %><option><%= v %></option><% }); %></select>
-      <select data-filter="name" data-live="off" aria-label="Tên dự án"><option value="">Chọn tên dự án</option><% opts.title.forEach(function(v) { %><option><%= v %></option><% }); %></select>
-      <select data-filter="location" data-live="off" aria-label="Địa điểm"><option value="">Chọn địa điểm</option><% opts.location.forEach(function(v) { %><option><%= v %></option><% }); %></select>
-      <select data-filter="status" data-live="off" aria-label="Tình trạng"><option value="">Chọn tình trạng</option><% opts.status.forEach(function(v) { %><option><%= v %></option><% }); %></select>
-      <button class="btn" type="button" data-filter-go>Tìm kiếm <%- include('partials/icon', { name: 'search' }) %></button>
+      <select data-filter="type" data-live="off" aria-label="<%= t('proj.type') %>"><option value=""><%= t('proj.type.ph') %></option><% opts.type.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <select data-filter="name" data-live="off" aria-label="<%= t('proj.name') %>"><option value=""><%= t('proj.name.ph') %></option><% opts.title.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <select data-filter="location" data-live="off" aria-label="<%= t('proj.loc') %>"><option value=""><%= t('proj.loc.ph') %></option><% opts.location.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <select data-filter="status" data-live="off" aria-label="<%= t('proj.stat') %>"><option value=""><%= t('proj.stat.ph') %></option><% opts.status.forEach(function(v) { %><option><%= v %></option><% }); %></select>
+      <button class="btn" type="button" data-filter-go><%= t('btn.search') %> <%- include('partials/icon', { name: 'search' }) %></button>
     </div>
   </div>
 </section>
@@ -47,15 +47,15 @@
         <div class="pn"><b><%= String(i + 1).padStart(2, '0') %>.</b><% if (p.type) { %><i><%= p.type %></i><% } %></div>
         <h3><%= p.title %></h3>
         <% if (p.location) { %><span class="pl"><%- include('partials/icon', { name: 'pin' }) %><%= p.location %></span><% } %>
-        <span class="btn">Xem thêm</span>
+        <span class="btn"><%= t('btn.more') %></span>
       </div>
     </a>
     <% }); %>
-    <p class="empty" data-empty style="display:none;grid-column:1/-1">Không tìm thấy dự án phù hợp.</p>
+    <p class="empty" data-empty style="display:none;grid-column:1/-1"><%= t('proj.empty') %></p>
   </div>
   <div class="dots p-dots"></div>
   <% } else { %>
-  <p class="empty">Nội dung đang được cập nhật. Phần này sẽ sớm giới thiệu các dự án tiêu biểu của Synetic Group.</p>
+  <p class="empty"><%= t('proj.none') %></p>
   <% } %>
 </div></section>
 </main>

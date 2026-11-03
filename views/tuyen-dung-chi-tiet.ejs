@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: item.title + ' — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: item.title + t('title.suffix'), root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-blue">
 <%- include('partials/header', { root: root, active: 'tuyen-dung', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'CƠ HỘI VIỆC LÀM', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.jobs'), siteImages: siteImages }) %>
 
 <main><div class="wrap jd-grid"<%- fx('job-detail') %>>
   <div>
@@ -17,9 +17,9 @@
       var src = yt ? 'https://www.youtube.com/embed/' + yt[1] + '?autoplay=1&rel=0' : recruit.videoUrl;
       var custom = siteImages.jobVideoPoster !== 'assets/img/job-video.jpg'; %>
     <div class="jvideo" data-video="<%= src %>" data-yt="<%= yt ? '1' : '0' %>">
-      <img src="<%= root %><%= siteImages.jobVideoPoster %>" alt="Clip tuyển dụng Synetic" loading="lazy">
+      <img src="<%= root %><%= siteImages.jobVideoPoster %>" alt="<%= t('job.videoalt') %>" loading="lazy">
       <% if (custom) { %><span class="jplay" aria-hidden="true"></span><% } %>
-      <button type="button" class="jbtn" aria-label="Phát clip tuyển dụng"></button>
+      <button type="button" class="jbtn" aria-label="<%= t('job.videoplay') %>"></button>
     </div>
     <% } %>
   </div>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi"><head><%- include('partials/head', { title: 'Đối tác — Synetic Group', root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
+<html lang="vi"><head><%- include('partials/head', { title: t('title.partners'), root: root, assetVersion: assetVersion, siteImages: siteImages, fxStyle: fxStyle, fontCss: fontCss }) %></head>
 <body class="t-green">
 <%- include('partials/header', { root: root, active: 'doi-tac', siteImages: siteImages }) %>
-<%- include('partials/banner', { root: root, title: 'ĐỐI TÁC', siteImages: siteImages }) %>
+<%- include('partials/banner', { root: root, title: t('banner.partners'), siteImages: siteImages }) %>
 <%
 function lines(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n+/).map(function(x) { return x.trim(); }).filter(Boolean); }
 function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/).map(function(x) { return x.trim(); }).filter(Boolean); }
@@ -20,9 +20,9 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
     <div class="pt-fcard">
       <h3><%= featured.modalTitle || featured.name %></h3>
       <p><%= featured.summary %></p>
-      <% if (lines(featured.bullets).length) { %><p class="lead">Các hạng mục hợp tác trọng tâm:</p>
+      <% if (lines(featured.bullets).length) { %><p class="lead"><%= t('pt.focus') %></p>
       <ul class="chk"><% lines(featured.bullets).forEach(function(b) { %><li><%= b %></li><% }); %></ul><% } %>
-      <button class="btn btn-gold btn-lg" type="button" data-pmodal="<%= featured.id %>">Xem chi tiết <span aria-hidden="true">↗</span></button>
+      <button class="btn btn-gold btn-lg" type="button" data-pmodal="<%= featured.id %>"><%= t('btn.detail') %> <span aria-hidden="true">↗</span></button>
     </div>
   </section>
   <% } %>
@@ -35,7 +35,7 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
   <section class="pt-list" data-ptlist data-per="8">
     <h2><%= page.listTitle %></h2>
     <div class="pt-chips" role="tablist">
-      <button class="chip on" type="button" data-chip="">Tất cả</button>
+      <button class="chip on" type="button" data-chip=""><%= t('pt.all') %></button>
       <% cats.forEach(function(c) { %><button class="chip" type="button" data-chip="<%= c %>"><%= c %></button>
       <% }); %>
     </div>
@@ -46,10 +46,10 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
         <h3><%= p.name %></h3>
         <% if (p.category) { %><span class="pill"><%= p.category %></span><% } %>
         <p><%= p.summary %></p>
-        <button class="btn btn-gold btn-block" type="button" data-pmodal="<%= p.id %>">Xem chi tiết</button>
+        <button class="btn btn-gold btn-block" type="button" data-pmodal="<%= p.id %>"><%= t('btn.detail') %></button>
       </article>
       <% }); %>
-      <p class="empty" data-empty style="display:none;grid-column:1/-1">Chưa có đối tác trong nhóm này.</p>
+      <p class="empty" data-empty style="display:none;grid-column:1/-1"><%= t('pt.empty') %></p>
     </div>
     <div class="dots pt-pager"></div>
   </section>
@@ -58,7 +58,7 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
 <% partners.forEach(function(p) { var imgs = (p.images || []).filter(Boolean); %>
 <div class="pmodal" id="pm-<%= p.id %>" role="dialog" aria-modal="true" aria-label="<%= p.name %>" hidden>
   <div class="pm-box">
-    <button class="pm-x" type="button" aria-label="Đóng">×</button>
+    <button class="pm-x" type="button" aria-label="<%= t('aria.close') %>">×</button>
     <div class="pm-grid">
       <div class="pm-gal" data-gal>
         <% if (imgs.length) { %>
@@ -68,14 +68,14 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
       </div>
       <div class="pm-info">
         <h2><%= p.modalTitle || p.name %></h2>
-        <% if (intro(p.intro).length) { %><h4>1.Giới thiệu Đối tác</h4>
+        <% if (intro(p.intro).length) { %><h4><%= t('pt.intro') %></h4>
         <% intro(p.intro).forEach(function(par, i) { var ls = par.split('\n'); %><p><% if (i === 0 && ls.length > 1) { %><strong><%= ls[0] %></strong><br><%= ls.slice(1).join(' ') %><% } else { %><%= par %><% } %></p>
         <% }); %><% } %>
-        <% if (lines(p.bullets).length) { %><h4>2.Nội dung hợp tác trọng tâm</h4>
+        <% if (lines(p.bullets).length) { %><h4><%= t('pt.coop') %></h4>
         <ul class="chk"><% lines(p.bullets).forEach(function(b) { %><li><%= b %></li><% }); %></ul><% } %>
         <% if (p.quote) { %><blockquote><span class="qm">“</span><%= p.quote %><% if (p.quoteBy) { %><cite>- <%= p.quoteBy %></cite><% } %></blockquote><% } %>
-        <a class="btn btn-gold btn-block btn-lg" href="<%= p.website || '#' %>"<% if (p.website) { %> target="_blank" rel="noopener"<% } %>>Truy cập Website Đối tác</a>
-        <a class="btn btn-ghost btn-block btn-lg" href="<%= p.fanpage || '#' %>"<% if (p.fanpage) { %> target="_blank" rel="noopener"<% } %>>Xem bài viết trên Fanpage</a>
+        <a class="btn btn-gold btn-block btn-lg" href="<%= p.website || '#' %>"<% if (p.website) { %> target="_blank" rel="noopener"<% } %>><%= t('pt.web') %></a>
+        <a class="btn btn-ghost btn-block btn-lg" href="<%= p.fanpage || '#' %>"<% if (p.fanpage) { %> target="_blank" rel="noopener"<% } %>><%= t('pt.fan') %></a>
       </div>
     </div>
   </div>
