@@ -11,6 +11,7 @@ const SCREENS = [
   ['Chữ trên trang chủ', '/admin/noi-dung-trang-chu', 'giới thiệu đối tác lời kêu gọi tầm nhìn'],
   ['Thành viên hệ sinh thái', '/admin/thanh-vien', 'công ty thành viên logo thêm xoá'],
   ['Về chúng tôi — thông điệp, lịch sử, tầm nhìn, CSR, giải thưởng', '/admin/ve-synetic', 'chủ tịch lịch sử trách nhiệm xã hội'],
+  ['Tầm nhìn, 5 mục tiêu và Sứ mệnh', '/admin/tam-nhin-su-menh', 'về chúng tôi mục tiêu thẻ khách hàng đối tác cổ đông cộng đồng'],
   ['Giá trị cốt lõi (6 ô)', '/admin/gia-tri', 'khát vọng tiên phong vòng tròn'],
   ['Mạng lưới hoạt động (sơ đồ 8 ô)', '/admin/mang-luoi', 'sơ đồ lĩnh vực'],
   ['Đội ngũ lãnh đạo', '/admin/doi-ngu-lanh-dao', 'ban lãnh đạo thẻ người'],
@@ -66,6 +67,7 @@ function build() {
     [sd.getRecruit, '/admin/trang-tuyen-dung', 'Chữ trang Tuyển dụng'],
     [sd.getNetwork, '/admin/mang-luoi', 'Mạng lưới hoạt động'],
     [sd.getCoreValues, '/admin/gia-tri', 'Giá trị cốt lõi'],
+    [sd.getVision, '/admin/tam-nhin-su-menh', 'Tầm nhìn – Sứ mệnh'],
     [sd.getFooter, '/admin/lien-he', 'Thông tin chân trang'],
     [sd.getPartnersPage, '/admin/trang-doi-tac', 'Chữ trang Đối tác']
   ];

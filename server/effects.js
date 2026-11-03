@@ -25,8 +25,10 @@ const SECTIONS = [
 
   { key: 'about-chair', label: 'Thông điệp Chủ tịch', group: 'Về chúng tôi', def: 'fade' },
   { key: 'about-history', label: 'Lịch sử hình thành', group: 'Về chúng tôi', def: 'up' },
-  { key: 'about-strategy', label: 'Tầm nhìn chiến lược (3 thẻ)', group: 'Về chúng tôi', kids: '.pillar', def: 'up' },
   { key: 'about-vision', label: 'Dải vàng Tầm nhìn', group: 'Về chúng tôi', def: 'fade' },
+  { key: 'about-goals', label: '5 mục tiêu trong Tầm nhìn', group: 'Về chúng tôi', kids: '.gstep', def: 'up' },
+  { key: 'about-mission', label: 'Sứ mệnh (5 thẻ)', group: 'Về chúng tôi', kids: '.mscard', def: 'up' },
+  { key: 'about-strategy', label: 'Chiến lược phát triển (3 thẻ)', group: 'Về chúng tôi', kids: '.pillar', def: 'up' },
   { key: 'about-values', label: 'Giá trị cốt lõi (sơ đồ)', group: 'Về chúng tôi', kids: '.vitem', def: 'up' },
   { key: 'about-csr', label: 'Trách nhiệm xã hội', group: 'Về chúng tôi', def: 'up' },
   { key: 'about-awards', label: 'Các giải thưởng', group: 'Về chúng tôi', def: 'up' },

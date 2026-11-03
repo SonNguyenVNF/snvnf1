@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tầm nhìn – Sứ mệnh — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Tầm nhìn – Sứ mệnh</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Các phần trên trang "Về chúng tôi": dải vàng Tầm nhìn, 5 mục tiêu (vòng tròn xanh có mũi tên) và khối xanh dương Sứ mệnh với 5 thẻ. Icon của 5 mục tiêu đổi ở <a href="/admin/hinh-anh">Ảnh cố định</a>; ảnh nền khối Sứ mệnh cũng ở đó ("ảnh nền phần Sứ mệnh và Chiến lược phát triển").</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu thay đổi.</div><% } %>
+
+    <form method="POST" action="/admin/tam-nhin-su-menh">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <h2 style="margin-top:8px">Tầm nhìn (dải vàng)</h2>
+      <div class="admin-field">
+        <label for="visionTitle">Tiêu đề</label>
+        <input type="text" id="visionTitle" name="visionTitle" value="<%= v.visionTitle %>">
+      </div>
+      <div class="admin-field">
+        <label for="visionText">Câu tầm nhìn</label>
+        <textarea id="visionText" name="visionText" rows="5"><%= v.visionText %></textarea>
+      </div>
+
+      <h2 style="margin-top:28px">5 mục tiêu (bên dưới dải vàng)</h2>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Số thứ tự 01–05 tự có. Chữ in hoa sẽ tự xuống dòng cho vừa ô.</p>
+      <% v.goals.forEach(function(g, i) { %>
+        <div class="admin-field">
+          <label for="goal<%= i + 1 %>">Mục tiêu <%= i + 1 %></label>
+          <input type="text" id="goal<%= i + 1 %>" name="goal<%= i + 1 %>" value="<%= g %>">
+        </div>
+      <% }); %>
+
+      <h2 style="margin-top:28px">Sứ mệnh (khối xanh dương)</h2>
+      <div class="admin-field">
+        <label for="missionTitle">Tiêu đề</label>
+        <input type="text" id="missionTitle" name="missionTitle" value="<%= v.missionTitle %>">
+      </div>
+      <div class="admin-field">
+        <label for="missionText">Câu sứ mệnh</label>
+        <textarea id="missionText" name="missionText" rows="5"><%= v.missionText %></textarea>
+      </div>
+      <% v.missionCards.forEach(function(c, i) { %>
+        <div class="admin-field" style="background:#F7F5EF;padding:12px;border-radius:8px">
+          <label for="mTitle<%= i + 1 %>">Thẻ <%= i + 1 %> — Tiêu đề</label>
+          <input type="text" id="mTitle<%= i + 1 %>" name="mTitle<%= i + 1 %>" value="<%= c.title %>">
+          <label for="mText<%= i + 1 %>" style="margin-top:10px">Thẻ <%= i + 1 %> — Nội dung</label>
+          <textarea id="mText<%= i + 1 %>" name="mText<%= i + 1 %>" rows="3"><%= c.text %></textarea>
+        </div>
+      <% }); %>
+
+      <button class="admin-btn" type="submit" style="margin-top:20px">Lưu thay đổi</button>
+    </form>
+  </div>
+</div>
+<script src="/assets/admin-search.js" defer></script>
+</body></html>

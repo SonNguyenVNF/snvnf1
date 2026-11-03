@@ -7,7 +7,7 @@
 <main>
 <section class="m-main"<%- fx('member-main') %>><div class="wrap m-grid">
   <div>
-    <h1><%= item.name %></h1>
+    <h1><%= item.pageTitle || item.name %></h1>
     <p class="slogan"><%= item.tagline %></p>
     <div class="body">
       <% (item.body || '').replace(/\r\n/g, '\n').split(/\n{2,}/).forEach(function(paragraph) { %><% if (paragraph.trim()) { %><p><%= paragraph.trim() %></p>
@@ -27,17 +27,35 @@
   <% } %>
 </div></section>
 
-<% if (otherMembers.length) { %>
+<% var hasUnits = item.units && item.units.length; %>
+<% if (hasUnits) { %>
+<section class="m-band m-units"<%- fx('member-others') %>>
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
+  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
+  <div class="wrap">
+    <h2 class="t-h"><%= item.unitsTitle %></h2>
+    <div class="ugrid">
+      <% item.units.forEach(function(u) { %>
+      <div class="ucard">
+        <span class="ul"><% if (u.logo) { %><img src="<%= root %><%= u.logo %>" alt="<%= u.name %>" loading="lazy"><% } %></span>
+        <span class="un"><%= u.name %></span>
+        <% if (u.url) { %><a class="btn btn-blue" href="<%= u.url %>">Tìm hiểu thêm</a><% } else { %><span class="btn btn-blue no-link">Tìm hiểu thêm</span><% } %>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+<% } else if (allMembers.length) { %>
 <section class="m-band"<%- fx('member-others') %>>
   <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
   <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
   <div class="wrap">
-    <h2 class="t-h">CÁC THÀNH VIÊN KHÁC TRONG HỆ SINH THÁI</h2>
-    <div class="mgrid" style="--n:<%= Math.min(otherMembers.length, 5) %>">
-      <% otherMembers.forEach(function(m) { %>
+    <h2 class="t-h"><%= homepage.membersTitle %></h2>
+    <div class="mgrid" style="--n:<%= Math.min(allMembers.length, 5) %>">
+      <% allMembers.forEach(function(m) { %>
       <a class="mcard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
         <span class="ml"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo-m-<%= m.slug %>.png'"></span>
-        <span class="mt"><%= tagBreak(m.tagline) %></span>
+        <span class="mt"><%= cardQuote(m.tagline) %></span>
         <span class="btn btn-blue">Tìm hiểu thêm</span>
       </a>
       <% }); %>

@@ -5,6 +5,7 @@ const sd = require('./site-data');
 
 const DEFAULT_HEADINGS = {
   'lich-su': { label: 'Lịch sử', heading: 'LỊCH SỬ HÌNH THÀNH' },
+  'tam-nhin-chien-luoc': { label: 'Tầm nhìn chiến lược', heading: 'CHIẾN LƯỢC PHÁT TRIỂN' },
   'giai-thuong': { label: 'Giải thưởng', heading: 'CÁC GIẢI THƯỞNG' }
 };
 
@@ -185,7 +186,7 @@ module.exports = function registerPublic(app, deps) {
       facts,
       homepage: sd.getHomepage(),
       theme: THEME_BY_ACCENT[item.accent] || 'blue',
-      otherMembers: members.filter((i) => i.slug !== item.slug)
+      allMembers: members
     });
   });
 
@@ -257,6 +258,7 @@ module.exports = function registerPublic(app, deps) {
       ...commonLocals(),
       about: buildAbout(vePages),
       coreValues: sd.getCoreValues(),
+      vision: sd.getVision(),
       network: sd.getNetwork(),
       team: readJSON('team').items,
       teamIntro: pages['doi-ngu-lanh-dao-intro'] || { body: '', chairmanNote: '' }

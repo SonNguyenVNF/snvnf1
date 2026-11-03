@@ -23,6 +23,11 @@
       </div>
 
       <div class="admin-field">
+        <label for="pageTitle">Tiêu đề lớn ở đầu trang chi tiết (để trống thì dùng tên công ty)</label>
+        <input type="text" id="pageTitle" name="pageTitle" value="<%= item ? (item.pageTitle || '') : '' %>" placeholder="Ví dụ: SYNETIC NUTRITION">
+      </div>
+
+      <div class="admin-field">
         <label for="brandSub">Chữ nhỏ dưới logo (không dấu, viết hoa)</label>
         <input type="text" id="brandSub" name="brandSub" value="<%= item ? item.brandSub : '' %>" placeholder="Ví dụ: NUTRITION">
       </div>
@@ -77,6 +82,25 @@
             <label style="font-weight:400"><input type="checkbox" name="factImageRemove<%= i %>" value="1" style="width:auto"> Xoá ảnh này</label>
           <% } %>
           <input type="file" name="factImage<%= i %>" accept=".jpg,.jpeg,.png,.webp,.gif">
+        </div>
+      <% } %>
+
+      <div class="admin-field">
+        <label for="unitsTitle">Phần cuối trang: tiêu đề các đơn vị thành viên (để trống nếu công ty này không có đơn vị con — trang sẽ hiện danh sách 5 công ty của hệ sinh thái)</label>
+        <input type="text" id="unitsTitle" name="unitsTitle" value="<%= item ? (item.unitsTitle || '') : '' %>" placeholder="Ví dụ: CÁC ĐƠN VỊ THÀNH VIÊN TRONG LĨNH VỰC VẬN TẢI">
+      </div>
+      <% for (let i = 1; i <= 4; i++) { const u = item && item.units && item.units[i - 1]; %>
+        <div class="admin-field" style="background:#F7F5EF;padding:12px;border-radius:8px">
+          <div style="display:flex;gap:10px">
+            <div style="flex:1"><label>Đơn vị <%= i %> — Tên công ty (hiện dưới logo)</label><input type="text" name="unitName<%= i %>" value="<%= u ? u.name : '' %>"></div>
+            <div style="flex:1"><label>Đơn vị <%= i %> — Link của nút "Tìm hiểu thêm"</label><input type="text" name="unitUrl<%= i %>" value="<%= u ? (u.url || '') : '' %>" placeholder="https://..."></div>
+          </div>
+          <label style="margin-top:10px">Đơn vị <%= i %> — Logo</label>
+          <% if (u && u.logo) { %>
+            <div style="margin-bottom:8px"><img src="/<%= u.logo %>" alt="" style="max-width:160px;max-height:90px;object-fit:contain;background:#fff;border-radius:6px;padding:6px;display:block"></div>
+            <label style="font-weight:400"><input type="checkbox" name="unitLogoRemove<%= i %>" value="1" style="width:auto"> Xoá đơn vị này (bỏ logo)</label>
+          <% } %>
+          <input type="file" name="unitLogo<%= i %>" accept=".jpg,.jpeg,.png,.webp,.gif">
         </div>
       <% } %>
 

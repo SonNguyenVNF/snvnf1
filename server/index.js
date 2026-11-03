@@ -26,7 +26,7 @@ const partnersUpload = createUploader('partners');
 const siteImageUpload = createUploader('site');
 const heroUpload = createUploader('hero');
 const memberUpload = createUploader('members');
-const MEMBER_FIELDS = [{ name: 'logo', maxCount: 1 }, { name: 'factImage1', maxCount: 1 }, { name: 'factImage2', maxCount: 1 }, { name: 'factImage3', maxCount: 1 }];
+const MEMBER_FIELDS = [{ name: 'logo', maxCount: 1 }, { name: 'factImage1', maxCount: 1 }, { name: 'factImage2', maxCount: 1 }, { name: 'factImage3', maxCount: 1 }, { name: 'unitLogo1', maxCount: 1 }, { name: 'unitLogo2', maxCount: 1 }, { name: 'unitLogo3', maxCount: 1 }, { name: 'unitLogo4', maxCount: 1 }];
 function fileOf(req, field) {
   return (req.files && req.files[field] && req.files[field][0]) || null;
 }
@@ -43,6 +43,23 @@ function buildFacts(req, existing) {
     if (up) { deleteUploadedFile(image); image = publicPathFor('members', up.filename); }
     else if (req.body['factImageRemove' + i] === '1') { deleteUploadedFile(image); image = null; }
     if (label || value) out.push({ label, value, image });
+  });
+  return out;
+}
+
+// Builds the "đơn vị thành viên" cards of a member page (up to 4): name, link and logo,
+// keeping an existing logo unless a new one is uploaded or "remove" is ticked.
+function buildUnits(req, existing) {
+  const out = [];
+  [1, 2, 3, 4].forEach((i) => {
+    const old = (existing || [])[i - 1] || {};
+    const name = (req.body['unitName' + i] || '').trim();
+    const url = (req.body['unitUrl' + i] || '').trim();
+    let logo = old.logo || null;
+    const up = fileOf(req, 'unitLogo' + i);
+    if (up) { deleteUploadedFile(logo); logo = publicPathFor('members', up.filename); }
+    else if (req.body['unitLogoRemove' + i] === '1') { deleteUploadedFile(logo); logo = null; }
+    if ((name || logo) && req.body['unitLogoRemove' + i] !== '1') out.push({ name, url, logo });
   });
   return out;
 }
@@ -123,7 +140,7 @@ const MEMBER_SEED = [
       { label: 'Cam kết', value: 'Đúng chuẩn, đúng thời gian' }
     ] },
   { slug: 'farm', name: 'Synetic Nông Trại', brand: 'Synetic', brandSub: 'FARM', accent: 'emerald',
-    tagline: 'Nuôi bằng tâm, lớn bằng chuẩn', legalName: 'Công ty Cổ phần Synetic Nông Trại', siteImageKey: 'member-farm',
+    tagline: 'Nuôi bằng tâm, dưỡng bằng chuẩn', legalName: 'Công ty Cổ phần Synetic Nông Trại', siteImageKey: 'member-farm',
     body: 'Synetic Nông Trại vận hành các trang trại chăn nuôi theo tiêu chuẩn an toàn sinh học, kết hợp kinh nghiệm thực tế với quy trình giám sát chặt chẽ ở từng giai đoạn nuôi.\n\nĐây cũng là nơi thử nghiệm và chứng minh hiệu quả thực tế của sản phẩm dinh dưỡng và giải pháp thú y trong hệ sinh thái, trước khi nhân rộng ra thị trường.\n\nToàn bộ dữ liệu sức khoẻ và tăng trưởng đàn nuôi được ghi nhận xuyên suốt, làm cơ sở để Synetic Dinh Dưỡng và Synetic Thú Y liên tục cải tiến sản phẩm.\n\nSynetic Nông Trại vận hành trên hạ tầng đất đai, nhà xưởng do Tập đoàn đầu tư và quản lý tập trung, đồng thời là nơi thực chứng hiệu quả của công nghệ chăn nuôi thông minh mà Synetic Group đang từng bước ứng dụng.',
     factsTitle: 'THÔNG TIN NHANH',
     facts: [
@@ -142,6 +159,21 @@ const MEMBER_SEED = [
     ] }
 ];
 
+// 3.11 design: member page title (SYNETIC NUTRITION...) and the sub-companies listed at the bottom of 3 of the pages.
+// Applied once to members that don't have them yet; everything stays editable in /admin/thanh-vien.
+const MEMBER_41 = {
+  nutrition: { pageTitle: 'SYNETIC NUTRITION', unitsTitle: 'CÁC ĐƠN VỊ THÀNH VIÊN TRONG LĨNH VỰC DINH DƯỠNG', units: [
+    { name: 'CTCP PHÂN PHỐI VÀ THƯƠNG MẠI THỨC ĂN CHĂN NUÔI', url: '', logo: 'assets/img/units/synetic-nutrition.png' },
+    { name: 'CTCP DINH DƯỠNG VINAFEED', url: '', logo: 'assets/img/units/vinafeed.png' }] },
+  vet: { pageTitle: 'SYNETIC VET', unitsTitle: '', units: [] },
+  logistics: { pageTitle: 'SYNETIC LOGISTIC', unitsTitle: 'CÁC ĐƠN VỊ THÀNH VIÊN TRONG LĨNH VỰC VẬN TẢI', units: [
+    { name: 'CTCP LOGISTICS SYNETIC', url: '', logo: 'assets/img/units/synetic-logistics.png' },
+    { name: 'CÔNG TY TNHH TM DƯỢC PHẨM PHÚC AN KHANG', url: '', logo: 'assets/img/units/phuc-an-khang.png' }] },
+  farm: { pageTitle: 'SYNETIC FARM', unitsTitle: '', units: [] },
+  capital: { pageTitle: 'SYNETIC FINANCE', unitsTitle: 'CÁC ĐƠN VỊ THÀNH VIÊN TRONG LĨNH VỰC ĐẦU TƯ TÀI CHÍNH', units: [
+    { name: 'CÔNG TY CỔ PHẦN CÔNG NGHỆ SYNETIC', url: '', logo: 'assets/img/units/synetic-tech.png' }] }
+};
+
 // Reads data/members.json as a proper array-based list, seeding it from
 // MEMBER_SEED (+ any logo already uploaded via the old fixed image slots)
 // on first use, or migrating it if it's still in the older flat-object shape.
@@ -152,6 +184,18 @@ function getMembersData() {
     if (!current.logoReset31) {
       current.items.forEach((m) => { m.logo = null; });
       current.logoReset31 = true;
+      writeJSON('members', current);
+    }
+    if (!current.units41) {
+      current.items.forEach((m) => {
+        const s = MEMBER_41[m.slug];
+        if (!s) return;
+        if (m.pageTitle === undefined) m.pageTitle = s.pageTitle;
+        if (m.unitsTitle === undefined) m.unitsTitle = s.unitsTitle;
+        if (!Array.isArray(m.units)) m.units = s.units.map((u) => Object.assign({}, u));
+        if (m.slug === 'farm' && m.tagline === 'Nuôi bằng tâm, lớn bằng chuẩn') m.tagline = 'Nuôi bằng tâm, dưỡng bằng chuẩn';
+      });
+      current.units41 = true;
       writeJSON('members', current);
     }
     return current;
@@ -174,6 +218,11 @@ function getMembersData() {
     published: true
   }));
   const migrated = { items, logoReset31: true };
+  items.forEach((m) => {
+    const s = MEMBER_41[m.slug];
+    if (s) { m.pageTitle = s.pageTitle; m.unitsTitle = s.unitsTitle; m.units = s.units.map((u) => Object.assign({}, u)); }
+  });
+  migrated.units41 = true;
   writeJSON('members', migrated);
   return migrated;
 }
@@ -296,6 +345,12 @@ app.use((req, res, next) => {
   res.locals.fontCss = fonts.buildCss();
   next();
 });
+// card quote on the member cards: “Chuẩn dinh dưỡng,\nbền tăng trưởng.”
+app.locals.cardQuote = (t) => {
+  const s = String(t || '').trim();
+  if (!s) return '';
+  return '“' + app.locals.tagBreak(/[.!?…]$/.test(s) ? s : s + '.') + '”';
+};
 app.locals.tagBreak = (t) => String(t || '').replace(/,\s+/, ',\n');
 app.locals.renderRich = sd.renderRich;
 app.locals.renderInline = sd.renderInline;
@@ -684,6 +739,9 @@ adminRouter.post('/thanh-vien/new', (req, res) => {
       body: (req.body.body || '').replace(/\r\n/g, '\n').trim(),
       factsTitle: (req.body.factsTitle || '').trim(),
       facts,
+      pageTitle: (req.body.pageTitle || '').trim(),
+      unitsTitle: (req.body.unitsTitle || '').trim(),
+      units: buildUnits(req, []),
       published: req.body.published === '1'
     });
     writeJSON('members', members);
@@ -723,6 +781,9 @@ adminRouter.post('/thanh-vien/:id/edit', (req, res) => {
     item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
     item.factsTitle = (req.body.factsTitle || '').trim();
     item.facts = buildFacts(req, item.facts);
+    item.pageTitle = (req.body.pageTitle || '').trim();
+    item.unitsTitle = (req.body.unitsTitle || '').trim();
+    item.units = buildUnits(req, item.units);
     item.published = req.body.published === '1';
     if (fileOf(req, 'logo')) {
       deleteUploadedFile(item.logo);

@@ -61,10 +61,11 @@ const IMAGE_SLOTS = [
   { key: 'footerBg', label: "Chân trang — ảnh nền (phủ màu sáng)", def: 'assets/img/footer-bg.jpg' },
   { key: 'jobsBg', label: "Trang Tuyển dụng — ảnh nền dải xanh đầu trang", def: 'assets/img/jobs-bg.jpg' },
   { key: 'chairBg', label: "Về chúng tôi — ảnh nền phần Chủ tịch (phủ màu xanh)", def: 'assets/img/jobs-bg.jpg' },
-  { key: 'strategyBg', label: "Về chúng tôi — ảnh nền phần Tầm nhìn chiến lược (bên phải)", def: 'assets/img/strategy-bg.jpg' },
+  { key: 'strategyBg', label: "Về chúng tôi — ảnh nền phần Sứ mệnh và Chiến lược phát triển (bên phải)", def: 'assets/img/strategy-bg.jpg' },
   { key: 'skyline', label: "Ảnh nền hình nhà máy – thành phố nét mảnh (Tin tức nổi bật, Lịch sử, Dự án nổi bật)", def: 'assets/img/skyline.jpg' },
   { key: 'watermark', label: "Hình ngũ giác mờ trang trí ở các dải màu (xanh, cam, xanh dương)", def: 'assets/img/pentagon-wm.svg' },
-  { key: 'pentagon', label: "Hình ngũ giác màu trang trí (Trang chủ, Lịch sử hình thành)", def: 'assets/img/pentagon.svg' },
+  { key: 'pentagon', label: "Hình ngũ giác màu trang trí (Trang chủ)", def: 'assets/img/pentagon.svg' },
+  { key: 'pentagonAbout', label: "Hình ngũ giác màu trang trí góc dưới trái phần Lịch sử hình thành (cả cặp lớn + nhỏ trong 1 ảnh)", def: 'assets/img/pentagon-about.png' },
   { key: 'intro', label: "Trang chủ — ảnh giới thiệu Synetic Group", def: 'assets/img/trophy.jpg', group: "Ảnh nội dung các trang" },
   { key: 'jobVideoPoster', label: "Tuyển dụng — ảnh bìa clip tuyển dụng (cột phải trang chi tiết)", def: 'assets/img/job-video.jpg' },
   { key: 'chairman', label: "Về chúng tôi — ảnh Chủ tịch HĐQT", def: 'assets/img/chairman.png' },
@@ -79,6 +80,11 @@ const IMAGE_SLOTS = [
   { key: 'partnerIcon2', label: "Icon Nhóm 2 (Đại lý & nhà phân phối)", def: 'assets/img/ico-hub.png' },
   { key: 'partnerIcon3', label: "Icon Nhóm 3 (Đối tác vận chuyển & kho vận)", def: 'assets/img/ico-truck.png' },
   { key: 'partnerIcon4', label: "Icon Nhóm 4 (Nhà đầu tư & đối tác tài chính)", def: 'assets/img/ico-money.png' },
+  { key: 'goal1', label: "Icon mục tiêu số 1 (Trở thành một hệ thống lớn)", def: 'assets/img/ab/goal1.png', group: "Icon Về chúng tôi — 5 mục tiêu trong Tầm nhìn" },
+  { key: 'goal2', label: "Icon mục tiêu số 2", def: 'assets/img/ab/goal2.png' },
+  { key: 'goal3', label: "Icon mục tiêu số 3", def: 'assets/img/ab/goal3.png' },
+  { key: 'goal4', label: "Icon mục tiêu số 4", def: 'assets/img/ab/goal4.png' },
+  { key: 'goal5', label: "Icon mục tiêu số 5", def: 'assets/img/ab/goal5.png' },
   { key: 'pillar1', label: "Icon trụ cột số 1", def: 'assets/img/ab/pillar1.png', group: "Icon Về chúng tôi — 3 trụ cột chiến lược" },
   { key: 'pillar2', label: "Icon trụ cột số 2", def: 'assets/img/ab/pillar2.png' },
   { key: 'pillar3', label: "Icon trụ cột số 3", def: 'assets/img/ab/pillar3.png' },
@@ -166,7 +172,7 @@ const HOMEPAGE_DEFAULTS = {
   introSubtitle: 'KIẾN TẠO GIÁ TRỊ VƯỢT TRỘI',
   introText: 'Synetic Group hoạt động trong các lĩnh vực cốt lõi: nông nghiệp, dinh dưỡng, thú y, chuỗi cung ứng và đầu tư — cam kết mang đến các giải pháp và dịch vụ chất lượng, góp phần thúc đẩy sự phát triển bền vững của cộng đồng và xã hội.',
   introButton: 'Tìm hiểu thêm',
-  membersTitle: 'THÀNH VIÊN TRONG HỆ SINH THÁI',
+  membersTitle: 'HỆ SINH THÁI SYNETIC',
   partnersTitle: 'ĐỐI TÁC VÀ KHÁCH HÀNG',
   partnersText: 'Synetic Group phục vụ đa dạng nhóm khách hàng và đối tác trong chuỗi giá trị nông nghiệp – chăn nuôi:',
   partnerItems: [
@@ -189,6 +195,8 @@ function getHomepage() {
   Object.keys(HOMEPAGE_DEFAULTS).forEach((k) => {
     if (k === 'partnerItems') {
       if (Array.isArray(raw.partnerItems) && raw.partnerItems.length) out.partnerItems = raw.partnerItems;
+    } else if (k === 'membersTitle' && raw[k] === 'THÀNH VIÊN TRONG HỆ SINH THÁI') {
+      // 3.11 design renamed this heading; keep the new default unless it was changed to something else
     } else if (typeof raw[k] === 'string' && raw[k].trim()) {
       out[k] = raw[k];
     }
@@ -322,6 +330,40 @@ function getCoreValues() {
   return { items: raw.items || [], note: (typeof raw.note === 'string' && raw.note.trim()) || VALUES_NOTE_DEFAULT };
 }
 
+// ---------- Tầm nhìn – Sứ mệnh (trang Về chúng tôi, thiết kế 3.11) ----------
+
+const VISION_DEFAULTS = {
+  visionTitle: 'TẦM NHÌN',
+  visionText: '“Trở thành hệ sinh thái kinh doanh tích hợp hàng đầu Việt Nam trong lĩnh vực nông nghiệp, dinh dưỡng, dịch vụ chuỗi cung ứng và đầu tư; tiên phong tạo ra những mô hình kinh doanh hiệu quả, khác biệt và bền vững, góp phần nâng cao năng lực của doanh nghiệp Việt Nam, thúc đẩy phát triển kinh tế và kiến tạo một tương lai thịnh vượng cho cộng đồng.”',
+  goals: [
+    'TRỞ THÀNH MỘT HỆ THỐNG LỚN',
+    'PHÁT TRIỂN BỀN VỮNG VỀ KINH TẾ XÃ HỘI VÀ MÔI TRƯỜNG',
+    'GẮN THÀNH CÔNG CỦA SYNETIC VỚI SỰ PHÁT TRIỂN CỦA ĐẤT NƯỚC VÀ CỘNG ĐỒNG',
+    'DẪN ĐẦU BẰNG NĂNG LỰC',
+    'TIÊN PHONG VỀ MÔ HÌNH KINH DOANH VÀ CÁCH VẬN HÀNH'
+  ],
+  missionTitle: 'SỨ MỆNH',
+  missionText: '“Kết nối con người, nguồn lực, công nghệ, thị trường và vốn để tạo ra những sản phẩm, dịch vụ và giải pháp vượt trội; phụng sự khách hàng, nâng cao hiệu quả cho đối tác, tạo cơ hội phát triển cho người lao động và đóng góp thiết thực cho sự thịnh vượng của cộng đồng và nền kinh tế.”',
+  missionCards: [
+    { title: 'VỚI KHÁCH HÀNG', text: 'Tạo ra sản phẩm và dịch vụ tốt hơn kì vọng.' },
+    { title: 'VỚI ĐỐI TÁC', text: 'Tạo cơ hội cùng phát triển, không đơn giản giao dịch mua bán.' },
+    { title: 'VỚI NGƯỜI LAO ĐỘNG', text: 'Tạo môi trường để mỗi cá nhân phát triển năng lực, nghề nghiệp và cuộc sống.' },
+    { title: 'VỚI CỔ ĐÔNG', text: 'Tạo tăng trưởng có chất lượng và giá trị doanh nghiệp bền vững.' },
+    { title: 'VỚI CỘNG ĐỒNG VÀ ĐẤT NƯỚC', text: 'Tạo việc làm, đóng góp ngân sách, nâng cao năng suất, thúc đẩy sản xuất và lan tỏa những giá trị tích cực.' }
+  ]
+};
+
+function getVision() {
+  const raw = readJSON('vision');
+  const str = (k) => (typeof raw[k] === 'string' && raw[k].trim() ? raw[k].trim() : VISION_DEFAULTS[k]);
+  const goals = VISION_DEFAULTS.goals.map((d, i) => (Array.isArray(raw.goals) && typeof raw.goals[i] === 'string' && raw.goals[i].trim() ? raw.goals[i].trim() : d));
+  const cards = VISION_DEFAULTS.missionCards.map((d, i) => {
+    const c = Array.isArray(raw.missionCards) && raw.missionCards[i] ? raw.missionCards[i] : {};
+    return { title: (c.title && String(c.title).trim()) || d.title, text: (c.text && String(c.text).trim()) || d.text };
+  });
+  return { visionTitle: str('visionTitle'), visionText: str('visionText'), goals, missionTitle: str('missionTitle'), missionText: str('missionText'), missionCards: cards };
+}
+
 // ---------- projects / jobs (add slugs + new fields to older records) ----------
 
 function getProjects() {
@@ -364,6 +406,6 @@ module.exports = {
   IMAGE_SLOTS, getSiteImages, getFooter, FOOTER_DEFAULTS,
   HOMEPAGE_DEFAULTS, getHomepage, RECRUIT_DEFAULTS, getRecruit,
   PARTNERS_PAGE_DEFAULTS, getPartnersPage, getPartners,
-  NETWORK_DEFAULTS, getNetwork, getCoreValues, VALUES_NOTE_DEFAULT,
+  NETWORK_DEFAULTS, getNetwork, getCoreValues, VALUES_NOTE_DEFAULT, VISION_DEFAULTS, getVision,
   getProjects, getJobs
 };

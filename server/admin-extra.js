@@ -544,6 +544,23 @@ module.exports = function registerAdminExtra(adminRouter) {
     res.redirect('/admin/gia-tri?saved=1');
   });
 
+  // ---------- Tầm nhìn – Sứ mệnh ----------
+  adminRouter.get('/tam-nhin-su-menh', (req, res) => {
+    res.render('admin/vision-form', { v: sd.getVision(), csrfToken: csrf(req), saved: req.query.saved === '1' });
+  });
+  adminRouter.post('/tam-nhin-su-menh', auth.verifyCsrf, (req, res) => {
+    const b = req.body;
+    writeJSON('vision', {
+      visionTitle: one(b.visionTitle),
+      visionText: clean(b.visionText),
+      goals: [1, 2, 3, 4, 5].map((i) => one(b['goal' + i])),
+      missionTitle: one(b.missionTitle),
+      missionText: clean(b.missionText),
+      missionCards: [1, 2, 3, 4, 5].map((i) => ({ title: one(b['mTitle' + i]), text: clean(b['mText' + i]) }))
+    });
+    res.redirect('/admin/tam-nhin-su-menh?saved=1');
+  });
+
   // ---------- Nội dung trang chủ ----------
   const homeKeys = Object.keys(sd.HOMEPAGE_DEFAULTS).filter((k) => k !== 'partnerItems');
   adminRouter.get('/noi-dung-trang-chu', (req, res) => {

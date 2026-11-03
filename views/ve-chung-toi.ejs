@@ -40,41 +40,47 @@
     </div>
     <div class="frame"><img src="<%= root %><%= siteImages.history %>" alt="<%= about.history.heading %>" loading="lazy"></div>
   </div>
-  <img class="pent-deco" src="<%= root %><%= siteImages.pentagon %>" alt="">
-  <img class="pent-deco2" src="<%= root %><%= siteImages.pentagon %>" alt="">
+  <img class="pent-about" src="<%= root %><%= siteImages.pentagonAbout %>" alt="">
 </section>
 <% } %>
 
-<% if (about.strategy) { %>
-<section class="ab-strategy" id="<%= about.strategy.slug %>"<%- fx('about-strategy') %>>
-  <div class="st-top" style="background-image:linear-gradient(90deg,#02a02b 0%,#02a02b 36%,rgba(2,160,43,.82) 58%,rgba(2,160,43,.28) 100%),url('<%= root %><%= siteImages.strategyBg %>')">
-    <div class="wrap">
-      <h2><%= about.strategy.heading %></h2>
-      <% if (about.strategy.intro) { %><p class="sub"><%= about.strategy.intro %></p><% } %>
-    </div>
-  </div>
-  <% if (about.strategy.pillars.length) { %>
-  <div class="wrap pillars-wrap">
-    <div class="pillars">
-      <% var picons = ['pillar1', 'pillar2', 'pillar3']; about.strategy.pillars.forEach(function(p, i) { %>
-      <article class="pillar c<%= i % 3 %>"><span class="pn"><%= String(i + 1).padStart(2, '0') %></span><img class="pic" src="<%= root %><%= siteImages[picons[i % 3]] %>" alt=""><h3><%= p.title %></h3><p><%= p.text %></p></article>
-      <% }); %>
-    </div>
-  </div>
-  <% } %>
-  <% if (about.strategy.rest.length) { %><div class="wrap st-rest"><% about.strategy.rest.forEach(function(p) { %><p><%= p %></p><% }); %></div><% } %>
-</section>
-<% if (about.strategy.vision) { %>
-<section class="ab-vision"<%- fx('about-vision') %>>
+<%# TẦM NHÌN %>
+<section class="ab-vision2" id="tam-nhin"<%- fx('about-vision') %>>
   <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">
   <div class="wrap">
-    <h2><%= about.strategy.vision.title %></h2>
+    <h2><%= vision.visionTitle %></h2>
     <div class="rule"></div>
-    <p><%= about.strategy.vision.text %></p>
+    <p><%= vision.visionText %></p>
   </div>
 </section>
-<% } %>
-<% } %>
+
+<section class="ab-goals"<%- fx('about-goals') %>>
+  <div class="gsteps">
+    <% var gicons = ['goal1', 'goal2', 'goal3', 'goal4', 'goal5']; vision.goals.forEach(function(g, i) { %>
+    <div class="gstep">
+      <div class="gc">
+        <svg viewBox="0 0 270 200" aria-hidden="true"><path d="M193.2 100 A93.7 93.7 0 1 1 177.9 48.1" fill="none" stroke="#02a02b" stroke-width="9.5" stroke-linecap="round"/><% if (i < vision.goals.length - 1) { %><path class="ar" d="M193 100 H262 M228 67 L262 100 L228 133" fill="none" stroke="#02a02b" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/><% } %></svg>
+        <img src="<%= root %><%= siteImages[gicons[i % 5]] %>" alt="">
+      </div>
+      <div class="gt"><b><%= String(i + 1).padStart(2, '0') %></b><span><%= g %></span></div>
+    </div>
+    <% }); %>
+  </div>
+</section>
+
+<section class="ab-mission" id="su-menh"<%- fx('about-mission') %>>
+  <div class="ms-top" style="background-image:linear-gradient(90deg,#0702c6 0%,#0702c6 34%,rgba(7,2,198,.72) 54%,rgba(7,2,198,.08) 100%),url('<%= root %><%= siteImages.strategyBg %>')">
+    <div class="wrap">
+      <h2><%= vision.missionTitle %></h2>
+      <p><%= vision.missionText %></p>
+    </div>
+  </div>
+  <div class="ms-cards">
+    <% vision.missionCards.forEach(function(c, i) { %>
+    <article class="mscard"><b><%= String(i + 1).padStart(2, '0') %></b><h3><%= c.title %></h3><p><%= c.text %></p></article>
+    <% }); %>
+  </div>
+</section>
 
 <% if (coreValues.items.length) { %>
 <section class="ab-values" id="gia-tri-cot-loi"<%- fx('about-values') %>>
@@ -118,6 +124,27 @@
     <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">
     <p><%= coreValues.note %></p>
   </div>
+</section>
+<% } %>
+
+<% if (about.strategy) { %>
+<section class="ab-strategy" id="<%= about.strategy.slug %>"<%- fx('about-strategy') %>>
+  <div class="st-top" style="background-image:linear-gradient(90deg,#02a02b 0%,#02a02b 36%,rgba(2,160,43,.82) 58%,rgba(2,160,43,.28) 100%),url('<%= root %><%= siteImages.strategyBg %>')">
+    <div class="wrap">
+      <h2><%= about.strategy.heading %></h2>
+      <% if (about.strategy.intro) { %><p class="sub"><%= about.strategy.intro %></p><% } %>
+    </div>
+  </div>
+  <% if (about.strategy.pillars.length) { %>
+  <div class="wrap pillars-wrap">
+    <div class="pillars">
+      <% var picons = ['pillar1', 'pillar2', 'pillar3']; about.strategy.pillars.forEach(function(p, i) { %>
+      <article class="pillar c<%= i % 3 %>"><span class="pn"><%= String(i + 1).padStart(2, '0') %></span><img class="pic" src="<%= root %><%= siteImages[picons[i % 3]] %>" alt=""><h3><%= p.title %></h3><p><%= p.text %></p></article>
+      <% }); %>
+    </div>
+  </div>
+  <% } %>
+  <% if (about.strategy.rest.length) { %><div class="wrap st-rest"><% about.strategy.rest.forEach(function(p) { %><p><%= p %></p><% }); %></div><% } %>
 </section>
 <% } %>
 
