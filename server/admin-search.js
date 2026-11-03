@@ -33,7 +33,8 @@ const SCREENS = [
 ];
 
 const uiTexts = require('./ui-texts');
-const clip = (v, n) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, n);
+// titles stay short; the searchable text (n >= 200) keeps everything so any sentence can be found
+const clip = (v, n) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, n >= 200 ? 6000 : n);
 const items = (name) => { try { return (readJSON(name).items || []); } catch (e) { return []; } };
 
 // all readable strings of a settings object, each with the admin form it is edited in
