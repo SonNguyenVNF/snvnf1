@@ -43,8 +43,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
 </section>
 
 <section class="members" id="thanh-vien"<%- fx('home-members') %>>
-  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <div class="wrap">
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">  <div class="wrap">
     <h2 class="t-h"><%= homepage.membersTitle %></h2>
     <div class="mgrid">
       <% members.forEach(function(m) { %>
@@ -59,9 +58,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
 </section>
 
 <section class="partners-band"<%- fx('home-partners') %>>
-  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <div class="wrap">
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt="">  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">  <div class="wrap">
     <h2><%= homepage.partnersTitle %></h2>
     <p class="lead"><%= homepage.partnersText %></p>
     <div class="pgrid">
@@ -99,9 +96,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
 <% } %>
 
 <section class="cta-band"<%- fx('home-cta') %>>
-  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt="">  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">  <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
   <div class="rule"></div>
   <p><%= homepage.ctaText %></p>
   <a class="btn btn-yellow btn-lg" href="#thanh-vien"><%= homepage.ctaButton %></a>

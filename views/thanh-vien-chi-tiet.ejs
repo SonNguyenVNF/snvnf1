@@ -30,9 +30,7 @@
 <% var hasUnits = item.units && item.units.length; %>
 <% if (hasUnits) { %>
 <section class="m-band m-units"<%- fx('member-others') %>>
-  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <div class="wrap">
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt="">  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">  <div class="wrap">
     <h2 class="t-h"><%= item.unitsTitle %></h2>
     <div class="ugrid">
       <% item.units.forEach(function(u) { %>
@@ -47,9 +45,7 @@
 </section>
 <% } else if (allMembers.length) { %>
 <section class="m-band"<%- fx('member-others') %>>
-  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <div class="wrap">
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt="">  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">  <div class="wrap">
     <h2 class="t-h"><%= homepage.membersTitle %></h2>
     <div class="mgrid" style="--n:<%= Math.min(allMembers.length, 5) %>">
       <% allMembers.forEach(function(m) { %>
@@ -65,9 +61,7 @@
 <% } %>
 
 <section class="cta-band"<%- fx('member-cta') %>>
-  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm l s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r s" src="<%= root %><%= siteImages.watermark %>" alt="">
-  <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
+  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt="">  <img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">  <h2><%= homepage.ctaTitle %> <span><%= homepage.ctaHighlight %></span></h2>
   <div class="rule"></div>
   <p><%= homepage.ctaText %></p>
   <a class="btn btn-yellow btn-lg" href="<%= root %>index.html#thanh-vien"><%= t('btn.explore') %></a>
