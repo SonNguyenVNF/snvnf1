@@ -1280,3 +1280,9 @@ body.modal-open{overflow:hidden}
 .wm.wm.wm.r{right:0;left:auto;transform:scaleX(-1)}
 .tm-band .wm.wm.wm{top:50%;bottom:auto;transform:translateY(-50%)}
 .tm-band .wm.wm.wm.r{transform:translateY(-50%) scaleX(-1)}
+
+/* "Về chúng tôi" dropdown: text on the left edge */
+.mainnav .dd,.mainnav .dd li{text-align:left}
+@media (min-width:861px){.mainnav .dd a{display:block;text-align:left}}
+.mainnav .dd{align-items:stretch}
+.mainnav .dd li{width:100%}
