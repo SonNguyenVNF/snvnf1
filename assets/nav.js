@@ -197,9 +197,8 @@
     /* ---- footer ticker: visitors online / today / all time ---- */
     var statsBox = $$('[data-stats]');
     if(statsBox.length){
-      var sid = '';
-      try { sid = sessionStorage.getItem('syn_sid') || ''; } catch(e) {}
-      if(!sid){ sid = Math.random().toString(36).slice(2, 12) + Date.now().toString(36); try { sessionStorage.setItem('syn_sid', sid); } catch(e) {} }
+      /* a new id on every page load, so every time the site is opened it adds one (100 tabs = 100) */
+      var sid = Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
       var paintStats = function(d){
         $$('[data-k]').forEach(function(el){ var n = d[el.getAttribute('data-k')]; if(typeof n === 'number') el.textContent = n.toLocaleString('vi-VN'); });
       };
