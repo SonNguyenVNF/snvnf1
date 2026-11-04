@@ -202,13 +202,13 @@
       var paintStats = function(d){
         $$('[data-k]').forEach(function(el){ var n = d[el.getAttribute('data-k')]; if(typeof n === 'number') el.textContent = n.toLocaleString('vi-VN'); });
       };
-      // v=1 only on the first call of a page load: that is the visit. The pings every 30s just keep "online" fresh.
+      // v=1 only on the first call of a page load: that is the visit. The pings every 15s just keep "online" fresh.
       var pingStats = function(visit){
         fetch('/api/visit?s=' + sid + (visit ? '&v=1' : ''), { method: 'POST', credentials: 'same-origin' }).then(function(r){ return r.json(); }).then(paintStats).catch(function(){});
       };
       pingStats(true);
       /* a tab left open in the background still counts as online (browsers slow its timer to about once a minute) */
-      setInterval(function(){ pingStats(false); }, 30000);
+      setInterval(function(){ pingStats(false); }, 15000);
       document.addEventListener('visibilitychange', function(){ if(!document.hidden) pingStats(false); });
     }
 
