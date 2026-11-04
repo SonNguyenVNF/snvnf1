@@ -269,13 +269,20 @@ module.exports = function registerPublic(app, deps) {
   app.get('/doi-tac.html', (req, res) => {
     const partners = sd.getPartners().items.filter((p) => p.published);
     const page = sd.getPartnersPage();
+    const cats = page.categories.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+    // One row per group, in the order of the groups list; groups not in the list next, no group last.
+    const order = cats.concat(partners.map((p) => p.category || '').filter((c) => c && cats.indexOf(c) < 0));
+    order.push('');
+    const groups = [...new Set(order)].map((name) => ({ name, items: partners.filter((p) => (p.category || '') === name) }))
+      .filter((g) => g.items.length);
     res.render('doi-tac', {
       root: '',
       ...commonLocals(),
       page,
       partners,
+      groups,
       featured: partners.find((p) => p.featured) || partners[0] || null,
-      cats: page.categories.split(/\n+/).map((s) => s.trim()).filter(Boolean)
+      cats
     });
   });
 

@@ -378,59 +378,52 @@
       drawThumbs(); drawDots();
     });
 
-    /* ---- partners: category chips, paging, detail pop-up ---- */
+    /* ---- partners: one row per group, chips filter the rows, detail pop-up ----
+       A row with more cards than fit across (more than 4 on a computer) glides slowly to the left on its own,
+       looping, and pauses while the mouse is over it. Reduced motion: no gliding, the row can be swiped. */
     $$('[data-ptlist]').forEach(function(box){
-      var per = parseInt(box.getAttribute('data-per'), 10) || 8, cat = '', page = 0;
-      var cards = $$('[data-item]', box), pager = $('.pt-pager', box), empty = $('[data-empty]', box);
-      var grid = $('.pt-grid', box);
-      function step(){ var c = shown0 && shown0[0]; if(!c) return 0; var g = parseFloat(getComputedStyle(grid).columnGap) || 0; return c.offsetWidth + g; }
-      var shown0 = null;
-      /* a page = the columns that fit across the grid; used by the dots when the cards scroll sideways */
-      function pageW(){ var st = step(); if(!st) return grid.clientWidth || 1; var g = parseFloat(getComputedStyle(grid).columnGap) || 0; return Math.max(1, Math.round((grid.clientWidth + g) / st)) * st; }
-      function dotsFor(pages, cur, go){
-        pager.innerHTML = '';
-        if(pages > 1) for(var i = 0; i < pages; i++){ (function(i){ var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', 'Trang ' + (i + 1)); if(i === cur) b.className = 'on'; b.addEventListener('click', function(){ go(i); }); pager.appendChild(b); })(i); }
+      var rows = $$('[data-row]', box), empty = $('[data-empty]', box), cat = '';
+      function fits(row){ return parseInt(getComputedStyle(row).getPropertyValue('--cols'), 10) || 4; }
+      function setup(row){
+        var track = $('.pt-track', row);
+        $$('[data-clone]', track).forEach(function(c){ c.remove(); });
+        var cards = $$('.pt-card', track), auto = cards.length > fits(row) && !reduce;
+        row.classList.toggle('is-auto', auto);
+        row.classList.toggle('is-swipe', cards.length > fits(row) && reduce);
+        if(!auto) return;
+        /* a second copy of the cards right after the first: sliding by half the track loops seamlessly */
+        cards.forEach(function(c){
+          var k = c.cloneNode(true); k.setAttribute('data-clone', ''); k.setAttribute('aria-hidden', 'true');
+          /* the entrance effect only knows the original cards: a copy must not wait hidden for it */
+          k.classList.remove('fx-k', 'fx-in'); k.removeAttribute('data-fxe'); k.style.transitionDelay = '';
+          $$('button, a', k).forEach(function(b){ b.tabIndex = -1; });
+          track.appendChild(k);
+        });
+        track.style.setProperty('--dur', (cards.length * 4.5) + 's');
       }
       function render(){
-        var shown = cards.filter(function(c){ return !cat || c.getAttribute('data-cat') === cat; });
-        shown0 = shown;
-        var wide = shown.length > per;   /* more than one page of cards: keep the layout, let it scroll sideways */
-        grid.classList.toggle('is-row', wide);
-        var pages = Math.max(1, Math.ceil(shown.length / per));
-        if(wide || page >= pages) page = 0;
-        cards.forEach(function(c){ c.style.display = 'none'; });
-        shown.forEach(function(c, i){ if(wide || (i >= page * per && i < (page + 1) * per)) c.style.display = ''; });
-        if(empty) empty.style.display = shown.length ? 'none' : '';
-        place(wide ? shown : []);
-        grid.scrollLeft = 0;
-        if(!pager) return;
-        if(wide){ rowDots(); }
-        else dotsFor(pages, page, function(i){ page = i; render(); });
+        var n = 0;
+        rows.forEach(function(r){ var on = !cat || r.getAttribute('data-cat') === cat; r.style.display = on ? '' : 'none'; if(on){ n++; setup(r); } });
+        if(empty) empty.style.display = n ? 'none' : '';
       }
-      /* sideways mode: fill each screenful left-to-right, top row then bottom row, then continue to the right */
-      function place(list){
-        cards.forEach(function(c){ c.style.gridColumn = c.style.gridRow = ''; });
-        var cols = parseInt(getComputedStyle(grid).getPropertyValue('--cols'), 10) || 4, rows = cols === 1 ? 1 : 2, pp = cols * rows;
-        list.forEach(function(c, i){ var w = i % pp; c.style.gridColumn = (Math.floor(i / pp) * cols + (w % cols) + 1); c.style.gridRow = (Math.floor(w / cols) + 1); });
-      }
-      function rowDots(){
-        var w = pageW(), pages = Math.max(1, Math.ceil((grid.scrollWidth - 4) / w));
-        dotsFor(pages, Math.min(pages - 1, Math.round(grid.scrollLeft / w)), function(i){ grid.scrollTo({ left: i * w, behavior: 'smooth' }); });
-      }
-      var rowT;
-      grid.addEventListener('scroll', function(){ if(!grid.classList.contains('is-row') || !pager) return; clearTimeout(rowT); rowT = setTimeout(rowDots, 60); });
-      window.addEventListener('resize', function(){ if(!grid.classList.contains('is-row')) return; place(shown0); if(pager) rowDots(); });
+      var lastCols = '';
+      window.addEventListener('resize', function(){
+        var c = rows.map(fits).join(',');   /* only redo the rows when the cards per screen change */
+        if(c !== lastCols){ lastCols = c; render(); }
+      });
       var chips = $$('.chip', box);
-      chips.forEach(function(c){ c.addEventListener('click', function(){ chips.forEach(function(x){ x.classList.toggle('on', x === c); }); cat = c.getAttribute('data-chip') || ''; page = 0; render(); }); });
+      chips.forEach(function(c){ c.addEventListener('click', function(){ chips.forEach(function(x){ x.classList.toggle('on', x === c); }); cat = c.getAttribute('data-chip') || ''; render(); }); });
+      lastCols = rows.map(fits).join(',');
       render();
     });
     function closeModal(m){ m.hidden = true; document.body.classList.remove('modal-open'); }
-    $$('[data-pmodal]').forEach(function(b){
-      b.addEventListener('click', function(){
-        var m = document.getElementById('pm-' + b.getAttribute('data-pmodal'));
-        if(!m) return;
-        m.hidden = false; document.body.classList.add('modal-open');
-      });
+    /* one listener for every "Xem chi tiết", including the copies in a gliding row */
+    document.addEventListener('click', function(e){
+      var b = e.target.closest && e.target.closest('[data-pmodal]');
+      if(!b) return;
+      var m = document.getElementById('pm-' + b.getAttribute('data-pmodal'));
+      if(!m) return;
+      m.hidden = false; document.body.classList.add('modal-open');
     });
     $$('.pmodal').forEach(function(m){
       m.addEventListener('click', function(e){ if(e.target === m || e.target.classList.contains('pm-x')) closeModal(m); });
