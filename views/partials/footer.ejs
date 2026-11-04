@@ -25,6 +25,11 @@
   </div>
 </div>
 </footer>
+<div class="ft-stats" data-stats role="status" aria-label="<%= t('stats.aria') %>"><div class="ft-stats-track">
+  <% for (var sg = 0; sg < 2; sg++) { %><div class="ft-stats-grp"<%- sg ? ' aria-hidden="true"' : '' %>>
+    <% for (var sr = 0; sr < 5; sr++) { %><span class="fs"><em class="live"></em><b><%= t('stats.online') %></b><strong data-k="online">—</strong></span><span class="fs"><b><%= t('stats.today') %></b><strong data-k="today">—</strong></span><span class="fs"><b><%= t('stats.total') %></b><strong data-k="total">—</strong></span><% } %>
+  </div><% } %>
+</div></div>
 <div class="copy"><span><%= footer.copyright %></span><button class="to-top" id="fabTop" type="button" aria-label="<%= t('aria.totop') %>"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 15 12 9 18 15"/></svg></button></div>
 <script>window.SYN_T=<%- JSON.stringify(clientTexts()).replace(/</g, "\u003c") %></script>
 <script src="<%= root %>assets/nav.js?v=<%= assetVersion %>" defer></script>

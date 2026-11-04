@@ -194,6 +194,22 @@
       });
     });
 
+    /* ---- footer ticker: visitors online / today / all time ---- */
+    var statsBox = $$('[data-stats]');
+    if(statsBox.length){
+      var sid = '';
+      try { sid = sessionStorage.getItem('syn_sid') || ''; } catch(e) {}
+      if(!sid){ sid = Math.random().toString(36).slice(2, 12) + Date.now().toString(36); try { sessionStorage.setItem('syn_sid', sid); } catch(e) {} }
+      var paintStats = function(d){
+        $$('[data-k]').forEach(function(el){ var n = d[el.getAttribute('data-k')]; if(typeof n === 'number') el.textContent = n.toLocaleString('vi-VN'); });
+      };
+      var pingStats = function(){
+        fetch('/api/visit?s=' + sid, { method: 'POST', credentials: 'same-origin' }).then(function(r){ return r.json(); }).then(paintStats).catch(function(){});
+      };
+      pingStats();
+      setInterval(function(){ if(!document.hidden) pingStats(); }, 30000);
+    }
+
     /* ---- featured project slider ---- */
     $$('[data-pfeat]').forEach(function(box){
       var slides = $$('.pf-slide', box), dots = $('.dots', box), cur = 0;

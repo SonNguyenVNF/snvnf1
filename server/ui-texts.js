@@ -65,6 +65,10 @@ const REGISTRY = [
   ['Chân trang', 'foot.news', 'Liên kết — Tin tức', 'Tin tức'],
   ['Chân trang', 'foot.jobs', 'Liên kết — Tuyển dụng', 'Tuyển dụng'],
   ['Chân trang', 'foot.contact', 'Liên kết — Liên hệ', 'Liên hệ'],
+  ['Chân trang', 'stats.online', 'Dòng chữ chạy — số người đang xem', 'Đang trực tuyến'],
+  ['Chân trang', 'stats.today', 'Dòng chữ chạy — số người truy cập trong ngày', 'Truy cập hôm nay'],
+  ['Chân trang', 'stats.total', 'Dòng chữ chạy — tổng số người truy cập', 'Tổng truy cập'],
+  ['Chân trang', 'stats.aria', 'Chữ đọc — dòng thống kê truy cập', 'Thống kê truy cập website'],
 
   ['Biểu mẫu liên hệ', 'ft.ph.name', 'Ô họ tên — chân trang', 'Họ và tên (*):'],
   ['Biểu mẫu liên hệ', 'ft.ph.phone', 'Ô số điện thoại — chân trang', 'Số điện thoại (*):'],

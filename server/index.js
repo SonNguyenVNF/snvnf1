@@ -362,6 +362,7 @@ app.locals.formatDateVi = sd.formatDateVi;
 
 const publicDeps = { getMembersData, getVeSyneticPages, commonLocals, renderHeroTitle, renderHeroWords };
 registerPublic(app, publicDeps);
+require('./visitors')(app);
 
 // ---------- Admin ----------
 
