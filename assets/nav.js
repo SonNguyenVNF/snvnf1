@@ -181,6 +181,19 @@
       viewport.addEventListener('dragstart', function(e){ e.preventDefault(); });
     });
 
+    /* ---- network on phones: tap an icon to read that function ---- */
+    $$('[data-nettabs]').forEach(function(box){
+      var tabs = $$('.nm-tab', box), cards = $$('.nm-card', box);
+      tabs.forEach(function(t){
+        t.addEventListener('click', function(){
+          var i = t.getAttribute('data-i');
+          tabs.forEach(function(x){ x.classList.toggle('on', x === t); });
+          cards.forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-i') === i); });
+          if(t.scrollIntoView) t.scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+        });
+      });
+    });
+
     /* ---- featured project slider ---- */
     $$('[data-pfeat]').forEach(function(box){
       var slides = $$('.pf-slide', box), dots = $('.dots', box), cur = 0;

@@ -211,6 +211,18 @@
     <% }); %>
     <i class="vline top"></i><i class="vline bot"></i><i class="hline top"></i><i class="hline bot"></i>
   </div>
+  <div class="net-m" data-nettabs>
+    <div class="nm-tabs" role="tablist">
+      <% network.items.forEach(function(it, i) { %><button type="button" class="nm-tab c-<%= ncols[i % 4] %><%= i === 0 ? ' on' : '' %>" role="tab" data-i="<%= i %>" aria-label="<%= it.title %>"><img src="<%= root %><%= siteImages[nicons[i % 8]] %>" alt=""></button>
+      <% }); %>
+    </div>
+    <% network.items.forEach(function(it, i) { %><div class="nm-card c-<%= ncols[i % 4] %><%= i === 0 ? ' on' : '' %>" data-i="<%= i %>">
+      <span class="nm-ico"><img src="<%= root %><%= siteImages[nicons[i % 8]] %>" alt=""></span>
+      <h4><%= it.title %></h4>
+      <p><%= it.description %></p>
+    </div>
+    <% }); %>
+  </div>
   </div>
 </div></section>
 <% } %>
