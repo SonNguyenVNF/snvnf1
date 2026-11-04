@@ -1399,3 +1399,7 @@ body.modal-open{overflow:hidden}
   .ft-stats-grp{flex-wrap:wrap;justify-content:center}
   .fs:nth-child(n+4){display:none}
 }
+
+/* partner logo box keeps the same size for every logo (a square image used to stretch it taller than its neighbours) */
+.pt-logo{position:relative;overflow:hidden;min-height:0}
+.pt-logo img{position:absolute;top:50%;left:50%;max-width:calc(100% - 20px);max-height:calc(100% - 20px);transform:translate(-50%,-50%) scale(var(--lz,1))}

@@ -42,7 +42,7 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
     <div class="pt-grid"<%- fx('partners-logos') %>>
       <% partners.forEach(function(p) { %>
       <article class="pt-card" data-item data-cat="<%= p.category %>">
-        <div class="pt-logo"><% if (p.logo) { %><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>" loading="lazy"><% } else { %><span><%= p.name %></span><% } %></div>
+        <div class="pt-logo"><% if (p.logo) { %><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>" loading="lazy"<% if (p.logoZoom && p.logoZoom !== 100) { %> style="--lz:<%= p.logoZoom / 100 %>"<% } %>><% } else { %><span><%= p.name %></span><% } %></div>
         <h3><%= p.name %></h3>
         <% if (p.category) { %><span class="pill"><%= p.category %></span><% } %>
         <p><%= p.summary %></p>

@@ -46,6 +46,7 @@ module.exports = function registerAdminExtra(adminRouter) {
     quoteBy: one(req.body.quoteBy),
     website: one(req.body.website),
     fanpage: one(req.body.fanpage),
+    logoZoom: Math.min(300, Math.max(40, parseInt(req.body.logoZoom, 10) || 100)),
     featured: req.body.featured === '1',
     published: req.body.published === '1'
   });

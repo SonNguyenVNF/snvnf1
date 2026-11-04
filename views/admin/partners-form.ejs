@@ -26,7 +26,9 @@
 
       <div class="admin-field"><label for="logo">Logo</label>
         <% if (item && item.logo) { %><div style="margin-bottom:10px"><img src="/<%= item.logo %>" alt="" style="max-width:200px;border-radius:8px;display:block;background:#f4f4f4"></div><% } %>
-        <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif"></div>
+        <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.webp,.gif">
+        <label for="logoZoom" style="margin-top:12px">Độ lớn logo trên thẻ (%; 100 = như mặc định, logo nhỏ quá thì tăng lên, to quá thì giảm xuống)</label>
+        <input type="number" id="logoZoom" name="logoZoom" min="40" max="300" step="5" value="<%= item && item.logoZoom ? item.logoZoom : 100 %>" style="max-width:140px"></div>
 
       <h3 style="margin:22px 0 8px;padding-top:16px;border-top:1px solid #ECEAE3">Cửa sổ chi tiết (hiện khi khách bấm "Xem chi tiết")</h3>
       <div class="admin-field"><label for="imageCaption">Chú thích hiện trên ảnh lớn (chữ trắng ở đáy ảnh; trống = không hiện)</label>
