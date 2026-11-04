@@ -378,32 +378,38 @@
       drawThumbs(); drawDots();
     });
 
-    /* ---- partners: one row per group, chips filter the rows, detail pop-up ----
+    /* ---- partners: one row with every partner, chips pick one group, detail pop-up ----
        A row with more cards than fit across (more than 4 on a computer) glides slowly to the left on its own,
        looping, and pauses while the mouse is over it. Reduced motion: no gliding, the row can be swiped. */
     $$('[data-ptlist]').forEach(function(box){
       var rows = $$('[data-row]', box), empty = $('[data-empty]', box), cat = '';
       function fits(row){ return parseInt(getComputedStyle(row).getPropertyValue('--cols'), 10) || 4; }
+      /* one row holds every partner; the chips only choose which cards of it are shown */
       function setup(row){
         var track = $('.pt-track', row);
         $$('[data-clone]', track).forEach(function(c){ c.remove(); });
-        var cards = $$('.pt-card', track), auto = cards.length > fits(row) && !reduce;
+        var cards = $$('.pt-card', track), shown = [];
+        cards.forEach(function(c){ var on = !cat || c.getAttribute('data-cat') === cat; c.style.display = on ? '' : 'none'; if(on) shown.push(c); });
+        var auto = shown.length > fits(row) && !reduce;
         row.classList.toggle('is-auto', auto);
-        row.classList.toggle('is-swipe', cards.length > fits(row) && reduce);
-        if(!auto) return;
-        /* a second copy of the cards right after the first: sliding by half the track loops seamlessly */
-        cards.forEach(function(c){
-          var k = c.cloneNode(true); k.setAttribute('data-clone', ''); k.setAttribute('aria-hidden', 'true');
-          /* the entrance effect only knows the original cards: a copy must not wait hidden for it */
-          k.classList.remove('fx-k', 'fx-in'); k.removeAttribute('data-fxe'); k.style.transitionDelay = '';
-          $$('button, a', k).forEach(function(b){ b.tabIndex = -1; });
-          track.appendChild(k);
-        });
-        track.style.setProperty('--dur', (cards.length * 4.5) + 's');
+        row.classList.toggle('is-swipe', shown.length > fits(row) && reduce);
+        row.scrollLeft = 0;
+        if(auto){
+          /* a second copy of the cards right after the first: sliding by half the track loops seamlessly */
+          shown.forEach(function(c){
+            var k = c.cloneNode(true); k.setAttribute('data-clone', ''); k.setAttribute('aria-hidden', 'true');
+            /* the entrance effect only knows the original cards: a copy must not wait hidden for it */
+            k.classList.remove('fx-k', 'fx-in'); k.removeAttribute('data-fxe'); k.style.transitionDelay = '';
+            $$('button, a', k).forEach(function(b){ b.tabIndex = -1; });
+            track.appendChild(k);
+          });
+          track.style.setProperty('--dur', (shown.length * 4.5) + 's');
+        }
+        return shown.length;
       }
       function render(){
         var n = 0;
-        rows.forEach(function(r){ var on = !cat || r.getAttribute('data-cat') === cat; r.style.display = on ? '' : 'none'; if(on){ n++; setup(r); } });
+        rows.forEach(function(r){ n += setup(r); });
         if(empty) empty.style.display = n ? 'none' : '';
       }
       var lastCols = '';

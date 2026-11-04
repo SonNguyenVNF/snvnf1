@@ -39,11 +39,10 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
       <% cats.forEach(function(c) { %><button class="chip" type="button" data-chip="<%= c %>"><%= c %></button>
       <% }); %>
     </div>
-    <%# Each group is one row; a row with more cards than fit glides sideways on its own (nav.js). %>
+    <%# One row with every partner (grouped in the order of the group list); more cards than fit glides sideways on its own, the chips pick one group (nav.js). %>
     <div class="pt-rows"<%- fx('partners-logos') %>>
-      <% groups.forEach(function(g) { %>
-      <div class="pt-row" data-row data-cat="<%= g.name %>"><div class="pt-track">
-        <% g.items.forEach(function(p) { %>
+      <div class="pt-row" data-row><div class="pt-track">
+        <% groups.forEach(function(g) { g.items.forEach(function(p) { %>
         <article class="pt-card" data-item data-cat="<%= p.category %>">
           <div class="pt-logo"><% if (p.logo) { %><img src="<%= root %><%= p.logo %>" alt="<%= p.name %>" loading="lazy"<% if (p.logoZoom && p.logoZoom !== 100) { %> style="--lz:<%= p.logoZoom / 100 %>"<% } %>><% } else { %><span><%= p.name %></span><% } %></div>
           <h3><%= p.name %></h3>
@@ -51,9 +50,8 @@ function intro(t) { return String(t || '').replace(/\r\n/g, '\n').split(/\n{2,}/
           <p><%= p.summary %></p>
           <button class="btn btn-gold btn-block" type="button" data-pmodal="<%= p.id %>"><%= t('btn.detail') %></button>
         </article>
-        <% }); %>
+        <% }); }); %>
       </div></div>
-      <% }); %>
       <p class="empty" data-empty<%= groups.length ? ' style=display:none' : '' %>><%= t('pt.empty') %></p>
     </div>
   </section>
