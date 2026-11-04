@@ -22,6 +22,7 @@ const SCREENS = [
   ['Tuyển dụng — chữ đầu trang, 3 con số, Vì sao chọn Synetic', '/admin/trang-tuyen-dung', ''],
   ['Chữ trang Đối tác (tiêu đề, 3 con số, nhóm lọc)', '/admin/trang-doi-tac', ''],
   ['Đối tác (thẻ đối tác, bài chi tiết)', '/admin/doi-tac-khach-hang', 'khách hàng'],
+  ['Yêu cầu đăng nhập khi vào website (bật / tắt khóa bảo trì)', '/admin/khoa-website', 'khóa mật khẩu bảo trì công khai đăng nhập'],
   ['Google Analytics', '/admin/analytics', 'thống kê người xem'],
   ['Chỉnh chữ trực tiếp trên web', '/admin/chinh-chu', 'phông cỡ chữ màu ẩn chữ xoá chữ'],
   ['Phông chữ', '/admin/phong-chu', 'font'],

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khóa website — Quản trị Synetic Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/admin.css" rel="stylesheet">
+</head><body>
+<div class="admin-topbar">
+  <b>Synetic — Quản trị</b>
+  <form method="POST" action="/admin/logout" style="margin:0"><a href="#" onclick="this.closest('form').submit();return false" style="cursor:pointer">Đăng xuất</a></form>
+</div>
+<div class="admin-wrap">
+  <div class="admin-nav"><a href="/admin">← Trang quản trị</a></div>
+  <div class="admin-card">
+    <h1>Yêu cầu đăng nhập khi vào website</h1>
+    <p style="color:var(--muted);font-size:13.5px;margin-bottom:18px">Khi bật, ai vào website cũng phải nhập tên và mật khẩu mới xem được (dùng lúc website đang chỉnh sửa, chưa công khai). Khi tắt, mọi người vào xem thoải mái, không cần đăng nhập.</p>
+    <% if (saved) { %><div class="admin-error" style="background:#E7F6EC;color:#14602F">Đã lưu. <%= on ? 'Website đang YÊU CẦU đăng nhập.' : 'Website đã MỞ CÔNG KHAI, ai cũng vào xem được không cần đăng nhập.' %></div><% } %>
+
+    <% if (!hasPassword) { %>
+    <div class="admin-error">Máy chủ chưa được cài mật khẩu khóa website, nên hiện website luôn mở công khai và nút bật chưa có tác dụng. Khi có mật khẩu trong cài đặt máy chủ, nút bật mới hoạt động.</div>
+    <% } %>
+
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 22px">
+      <span style="font-size:15px">Hiện tại:</span>
+      <% if (hasPassword && on) { %>
+        <b style="background:#FDECEC;color:#B42318;padding:6px 14px;border-radius:20px">ĐANG BẬT — vào web phải đăng nhập</b>
+      <% } else { %>
+        <b style="background:#E7F6EC;color:#14602F;padding:6px 14px;border-radius:20px">ĐANG TẮT — web mở công khai</b>
+      <% } %>
+    </div>
+
+    <% if (hasPassword) { %>
+    <form method="POST" action="/admin/khoa-website">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="enabled" value="<%= on ? '0' : '1' %>">
+      <button class="admin-btn" type="submit"><%= on ? 'Tắt đăng nhập (mở công khai)' : 'Bật đăng nhập' %></button>
+    </form>
+    <% } %>
+    <p class="hint" style="margin-top:14px">Có hiệu lực sau vài giây, không cần deploy. Trang quản trị này vẫn dùng được cả khi đang bật.</p>
+  </div>
+</div>
+<script src="/assets/admin-search.js" defer></script>
+</body></html>

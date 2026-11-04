@@ -1,5 +1,6 @@
 'use strict';
 const crypto = require('crypto');
+const { readJSON, writeJSON } = require('./data-store');
 
 function safeEqual(a, b) {
   const bufA = Buffer.from(String(a));
@@ -8,15 +9,32 @@ function safeEqual(a, b) {
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
+// The password itself stays in the server settings (SITE_LOCK_PASSWORD) and is never shown or
+// stored by the site. The on/off switch is in /admin/khoa-website and kept in data/site-lock.json.
+const hasPassword = () => !!process.env.SITE_LOCK_PASSWORD;
+
+let cache = { at: 0, on: true };
+function isEnabled() {
+  const now = Date.now();
+  if (now - cache.at < 2000) return cache.on;   // re-read every 2s, so a switch reaches every app process quickly
+  let on = true;
+  try { on = readJSON('site-lock').enabled !== false; } catch (e) { on = true; }
+  cache = { at: now, on };
+  return on;
+}
+
+function setEnabled(on) {
+  writeJSON('site-lock', { enabled: !!on });
+  cache = { at: Date.now(), on: !!on };
+}
+
 function siteLockMiddleware() {
-  const password = process.env.SITE_LOCK_PASSWORD;
   const user = process.env.SITE_LOCK_USER || 'synetic';
 
-  if (!password) {
-    return (req, res, next) => next();
-  }
-
   return (req, res, next) => {
+    const password = process.env.SITE_LOCK_PASSWORD;
+    if (!password || !isEnabled()) return next();
+
     const header = req.headers.authorization || '';
     const [scheme, encoded] = header.split(' ');
     if (scheme === 'Basic' && encoded) {
@@ -33,4 +51,4 @@ function siteLockMiddleware() {
   };
 }
 
-module.exports = { siteLockMiddleware };
+module.exports = { siteLockMiddleware, isEnabled, setEnabled, hasPassword };

@@ -4,6 +4,7 @@ const auth = require('./auth');
 const { slugify } = require('./slug');
 const { createUploader, publicPathFor, deleteUploadedFile } = require('./upload');
 const sd = require('./site-data');
+const siteLock = require('./site-lock');
 
 // Admin screens for the sections redesigned in the new site layout:
 // projects, jobs, leadership team, contact messages, recruitment texts,
@@ -359,6 +360,15 @@ module.exports = function registerAdminExtra(adminRouter) {
   adminRouter.post('/chinh-chu/delete-all', auth.verifyCsrf, (req, res) => {
     writeJSON('text-styles', { items: [] });
     res.redirect('/admin/chinh-chu');
+  });
+
+  // ---------- Yêu cầu đăng nhập khi vào website (khóa bảo trì) ----------
+  adminRouter.get('/khoa-website', (req, res) => {
+    res.render('admin/site-lock', { on: siteLock.isEnabled(), hasPassword: siteLock.hasPassword(), csrfToken: csrf(req), saved: req.query.saved === '1' });
+  });
+  adminRouter.post('/khoa-website', auth.verifyCsrf, (req, res) => {
+    siteLock.setEnabled(req.body.enabled === '1');
+    res.redirect('/admin/khoa-website?saved=1');
   });
 
   // ---------- Google Analytics ----------
