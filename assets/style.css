@@ -1293,3 +1293,16 @@ body.modal-open{overflow:hidden}
 .t-grid .tcard.big{width:calc((100% - var(--tg)) / 2)}
 @media (max-width:860px){.t-grid .tcard,.t-grid .tcard.big{width:100%}}
 .gc img{width:calc(var(--d) * .56);max-height:calc(var(--d) * .6)}
+
+/* ---- phone / tablet only: everything lines up, and a lone last card sits in the middle ---- */
+@media (max-width:1024px){
+  .mgrid,.m-band .mgrid{display:flex;flex-wrap:wrap;justify-content:center;--g:12px;gap:var(--g)}
+  .mgrid>*{flex:none;width:calc((100% - 2 * var(--g)) / 3)}
+}
+@media (max-width:560px){
+  .mgrid>*{width:calc((100% - var(--g)) / 2)}
+}
+@media (max-width:860px){
+  .vcol.l .vp,.vcol.r .vp,.vcol.l .vp:nth-child(2),.vcol.r .vp:nth-child(2){margin-left:0;margin-right:0}
+  .gstep:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:50%}
+}
