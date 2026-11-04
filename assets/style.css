@@ -1306,3 +1306,4 @@ body.modal-open{overflow:hidden}
   .vcol.l .vp,.vcol.r .vp,.vcol.l .vp:nth-child(2),.vcol.r .vp:nth-child(2){margin-left:0;margin-right:0}
   .gstep:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:50%}
 }
+@media (max-width:860px){.vwheel{row-gap:16px}}
