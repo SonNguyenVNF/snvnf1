@@ -1210,9 +1210,9 @@ body.modal-open{overflow:hidden}
 .pent-deco{left:-30px;bottom:-30px;width:clamp(120px,12.3vw,200px);z-index:0}
 .ab-hist .pent-deco{left:-30px;bottom:-30px}
 .pent-deco2{left:clamp(110px,11.4vw,185px);bottom:-12px;width:clamp(44px,5.8vw,92px);z-index:0}
-.intro::before{content:"";position:absolute;inset:0;background:center bottom/cover no-repeat;opacity:.5;pointer-events:none}
+.intro::before{content:"";position:absolute;inset:0;background:center bottom/cover no-repeat;opacity:.32;pointer-events:none}
 .intro .wrap{position:relative;z-index:1}
-@media (max-width:860px){.intro::before{opacity:.3}}
+@media (max-width:860px){.intro::before{opacity:.2}}
 
 /* 3.11 design: member cards (quotes), hero button, member page units */
 .hero-cta .btn-yellow{background:#ffb345;color:#fff;border-radius:4px}
