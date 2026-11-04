@@ -1399,14 +1399,3 @@ body.modal-open{overflow:hidden}
   .ft-stats-grp{flex-wrap:wrap;justify-content:center}
   .fs:nth-child(n+4){display:none}
 }
-
-/* partner cards: each row (logo, name, category pill, text, button) lines up across the cards in a row */
-@supports (grid-template-rows: subgrid) {
-  .pt-grid{row-gap:0}
-  .pt-card{grid-row:span 5;display:grid;grid-template-rows:subgrid;row-gap:0;margin-bottom:clamp(12px,1.4vw,24px);justify-items:center;align-items:start}
-  .pt-card>.pt-logo{grid-row:1}
-  .pt-card>h3{grid-row:2;align-self:stretch;display:flex;align-items:center;justify-content:center}
-  .pt-card>.pill{grid-row:3;width:100%;align-self:stretch;display:flex;align-items:center;justify-content:center}
-  .pt-card>p{grid-row:4}
-  .pt-card>.btn{grid-row:5;width:100%}
-}
