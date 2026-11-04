@@ -203,11 +203,12 @@
       var paintStats = function(d){
         $$('[data-k]').forEach(function(el){ var n = d[el.getAttribute('data-k')]; if(typeof n === 'number') el.textContent = n.toLocaleString('vi-VN'); });
       };
-      var pingStats = function(){
-        fetch('/api/visit?s=' + sid, { method: 'POST', credentials: 'same-origin' }).then(function(r){ return r.json(); }).then(paintStats).catch(function(){});
+      // v=1 only on the first call of a page load: that is the visit. The 30s pings just keep "online" fresh.
+      var pingStats = function(visit){
+        fetch('/api/visit?s=' + sid + (visit ? '&v=1' : ''), { method: 'POST', credentials: 'same-origin' }).then(function(r){ return r.json(); }).then(paintStats).catch(function(){});
       };
-      pingStats();
-      setInterval(function(){ if(!document.hidden) pingStats(); }, 30000);
+      pingStats(true);
+      setInterval(function(){ if(!document.hidden) pingStats(false); }, 30000);
     }
 
     /* ---- featured project slider ---- */
