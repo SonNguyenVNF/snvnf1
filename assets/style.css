@@ -1307,3 +1307,18 @@ body.modal-open{overflow:hidden}
   .gstep:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:50%}
 }
 @media (max-width:860px){.vwheel{row-gap:16px}}
+
+/* ---- phone: "Tin tức thị trường" is one row of cards you swipe sideways (desktop keeps the big + small layout) ---- */
+@media (max-width:860px){
+  .n-main .car-viewport{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;touch-action:pan-x pan-y;cursor:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:6px 2px 14px}
+  .n-main .car-viewport::-webkit-scrollbar{display:none}
+  .n-main .car-track,.n-main .car-track.car-center{transform:none!important;transition:none!important;justify-content:flex-start}
+  .n-main .car .car-item,.n-main .car .n-feature,.n-main .car .n-stack{display:contents}
+  .n-main .car .n-big,.n-main .car .n-sm{flex:0 0 84%;box-sizing:border-box;margin-right:14px;scroll-snap-align:start;display:flex;flex-direction:column}
+  .n-main .car .n-sm .t{display:flex;flex-direction:column;flex:1}
+  .n-main .car .n-sm .ni{aspect-ratio:16/9;min-height:0;flex:none}
+  .n-main .car .n-sm h3{font-size:14px;margin:18px 0 8px}
+  .n-main .car .n-sm .nd{padding-bottom:12px;margin-bottom:14px;font-size:13px}
+  .n-main .car .n-big p,.n-main .car .n-sm p{font-size:13px;line-height:1.7;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+  .n-main .car .dots{display:none}
+}
