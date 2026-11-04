@@ -21,7 +21,7 @@
       <div class="admin-field"><label for="sub">Dòng phụ (xám)</label><input type="text" id="sub" name="sub" value="<%= p.sub %>"></div>
       <div class="admin-field"><label for="headline">Dòng xanh lớn bên dưới</label><input type="text" id="headline" name="headline" value="<%= p.headline %>"></div>
       <div class="admin-field"><label for="listTitle">Tiêu đề phần danh sách</label><input type="text" id="listTitle" name="listTitle" value="<%= p.listTitle %>"></div>
-      <div class="admin-field"><label for="categories">Các nhóm đối tác (mỗi dòng 1 nhóm; nút "Tất cả" tự có). Dùng cho nút lọc, cho danh sách chọn Nhóm khi sửa đối tác, và trên web mỗi nhóm là 1 hàng theo đúng thứ tự này</label><textarea id="categories" name="categories" rows="5"><%= p.categories %></textarea></div>
+      <div class="admin-field"><label for="categories">Các nhóm lọc (mỗi dòng 1 nhóm; nút "Tất cả" tự có)</label><textarea id="categories" name="categories" rows="5"><%= p.categories %></textarea></div>
       <h3 style="margin:22px 0 10px;padding-top:16px;border-top:1px solid #ECEAE3">3 con số</h3>
       <% for (var i = 0; i < 3; i++) { var s = p.stats[i] || { value: '', text: '' }; %>
       <div class="admin-field row2">

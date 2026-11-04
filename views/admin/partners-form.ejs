@@ -19,14 +19,8 @@
 
       <div class="admin-field"><label for="name">Tên đối tác (chữ xanh trên thẻ)</label>
         <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>" placeholder="Ví dụ: VIETINBANK"></div>
-      <% var curCat = item ? (item.category || '') : ''; %>
-      <div class="admin-field"><label for="category">Nhóm (nhãn xám trên thẻ; trên web mỗi nhóm là 1 hàng). Thêm / sửa tên nhóm ở <a href="/admin/trang-doi-tac">Chữ trang Đối tác</a></label>
-        <select id="category" name="category">
-          <option value=""<%= curCat ? '' : ' selected' %>>— Chưa chọn nhóm —</option>
-          <% cats.forEach(function(c) { %><option value="<%= c %>"<%= c === curCat ? ' selected' : '' %>><%= c %></option>
-          <% }); %>
-          <% if (curCat && cats.indexOf(curCat) < 0) { %><option value="<%= curCat %>" selected><%= curCat %> (không có trong danh sách nhóm)</option><% } %>
-        </select></div>
+      <div class="admin-field"><label for="category">Nhóm (nhãn xám trên thẻ; trùng tên nhóm ở "Chữ trang Đối tác" thì lọc được)</label>
+        <input type="text" id="category" name="category" value="<%= item ? (item.category || '') : '' %>" placeholder="Ví dụ: Tài chính"></div>
       <div class="admin-field"><label for="summary">Mô tả ngắn trên thẻ</label>
         <textarea id="summary" name="summary" rows="3"><%= item ? (item.summary || '') : '' %></textarea></div>
 

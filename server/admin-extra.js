@@ -33,9 +33,7 @@ module.exports = function registerAdminExtra(adminRouter) {
   const partnersUpload = createUploader('partners');
   const partnerFields = [{ name: 'logo', maxCount: 1 }, { name: 'images', maxCount: 12 }];
   const renderPartnerForm = (res, req, item, error, status) =>
-    res.status(status || 200).render('admin/partners-form', { item, error, csrfToken: csrf(req), cats: partnerCats() });
-  // Nhóm đối tác = danh sách ở "Chữ trang Đối tác" (mỗi dòng 1 nhóm) -> ô Nhóm là danh sách chọn.
-  const partnerCats = () => sd.getPartnersPage().categories.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+    res.status(status || 200).render('admin/partners-form', { item, error, csrfToken: csrf(req) });
   const partnerPayload = (req) => ({
     name: one(req.body.name),
     category: one(req.body.category),
