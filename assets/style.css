@@ -1425,3 +1425,23 @@ body.modal-open{overflow:hidden}
 .pt-row:not(.is-auto):not(.is-swipe) .pt-track{justify-content:center}
 @media (max-width:996px){.pt-row{--cols:2}}
 @media (max-width:560px){.pt-row{--cols:1}}
+
+/* home: Hệ sinh thái Synetic as open columns (big logo, coloured network name, short text, button) instead of white cards */
+.members.eco{background:#f8f8f6;color:#333;padding:clamp(40px,4.6vw,84px) 0}
+.members.eco .t-h{color:var(--green);margin-bottom:clamp(26px,3.4vw,60px)}
+.members.eco .mgrid{gap:clamp(14px,1.8vw,36px)}
+.eco-i{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
+.eco-i .ml{display:block;width:100%}
+.eco-i .ml img{display:block;width:100%;max-width:clamp(150px,14.5vw,290px);height:auto;margin:0 auto}
+.eco-i h3{margin:clamp(10px,1.1vw,20px) 0 clamp(6px,.7vw,12px);font-size:clamp(12px,.98vw,19px);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green)}
+.eco-i.tone-blue h3{color:#1a4fa8}.eco-i.tone-gold h3{color:#c8963a}
+.eco-i p{margin:0 0 clamp(14px,1.4vw,26px);flex:1;font-size:clamp(11px,.76vw,14.5px);line-height:1.55;color:#555}
+.eco-i .btn{font-size:clamp(9.5px,.7vw,13px);padding:clamp(8px,.7vw,12px) clamp(16px,1.5vw,28px);border-radius:5px}
+@media (max-width:560px){
+  .members.eco .mgrid{--g:34px}
+  .members.eco .mgrid>.eco-i{width:100%;max-width:330px}
+  .eco-i .ml img{max-width:230px}
+  .eco-i h3{font-size:14px}
+  .eco-i p{font-size:13px;flex:none}
+  .eco-i .btn{font-size:11px;padding:10px 22px}
+}

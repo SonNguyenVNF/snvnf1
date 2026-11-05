@@ -42,16 +42,17 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
   <img class="pent-about" src="<%= root %><%= siteImages.pentagon %>" alt="">
 </section>
 
-<section class="members" id="thanh-vien"<%- fx('home-members') %>>
-  <img class="wm l" src="<%= root %><%= siteImages.watermark %>" alt=""><img class="wm r" src="<%= root %><%= siteImages.watermark %>" alt="">  <div class="wrap">
+<section class="members eco" id="thanh-vien"<%- fx('home-members') %>>
+  <div class="wrap">
     <h2 class="t-h"><%= homepage.membersTitle %></h2>
     <div class="mgrid">
       <% members.forEach(function(m) { %>
-      <a class="mcard" href="<%= root %>thanh-vien/<%= m.slug %>.html">
-        <span class="ml"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo-m-<%= m.slug %>.png'"></span>
-        <span class="mt"><%= cardQuote(m.tagline) %></span>
-        <span class="btn btn-blue"><%= t('btn.learn') %></span>
-      </a>
+      <div class="eco-i tone-<%= m.accent === 'ocean' ? 'blue' : (m.accent === 'gold' ? 'gold' : 'green') %>">
+        <a class="ml" href="<%= root %>thanh-vien/<%= m.slug %>.html"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo-m-<%= m.slug %>.png'"></a>
+        <% if (m.netName) { %><h3><%= m.netName %></h3><% } %>
+        <% if (m.netDesc) { %><p><%= m.netDesc %></p><% } %>
+        <a class="btn btn-blue" href="<%= root %>thanh-vien/<%= m.slug %>.html"><%= t('btn.learn') %></a>
+      </div>
       <% }); %>
     </div>
   </div>

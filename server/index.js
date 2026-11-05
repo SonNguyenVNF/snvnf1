@@ -234,7 +234,7 @@ function commonLocals() {
     siteImages: sd.getSiteImages(),
     footer: sd.getFooter(),
     members: getMembersData().items.filter((m) => m.published).map((m) => {
-      return Object.assign({}, m, { logo: sd.memberLogoFor(m) });
+      return Object.assign({}, m, { logo: sd.memberLogoFor(m) }, sd.memberNetFor(m));
     })
   };
 }
@@ -739,6 +739,8 @@ adminRouter.post('/thanh-vien/new', (req, res) => {
       brandSub: (req.body.brandSub || '').trim().toUpperCase(),
       accent: req.body.accent || 'emerald',
       tagline: (req.body.tagline || '').trim(),
+      netName: (req.body.netName || '').trim(),
+      netDesc: (req.body.netDesc || '').replace(/\r?\n/g, ' ').trim(),
       legalName: (req.body.legalName || '').trim(),
       logo: fileOf(req, 'logo') ? publicPathFor('members', fileOf(req, 'logo').filename) : null,
       body: (req.body.body || '').replace(/\r\n/g, '\n').trim(),
@@ -782,6 +784,8 @@ adminRouter.post('/thanh-vien/:id/edit', (req, res) => {
     item.brandSub = (req.body.brandSub || '').trim().toUpperCase();
     item.accent = req.body.accent || 'emerald';
     item.tagline = (req.body.tagline || '').trim();
+    item.netName = (req.body.netName || '').trim();
+    item.netDesc = (req.body.netDesc || '').replace(/\r?\n/g, ' ').trim();
     item.legalName = (req.body.legalName || '').trim();
     item.body = (req.body.body || '').replace(/\r\n/g, '\n').trim();
     item.factsTitle = (req.body.factsTitle || '').trim();

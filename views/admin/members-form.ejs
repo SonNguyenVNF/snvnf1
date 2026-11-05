@@ -38,6 +38,16 @@
       </div>
 
       <div class="admin-field">
+        <label for="netName">Tên mạng (chữ màu dưới logo ở mục Hệ sinh thái trang chủ; để trống thì dùng tên mặc định)</label>
+        <input type="text" id="netName" name="netName" value="<%= item ? (item.netName || '') : '' %>" placeholder="Ví dụ: MẠNG DINH DƯỠNG">
+      </div>
+
+      <div class="admin-field">
+        <label for="netDesc">Mô tả ngắn dưới tên mạng (trang chủ; để trống thì dùng mô tả mặc định)</label>
+        <textarea id="netDesc" name="netDesc" rows="3"><%= item ? (item.netDesc || '') : '' %></textarea>
+      </div>
+
+      <div class="admin-field">
         <label for="legalName">Tên công ty pháp lý</label>
         <input type="text" id="legalName" name="legalName" value="<%= item ? (item.legalName || '') : '' %>" placeholder="Ví dụ: Công ty Cổ phần Synetic Dinh Dưỡng">
       </div>

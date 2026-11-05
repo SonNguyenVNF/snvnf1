@@ -410,8 +410,22 @@ function memberLogoFor(m) {
   return exists(brand) ? brand : 'assets/img/logo.png';
 }
 
+// Network name + one-line description shown under each logo in the home page ecosystem section.
+// Used until an admin fills the two fields in the member form.
+const MEMBER_NET = {
+  nutrition: ['MẠNG DINH DƯỠNG', 'Nền tảng dinh dưỡng vật nuôi — khoa học công thức, chuẩn hoá chất lượng, chuyển hoá thành năng suất và hiệu quả cho người chăn nuôi.'],
+  vet: ['MẠNG THÚ Y', 'Bảo vệ sức khoẻ vật nuôi bằng khoa học thú y — chủ động phòng hơn chống, giữ an toàn sinh học cho cả chuỗi chăn nuôi.'],
+  logistics: ['MẠNG LOGISTIC', 'Mạch vận hành của hệ sinh thái — kết nối nguyên liệu, sản xuất, phân phối và thị trường quốc tế với chi phí tối ưu và độ tin cậy cao.'],
+  farm: ['MẠNG NÔNG TRANG', 'Gốc rễ của hệ sinh thái — trang trại, thuỷ sản, dịch vụ trải nghiệm và bất động sản nông trang, làm thật trên đồng đất thật.'],
+  capital: ['MẠNG TÀI CHÍNH', 'Nguồn lực và công nghệ của Tập đoàn — dẫn vốn đúng chỗ, số hoá vận hành, biến nguồn lực thành đà tăng trưởng cho toàn hệ sinh thái.']
+};
+function memberNetFor(m) {
+  const d = MEMBER_NET[memberKey(m)] || ['', ''];
+  return { netName: String(m.netName || '').trim() || d[0], netDesc: String(m.netDesc || '').trim() || d[1] };
+}
+
 module.exports = {
-  memberLogoFor, memberKey,
+  memberLogoFor, memberKey, memberNetFor,
   esc, renderInline, renderRich, formatDateVi, paragraphs,
   IMAGE_SLOTS, getSiteImages, getFooter, FOOTER_DEFAULTS,
   HOMEPAGE_DEFAULTS, getHomepage, RECRUIT_DEFAULTS, getRecruit,
