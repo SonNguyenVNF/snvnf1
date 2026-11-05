@@ -50,6 +50,7 @@ var slides = heroSlides.length ? heroSlides : [{ image: siteImages.banner, title
       <% members.forEach(function(m) { %>
       <div class="eco-i tone-<%= m.accent === 'ocean' ? 'blue' : (m.accent === 'gold' ? 'gold' : 'green') %>">
         <a class="ml" href="<%= root %>thanh-vien/<%= m.slug %>.html"><img src="<%= root %><%= m.logo %>" alt="<%= m.name %>" loading="lazy" onerror="this.onerror=null;this.src='<%= root %>assets/img/logo-m-<%= m.slug %>.png'"></a>
+        <% if (m.tagline) { %><span class="eco-q"><%= cardQuote(m.tagline) %></span><% } %>
         <% if (m.netName) { %><h3><%= m.netName %></h3><% } %>
         <% if (m.netDesc) { %><p><%= m.netDesc %></p><% } %>
         <a class="btn btn-blue" href="<%= root %>thanh-vien/<%= m.slug %>.html"><%= t('btn.learn') %></a>
