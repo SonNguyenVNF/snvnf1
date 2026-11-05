@@ -760,7 +760,7 @@ adminRouter.get('/thanh-vien/:id/edit', (req, res) => {
   const members = getMembersData();
   const item = members.items.find((i) => i.id === req.params.id);
   if (!item) return res.redirect('/admin/thanh-vien');
-  res.render('admin/members-form', { item, error: null, csrfToken: auth.ensureCsrfToken(req) });
+  res.render('admin/members-form', { item: Object.assign({}, item, sd.memberNetFor(item)), error: null, csrfToken: auth.ensureCsrfToken(req) });
 });
 
 adminRouter.post('/thanh-vien/:id/edit', (req, res) => {
